@@ -1,0 +1,38 @@
+{
+  "name": "@finverse/sdk-typescript",
+  "version": "0.0.1-1646124671",
+  "description": "OpenAPI client for @finverse/sdk-typescript",
+  "author": "OpenAPI-Generator Contributors",
+  "keywords": [
+    "axios",
+    "typescript",
+    "openapi-client",
+    "openapi-generator",
+    "@finverse/sdk-typescript"
+  ],
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --outDir dist/",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "axios": "^0.21.4"
+  },
+  "devDependencies": {
+    "@types/node": "^12.11.5",
+    "typescript": "^3.6.4"
+  },
+  "files": [
+    "./dist"
+  ],
+  "homepage": "/#readme",
+  "bugs": {
+    "url": "/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+.git"
+  }
+}

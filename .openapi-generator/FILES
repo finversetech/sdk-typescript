@@ -1,0 +1,10 @@
+.gitignore
+.npmignore
+.openapi-generator-ignore
+api.ts
+base.ts
+common.ts
+configuration.ts
+index.ts
+package.json
+tsconfig.json
