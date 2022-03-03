@@ -1312,6 +1312,12 @@ export interface LinkTokenRequest {
    */
   customization_id?: string;
   /**
+   * Institution to preselect
+   * @type {string}
+   * @memberof LinkTokenRequest
+   */
+  institution_id?: string;
+  /**
    * institution\'s country filter
    * @type {Array<string>}
    * @memberof LinkTokenRequest
