@@ -344,6 +344,12 @@ export interface CreateCustomerRequest {
    * @memberof CreateCustomerRequest
    */
   redirect_uris: Array<string>;
+  /**
+   * The webhook uris
+   * @type {Array<string>}
+   * @memberof CreateCustomerRequest
+   */
+  webhook_uris?: Array<string>;
 }
 /**
  *
@@ -387,6 +393,12 @@ export interface CreateCustomerResponse {
    * @memberof CreateCustomerResponse
    */
   client_secret: string;
+  /**
+   * The webhook uris
+   * @type {Array<string>}
+   * @memberof CreateCustomerResponse
+   */
+  webhook_uris?: Array<string>;
 }
 /**
  *
