@@ -9,13 +9,14 @@ let mock = new MockAdapter(axios);
 it('Get customer access token', async () => {
   // Variables
   const access_token = 'customer-token';
-  const response = { access_token };
+
   const url = `${config.apiHost}/auth/customer/token`;
   const requestBody = {
     client_id: config.clientId,
     client_secret: config.clientSecret,
     grant_type: grantType.CLIENT_CREDENTIALS,
   };
+  const response = { access_token };
 
   // Mocking
   mock.onPost(url, requestBody).reply(200, response);
