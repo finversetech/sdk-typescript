@@ -7,6 +7,8 @@ export default {
   preset: 'ts-jest',
   testEnvironment: 'node',
   verbose: true,
+  testMatch: ['**/__tests__/**/*.test.[jt]s?(x)'],
+  testPathIgnorePatterns: ['dist'],
   globals: {
     'ts-jest': {
       isolatedModules: true,
