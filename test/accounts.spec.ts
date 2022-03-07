@@ -6,21 +6,26 @@ import { Configuration } from '..';
 import { LoginIdentityApi } from '../api';
 import { getAccounts } from './responses/account';
 import { loginIdentityToken } from './responses/loginIdentityToken';
+import { expect } from 'chai';
 
-let mock = new MockAdapter(axios);
+describe('Accounts', function () {
+  let mock: MockAdapter;
 
-it('Get accounts', async () => {
-  // Variable
-  const url = `${config.apiHost}/accounts`;
-  const accounts = getAccounts();
+  before(() => {
+    mock = new MockAdapter(axios);
+    mock.onGet(`${config.apiHost}/accounts`).reply(200, getAccounts());
+  });
 
-  // Mocking
-  mock.onGet(url).reply(200, accounts);
+  it('Get accounts', async function () {
+    // Make Request
+    const configuration = new Configuration({ basePath: config.apiHost, accessToken: loginIdentityToken.access_token });
+    const got = await new LoginIdentityApi(configuration).listAccounts();
 
-  // Make Request
-  const configuration = new Configuration({ basePath: config.apiHost, accessToken: loginIdentityToken.access_token });
-  const got = await new LoginIdentityApi(configuration).listAccounts();
+    // Expect
+    expect(got.data.accounts).to.be.ok;
+  });
 
-  // Expect
-  expect(got.data.accounts).not.toBe(undefined);
+  after(() => {
+    mock.restore();
+  });
 });

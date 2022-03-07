@@ -7,24 +7,35 @@ import { LoginIdentityApi } from '../api';
 import { loginIdentityToken } from './responses/loginIdentityToken';
 import { getStatements } from './responses/statement';
 import { getStatementLinkByStatementId } from './responses/statementLink';
+import { expect } from 'chai';
 
-let mock = new MockAdapter(axios);
+describe('Statements', function () {
+  let mock: MockAdapter;
 
-it('Get statements', async () => {
-  // Get all statements
-  mock.onGet(`${config.apiHost}/statements`).reply(200, getStatements());
+  before(() => {
+    mock = new MockAdapter(axios);
+  });
 
-  const configuration = new Configuration({ basePath: config.apiHost, accessToken: loginIdentityToken.access_token });
-  const gotStatements = await new LoginIdentityApi(configuration).getStatements();
+  it('Get statements', async function () {
+    // Get all statements
+    mock.onGet(`${config.apiHost}/statements`).reply(200, getStatements());
 
-  expect(gotStatements.data.statements).not.toBe(undefined);
+    const configuration = new Configuration({ basePath: config.apiHost, accessToken: loginIdentityToken.access_token });
+    const gotStatements = await new LoginIdentityApi(configuration).getStatements();
 
-  // Get link to statement
-  // Assuming there is only one statement
-  const statementId = gotStatements.data.statements[0].id;
+    expect(gotStatements.data.statements).to.be.ok;
 
-  mock.onGet(`${config.apiHost}/statement_links/${statementId}`).reply(200, getStatementLinkByStatementId());
-  const gotStatementLink = await new LoginIdentityApi(configuration).getStatementLink(statementId);
+    // Get link to statement
+    // Assuming there is only one statement
+    const statementId = gotStatements.data.statements[0].id;
 
-  expect(gotStatementLink.data.statement_links).not.toBe(undefined);
+    mock.onGet(`${config.apiHost}/statement_links/${statementId}`).reply(200, getStatementLinkByStatementId());
+    const gotStatementLink = await new LoginIdentityApi(configuration).getStatementLink(statementId);
+
+    expect(gotStatementLink.data.statement_links).to.be.ok;
+  });
+
+  after(() => {
+    mock.restore();
+  });
 });

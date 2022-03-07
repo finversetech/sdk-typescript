@@ -6,21 +6,26 @@ import { Configuration } from '..';
 import { LoginIdentityApi } from '../api';
 import { loginIdentityToken } from './responses/loginIdentityToken';
 import { getTransactions } from './responses/transaction';
+import { expect } from 'chai';
 
-let mock = new MockAdapter(axios);
+describe('Transactions', function () {
+  let mock: MockAdapter;
 
-it('Get transactions', async () => {
-  // Variable
-  const url = `${config.apiHost}/transactions`;
-  const transactions = getTransactions();
+  before(() => {
+    mock = new MockAdapter(axios);
+    mock.onGet(`${config.apiHost}/transactions`).reply(200, getTransactions());
+  });
 
-  // Mocking
-  mock.onGet(url).reply(200, transactions);
+  it('Get transactions', async function () {
+    // Make Request
+    const configuration = new Configuration({ basePath: config.apiHost, accessToken: loginIdentityToken.access_token });
+    const got = await new LoginIdentityApi(configuration).listTransactionsByLoginIdentityId();
 
-  // Make Request
-  const configuration = new Configuration({ basePath: config.apiHost, accessToken: loginIdentityToken.access_token });
-  const got = await new LoginIdentityApi(configuration).listTransactionsByLoginIdentityId();
+    // Expect
+    expect(got.data.total_transactions).to.be.ok;
+  });
 
-  // Expect
-  expect(got.data.total_transactions).not.toBe(undefined);
+  after(() => {
+    mock.restore();
+  });
 });
