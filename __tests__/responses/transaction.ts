@@ -1,6 +1,6 @@
 import { ListTransactionsResponse } from '../../api';
 
-import { getAccounts } from './accountResponse';
+import { getAccounts } from './account';
 
 export function getTransactions(): ListTransactionsResponse {
   const accountData = getAccounts();

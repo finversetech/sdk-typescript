@@ -1,6 +1,6 @@
 import { GetStatementsResponse } from '../../api';
 
-import { getAccounts } from './accountResponse';
+import { getAccounts } from './account';
 
 export function getStatements(): GetStatementsResponse {
   const accountData = getAccounts();

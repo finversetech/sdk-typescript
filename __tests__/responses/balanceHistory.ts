@@ -1,6 +1,6 @@
 import { GetBalanceHistoryResponse } from '../../api';
 
-import { getAccounts } from './accountResponse';
+import { getAccounts } from './account';
 
 export function getBalanceHistory(): GetBalanceHistoryResponse {
   const accountData = getAccounts();

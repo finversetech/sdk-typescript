@@ -1,6 +1,6 @@
 import { GetAccountNumberResponse } from '../../api';
 
-import { getAccounts } from './accountResponse';
+import { getAccounts } from './account';
 
 export function getAccountNumber(): GetAccountNumberResponse {
   const accountData = getAccounts();

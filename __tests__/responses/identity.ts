@@ -1,6 +1,6 @@
 import { GetIdentityResponse } from '../../api';
 
-import { getAccounts } from './accountResponse';
+import { getAccounts } from './account';
 
 export function getIdentity(): GetIdentityResponse {
   const accountData = getAccounts();
