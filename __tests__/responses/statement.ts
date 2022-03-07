@@ -7,10 +7,10 @@ export function getStatements(): GetStatementsResponse {
   return {
     statements: [
       {
-        created_at: '2021-02-01T10:01:02.333Z',
-        date: '2021-02-01',
-        id: 'daiosdosi7823e43',
-        name: 'BusinessVantage',
+        created_at: '2021-03-18T03:41:08.666Z',
+        date: '2020-09-01',
+        id: '01F11PRDNQQV3HE6K57BVPEH09',
+        name: 'Test Bank Statement',
       },
     ],
     institution: accountData.institution,

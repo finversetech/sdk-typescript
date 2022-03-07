@@ -5,7 +5,7 @@ export function getStatementLinkByStatementId(): GetStatementLinkResponse {
     statement_links: [
       {
         url: 'dummyUrl',
-        statement_id: 'daiosdosi7823e43',
+        statement_id: '01F11PRDNQQV3HE6K57BVPEH09',
         expiry: 'time',
       },
     ],
