@@ -6,6 +6,7 @@ import { Configuration } from '..';
 import { LoginIdentityApi, GetLoginIdentityByIdResponse } from '../api';
 import { customerToken } from './responses/customerToken';
 import { getLoginIdentity } from './responses/loginIdentity';
+import { loginIdentityToken } from './responses/loginIdentityToken';
 
 enum FinalStatus {
   ERROR = 'ERROR',
@@ -24,7 +25,7 @@ it('Obtain link token and link url to launch Finverse Link UI', async () => {
   mock.onGet(url).reply(200, loginIdentity);
 
   // Make Request
-  const configuration = new Configuration({ basePath: config.apiHost, accessToken: customerToken.access_token });
+  const configuration = new Configuration({ basePath: config.apiHost, accessToken: loginIdentityToken.access_token });
   const got = await new LoginIdentityApi(configuration).getLoginIdentity();
 
   // Expect
@@ -44,7 +45,7 @@ it('Poll login identity until ready', async () => {
   mock.onGet(url).reply(200, loginIdentity);
 
   // Make Request
-  const configuration = new Configuration({ basePath: config.apiHost, accessToken: customerToken.access_token });
+  const configuration = new Configuration({ basePath: config.apiHost, accessToken: loginIdentityToken.access_token });
   let got: AxiosResponse<GetLoginIdentityByIdResponse>;
 
   for (let i = 0; i < 20; i++) {
