@@ -4,15 +4,13 @@ import axios from 'axios';
 import { config, grantType } from './config';
 import { Configuration } from '..';
 import { CustomerApi } from '../api';
+import { linkToken } from './responses/linkToken';
+import { customerToken } from './responses/customerToken';
 
 let mock = new MockAdapter(axios);
 
 it('Obtain link token and link url to launch Finverse Link UI', async () => {
   // Variables
-  const customerToken = 'customer-token';
-  const access_token = 'link-token';
-  const link_url = 'link-url';
-
   const url = `${config.apiHost}/link/token`;
   const requestBody = {
     client_id: config.clientId,
@@ -24,15 +22,14 @@ it('Obtain link token and link url to launch Finverse Link UI', async () => {
     response_type: 'code',
     link_mode: 'iframe',
   };
-  const response = { access_token, link_url };
 
   // Mocking
-  mock.onPost(url, requestBody).reply(200, response);
+  mock.onPost(url, requestBody).reply(200, linkToken);
 
   // Make Request
-  const configuration = new Configuration({ basePath: config.apiHost, accessToken: customerToken });
+  const configuration = new Configuration({ basePath: config.apiHost, accessToken: customerToken.access_token });
   const got = await new CustomerApi(configuration).generateLinkToken(requestBody);
 
   // Expect
-  expect(got.data.link_url).toBe(link_url);
+  expect(got.data.link_url).toBe(linkToken.link_url);
 });
