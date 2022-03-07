@@ -9,22 +9,18 @@ import { loginIdentityToken } from './responses/loginIdentityToken';
 
 let mock = new MockAdapter(axios);
 
-it('Obtain link token and link url to launch Finverse Link UI', async () => {
+it('Get accounts', async () => {
   // Variable
   const url = `${config.apiHost}/accounts`;
-  const loginIdentity = getAccounts();
+  const accounts = getAccounts();
 
   // Mocking
-  mock.onGet(url).reply(200, loginIdentity);
+  mock.onGet(url).reply(200, accounts);
 
   // Make Request
   const configuration = new Configuration({ basePath: config.apiHost, accessToken: loginIdentityToken.access_token });
-  const got = await new LoginIdentityApi(configuration).getLoginIdentity();
+  const got = await new LoginIdentityApi(configuration).listAccounts();
 
   // Expect
-  // This is the institution information
-  expect(got.data.institution).toEqual(loginIdentity.institution);
-
-  // This is the login identity events
-  expect(got.data.login_identity).toEqual(loginIdentity.login_identity);
+  expect(got.data.accounts).not.toBe(undefined);
 });

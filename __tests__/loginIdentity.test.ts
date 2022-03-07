@@ -4,7 +4,6 @@ import axios, { AxiosResponse } from 'axios';
 import { config } from './config';
 import { Configuration } from '..';
 import { LoginIdentityApi, GetLoginIdentityByIdResponse } from '../api';
-import { customerToken } from './responses/customerToken';
 import { getLoginIdentity } from './responses/loginIdentity';
 import { loginIdentityToken } from './responses/loginIdentityToken';
 
@@ -16,7 +15,7 @@ enum FinalStatus {
 
 let mock = new MockAdapter(axios);
 
-it('Obtain link token and link url to launch Finverse Link UI', async () => {
+it('Obtain login identity', async () => {
   // Variable
   const url = `${config.apiHost}/login_identity`;
   const loginIdentity = getLoginIdentity();
