@@ -3,23 +3,21 @@ import axios from 'axios';
 
 import { config, grantType } from './config';
 import { Configuration, PublicApi } from '..';
+import { customerToken } from './responses/customerToken';
 
 let mock = new MockAdapter(axios);
 
 it('Get customer access token', async () => {
   // Variables
-  const access_token = 'customer-token';
-
   const url = `${config.apiHost}/auth/customer/token`;
   const requestBody = {
     client_id: config.clientId,
     client_secret: config.clientSecret,
     grant_type: grantType.CLIENT_CREDENTIALS,
   };
-  const response = { access_token };
 
   // Mocking
-  mock.onPost(url, requestBody).reply(200, response);
+  mock.onPost(url, requestBody).reply(200, customerToken);
 
   // Make Request
   const configuration = new Configuration({ basePath: config.apiHost });
@@ -30,5 +28,5 @@ it('Get customer access token', async () => {
   });
 
   // Expect
-  expect(got.data.access_token).toBe(access_token);
+  expect(got.data.access_token).toBe(customerToken.access_token);
 });
