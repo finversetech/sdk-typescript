@@ -42,9 +42,9 @@ npm install @finverse/sdk-typescript
     });
     const linkTokenResp = await new CustomerApi(configuration).generateLinkToken({
         ClientId:     clientId,
-        UserId:       &userId,
+        UserId:       userId,
         RedirectUri:  redirectUri,
-        State:        &state,
+        State:        state,
         ResponseMode: "form_post",
         ResponseType: "code",
         GrantType:    "client_credentials",
