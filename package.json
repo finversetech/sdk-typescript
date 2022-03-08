@@ -1,6 +1,6 @@
 {
   "name": "@finverse/sdk-typescript",
-  "version": "0.0.1-1646384108",
+  "version": "0.0.1-1646727625",
   "description": "OpenAPI client for @finverse/sdk-typescript",
   "author": "OpenAPI-Generator Contributors",
   "keywords": [
@@ -11,8 +11,8 @@
     "@finverse/sdk-typescript"
   ],
   "license": "MIT",
-  "main": "./dist/index.js",
-  "typings": "./dist/index.d.ts",
+  "main": "index",
+  "typings": "index",
   "scripts": {
     "build": "tsc --outDir dist/",
     "prepare": "npm run build"
