@@ -2,3 +2,6 @@ wwwroot/*.js
 node_modules
 typings
 dist
+
+# Files used in CICD
+bump-semver.py
