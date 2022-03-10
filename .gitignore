@@ -4,4 +4,4 @@ typings
 dist
 
 # Files used in CICD
-bump-semver.py
+*.py
