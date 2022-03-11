@@ -1,6 +1,6 @@
 {
   "name": "@finverse/sdk-typescript",
-  "version": "0.0.1-1646789936",
+  "version": "0.0.1",
   "description": "OpenAPI client for @finverse/sdk-typescript",
   "author": "OpenAPI-Generator Contributors",
   "keywords": [
@@ -33,12 +33,12 @@
   "files": [
     "dist"
   ],
-  "homepage": "https://github.com/finversetech/sdk-typescript/#readme",
+  "homepage": "/#readme",
   "bugs": {
-    "url": "https://github.com/finversetech/sdk-typescript/issues"
+    "url": "/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/finversetech/sdk-typescript.git"
+    "url": "git+.git"
   }
 }

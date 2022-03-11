@@ -854,10 +854,10 @@ export interface IdentityAddress {
   source?: string;
   /**
    *
-   * @type {string}
+   * @type {Array<string>}
    * @memberof IdentityAddress
    */
-  source_id?: string;
+  source_ids?: Array<string>;
   /**
    *
    * @type {Array<string>}
@@ -891,10 +891,10 @@ export interface IdentityDateOfBirth {
   source?: string;
   /**
    *
-   * @type {string}
+   * @type {Array<string>}
    * @memberof IdentityDateOfBirth
    */
-  source_id?: string;
+  source_ids?: Array<string>;
   /**
    *
    * @type {Array<string>}
@@ -934,10 +934,10 @@ export interface IdentityEmail {
   source?: string;
   /**
    *
-   * @type {string}
+   * @type {Array<string>}
    * @memberof IdentityEmail
    */
-  source_id?: string;
+  source_ids?: Array<string>;
   /**
    *
    * @type {Array<string>}
@@ -989,10 +989,10 @@ export interface IdentityName {
   source?: string;
   /**
    *
-   * @type {string}
+   * @type {Array<string>}
    * @memberof IdentityName
    */
-  source_id?: string;
+  source_ids?: Array<string>;
   /**
    *
    * @type {Array<string>}
@@ -1038,10 +1038,10 @@ export interface IdentityPhoneNumber {
   source?: string;
   /**
    *
-   * @type {string}
+   * @type {Array<string>}
    * @memberof IdentityPhoneNumber
    */
-  source_id?: string;
+  source_ids?: Array<string>;
   /**
    *
    * @type {Array<string>}
@@ -3492,7 +3492,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       };
     },
     /**
-     * Get a list of identity data for a given login identity
+     * \\[BETA] Get a list of identity data for a given login identity
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3891,7 +3891,7 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
-     * Get a list of identity data for a given login identity
+     * \\[BETA] Get a list of identity data for a given login identity
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4071,7 +4071,7 @@ export const LoginIdentityApiFactory = function (
       return localVarFp.getBalanceHistory(accountId, options).then((request) => request(axios, basePath));
     },
     /**
-     * Get a list of identity data for a given login identity
+     * \\[BETA] Get a list of identity data for a given login identity
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4216,7 +4216,7 @@ export interface LoginIdentityApiInterface {
   getBalanceHistory(accountId: string, options?: AxiosRequestConfig): AxiosPromise<GetBalanceHistoryResponse>;
 
   /**
-   * Get a list of identity data for a given login identity
+   * \\[BETA] Get a list of identity data for a given login identity
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LoginIdentityApiInterface
@@ -4376,7 +4376,7 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
   }
 
   /**
-   * Get a list of identity data for a given login identity
+   * \\[BETA] Get a list of identity data for a given login identity
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LoginIdentityApi
