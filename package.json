@@ -33,12 +33,12 @@
   "files": [
     "dist"
   ],
-  "homepage": "/#readme",
+  "homepage": "https://github.com/finversetech/sdk-typescript/#readme",
   "bugs": {
-    "url": "/issues"
+    "url": "https://github.com/finversetech/sdk-typescript/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+.git"
+    "url": "git+https://github.com/finversetech/sdk-typescript.git"
   }
 }

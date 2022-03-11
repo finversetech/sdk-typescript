@@ -1,4 +1,3 @@
-.gitignore
 .npmignore
 .openapi-generator-ignore
 api.ts
