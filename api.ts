@@ -403,6 +403,19 @@ export interface CreateCustomerResponse {
 /**
  *
  * @export
+ * @interface CreatePaymentInstructionResponse
+ */
+export interface CreatePaymentInstructionResponse {
+  /**
+   *
+   * @type {string}
+   * @memberof CreatePaymentInstructionResponse
+   */
+  payment_instruction_id?: string;
+}
+/**
+ *
+ * @export
  * @interface CurrencyAmount
  */
 export interface CurrencyAmount {
@@ -1799,6 +1812,73 @@ export interface PaymentDetails {
 /**
  *
  * @export
+ * @interface PaymentInstruction
+ */
+export interface PaymentInstruction {
+  /**
+   * The recipient name
+   * @type {string}
+   * @memberof PaymentInstruction
+   */
+  recipient_name?: string;
+  /**
+   * The sender name
+   * @type {string}
+   * @memberof PaymentInstruction
+   */
+  sender_name?: string;
+  /**
+   * The sender account Id
+   * @type {string}
+   * @memberof PaymentInstruction
+   */
+  sender_account_id?: string;
+  /**
+   * When the payment should start
+   * @type {string}
+   * @memberof PaymentInstruction
+   */
+  start_date?: string | null;
+  /**
+   * When the payment should stop
+   * @type {string}
+   * @memberof PaymentInstruction
+   */
+  end_date?: string | null;
+  /**
+   * The currency for the payment
+   * @type {string}
+   * @memberof PaymentInstruction
+   */
+  currency?: string;
+  /**
+   * The payment amount
+   * @type {number}
+   * @memberof PaymentInstruction
+   */
+  amount?: number;
+  /**
+   * How often the payment is executed
+   * @type {string}
+   * @memberof PaymentInstruction
+   */
+  frequency?: string;
+  /**
+   * Related remarks
+   * @type {string}
+   * @memberof PaymentInstruction
+   */
+  remarks?: string;
+  /**
+   * A customer provided key to ensure ideompotency
+   * @type {string}
+   * @memberof PaymentInstruction
+   */
+  idempotence_key?: string;
+}
+/**
+ *
+ * @export
  * @interface Principal
  */
 export interface Principal {
@@ -2150,6 +2230,46 @@ export interface Transaction {
 export const CustomerApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
+     * Create a new payment instruction to be used when linking to perform debit authorization
+     * @param {PaymentInstruction} paymentInstruction Request body for starting a new Link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentInstruction: async (
+      paymentInstruction: PaymentInstruction,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'paymentInstruction' is not null or undefined
+      assertParamExists('createPaymentInstruction', 'paymentInstruction', paymentInstruction);
+      const localVarPath = `/payments/instruction`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(paymentInstruction, localVarRequestOptions, configuration);
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * generate a link token that can be used to create link
      * @param {LinkTokenRequest} linkTokenRequest token request
      * @param {*} [options] Override http request option.
@@ -2408,6 +2528,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = CustomerApiAxiosParamCreator(configuration);
   return {
     /**
+     * Create a new payment instruction to be used when linking to perform debit authorization
+     * @param {PaymentInstruction} paymentInstruction Request body for starting a new Link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createPaymentInstruction(
+      paymentInstruction: PaymentInstruction,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePaymentInstructionResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentInstruction(paymentInstruction, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * generate a link token that can be used to create link
      * @param {LinkTokenRequest} linkTokenRequest token request
      * @param {*} [options] Override http request option.
@@ -2508,6 +2641,20 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
   const localVarFp = CustomerApiFp(configuration);
   return {
     /**
+     * Create a new payment instruction to be used when linking to perform debit authorization
+     * @param {PaymentInstruction} paymentInstruction Request body for starting a new Link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentInstruction(
+      paymentInstruction: PaymentInstruction,
+      options?: any,
+    ): AxiosPromise<CreatePaymentInstructionResponse> {
+      return localVarFp
+        .createPaymentInstruction(paymentInstruction, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * generate a link token that can be used to create link
      * @param {LinkTokenRequest} linkTokenRequest token request
      * @param {*} [options] Override http request option.
@@ -2581,6 +2728,18 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
  * @interface CustomerApi
  */
 export interface CustomerApiInterface {
+  /**
+   * Create a new payment instruction to be used when linking to perform debit authorization
+   * @param {PaymentInstruction} paymentInstruction Request body for starting a new Link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  createPaymentInstruction(
+    paymentInstruction: PaymentInstruction,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<CreatePaymentInstructionResponse>;
+
   /**
    * generate a link token that can be used to create link
    * @param {LinkTokenRequest} linkTokenRequest token request
@@ -2658,6 +2817,19 @@ export interface CustomerApiInterface {
  * @extends {BaseAPI}
  */
 export class CustomerApi extends BaseAPI implements CustomerApiInterface {
+  /**
+   * Create a new payment instruction to be used when linking to perform debit authorization
+   * @param {PaymentInstruction} paymentInstruction Request body for starting a new Link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public createPaymentInstruction(paymentInstruction: PaymentInstruction, options?: AxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .createPaymentInstruction(paymentInstruction, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
   /**
    * generate a link token that can be used to create link
    * @param {LinkTokenRequest} linkTokenRequest token request
