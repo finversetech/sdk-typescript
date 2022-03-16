@@ -1348,6 +1348,18 @@ export interface LinkTokenRequest {
    * @memberof LinkTokenRequest
    */
   products_supported?: Array<string>;
+  /**
+   * products that is requested
+   * @type {Array<string>}
+   * @memberof LinkTokenRequest
+   */
+  products_requested?: Array<string>;
+  /**
+   * The identifier returned after creating payment instruction
+   * @type {string}
+   * @memberof LinkTokenRequest
+   */
+  payment_instruction_id?: string;
 }
 
 export const LinkTokenRequestUiModeEnum = {
