@@ -1214,6 +1214,18 @@ export interface LinkRequest {
    * @memberof LinkRequest
    */
   store_credential: boolean;
+  /**
+   * products that is requested
+   * @type {Array<string>}
+   * @memberof LinkRequest
+   */
+  products_requested?: Array<string>;
+  /**
+   * The identifier returned after creating payment instruction
+   * @type {string}
+   * @memberof LinkRequest
+   */
+  payment_instruction_id?: string;
 }
 /**
  *
@@ -1828,6 +1840,12 @@ export interface PaymentDetails {
  */
 export interface PaymentInstruction {
   /**
+   * What type of payment is being created
+   * @type {string}
+   * @memberof PaymentInstruction
+   */
+  payment_type: PaymentInstructionPaymentTypeEnum;
+  /**
    * The recipient name
    * @type {string}
    * @memberof PaymentInstruction
@@ -1888,6 +1906,14 @@ export interface PaymentInstruction {
    */
   idempotence_key?: string;
 }
+
+export const PaymentInstructionPaymentTypeEnum = {
+  DebitAuthorization: 'DEBIT_AUTHORIZATION',
+} as const;
+
+export type PaymentInstructionPaymentTypeEnum =
+  typeof PaymentInstructionPaymentTypeEnum[keyof typeof PaymentInstructionPaymentTypeEnum];
+
 /**
  *
  * @export
