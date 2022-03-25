@@ -1307,7 +1307,7 @@ export interface LinkTokenRequest {
    */
   ui_mode?: LinkTokenRequestUiModeEnum;
   /**
-   *
+   * ISO639-1 language code. Language to display when user open the link, default to English (en) if not specified
    * @type {string}
    * @memberof LinkTokenRequest
    */
