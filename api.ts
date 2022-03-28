@@ -1846,6 +1846,12 @@ export interface PaymentInstruction {
    */
   payment_type: PaymentInstructionPaymentTypeEnum;
   /**
+   * The customer provided userId that needs to match the one passed when generating link token
+   * @type {string}
+   * @memberof PaymentInstruction
+   */
+  user_id: string;
+  /**
    * The recipient name
    * @type {string}
    * @memberof PaymentInstruction
