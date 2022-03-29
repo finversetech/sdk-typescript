@@ -2042,6 +2042,12 @@ export interface PaymentInstruction {
    * @memberof PaymentInstruction
    */
   idempotence_key?: string;
+  /**
+   * Status of the payment
+   * @type {string}
+   * @memberof PaymentInstruction
+   */
+  payment_status?: string;
 }
 
 export const PaymentInstructionPaymentTypeEnum = {
