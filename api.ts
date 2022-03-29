@@ -3948,7 +3948,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getIncomeByLoginIdentityId: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getIncomeEstimateByLoginIdentityId: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/income`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -4389,10 +4389,10 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getIncomeByLoginIdentityId(
+    async getIncomeEstimateByLoginIdentityId(
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<IncomeResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getIncomeByLoginIdentityId(options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getIncomeEstimateByLoginIdentityId(options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
@@ -4588,8 +4588,8 @@ export const LoginIdentityApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getIncomeByLoginIdentityId(options?: any): AxiosPromise<IncomeResponse> {
-      return localVarFp.getIncomeByLoginIdentityId(options).then((request) => request(axios, basePath));
+    getIncomeEstimateByLoginIdentityId(options?: any): AxiosPromise<IncomeResponse> {
+      return localVarFp.getIncomeEstimateByLoginIdentityId(options).then((request) => request(axios, basePath));
     },
     /**
      * Get a specific loginIdentity
@@ -4750,7 +4750,7 @@ export interface LoginIdentityApiInterface {
    * @throws {RequiredError}
    * @memberof LoginIdentityApiInterface
    */
-  getIncomeByLoginIdentityId(options?: AxiosRequestConfig): AxiosPromise<IncomeResponse>;
+  getIncomeEstimateByLoginIdentityId(options?: AxiosRequestConfig): AxiosPromise<IncomeResponse>;
 
   /**
    * Get a specific loginIdentity
@@ -4930,9 +4930,9 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @throws {RequiredError}
    * @memberof LoginIdentityApi
    */
-  public getIncomeByLoginIdentityId(options?: AxiosRequestConfig) {
+  public getIncomeEstimateByLoginIdentityId(options?: AxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
-      .getIncomeByLoginIdentityId(options)
+      .getIncomeEstimateByLoginIdentityId(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
