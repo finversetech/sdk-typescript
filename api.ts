@@ -2048,6 +2048,12 @@ export interface PaymentInstruction {
    * @memberof PaymentInstruction
    */
   payment_status?: string;
+  /**
+   * Reference identification returned by institution
+   * @type {string}
+   * @memberof PaymentInstruction
+   */
+  reference_id?: string;
 }
 
 export const PaymentInstructionPaymentTypeEnum = {
