@@ -1516,6 +1516,31 @@ export interface ListAccountsResponse {
 /**
  *
  * @export
+ * @interface ListPaymentInstructionsResponse
+ */
+export interface ListPaymentInstructionsResponse {
+  /**
+   *
+   * @type {Array<PaymentInstruction>}
+   * @memberof ListPaymentInstructionsResponse
+   */
+  payment_instructions?: Array<PaymentInstruction>;
+  /**
+   *
+   * @type {LoginIdentityShort}
+   * @memberof ListPaymentInstructionsResponse
+   */
+  login_identity?: LoginIdentityShort;
+  /**
+   *
+   * @type {InstitutionShort}
+   * @memberof ListPaymentInstructionsResponse
+   */
+  institution?: InstitutionShort;
+}
+/**
+ *
+ * @export
  * @interface ListTransactionsResponse
  */
 export interface ListTransactionsResponse {
@@ -1957,6 +1982,12 @@ export interface PaymentInstruction {
    * @memberof PaymentInstruction
    */
   recipient_name?: string;
+  /**
+   * The recipient account Id
+   * @type {string}
+   * @memberof PaymentInstruction
+   */
+  recipient_account_id?: string;
   /**
    * The sender name
    * @type {string}
@@ -4093,6 +4124,37 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       };
     },
     /**
+     * Get list of payment instructions to be used when linking to perfom debit authorization
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPaymentInstructions: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/payments/instruction/`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get a list of transactions for a particular account. The transactions are returned in sorted order, with the most recent one appearing first.
      * @param {string} accountId The account id (ULID, example - 01EP4A1MZDHKETZFRPF0K62S6S)
      * @param {number} [offset] default is 0
@@ -4375,6 +4437,17 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Get list of payment instructions to be used when linking to perfom debit authorization
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listPaymentInstructions(
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPaymentInstructionsResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listPaymentInstructions(options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Get a list of transactions for a particular account. The transactions are returned in sorted order, with the most recent one appearing first.
      * @param {string} accountId The account id (ULID, example - 01EP4A1MZDHKETZFRPF0K62S6S)
      * @param {number} [offset] default is 0
@@ -4543,6 +4616,14 @@ export const LoginIdentityApiFactory = function (
       return localVarFp.listAccounts(options).then((request) => request(axios, basePath));
     },
     /**
+     * Get list of payment instructions to be used when linking to perfom debit authorization
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPaymentInstructions(options?: any): AxiosPromise<ListPaymentInstructionsResponse> {
+      return localVarFp.listPaymentInstructions(options).then((request) => request(axios, basePath));
+    },
+    /**
      * Get a list of transactions for a particular account. The transactions are returned in sorted order, with the most recent one appearing first.
      * @param {string} accountId The account id (ULID, example - 01EP4A1MZDHKETZFRPF0K62S6S)
      * @param {number} [offset] default is 0
@@ -4694,6 +4775,14 @@ export interface LoginIdentityApiInterface {
    * @memberof LoginIdentityApiInterface
    */
   listAccounts(options?: AxiosRequestConfig): AxiosPromise<ListAccountsResponse>;
+
+  /**
+   * Get list of payment instructions to be used when linking to perfom debit authorization
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LoginIdentityApiInterface
+   */
+  listPaymentInstructions(options?: AxiosRequestConfig): AxiosPromise<ListPaymentInstructionsResponse>;
 
   /**
    * Get a list of transactions for a particular account. The transactions are returned in sorted order, with the most recent one appearing first.
@@ -4888,6 +4977,18 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
   public listAccounts(options?: AxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .listAccounts(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get list of payment instructions to be used when linking to perfom debit authorization
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LoginIdentityApi
+   */
+  public listPaymentInstructions(options?: AxiosRequestConfig) {
+    return LoginIdentityApiFp(this.configuration)
+      .listPaymentInstructions(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
