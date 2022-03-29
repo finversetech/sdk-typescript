@@ -244,6 +244,12 @@ export interface AllProductStatus {
    * @memberof AllProductStatus
    */
   balance_history?: ProductStatus;
+  /**
+   *
+   * @type {ProductStatus}
+   * @memberof AllProductStatus
+   */
+  payments?: ProductStatus;
 }
 /**
  *
