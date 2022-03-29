@@ -1065,6 +1065,81 @@ export interface IdentityPhoneNumber {
 /**
  *
  * @export
+ * @interface IncomeEstimate
+ */
+export interface IncomeEstimate {
+  /**
+   * Income amount
+   * @type {number}
+   * @memberof IncomeEstimate
+   */
+  amount?: number;
+  /**
+   * Currency
+   * @type {string}
+   * @memberof IncomeEstimate
+   */
+  currency?: string;
+}
+/**
+ *
+ * @export
+ * @interface IncomeResponse
+ */
+export interface IncomeResponse {
+  /**
+   *
+   * @type {Array<SingleSourceIncome>}
+   * @memberof IncomeResponse
+   */
+  income?: Array<SingleSourceIncome>;
+  /**
+   *
+   * @type {LoginIdentityShort}
+   * @memberof IncomeResponse
+   */
+  login_identity?: LoginIdentityShort;
+  /**
+   *
+   * @type {InstitutionShort}
+   * @memberof IncomeResponse
+   */
+  institution?: InstitutionShort;
+}
+/**
+ *
+ * @export
+ * @interface IncomeStream
+ */
+export interface IncomeStream {
+  /**
+   * Account this income estimate is associated with
+   * @type {string}
+   * @memberof IncomeStream
+   */
+  account_id?: string;
+  /**
+   *
+   * @type {IncomeEstimate}
+   * @memberof IncomeStream
+   */
+  estimated_monthly_income?: IncomeEstimate;
+  /**
+   * Number of transactions counted towards income
+   * @type {number}
+   * @memberof IncomeStream
+   */
+  transaction_count?: number;
+  /**
+   *
+   * @type {Array<MonthlyIncomeEstimate>}
+   * @memberof IncomeStream
+   */
+  monthly_history?: Array<MonthlyIncomeEstimate>;
+}
+/**
+ *
+ * @export
  * @interface Institution
  */
 export interface Institution {
@@ -1774,6 +1849,31 @@ export interface LoginMethod {
 /**
  *
  * @export
+ * @interface MonthlyIncomeEstimate
+ */
+export interface MonthlyIncomeEstimate {
+  /**
+   *
+   * @type {IncomeEstimate}
+   * @memberof MonthlyIncomeEstimate
+   */
+  estimated_income?: IncomeEstimate;
+  /**
+   * The numeric month
+   * @type {number}
+   * @memberof MonthlyIncomeEstimate
+   */
+  month?: number;
+  /**
+   * The year
+   * @type {number}
+   * @memberof MonthlyIncomeEstimate
+   */
+  year?: number;
+}
+/**
+ *
+ * @export
  * @interface OtherInfo
  */
 export interface OtherInfo {
@@ -2050,6 +2150,62 @@ export interface RelinkRequest {
    * @memberof RelinkRequest
    */
   store_credential: boolean;
+}
+/**
+ *
+ * @export
+ * @interface SingleSourceIncome
+ */
+export interface SingleSourceIncome {
+  /**
+   *
+   * @type {Array<IncomeStream>}
+   * @memberof SingleSourceIncome
+   */
+  income_streams?: Array<IncomeStream>;
+  /**
+   *
+   * @type {SingleSourceIncomeIncomeTotal}
+   * @memberof SingleSourceIncome
+   */
+  income_total?: SingleSourceIncomeIncomeTotal;
+  /**
+   * Where the income estimate was sourced from
+   * @type {string}
+   * @memberof SingleSourceIncome
+   */
+  source?: string;
+  /**
+   * Unknown
+   * @type {string}
+   * @memberof SingleSourceIncome
+   */
+  source_id?: string;
+}
+/**
+ *
+ * @export
+ * @interface SingleSourceIncomeIncomeTotal
+ */
+export interface SingleSourceIncomeIncomeTotal {
+  /**
+   *
+   * @type {IncomeEstimate}
+   * @memberof SingleSourceIncomeIncomeTotal
+   */
+  estmated_monthly_income?: IncomeEstimate;
+  /**
+   * Number of transactions counted towards income
+   * @type {number}
+   * @memberof SingleSourceIncomeIncomeTotal
+   */
+  transaction_count?: number;
+  /**
+   *
+   * @type {Array<MonthlyIncomeEstimate>}
+   * @memberof SingleSourceIncomeIncomeTotal
+   */
+  monthly_history?: Array<MonthlyIncomeEstimate>;
 }
 /**
  *
@@ -3739,6 +3895,37 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       };
     },
     /**
+     * Get income figures for a login identity
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getIncomeByLoginIdentityId: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/income`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get a specific loginIdentity
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4118,6 +4305,17 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Get income figures for a login identity
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getIncomeByLoginIdentityId(
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<IncomeResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getIncomeByLoginIdentityId(options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Get a specific loginIdentity
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4295,6 +4493,14 @@ export const LoginIdentityApiFactory = function (
       return localVarFp.getIdentity(options).then((request) => request(axios, basePath));
     },
     /**
+     * Get income figures for a login identity
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getIncomeByLoginIdentityId(options?: any): AxiosPromise<IncomeResponse> {
+      return localVarFp.getIncomeByLoginIdentityId(options).then((request) => request(axios, basePath));
+    },
+    /**
      * Get a specific loginIdentity
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4438,6 +4644,14 @@ export interface LoginIdentityApiInterface {
    * @memberof LoginIdentityApiInterface
    */
   getIdentity(options?: AxiosRequestConfig): AxiosPromise<GetIdentityResponse>;
+
+  /**
+   * Get income figures for a login identity
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LoginIdentityApiInterface
+   */
+  getIncomeByLoginIdentityId(options?: AxiosRequestConfig): AxiosPromise<IncomeResponse>;
 
   /**
    * Get a specific loginIdentity
@@ -4600,6 +4814,18 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
   public getIdentity(options?: AxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .getIdentity(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get income figures for a login identity
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LoginIdentityApi
+   */
+  public getIncomeByLoginIdentityId(options?: AxiosRequestConfig) {
+    return LoginIdentityApiFp(this.configuration)
+      .getIncomeByLoginIdentityId(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
