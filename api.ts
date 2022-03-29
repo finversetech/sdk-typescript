@@ -1971,17 +1971,17 @@ export interface PaymentDetails {
  */
 export interface PaymentInstruction {
   /**
+   * The user id to which the payment instruction will refer
+   * @type {string}
+   * @memberof PaymentInstruction
+   */
+  user_id: string;
+  /**
    * What type of payment is being created
    * @type {string}
    * @memberof PaymentInstruction
    */
   payment_type: PaymentInstructionPaymentTypeEnum;
-  /**
-   * The customer provided userId that needs to match the one passed when generating link token
-   * @type {string}
-   * @memberof PaymentInstruction
-   */
-  user_id: string;
   /**
    * The recipient name
    * @type {string}
@@ -4147,7 +4147,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
      * @throws {RequiredError}
      */
     listPaymentInstructions: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/payments/instruction/`;
+      const localVarPath = `/payments/instruction`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
