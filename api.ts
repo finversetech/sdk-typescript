@@ -1146,6 +1146,31 @@ export interface IncomeStream {
 /**
  *
  * @export
+ * @interface IncomeTotal
+ */
+export interface IncomeTotal {
+  /**
+   *
+   * @type {IncomeEstimate}
+   * @memberof IncomeTotal
+   */
+  estmated_monthly_income?: IncomeEstimate;
+  /**
+   * Number of transactions counted towards income
+   * @type {number}
+   * @memberof IncomeTotal
+   */
+  transaction_count?: number;
+  /**
+   *
+   * @type {Array<MonthlyIncomeEstimate>}
+   * @memberof IncomeTotal
+   */
+  monthly_history?: Array<MonthlyIncomeEstimate>;
+}
+/**
+ *
+ * @export
  * @interface Institution
  */
 export interface Institution {
@@ -2214,10 +2239,10 @@ export interface SingleSourceIncome {
   income_streams?: Array<IncomeStream>;
   /**
    *
-   * @type {SingleSourceIncomeIncomeTotal}
+   * @type {IncomeTotal}
    * @memberof SingleSourceIncome
    */
-  income_total?: SingleSourceIncomeIncomeTotal;
+  income_total?: IncomeTotal;
   /**
    * Where the income estimate was sourced from
    * @type {string}
@@ -2230,31 +2255,6 @@ export interface SingleSourceIncome {
    * @memberof SingleSourceIncome
    */
   source_id?: string;
-}
-/**
- *
- * @export
- * @interface SingleSourceIncomeIncomeTotal
- */
-export interface SingleSourceIncomeIncomeTotal {
-  /**
-   *
-   * @type {IncomeEstimate}
-   * @memberof SingleSourceIncomeIncomeTotal
-   */
-  estmated_monthly_income?: IncomeEstimate;
-  /**
-   * Number of transactions counted towards income
-   * @type {number}
-   * @memberof SingleSourceIncomeIncomeTotal
-   */
-  transaction_count?: number;
-  /**
-   *
-   * @type {Array<MonthlyIncomeEstimate>}
-   * @memberof SingleSourceIncomeIncomeTotal
-   */
-  monthly_history?: Array<MonthlyIncomeEstimate>;
 }
 /**
  *
