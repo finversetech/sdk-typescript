@@ -11,8 +11,8 @@
     "@finverse/sdk-typescript"
   ],
   "license": "MIT",
-  "main": "dist/index.js",
-  "typings": "dist/index.js",
+  "main": "index",
+  "typings": "index",
   "scripts": {
     "build": "tsc --outDir dist/",
     "prepare": "npm run build"

@@ -250,6 +250,12 @@ export interface AllProductStatus {
    * @memberof AllProductStatus
    */
   payments?: ProductStatus;
+  /**
+   *
+   * @type {ProductStatus}
+   * @memberof AllProductStatus
+   */
+  income_estimation?: ProductStatus;
 }
 /**
  *
