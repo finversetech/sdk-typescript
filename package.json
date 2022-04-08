@@ -14,7 +14,8 @@
   "main": "dist/index.js",
   "typings": "dist/index.js",
   "scripts": {
-    "build": "tsc --outDir dist/"
+    "build": "tsc --outDir dist",
+    "test": "mocha --require ts-node/register test/**/*.spec.ts"
   },
   "dependencies": {
     "axios": "^0.21.4"
