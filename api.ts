@@ -453,6 +453,93 @@ export interface CurrencyAmount {
 /**
  *
  * @export
+ * @interface CustomerPaymentInstruction
+ */
+export interface CustomerPaymentInstruction {
+  /**
+   * A id of the user of this payment, need to equal to userId when creating link
+   * @type {string}
+   * @memberof CustomerPaymentInstruction
+   */
+  user_id: string;
+  /**
+   * Type of payment is being created, please check Documentation on which payment type is supported in each institution
+   * @type {string}
+   * @memberof CustomerPaymentInstruction
+   */
+  type: CustomerPaymentInstructionTypeEnum;
+  /**
+   * The recipient name
+   * @type {string}
+   * @memberof CustomerPaymentInstruction
+   */
+  recipient_name?: string;
+  /**
+   * The recipient account Id
+   * @type {string}
+   * @memberof CustomerPaymentInstruction
+   */
+  recipient_account_id?: string;
+  /**
+   * The sender name
+   * @type {string}
+   * @memberof CustomerPaymentInstruction
+   */
+  sender_name?: string;
+  /**
+   * The sender account Id
+   * @type {string}
+   * @memberof CustomerPaymentInstruction
+   */
+  sender_account_id?: string;
+  /**
+   * When the payment should start
+   * @type {string}
+   * @memberof CustomerPaymentInstruction
+   */
+  start_date?: string | null;
+  /**
+   * When the payment should stop
+   * @type {string}
+   * @memberof CustomerPaymentInstruction
+   */
+  end_date?: string | null;
+  /**
+   * The currency for the payment
+   * @type {string}
+   * @memberof CustomerPaymentInstruction
+   */
+  currency?: string;
+  /**
+   * The payment amount
+   * @type {number}
+   * @memberof CustomerPaymentInstruction
+   */
+  amount?: number;
+  /**
+   * How often the payment should be executed
+   * @type {string}
+   * @memberof CustomerPaymentInstruction
+   */
+  frequency?: string;
+  /**
+   * Related remarks about this instruction
+   * @type {string}
+   * @memberof CustomerPaymentInstruction
+   */
+  remarks?: string;
+}
+
+export const CustomerPaymentInstructionTypeEnum = {
+  DebitAuthorization: 'DEBIT_AUTHORIZATION',
+} as const;
+
+export type CustomerPaymentInstructionTypeEnum =
+  typeof CustomerPaymentInstructionTypeEnum[keyof typeof CustomerPaymentInstructionTypeEnum];
+
+/**
+ *
+ * @export
  * @interface CustomizationDetails
  */
 export interface CustomizationDetails {
@@ -705,6 +792,31 @@ export interface GetLoginIdentityHistoryResponse {
    * @memberof GetLoginIdentityHistoryResponse
    */
   status_history?: Array<LoginIdentityStatusDetails>;
+}
+/**
+ *
+ * @export
+ * @interface GetPaymentInstructionsResponse
+ */
+export interface GetPaymentInstructionsResponse {
+  /**
+   *
+   * @type {PaymentInstruction}
+   * @memberof GetPaymentInstructionsResponse
+   */
+  payment_instruction?: PaymentInstruction;
+  /**
+   *
+   * @type {LoginIdentityShort}
+   * @memberof GetPaymentInstructionsResponse
+   */
+  login_identity?: LoginIdentityShort;
+  /**
+   *
+   * @type {InstitutionShort}
+   * @memberof GetPaymentInstructionsResponse
+   */
+  institution?: InstitutionShort;
 }
 /**
  *
@@ -1160,7 +1272,7 @@ export interface IncomeTotal {
    * @type {IncomeEstimate}
    * @memberof IncomeTotal
    */
-  estmated_monthly_income?: IncomeEstimate;
+  estimated_monthly_income?: IncomeEstimate;
   /**
    * Number of transactions counted towards income
    * @type {number}
@@ -1547,31 +1659,6 @@ export interface ListAccountsResponse {
    *
    * @type {InstitutionShort}
    * @memberof ListAccountsResponse
-   */
-  institution?: InstitutionShort;
-}
-/**
- *
- * @export
- * @interface ListPaymentInstructionsResponse
- */
-export interface ListPaymentInstructionsResponse {
-  /**
-   *
-   * @type {Array<PaymentInstruction>}
-   * @memberof ListPaymentInstructionsResponse
-   */
-  payment_instructions?: Array<PaymentInstruction>;
-  /**
-   *
-   * @type {LoginIdentityShort}
-   * @memberof ListPaymentInstructionsResponse
-   */
-  login_identity?: LoginIdentityShort;
-  /**
-   *
-   * @type {InstitutionShort}
-   * @memberof ListPaymentInstructionsResponse
    */
   institution?: InstitutionShort;
 }
@@ -2002,17 +2089,17 @@ export interface PaymentDetails {
  */
 export interface PaymentInstruction {
   /**
-   * The user id to which the payment instruction will refer
+   * A id of the user of this payment, need to equal to userId when creating link
    * @type {string}
    * @memberof PaymentInstruction
    */
-  user_id: string;
+  user_id?: string;
   /**
-   * What type of payment is being created
+   * Type of payment is being created, please check Documentation on which payment type is supported in each institution
    * @type {string}
    * @memberof PaymentInstruction
    */
-  payment_type: PaymentInstructionPaymentTypeEnum;
+  type?: PaymentInstructionTypeEnum;
   /**
    * The recipient name
    * @type {string}
@@ -2062,43 +2149,42 @@ export interface PaymentInstruction {
    */
   amount?: number;
   /**
-   * How often the payment is executed
+   * How often the payment should be executed
    * @type {string}
    * @memberof PaymentInstruction
    */
   frequency?: string;
   /**
-   * Related remarks
+   * Related remarks about this instruction
    * @type {string}
    * @memberof PaymentInstruction
    */
   remarks?: string;
   /**
-   * A customer provided key to ensure ideompotency
-   * @type {string}
-   * @memberof PaymentInstruction
-   */
-  idempotence_key?: string;
-  /**
    * Status of the payment
    * @type {string}
    * @memberof PaymentInstruction
    */
-  payment_status?: string;
+  status?: string;
   /**
    * Reference identification returned by institution
    * @type {string}
    * @memberof PaymentInstruction
    */
   reference_id?: string;
+  /**
+   * Extra information collected for this payment instruction
+   * @type {object}
+   * @memberof PaymentInstruction
+   */
+  info?: object;
 }
 
-export const PaymentInstructionPaymentTypeEnum = {
+export const PaymentInstructionTypeEnum = {
   DebitAuthorization: 'DEBIT_AUTHORIZATION',
 } as const;
 
-export type PaymentInstructionPaymentTypeEnum =
-  typeof PaymentInstructionPaymentTypeEnum[keyof typeof PaymentInstructionPaymentTypeEnum];
+export type PaymentInstructionTypeEnum = typeof PaymentInstructionTypeEnum[keyof typeof PaymentInstructionTypeEnum];
 
 /**
  *
@@ -2486,12 +2572,12 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
   return {
     /**
      * Create a new payment instruction to be used when linking to perform debit authorization
-     * @param {PaymentInstruction} paymentInstruction Request body for starting a new Link
+     * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     createPaymentInstruction: async (
-      paymentInstruction: PaymentInstruction,
+      paymentInstruction: CustomerPaymentInstruction,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'paymentInstruction' is not null or undefined
@@ -2679,6 +2765,46 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
+     * Get payment instructions to be used when linking to perform debit authorization by id
+     * @param {string} paymentInstructionId The id of a payment instruction
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPaymentInstruction: async (
+      paymentInstructionId: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'paymentInstructionId' is not null or undefined
+      assertParamExists('getPaymentInstruction', 'paymentInstructionId', paymentInstructionId);
+      const localVarPath = `/payments/instruction/{paymentInstructionId}`.replace(
+        `{${'paymentInstructionId'}}`,
+        encodeURIComponent(String(paymentInstructionId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get a list of institutions
      * @param {string} [country] The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
@@ -2784,12 +2910,12 @@ export const CustomerApiFp = function (configuration?: Configuration) {
   return {
     /**
      * Create a new payment instruction to be used when linking to perform debit authorization
-     * @param {PaymentInstruction} paymentInstruction Request body for starting a new Link
+     * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async createPaymentInstruction(
-      paymentInstruction: PaymentInstruction,
+      paymentInstruction: CustomerPaymentInstruction,
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePaymentInstructionResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentInstruction(paymentInstruction, options);
@@ -2848,6 +2974,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Get payment instructions to be used when linking to perform debit authorization by id
+     * @param {string} paymentInstructionId The id of a payment instruction
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getPaymentInstruction(
+      paymentInstructionId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPaymentInstructionsResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentInstruction(paymentInstructionId, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Get a list of institutions
      * @param {string} [country] The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
@@ -2897,12 +3036,12 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
   return {
     /**
      * Create a new payment instruction to be used when linking to perform debit authorization
-     * @param {PaymentInstruction} paymentInstruction Request body for starting a new Link
+     * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     createPaymentInstruction(
-      paymentInstruction: PaymentInstruction,
+      paymentInstruction: CustomerPaymentInstruction,
       options?: any,
     ): AxiosPromise<CreatePaymentInstructionResponse> {
       return localVarFp
@@ -2946,6 +3085,17 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
       return localVarFp.getLoginIdentityHistory(loginIdentityId, options).then((request) => request(axios, basePath));
     },
     /**
+     * Get payment instructions to be used when linking to perform debit authorization by id
+     * @param {string} paymentInstructionId The id of a payment instruction
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPaymentInstruction(paymentInstructionId: string, options?: any): AxiosPromise<GetPaymentInstructionsResponse> {
+      return localVarFp
+        .getPaymentInstruction(paymentInstructionId, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Get a list of institutions
      * @param {string} [country] The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
@@ -2985,13 +3135,13 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
 export interface CustomerApiInterface {
   /**
    * Create a new payment instruction to be used when linking to perform debit authorization
-   * @param {PaymentInstruction} paymentInstruction Request body for starting a new Link
+   * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
   createPaymentInstruction(
-    paymentInstruction: PaymentInstruction,
+    paymentInstruction: CustomerPaymentInstruction,
     options?: AxiosRequestConfig,
   ): AxiosPromise<CreatePaymentInstructionResponse>;
 
@@ -3038,6 +3188,18 @@ export interface CustomerApiInterface {
   ): AxiosPromise<GetLoginIdentityHistoryResponse>;
 
   /**
+   * Get payment instructions to be used when linking to perform debit authorization by id
+   * @param {string} paymentInstructionId The id of a payment instruction
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  getPaymentInstruction(
+    paymentInstructionId: string,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<GetPaymentInstructionsResponse>;
+
+  /**
    * Get a list of institutions
    * @param {string} [country] The country the institution belongs to
    * @param {Array<string>} [countries] The countries the institution belongs to
@@ -3074,12 +3236,12 @@ export interface CustomerApiInterface {
 export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   /**
    * Create a new payment instruction to be used when linking to perform debit authorization
-   * @param {PaymentInstruction} paymentInstruction Request body for starting a new Link
+   * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public createPaymentInstruction(paymentInstruction: PaymentInstruction, options?: AxiosRequestConfig) {
+  public createPaymentInstruction(paymentInstruction: CustomerPaymentInstruction, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .createPaymentInstruction(paymentInstruction, options)
       .then((request) => request(this.axios, this.basePath));
@@ -3134,6 +3296,19 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public getLoginIdentityHistory(loginIdentityId: string, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getLoginIdentityHistory(loginIdentityId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get payment instructions to be used when linking to perform debit authorization by id
+   * @param {string} paymentInstructionId The id of a payment instruction
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public getPaymentInstruction(paymentInstructionId: string, options?: AxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .getPaymentInstruction(paymentInstructionId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -4148,37 +4323,6 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       };
     },
     /**
-     * Get list of payment instructions to be used when linking to perfom debit authorization
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listPaymentInstructions: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/payments/instruction`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
      * Get a list of transactions for a particular account. The transactions are returned in sorted order, with the most recent one appearing first.
      * @param {string} accountId The account id (ULID, example - 01EP4A1MZDHKETZFRPF0K62S6S)
      * @param {number} [offset] default is 0
@@ -4461,17 +4605,6 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
-     * Get list of payment instructions to be used when linking to perfom debit authorization
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async listPaymentInstructions(
-      options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPaymentInstructionsResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.listPaymentInstructions(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-    },
-    /**
      * Get a list of transactions for a particular account. The transactions are returned in sorted order, with the most recent one appearing first.
      * @param {string} accountId The account id (ULID, example - 01EP4A1MZDHKETZFRPF0K62S6S)
      * @param {number} [offset] default is 0
@@ -4640,14 +4773,6 @@ export const LoginIdentityApiFactory = function (
       return localVarFp.listAccounts(options).then((request) => request(axios, basePath));
     },
     /**
-     * Get list of payment instructions to be used when linking to perfom debit authorization
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listPaymentInstructions(options?: any): AxiosPromise<ListPaymentInstructionsResponse> {
-      return localVarFp.listPaymentInstructions(options).then((request) => request(axios, basePath));
-    },
-    /**
      * Get a list of transactions for a particular account. The transactions are returned in sorted order, with the most recent one appearing first.
      * @param {string} accountId The account id (ULID, example - 01EP4A1MZDHKETZFRPF0K62S6S)
      * @param {number} [offset] default is 0
@@ -4799,14 +4924,6 @@ export interface LoginIdentityApiInterface {
    * @memberof LoginIdentityApiInterface
    */
   listAccounts(options?: AxiosRequestConfig): AxiosPromise<ListAccountsResponse>;
-
-  /**
-   * Get list of payment instructions to be used when linking to perfom debit authorization
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
-   */
-  listPaymentInstructions(options?: AxiosRequestConfig): AxiosPromise<ListPaymentInstructionsResponse>;
 
   /**
    * Get a list of transactions for a particular account. The transactions are returned in sorted order, with the most recent one appearing first.
@@ -5005,18 +5122,6 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
   }
 
   /**
-   * Get list of payment instructions to be used when linking to perfom debit authorization
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LoginIdentityApi
-   */
-  public listPaymentInstructions(options?: AxiosRequestConfig) {
-    return LoginIdentityApiFp(this.configuration)
-      .listPaymentInstructions(options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
    * Get a list of transactions for a particular account. The transactions are returned in sorted order, with the most recent one appearing first.
    * @param {string} accountId The account id (ULID, example - 01EP4A1MZDHKETZFRPF0K62S6S)
    * @param {number} [offset] default is 0
@@ -5054,6 +5159,231 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
   public refreshLoginIdentity(options?: AxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .refreshLoginIdentity(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+}
+
+/**
+ * PaymentApi - axios parameter creator
+ * @export
+ */
+export const PaymentApiAxiosParamCreator = function (configuration?: Configuration) {
+  return {
+    /**
+     * Create a new payment instruction to be used when linking to perform debit authorization
+     * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentInstruction: async (
+      paymentInstruction: CustomerPaymentInstruction,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'paymentInstruction' is not null or undefined
+      assertParamExists('createPaymentInstruction', 'paymentInstruction', paymentInstruction);
+      const localVarPath = `/payments/instruction`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(paymentInstruction, localVarRequestOptions, configuration);
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Get payment instructions to be used when linking to perform debit authorization by id
+     * @param {string} paymentInstructionId The id of a payment instruction
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPaymentInstruction: async (
+      paymentInstructionId: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'paymentInstructionId' is not null or undefined
+      assertParamExists('getPaymentInstruction', 'paymentInstructionId', paymentInstructionId);
+      const localVarPath = `/payments/instruction/{paymentInstructionId}`.replace(
+        `{${'paymentInstructionId'}}`,
+        encodeURIComponent(String(paymentInstructionId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * PaymentApi - functional programming interface
+ * @export
+ */
+export const PaymentApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = PaymentApiAxiosParamCreator(configuration);
+  return {
+    /**
+     * Create a new payment instruction to be used when linking to perform debit authorization
+     * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createPaymentInstruction(
+      paymentInstruction: CustomerPaymentInstruction,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePaymentInstructionResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentInstruction(paymentInstruction, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
+     * Get payment instructions to be used when linking to perform debit authorization by id
+     * @param {string} paymentInstructionId The id of a payment instruction
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getPaymentInstruction(
+      paymentInstructionId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPaymentInstructionsResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentInstruction(paymentInstructionId, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+  };
+};
+
+/**
+ * PaymentApi - factory interface
+ * @export
+ */
+export const PaymentApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+  const localVarFp = PaymentApiFp(configuration);
+  return {
+    /**
+     * Create a new payment instruction to be used when linking to perform debit authorization
+     * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentInstruction(
+      paymentInstruction: CustomerPaymentInstruction,
+      options?: any,
+    ): AxiosPromise<CreatePaymentInstructionResponse> {
+      return localVarFp
+        .createPaymentInstruction(paymentInstruction, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Get payment instructions to be used when linking to perform debit authorization by id
+     * @param {string} paymentInstructionId The id of a payment instruction
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPaymentInstruction(paymentInstructionId: string, options?: any): AxiosPromise<GetPaymentInstructionsResponse> {
+      return localVarFp
+        .getPaymentInstruction(paymentInstructionId, options)
+        .then((request) => request(axios, basePath));
+    },
+  };
+};
+
+/**
+ * PaymentApi - interface
+ * @export
+ * @interface PaymentApi
+ */
+export interface PaymentApiInterface {
+  /**
+   * Create a new payment instruction to be used when linking to perform debit authorization
+   * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  createPaymentInstruction(
+    paymentInstruction: CustomerPaymentInstruction,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<CreatePaymentInstructionResponse>;
+
+  /**
+   * Get payment instructions to be used when linking to perform debit authorization by id
+   * @param {string} paymentInstructionId The id of a payment instruction
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  getPaymentInstruction(
+    paymentInstructionId: string,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<GetPaymentInstructionsResponse>;
+}
+
+/**
+ * PaymentApi - object-oriented interface
+ * @export
+ * @class PaymentApi
+ * @extends {BaseAPI}
+ */
+export class PaymentApi extends BaseAPI implements PaymentApiInterface {
+  /**
+   * Create a new payment instruction to be used when linking to perform debit authorization
+   * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public createPaymentInstruction(paymentInstruction: CustomerPaymentInstruction, options?: AxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .createPaymentInstruction(paymentInstruction, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get payment instructions to be used when linking to perform debit authorization by id
+   * @param {string} paymentInstructionId The id of a payment instruction
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public getPaymentInstruction(paymentInstructionId: string, options?: AxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .getPaymentInstruction(paymentInstructionId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
