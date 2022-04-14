@@ -805,18 +805,6 @@ export interface GetPaymentInstructionsResponse {
    * @memberof GetPaymentInstructionsResponse
    */
   payment_instruction?: PaymentInstruction;
-  /**
-   *
-   * @type {LoginIdentityShort}
-   * @memberof GetPaymentInstructionsResponse
-   */
-  login_identity?: LoginIdentityShort;
-  /**
-   *
-   * @type {InstitutionShort}
-   * @memberof GetPaymentInstructionsResponse
-   */
-  institution?: InstitutionShort;
 }
 /**
  *
@@ -2095,6 +2083,12 @@ export interface PaymentInstruction {
    */
   user_id?: string;
   /**
+   * An id that links this payment to a specific Login Identity
+   * @type {string}
+   * @memberof PaymentInstruction
+   */
+  login_identity_id?: string;
+  /**
    * Type of payment is being created, please check Documentation on which payment type is supported in each institution
    * @type {string}
    * @memberof PaymentInstruction
@@ -2172,6 +2166,12 @@ export interface PaymentInstruction {
    * @memberof PaymentInstruction
    */
   reference_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentInstruction
+   */
+  last_update?: string;
   /**
    * Extra information collected for this payment instruction
    * @type {object}
