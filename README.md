@@ -6,8 +6,7 @@ This SDK enables a basic end-to-end backend integration with the Finverse API, i
 npm install @finverse/sdk-typescript
 ```
 
-
-## Getting started
+## Getting started (Linking flow)
 
 ### 1. Authenticate with Finverse API: Obtain Customer Access Token
 ```typescript
@@ -161,4 +160,135 @@ const statementId = statements.data.statements[0].id;
 
 // Can download statement from here 
 const satementLink = await new LoginIdentityApi(configuration).getStatementLink(statementId);
+```
+
+## Getting started (Payment flow)
+
+### 1. Authenticate with Finverse API: Obtain Customer Access Token
+```typescript
+// Obtain these from https://dashboard.finverse.com
+const apiHost = "https://api.sandbox.finverse.net"
+const clientId = process.env.FINVERSE_CLIENTID
+const clientSecret = process.env.FINVERSE_SECRET
+const redirectUri = process.env.REDIRECT_URI
+
+const configuration = new Configuration({ basePath: apiHost });
+// Obtain customer access token
+const customerTokenResp = await new PublicApi(configuration).generateCustomerAccessToken({
+	client_id: clientId,
+	client_secret: clientSecret,
+	grant_type: 'client_credentials',
+});
+
+const customerAccessToken = customerTokenResp.access_token
+```
+
+### 2. Create payment instruction
+```typescript
+    const configuration = new Configuration({ basePath: config.apiHost, accessToken: customerToken.access_token });
+    const paymentInstruction: CustomerPaymentInstruction = {
+      type: "DEBIT_AUTHORIZATION",
+      user_id: "customer_user1",
+      frequency: "MONTHLY",
+      start_date: "2022-04-01",
+      end_date: "2022-12-01",
+      amount: 1000,
+      currency: "PHP",
+      recipient_name: "HOMECREDIT",
+      recipient_account_id: "Recipient Account Id",
+      sender_name: "Sender Name",
+      sender_account_id: "LOAN102345",
+      remarks: "HOME CREDIT REPAYMENT"
+    };
+    const createPaymentInstructionResponse = await new CustomerApi(configuration).createPaymentInstruction(paymentInstruction);
+
+    // createPaymentInstructionResponse.data.payment_instruction_id can be used to retrieve the status
+```
+
+### 3. Link with payment instruction: Obtain Link Token and Link URL to launch Finverse Link UI
+```typescript
+// generate a link token
+
+// reference back to your system userId, finverse does not use this
+const userId = "someUserId"     
+// this will be sent in the redirectUri callback, can be used to identify the state
+const state = "someUniqueState" 
+const configuration = new Configuration({ 
+  basePath: apiHost, 
+	accessToken: customerToken.access_token
+});
+const linkTokenResp = await new CustomerApi(configuration).generateLinkToken({
+	ClientId:     clientId,
+  UserId:       userId,
+  RedirectUri:  redirectUri,
+  State:        state,
+  ResponseMode: "form_post",
+  ResponseType: "code",
+	GrantType:    "client_credentials",
+  PaymentInstructionId: createPaymentInstructionResponse.data.payment_instruction_id,
+  ProductsRequested: "PAYMENTS",
+});
+
+// The linkUrl can be used to initiate Finverse Link
+console.log("linkUrl: " + linkTokenResp.link_url)
+```
+
+### 4. Finalize linking: Exchange code for Login Identity Access Token
+```typescript
+// when Finverse Link UI is successful, obtain the code from Finverse Link
+// exchange it for a Login Identity Access Token
+const code = "obtainAfterLink"
+const configuration = new Configuration({ 
+	basePath: apiHost, 
+	accessToken: customerToken.access_token 
+});
+const loginIdentityTokenResp = await new LinkApi(configuration).token(
+	"authorization_code",
+	code,
+	clientId,
+	redirectURI,
+);
+
+// The loginIdentityToken can be used to retrieve data
+const loginIdentityToken = loginIdentityTokenResp.access_token
+```
+
+### 5. Poll loginIdentityStatus until ready
+Alternatively you can use webhook to receive LoginIdentity event.
+
+```typescript
+enum FinalStatus {
+	ERROR = 'ERROR',
+	DATA_RETRIEVAL_PARTIALLY_SUCCESSFUL = 'DATA_RETRIEVAL_PARTIALLY_SUCCESSFUL',
+	DATA_RETRIEVAL_COMPLETE = 'DATA_RETRIEVAL_COMPLETE',
+}
+
+const configuration = new Configuration({
+	basePath: apiHost,
+	accessToken: loginIdentityToken.access_token 
+});
+let loginIdentity: AxiosResponse<GetLoginIdentityByIdResponse>;
+
+// Poll until loginIdentityStatus is ready
+for (let i = 0; i < 20; i++) {
+	loginIdentity = await new LoginIdentityApi(configuration).getLoginIdentity();
+	const loginIdentityStatus = loginIdentity.data.login_identity.status;
+	if ( 
+	  loginIdentityStatus === FinalStatus.ERROR ||
+	  loginIdentityStatus === FinalStatus.DATA_RETRIEVAL_COMPLETE ||
+	  loginIdentityStatus === FinalStatus.DATA_RETRIEVAL_PARTIALLY_SUCCESSFUL
+	) { break; }
+	
+	await new Promise((resolve) => setTimeout(resolve, 3000));
+}
+
+console.log("login identity: " + loginIdentityResp.login_identity)
+```
+
+### 6. Get payment instruction status
+```typescript
+    const configuration = new Configuration({ basePath: config.apiHost, accessToken: customerToken.access_token });
+    const getPaymentInstructionResponse = await new CustomerApi(configuration).getPaymentInstruction(createPaymentInstructionResponse.data.payment_instruction_id);
+
+    console.log("paymentInstruction status: " + getPaymentInstructionResponse.data.payment_instruction.status);
 ```
