@@ -1185,13 +1185,13 @@ export interface IncomeEstimate {
    * @type {number}
    * @memberof IncomeEstimate
    */
-  amount?: number;
+  amount: number;
   /**
    * Currency
    * @type {string}
    * @memberof IncomeEstimate
    */
-  currency?: string;
+  currency: string;
 }
 /**
  *
@@ -1204,19 +1204,19 @@ export interface IncomeResponse {
    * @type {Array<SingleSourceIncome>}
    * @memberof IncomeResponse
    */
-  income?: Array<SingleSourceIncome>;
+  income: Array<SingleSourceIncome>;
   /**
    *
    * @type {LoginIdentityShort}
    * @memberof IncomeResponse
    */
-  login_identity?: LoginIdentityShort;
+  login_identity: LoginIdentityShort;
   /**
    *
    * @type {InstitutionShort}
    * @memberof IncomeResponse
    */
-  institution?: InstitutionShort;
+  institution: InstitutionShort;
 }
 /**
  *
@@ -1229,7 +1229,7 @@ export interface IncomeStream {
    * @type {string}
    * @memberof IncomeStream
    */
-  account_id?: string;
+  account_id: string;
   /**
    *
    * @type {IncomeEstimate}
@@ -1241,13 +1241,13 @@ export interface IncomeStream {
    * @type {number}
    * @memberof IncomeStream
    */
-  transaction_count?: number;
+  transaction_count: number;
   /**
    *
    * @type {Array<MonthlyIncomeEstimate>}
    * @memberof IncomeStream
    */
-  monthly_history?: Array<MonthlyIncomeEstimate>;
+  monthly_history: Array<MonthlyIncomeEstimate>;
 }
 /**
  *
@@ -1266,13 +1266,13 @@ export interface IncomeTotal {
    * @type {number}
    * @memberof IncomeTotal
    */
-  transaction_count?: number;
+  transaction_count: number;
   /**
    *
    * @type {Array<MonthlyIncomeEstimate>}
    * @memberof IncomeTotal
    */
-  monthly_history?: Array<MonthlyIncomeEstimate>;
+  monthly_history: Array<MonthlyIncomeEstimate>;
 }
 /**
  *
@@ -1994,19 +1994,19 @@ export interface MonthlyIncomeEstimate {
    * @type {IncomeEstimate}
    * @memberof MonthlyIncomeEstimate
    */
-  estimated_income?: IncomeEstimate;
+  estimated_income: IncomeEstimate;
   /**
    * The numeric month
    * @type {number}
    * @memberof MonthlyIncomeEstimate
    */
-  month?: number;
+  month: number;
   /**
    * The year
    * @type {number}
    * @memberof MonthlyIncomeEstimate
    */
-  year?: number;
+  year: number;
 }
 /**
  *
@@ -2328,25 +2328,25 @@ export interface SingleSourceIncome {
    * @type {Array<IncomeStream>}
    * @memberof SingleSourceIncome
    */
-  income_streams?: Array<IncomeStream>;
+  income_streams: Array<IncomeStream>;
   /**
    *
    * @type {IncomeTotal}
    * @memberof SingleSourceIncome
    */
-  income_total?: IncomeTotal;
+  income_total: IncomeTotal;
   /**
    * Where the income estimate was sourced from
    * @type {string}
    * @memberof SingleSourceIncome
    */
-  source?: string;
+  source: string;
   /**
    * Unknown
    * @type {string}
    * @memberof SingleSourceIncome
    */
-  source_id?: string;
+  source_id: string;
 }
 /**
  *
