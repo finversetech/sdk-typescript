@@ -2044,6 +2044,19 @@ export interface OtherInfo {
 /**
  *
  * @export
+ * @interface PaymentAccount
+ */
+export interface PaymentAccount {
+  /**
+   * The raw value for the account the user selected when making payment request
+   * @type {string}
+   * @memberof PaymentAccount
+   */
+  raw?: string;
+}
+/**
+ *
+ * @export
  * @interface PaymentDetails
  */
 export interface PaymentDetails {
@@ -2132,6 +2145,12 @@ export interface PaymentInstruction {
    * @memberof PaymentInstruction
    */
   sender_name?: string;
+  /**
+   *
+   * @type {PaymentAccount}
+   * @memberof PaymentInstruction
+   */
+  sender_account?: PaymentAccount;
   /**
    * The sender account Id
    * @type {string}
