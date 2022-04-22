@@ -1590,6 +1590,12 @@ export interface LinkTokenRequest {
    * @memberof LinkTokenRequest
    */
   automatic_data_refresh?: LinkTokenRequestAutomaticDataRefreshEnum;
+  /**
+   * institution\'s status filter
+   * @type {string}
+   * @memberof LinkTokenRequest
+   */
+  institution_status?: string;
 }
 
 export const LinkTokenRequestUiModeEnum = {
