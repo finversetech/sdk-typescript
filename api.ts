@@ -1584,6 +1584,12 @@ export interface LinkTokenRequest {
    * @memberof LinkTokenRequest
    */
   payment_instruction_id?: string;
+  /**
+   * Controls the behavior of the automatic data refresh checkbox
+   * @type {string}
+   * @memberof LinkTokenRequest
+   */
+  automatic_data_refresh?: LinkTokenRequestAutomaticDataRefreshEnum;
 }
 
 export const LinkTokenRequestUiModeEnum = {
@@ -1593,6 +1599,14 @@ export const LinkTokenRequestUiModeEnum = {
 } as const;
 
 export type LinkTokenRequestUiModeEnum = typeof LinkTokenRequestUiModeEnum[keyof typeof LinkTokenRequestUiModeEnum];
+export const LinkTokenRequestAutomaticDataRefreshEnum = {
+  On: 'ON',
+  Off: 'OFF',
+  ForcedOn: 'FORCED_ON',
+} as const;
+
+export type LinkTokenRequestAutomaticDataRefreshEnum =
+  typeof LinkTokenRequestAutomaticDataRefreshEnum[keyof typeof LinkTokenRequestAutomaticDataRefreshEnum];
 
 /**
  *
