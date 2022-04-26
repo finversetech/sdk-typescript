@@ -1839,6 +1839,12 @@ export interface LoginIdentity {
    * @type {string}
    * @memberof LoginIdentity
    */
+  session_status?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof LoginIdentity
+   */
   institution_id: string;
   /**
    *
