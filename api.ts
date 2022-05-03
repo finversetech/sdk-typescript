@@ -1427,6 +1427,12 @@ export interface LinkRequest {
    */
   store_credential: boolean;
   /**
+   * this is a mandatory field
+   * @type {boolean}
+   * @memberof LinkRequest
+   */
+  consent?: boolean | null;
+  /**
    * products that is requested
    * @type {Array<string>}
    * @memberof LinkRequest
@@ -2361,6 +2367,12 @@ export interface RelinkRequest {
    * @memberof RelinkRequest
    */
   store_credential: boolean;
+  /**
+   * this is a mandatory field
+   * @type {boolean}
+   * @memberof RelinkRequest
+   */
+  consent?: boolean | null;
 }
 /**
  *
