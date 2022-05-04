@@ -2122,7 +2122,13 @@ export interface PaymentDetails {
  */
 export interface PaymentInstruction {
   /**
-   * A id of the user of this payment, need to equal to userId when creating link
+   * An id of the this payment
+   * @type {string}
+   * @memberof PaymentInstruction
+   */
+  payment_instruction_id?: string;
+  /**
+   * An id of the user of this payment, need to equal to userId when creating link
    * @type {string}
    * @memberof PaymentInstruction
    */
