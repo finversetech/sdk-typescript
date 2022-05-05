@@ -2365,13 +2365,13 @@ export interface RefreshData {
    * @type {boolean}
    * @memberof RefreshData
    */
-  credentials_stored?: boolean;
+  credentials_stored: boolean;
   /**
    *
    * @type {boolean}
    * @memberof RefreshData
    */
-  refresh_allowed?: boolean;
+  refresh_allowed: boolean;
 }
 /**
  *
