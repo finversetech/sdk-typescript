@@ -1882,6 +1882,12 @@ export interface LoginIdentity {
    * @memberof LoginIdentity
    */
   last_session_id?: string;
+  /**
+   *
+   * @type {RefreshData}
+   * @memberof LoginIdentity
+   */
+  refresh?: RefreshData;
 }
 /**
  *
@@ -2347,6 +2353,25 @@ export interface RedirectUriResponse {
    * @memberof RedirectUriResponse
    */
   redirect_uri?: string;
+}
+/**
+ *
+ * @export
+ * @interface RefreshData
+ */
+export interface RefreshData {
+  /**
+   *
+   * @type {boolean}
+   * @memberof RefreshData
+   */
+  credentials_stored?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof RefreshData
+   */
+  refresh_allowed?: boolean;
 }
 /**
  *
