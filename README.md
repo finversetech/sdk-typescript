@@ -40,13 +40,13 @@ const configuration = new Configuration({
 	accessToken: customerToken.access_token
 });
 const linkTokenResp = await new CustomerApi(configuration).generateLinkToken({
-	ClientId:     clientId,
-        UserId:       userId,
-        RedirectUri:  redirectUri,
-        State:        state,
-        ResponseMode: "form_post",
-        ResponseType: "code",
-	GrantType:    "client_credentials",
+	client_id:     clientId,
+        user_id:       userId,
+        redirect_uri:  redirectUri,
+        state:        state,
+        response_mode: "form_post",
+        response_type: "code",
+	grant_type:    "client_credentials",
 });
 
 // The linkUrl can be used to initiate Finverse Link
@@ -218,15 +218,15 @@ const configuration = new Configuration({
 	accessToken: customerToken.access_token
 });
 const linkTokenResp = await new CustomerApi(configuration).generateLinkToken({
-	ClientId:     clientId,
-  UserId:       userId,
-  RedirectUri:  redirectUri,
-  State:        state,
-  ResponseMode: "form_post",
-  ResponseType: "code",
-	GrantType:    "client_credentials",
-  PaymentInstructionId: createPaymentInstructionResponse.data.payment_instruction_id,
-  ProductsRequested: "PAYMENTS",
+	client_id:     clientId,
+  user_id:       userId,
+  redirect_uri:  redirectUri,
+  state:        state,
+  response_mode: "form_post",
+  response_type: "code",
+	grant_type:    "client_credentials",
+  payment_instruction_id: createPaymentInstructionResponse.data.payment_instruction_id,
+  products_requested: "PAYMENTS",
 });
 
 // The linkUrl can be used to initiate Finverse Link
@@ -259,8 +259,7 @@ Alternatively you can use webhook to receive LoginIdentity event.
 ```typescript
 enum FinalStatus {
 	ERROR = 'ERROR',
-	DATA_RETRIEVAL_PARTIALLY_SUCCESSFUL = 'DATA_RETRIEVAL_PARTIALLY_SUCCESSFUL',
-	DATA_RETRIEVAL_COMPLETE = 'DATA_RETRIEVAL_COMPLETE',
+	CONNECTION_COMPLETE= 'CONNECTION_COMPLETE',
 }
 
 const configuration = new Configuration({
@@ -275,8 +274,7 @@ for (let i = 0; i < 20; i++) {
 	const loginIdentityStatus = loginIdentity.data.login_identity.status;
 	if ( 
 	  loginIdentityStatus === FinalStatus.ERROR ||
-	  loginIdentityStatus === FinalStatus.DATA_RETRIEVAL_COMPLETE ||
-	  loginIdentityStatus === FinalStatus.DATA_RETRIEVAL_PARTIALLY_SUCCESSFUL
+	  loginIdentityStatus === FinalStatus.CONNECTION_COMPLETE
 	) { break; }
 	
 	await new Promise((resolve) => setTimeout(resolve, 3000));
