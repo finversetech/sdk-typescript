@@ -1519,7 +1519,7 @@ export interface LinkTokenRequest {
    */
   link_mode?: string;
   /**
-   * The UI mode link is intended to be used in - \"iframe\" (default), \"auto_redirect\" or \"redirect\"
+   * The UI mode link is intended to be used in - \"iframe\" (default), \"auto_redirect\" or \"redirect\" or \"standalone\"
    * @type {string}
    * @memberof LinkTokenRequest
    */
@@ -1608,6 +1608,7 @@ export const LinkTokenRequestUiModeEnum = {
   Iframe: 'iframe',
   Redirect: 'redirect',
   AutoRedirect: 'auto_redirect',
+  Standalone: 'standalone',
 } as const;
 
 export type LinkTokenRequestUiModeEnum = typeof LinkTokenRequestUiModeEnum[keyof typeof LinkTokenRequestUiModeEnum];
