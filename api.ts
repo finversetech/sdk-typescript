@@ -560,7 +560,7 @@ export interface CustomizationDetails {
    * @type {string}
    * @memberof CustomizationDetails
    */
-  customer_app_name?: string;
+  customer_app_name: string;
 }
 /**
  *
