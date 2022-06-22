@@ -4202,12 +4202,43 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       };
     },
     /**
+     * Download composite statement
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getCompositeStatement: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/composite_statement`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get composite statement link for download
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getCompositeStatementLink: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/composite_statement`;
+      const localVarPath = `/composite_statement_link`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -4663,6 +4694,17 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Download composite statement
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getCompositeStatement(
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getCompositeStatement(options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Get composite statement link for download
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4865,6 +4907,14 @@ export const LoginIdentityApiFactory = function (
       return localVarFp.getBalanceHistory(accountId, options).then((request) => request(axios, basePath));
     },
     /**
+     * Download composite statement
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getCompositeStatement(options?: any): AxiosPromise<void> {
+      return localVarFp.getCompositeStatement(options).then((request) => request(axios, basePath));
+    },
+    /**
      * Get composite statement link for download
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5024,6 +5074,14 @@ export interface LoginIdentityApiInterface {
    * @memberof LoginIdentityApiInterface
    */
   getBalanceHistory(accountId: string, options?: AxiosRequestConfig): AxiosPromise<GetBalanceHistoryResponse>;
+
+  /**
+   * Download composite statement
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LoginIdentityApiInterface
+   */
+  getCompositeStatement(options?: AxiosRequestConfig): AxiosPromise<void>;
 
   /**
    * Get composite statement link for download
@@ -5198,6 +5256,18 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
   public getBalanceHistory(accountId: string, options?: AxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .getBalanceHistory(accountId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Download composite statement
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LoginIdentityApi
+   */
+  public getCompositeStatement(options?: AxiosRequestConfig) {
+    return LoginIdentityApiFp(this.configuration)
+      .getCompositeStatement(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
