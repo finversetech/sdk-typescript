@@ -447,6 +447,53 @@ export interface CreatePaymentInstructionResponse {
 /**
  *
  * @export
+ * @interface CreatePaymentRequest
+ */
+export interface CreatePaymentRequest {
+  /**
+   * Amount to be paid, in currency’s smallest unit or “minor unit”, as defined in ISO 4217. For example, HKD 100.01 is represented as amount = 10001 (minor unit = cents). For currencies without minor units (e.g. VND, JPY), the amount is represented as is, without modification. For example, VND 15101 is represented as amount = 15101.
+   * @type {number}
+   * @memberof CreatePaymentRequest
+   */
+  amount: number;
+  /**
+   * Indicates whether this is a mandate-based payment or one-off direct payment to an account. Possible values - MANDATE, SINGLE
+   * @type {string}
+   * @memberof CreatePaymentRequest
+   */
+  type: CreatePaymentRequestTypeEnum;
+  /**
+   *
+   * @type {PaymentDetails2}
+   * @memberof CreatePaymentRequest
+   */
+  payment_details: PaymentDetails2;
+}
+
+export const CreatePaymentRequestTypeEnum = {
+  Mandate: 'MANDATE',
+  Single: 'SINGLE',
+} as const;
+
+export type CreatePaymentRequestTypeEnum =
+  typeof CreatePaymentRequestTypeEnum[keyof typeof CreatePaymentRequestTypeEnum];
+
+/**
+ *
+ * @export
+ * @interface CreatePaymentResponse
+ */
+export interface CreatePaymentResponse {
+  /**
+   * Finverse Payment ID
+   * @type {string}
+   * @memberof CreatePaymentResponse
+   */
+  payment_id?: string;
+}
+/**
+ *
+ * @export
  * @interface CurrencyAmount
  */
 export interface CurrencyAmount {
@@ -904,6 +951,63 @@ export interface GetPaymentInstructionsResponse {
    */
   payment_instruction?: PaymentInstruction;
 }
+/**
+ *
+ * @export
+ * @interface GetPaymentResponse
+ */
+export interface GetPaymentResponse {
+  /**
+   * Finverse Payment ID
+   * @type {string}
+   * @memberof GetPaymentResponse
+   */
+  payment_id?: string;
+  /**
+   * Amount to be paid, in currency’s smallest unit or “minor unit”, as defined in ISO 4217. For example, HKD 100.01 is represented as amount = 10001 (minor unit = cents). For currencies without minor units (e.g. VND, JPY), the amount is represented as is, without modification. For example, VND 15101 is represented as amount = 15101.
+   * @type {number}
+   * @memberof GetPaymentResponse
+   */
+  amount?: number;
+  /**
+   * Indicates whether this is a mandate-based payment or one-off direct payment to an account. Possible values - MANDATE, SINGLE
+   * @type {string}
+   * @memberof GetPaymentResponse
+   */
+  type?: GetPaymentResponseTypeEnum;
+  /**
+   * Possible values - CREATED, AUTHORIZED, SUBMITTED, EXECUTED, FAILED, REJECTED, CANCELLED.
+   * @type {string}
+   * @memberof GetPaymentResponse
+   */
+  status?: GetPaymentResponseStatusEnum;
+  /**
+   *
+   * @type {PaymentDetails2}
+   * @memberof GetPaymentResponse
+   */
+  payment_details?: PaymentDetails2;
+}
+
+export const GetPaymentResponseTypeEnum = {
+  Mandate: 'MANDATE',
+  Single: 'SINGLE',
+} as const;
+
+export type GetPaymentResponseTypeEnum = typeof GetPaymentResponseTypeEnum[keyof typeof GetPaymentResponseTypeEnum];
+export const GetPaymentResponseStatusEnum = {
+  Created: 'CREATED',
+  Authorized: 'AUTHORIZED',
+  Submitted: 'SUBMITTED',
+  Executed: 'EXECUTED',
+  Failed: 'FAILED',
+  Rejected: 'REJECTED',
+  Cancelled: 'CANCELLED',
+} as const;
+
+export type GetPaymentResponseStatusEnum =
+  typeof GetPaymentResponseStatusEnum[keyof typeof GetPaymentResponseStatusEnum];
+
 /**
  *
  * @export
@@ -2279,6 +2383,31 @@ export interface PaymentDetails {
 /**
  *
  * @export
+ * @interface PaymentDetails2
+ */
+export interface PaymentDetails2 {
+  /**
+   * The transaction description provided to banks, which banks will show to their customers.
+   * @type {string}
+   * @memberof PaymentDetails2
+   */
+  description?: string;
+  /**
+   * ID of the mandate this pament is referring to.
+   * @type {string}
+   * @memberof PaymentDetails2
+   */
+  mandate_id: string;
+  /**
+   * Customer\'s ID for this transaction
+   * @type {string}
+   * @memberof PaymentDetails2
+   */
+  transaction_reference_id?: string;
+}
+/**
+ *
+ * @export
  * @interface PaymentInstruction
  */
 export interface PaymentInstruction {
@@ -2949,6 +3078,46 @@ export type TransactionLimitsPeriodEnum = typeof TransactionLimitsPeriodEnum[key
 export const CustomerApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
+     * Create new Payment
+     * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPayment: async (
+      createPaymentRequest: CreatePaymentRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'createPaymentRequest' is not null or undefined
+      assertParamExists('createPayment', 'createPaymentRequest', createPaymentRequest);
+      const localVarPath = `/payments`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(createPaymentRequest, localVarRequestOptions, configuration);
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Create a new payment instruction to be used when linking to perform new payment
      * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
      * @param {*} [options] Override http request option.
@@ -3177,6 +3346,40 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
+     * Get Payment details by payment_id
+     * @param {string} paymentId payment id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPayment: async (paymentId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'paymentId' is not null or undefined
+      assertParamExists('getPayment', 'paymentId', paymentId);
+      const localVarPath = `/payments/{paymentId}`.replace(`{${'paymentId'}}`, encodeURIComponent(String(paymentId)));
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get payment instructions by payment_instruction_id
      * @param {string} paymentInstructionId The id of a payment instruction
      * @param {*} [options] Override http request option.
@@ -3361,6 +3564,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = CustomerApiAxiosParamCreator(configuration);
   return {
     /**
+     * Create new Payment
+     * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createPayment(
+      createPaymentRequest: CreatePaymentRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePaymentResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createPayment(createPaymentRequest, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Create a new payment instruction to be used when linking to perform new payment
      * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
      * @param {*} [options] Override http request option.
@@ -3439,6 +3655,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Get Payment details by payment_id
+     * @param {string} paymentId payment id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getPayment(
+      paymentId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPaymentResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getPayment(paymentId, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Get payment instructions by payment_instruction_id
      * @param {string} paymentInstructionId The id of a payment instruction
      * @param {*} [options] Override http request option.
@@ -3513,6 +3742,15 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
   const localVarFp = CustomerApiFp(configuration);
   return {
     /**
+     * Create new Payment
+     * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPayment(createPaymentRequest: CreatePaymentRequest, options?: any): AxiosPromise<CreatePaymentResponse> {
+      return localVarFp.createPayment(createPaymentRequest, options).then((request) => request(axios, basePath));
+    },
+    /**
      * Create a new payment instruction to be used when linking to perform new payment
      * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
      * @param {*} [options] Override http request option.
@@ -3572,6 +3810,15 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
       return localVarFp.getMandates(mandateId, options).then((request) => request(axios, basePath));
     },
     /**
+     * Get Payment details by payment_id
+     * @param {string} paymentId payment id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPayment(paymentId: string, options?: any): AxiosPromise<GetPaymentResponse> {
+      return localVarFp.getPayment(paymentId, options).then((request) => request(axios, basePath));
+    },
+    /**
      * Get payment instructions by payment_instruction_id
      * @param {string} paymentInstructionId The id of a payment instruction
      * @param {*} [options] Override http request option.
@@ -3629,6 +3876,18 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
  * @interface CustomerApi
  */
 export interface CustomerApiInterface {
+  /**
+   * Create new Payment
+   * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  createPayment(
+    createPaymentRequest: CreatePaymentRequest,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<CreatePaymentResponse>;
+
   /**
    * Create a new payment instruction to be used when linking to perform new payment
    * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
@@ -3693,6 +3952,15 @@ export interface CustomerApiInterface {
   getMandates(mandateId: string, options?: AxiosRequestConfig): AxiosPromise<GetMandatesResponse>;
 
   /**
+   * Get Payment details by payment_id
+   * @param {string} paymentId payment id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  getPayment(paymentId: string, options?: AxiosRequestConfig): AxiosPromise<GetPaymentResponse>;
+
+  /**
    * Get payment instructions by payment_instruction_id
    * @param {string} paymentInstructionId The id of a payment instruction
    * @param {*} [options] Override http request option.
@@ -3751,6 +4019,19 @@ export interface CustomerApiInterface {
  * @extends {BaseAPI}
  */
 export class CustomerApi extends BaseAPI implements CustomerApiInterface {
+  /**
+   * Create new Payment
+   * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public createPayment(createPaymentRequest: CreatePaymentRequest, options?: AxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .createPayment(createPaymentRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
   /**
    * Create a new payment instruction to be used when linking to perform new payment
    * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
@@ -3826,6 +4107,19 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public getMandates(mandateId: string, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getMandates(mandateId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get Payment details by payment_id
+   * @param {string} paymentId payment id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public getPayment(paymentId: string, options?: AxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .getPayment(paymentId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
