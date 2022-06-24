@@ -574,12 +574,6 @@ export interface CustomizationDetails {
    * @memberof CustomizationDetails
    */
   display_name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CustomizationDetails
-   */
-  customer_app_name: string;
 }
 /**
  *
