@@ -4932,10 +4932,11 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
     },
     /**
      * Download composite statement
+     * @param {boolean} [redirect] when true, response will be http redirect; otherwise it will be json response with the download link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getCompositeStatement: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getCompositeStatement: async (redirect?: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/composite_statement`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -4952,36 +4953,9 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Get composite statement link for download
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getCompositeStatementLink: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/composite_statement_link`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
+      if (redirect !== undefined) {
+        localVarQueryParameter['redirect'] = redirect;
       }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -5088,10 +5062,15 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
     /**
      * Download statement
      * @param {string} statementId The statement id
+     * @param {boolean} [redirect] when true, response will be http redirect; otherwise it will be json response with the download link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getStatement: async (statementId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getStatement: async (
+      statementId: string,
+      redirect?: boolean,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
       // verify required parameter 'statementId' is not null or undefined
       assertParamExists('getStatement', 'statementId', statementId);
       const localVarPath = `/statements/{statementId}`.replace(
@@ -5113,6 +5092,10 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
+      if (redirect !== undefined) {
+        localVarQueryParameter['redirect'] = redirect;
+      }
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -5123,7 +5106,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       };
     },
     /**
-     * Get statement link for download
+     * (Deprecated) Get statement link for download
      * @param {string} statementId The statement id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5424,24 +5407,15 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
     },
     /**
      * Download composite statement
+     * @param {boolean} [redirect] when true, response will be http redirect; otherwise it will be json response with the download link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getCompositeStatement(
-      options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getCompositeStatement(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-    },
-    /**
-     * Get composite statement link for download
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getCompositeStatementLink(
+      redirect?: boolean,
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CompositeStatementLink>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getCompositeStatementLink(options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getCompositeStatement(redirect, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
@@ -5480,18 +5454,20 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
     /**
      * Download statement
      * @param {string} statementId The statement id
+     * @param {boolean} [redirect] when true, response will be http redirect; otherwise it will be json response with the download link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getStatement(
       statementId: string,
+      redirect?: boolean,
       options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getStatement(statementId, options);
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetStatementLinkResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getStatement(statementId, redirect, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
-     * Get statement link for download
+     * (Deprecated) Get statement link for download
      * @param {string} statementId The statement id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5637,19 +5613,12 @@ export const LoginIdentityApiFactory = function (
     },
     /**
      * Download composite statement
+     * @param {boolean} [redirect] when true, response will be http redirect; otherwise it will be json response with the download link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getCompositeStatement(options?: any): AxiosPromise<void> {
-      return localVarFp.getCompositeStatement(options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Get composite statement link for download
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getCompositeStatementLink(options?: any): AxiosPromise<CompositeStatementLink> {
-      return localVarFp.getCompositeStatementLink(options).then((request) => request(axios, basePath));
+    getCompositeStatement(redirect?: boolean, options?: any): AxiosPromise<CompositeStatementLink> {
+      return localVarFp.getCompositeStatement(redirect, options).then((request) => request(axios, basePath));
     },
     /**
      * \\[BETA] Get a list of identity data for a given login identity
@@ -5678,14 +5647,15 @@ export const LoginIdentityApiFactory = function (
     /**
      * Download statement
      * @param {string} statementId The statement id
+     * @param {boolean} [redirect] when true, response will be http redirect; otherwise it will be json response with the download link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getStatement(statementId: string, options?: any): AxiosPromise<void> {
-      return localVarFp.getStatement(statementId, options).then((request) => request(axios, basePath));
+    getStatement(statementId: string, redirect?: boolean, options?: any): AxiosPromise<GetStatementLinkResponse> {
+      return localVarFp.getStatement(statementId, redirect, options).then((request) => request(axios, basePath));
     },
     /**
-     * Get statement link for download
+     * (Deprecated) Get statement link for download
      * @param {string} statementId The statement id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5806,19 +5776,12 @@ export interface LoginIdentityApiInterface {
 
   /**
    * Download composite statement
+   * @param {boolean} [redirect] when true, response will be http redirect; otherwise it will be json response with the download link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LoginIdentityApiInterface
    */
-  getCompositeStatement(options?: AxiosRequestConfig): AxiosPromise<void>;
-
-  /**
-   * Get composite statement link for download
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
-   */
-  getCompositeStatementLink(options?: AxiosRequestConfig): AxiosPromise<CompositeStatementLink>;
+  getCompositeStatement(redirect?: boolean, options?: AxiosRequestConfig): AxiosPromise<CompositeStatementLink>;
 
   /**
    * \\[BETA] Get a list of identity data for a given login identity
@@ -5847,14 +5810,19 @@ export interface LoginIdentityApiInterface {
   /**
    * Download statement
    * @param {string} statementId The statement id
+   * @param {boolean} [redirect] when true, response will be http redirect; otherwise it will be json response with the download link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LoginIdentityApiInterface
    */
-  getStatement(statementId: string, options?: AxiosRequestConfig): AxiosPromise<void>;
+  getStatement(
+    statementId: string,
+    redirect?: boolean,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<GetStatementLinkResponse>;
 
   /**
-   * Get statement link for download
+   * (Deprecated) Get statement link for download
    * @param {string} statementId The statement id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -5990,25 +5958,14 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
 
   /**
    * Download composite statement
+   * @param {boolean} [redirect] when true, response will be http redirect; otherwise it will be json response with the download link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LoginIdentityApi
    */
-  public getCompositeStatement(options?: AxiosRequestConfig) {
+  public getCompositeStatement(redirect?: boolean, options?: AxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
-      .getCompositeStatement(options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Get composite statement link for download
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LoginIdentityApi
-   */
-  public getCompositeStatementLink(options?: AxiosRequestConfig) {
-    return LoginIdentityApiFp(this.configuration)
-      .getCompositeStatementLink(options)
+      .getCompositeStatement(redirect, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -6051,18 +6008,19 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
   /**
    * Download statement
    * @param {string} statementId The statement id
+   * @param {boolean} [redirect] when true, response will be http redirect; otherwise it will be json response with the download link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LoginIdentityApi
    */
-  public getStatement(statementId: string, options?: AxiosRequestConfig) {
+  public getStatement(statementId: string, redirect?: boolean, options?: AxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
-      .getStatement(statementId, options)
+      .getStatement(statementId, redirect, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
   /**
-   * Get statement link for download
+   * (Deprecated) Get statement link for download
    * @param {string} statementId The statement id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
