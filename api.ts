@@ -3086,11 +3086,13 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
     /**
      * CREATE Mandate
      * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. If missing we will generate a random one. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     createMandate: async (
       createMandateRequest: CreateMandateRequest,
+      idempotencyKey?: string,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'createMandateRequest' is not null or undefined
@@ -3110,6 +3112,10 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (idempotencyKey !== undefined && idempotencyKey !== null) {
+        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
+      }
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
 
@@ -3578,14 +3584,20 @@ export const CustomerApiFp = function (configuration?: Configuration) {
     /**
      * CREATE Mandate
      * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. If missing we will generate a random one. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async createMandate(
       createMandateRequest: CreateMandateRequest,
+      idempotencyKey?: string,
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateMandateResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createMandate(createMandateRequest, options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createMandate(
+        createMandateRequest,
+        idempotencyKey,
+        options,
+      );
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
@@ -3762,11 +3774,18 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
     /**
      * CREATE Mandate
      * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. If missing we will generate a random one. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createMandate(createMandateRequest: CreateMandateRequest, options?: any): AxiosPromise<CreateMandateResponse> {
-      return localVarFp.createMandate(createMandateRequest, options).then((request) => request(axios, basePath));
+    createMandate(
+      createMandateRequest: CreateMandateRequest,
+      idempotencyKey?: string,
+      options?: any,
+    ): AxiosPromise<CreateMandateResponse> {
+      return localVarFp
+        .createMandate(createMandateRequest, idempotencyKey, options)
+        .then((request) => request(axios, basePath));
     },
     /**
      * Create new Payment
@@ -3904,12 +3923,14 @@ export interface CustomerApiInterface {
   /**
    * CREATE Mandate
    * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
+   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. If missing we will generate a random one. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
   createMandate(
     createMandateRequest: CreateMandateRequest,
+    idempotencyKey?: string,
     options?: AxiosRequestConfig,
   ): AxiosPromise<CreateMandateResponse>;
 
@@ -4049,13 +4070,18 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   /**
    * CREATE Mandate
    * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
+   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. If missing we will generate a random one. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public createMandate(createMandateRequest: CreateMandateRequest, options?: AxiosRequestConfig) {
+  public createMandate(
+    createMandateRequest: CreateMandateRequest,
+    idempotencyKey?: string,
+    options?: AxiosRequestConfig,
+  ) {
     return CustomerApiFp(this.configuration)
-      .createMandate(createMandateRequest, options)
+      .createMandate(createMandateRequest, idempotencyKey, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
