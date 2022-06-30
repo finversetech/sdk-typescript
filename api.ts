@@ -3120,11 +3120,13 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
     /**
      * Create new Payment
      * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. If missing we will generate a random one. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     createPayment: async (
       createPaymentRequest: CreatePaymentRequest,
+      idempotencyKey?: string,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'createPaymentRequest' is not null or undefined
@@ -3144,6 +3146,10 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (idempotencyKey !== undefined && idempotencyKey !== null) {
+        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
+      }
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
 
@@ -3579,14 +3585,20 @@ export const CustomerApiFp = function (configuration?: Configuration) {
     /**
      * Create new Payment
      * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. If missing we will generate a random one. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async createPayment(
       createPaymentRequest: CreatePaymentRequest,
+      idempotencyKey?: string,
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePaymentResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createPayment(createPaymentRequest, options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createPayment(
+        createPaymentRequest,
+        idempotencyKey,
+        options,
+      );
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
@@ -3753,11 +3765,18 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
     /**
      * Create new Payment
      * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. If missing we will generate a random one. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createPayment(createPaymentRequest: CreatePaymentRequest, options?: any): AxiosPromise<CreatePaymentResponse> {
-      return localVarFp.createPayment(createPaymentRequest, options).then((request) => request(axios, basePath));
+    createPayment(
+      createPaymentRequest: CreatePaymentRequest,
+      idempotencyKey?: string,
+      options?: any,
+    ): AxiosPromise<CreatePaymentResponse> {
+      return localVarFp
+        .createPayment(createPaymentRequest, idempotencyKey, options)
+        .then((request) => request(axios, basePath));
     },
     /**
      * Create a new payment instruction to be used when linking to perform new payment
@@ -3891,12 +3910,14 @@ export interface CustomerApiInterface {
   /**
    * Create new Payment
    * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
+   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. If missing we will generate a random one. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
   createPayment(
     createPaymentRequest: CreatePaymentRequest,
+    idempotencyKey?: string,
     options?: AxiosRequestConfig,
   ): AxiosPromise<CreatePaymentResponse>;
 
@@ -4035,13 +4056,18 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   /**
    * Create new Payment
    * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
+   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. If missing we will generate a random one. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public createPayment(createPaymentRequest: CreatePaymentRequest, options?: AxiosRequestConfig) {
+  public createPayment(
+    createPaymentRequest: CreatePaymentRequest,
+    idempotencyKey?: string,
+    options?: AxiosRequestConfig,
+  ) {
     return CustomerApiFp(this.configuration)
-      .createPayment(createPaymentRequest, options)
+      .createPayment(createPaymentRequest, idempotencyKey, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
