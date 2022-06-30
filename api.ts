@@ -1039,6 +1039,12 @@ export interface GetPaymentResponse {
    */
   type?: GetPaymentResponseTypeEnum;
   /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof GetPaymentResponse
+   */
+  last_update?: string;
+  /**
    * Possible values - CREATED, AUTHORIZED, SUBMITTED, EXECUTED, FAILED, REJECTED, CANCELLED.
    * @type {string}
    * @memberof GetPaymentResponse
