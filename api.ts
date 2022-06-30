@@ -434,6 +434,69 @@ export interface CreateCustomerResponse {
 /**
  *
  * @export
+ * @interface CreateMandateRequest
+ */
+export interface CreateMandateRequest {
+  /**
+   *
+   * @type {MandateRecipient}
+   * @memberof CreateMandateRequest
+   */
+  recipient: MandateRecipient;
+  /**
+   *
+   * @type {CreateMandateSender}
+   * @memberof CreateMandateRequest
+   */
+  sender: CreateMandateSender;
+  /**
+   *
+   * @type {MandateDetails}
+   * @memberof CreateMandateRequest
+   */
+  mandate_details: MandateDetails;
+}
+/**
+ *
+ * @export
+ * @interface CreateMandateResponse
+ */
+export interface CreateMandateResponse {
+  /**
+   * Finverse Mandate ID
+   * @type {string}
+   * @memberof CreateMandateResponse
+   */
+  mandate_id?: string;
+}
+/**
+ *
+ * @export
+ * @interface CreateMandateSender
+ */
+export interface CreateMandateSender {
+  /**
+   *
+   * @type {string}
+   * @memberof CreateMandateSender
+   */
+  name?: string;
+  /**
+   * Customer App\'s user ID, representing the end-user making the payment.
+   * @type {string}
+   * @memberof CreateMandateSender
+   */
+  user_id: string;
+  /**
+   * Customer App\'s reference ID, representing the sender\'s account or billing reference number.
+   * @type {string}
+   * @memberof CreateMandateSender
+   */
+  sender_reference_id?: string;
+}
+/**
+ *
+ * @export
  * @interface CreatePaymentInstructionResponse
  */
 export interface CreatePaymentInstructionResponse {
@@ -856,6 +919,60 @@ export interface GetLoginIdentityHistoryResponse {
 /**
  *
  * @export
+ * @interface GetMandateResponse
+ */
+export interface GetMandateResponse {
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof GetMandateResponse
+   */
+  last_update: string;
+  /**
+   * Finverse Mandate ID (ULID)
+   * @type {string}
+   * @memberof GetMandateResponse
+   */
+  mandate_id: string;
+  /**
+   * Mandate status
+   * @type {string}
+   * @memberof GetMandateResponse
+   */
+  mandate_status: GetMandateResponseMandateStatusEnum;
+  /**
+   *
+   * @type {MandateRecipient}
+   * @memberof GetMandateResponse
+   */
+  recipient: MandateRecipient;
+  /**
+   *
+   * @type {GetMandateSender}
+   * @memberof GetMandateResponse
+   */
+  sender: GetMandateSender;
+  /**
+   *
+   * @type {MandateDetails}
+   * @memberof GetMandateResponse
+   */
+  mandate_details: MandateDetails;
+}
+
+export const GetMandateResponseMandateStatusEnum = {
+  Created: 'CREATED',
+  Used: 'USED',
+  Submitted: 'SUBMITTED',
+  Error: 'ERROR',
+} as const;
+
+export type GetMandateResponseMandateStatusEnum =
+  typeof GetMandateResponseMandateStatusEnum[keyof typeof GetMandateResponseMandateStatusEnum];
+
+/**
+ *
+ * @export
  * @interface GetMandateSender
  */
 export interface GetMandateSender {
@@ -884,60 +1001,6 @@ export interface GetMandateSender {
    */
   sender_account: PaymentAccount;
 }
-/**
- *
- * @export
- * @interface GetMandatesResponse
- */
-export interface GetMandatesResponse {
-  /**
-   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof GetMandatesResponse
-   */
-  last_update: string;
-  /**
-   * Finverse Mandate ID (ULID)
-   * @type {string}
-   * @memberof GetMandatesResponse
-   */
-  mandate_id: string;
-  /**
-   * Mandate status
-   * @type {string}
-   * @memberof GetMandatesResponse
-   */
-  mandate_status: GetMandatesResponseMandateStatusEnum;
-  /**
-   *
-   * @type {MandateRecipient}
-   * @memberof GetMandatesResponse
-   */
-  recipient: MandateRecipient;
-  /**
-   *
-   * @type {GetMandateSender}
-   * @memberof GetMandatesResponse
-   */
-  sender: GetMandateSender;
-  /**
-   *
-   * @type {MandateDetails}
-   * @memberof GetMandatesResponse
-   */
-  mandate_details: MandateDetails;
-}
-
-export const GetMandatesResponseMandateStatusEnum = {
-  Created: 'CREATED',
-  Used: 'USED',
-  Submitted: 'SUBMITTED',
-  Error: 'ERROR',
-} as const;
-
-export type GetMandatesResponseMandateStatusEnum =
-  typeof GetMandatesResponseMandateStatusEnum[keyof typeof GetMandatesResponseMandateStatusEnum];
-
 /**
  *
  * @export
@@ -2567,69 +2630,6 @@ export type PaymentScheduleFrequencyEnum =
 /**
  *
  * @export
- * @interface PostMandateSender
- */
-export interface PostMandateSender {
-  /**
-   *
-   * @type {string}
-   * @memberof PostMandateSender
-   */
-  name?: string;
-  /**
-   * Customer App\'s user ID, representing the end-user making the payment.
-   * @type {string}
-   * @memberof PostMandateSender
-   */
-  user_id: string;
-  /**
-   * Customer App\'s reference ID, representing the sender\'s account or billing reference number.
-   * @type {string}
-   * @memberof PostMandateSender
-   */
-  sender_reference_id?: string;
-}
-/**
- *
- * @export
- * @interface PostMandatesRequest
- */
-export interface PostMandatesRequest {
-  /**
-   *
-   * @type {MandateRecipient}
-   * @memberof PostMandatesRequest
-   */
-  recipient: MandateRecipient;
-  /**
-   *
-   * @type {PostMandateSender}
-   * @memberof PostMandatesRequest
-   */
-  sender: PostMandateSender;
-  /**
-   *
-   * @type {MandateDetails}
-   * @memberof PostMandatesRequest
-   */
-  mandate_details: MandateDetails;
-}
-/**
- *
- * @export
- * @interface PostMandatesResponse
- */
-export interface PostMandatesResponse {
-  /**
-   * Finverse Mandate ID
-   * @type {string}
-   * @memberof PostMandatesResponse
-   */
-  mandate_id?: string;
-}
-/**
- *
- * @export
  * @interface Principal
  */
 export interface Principal {
@@ -3078,6 +3078,46 @@ export type TransactionLimitsPeriodEnum = typeof TransactionLimitsPeriodEnum[key
 export const CustomerApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
+     * CREATE Mandate
+     * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createMandate: async (
+      createMandateRequest: CreateMandateRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'createMandateRequest' is not null or undefined
+      assertParamExists('createMandate', 'createMandateRequest', createMandateRequest);
+      const localVarPath = `/mandates`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(createMandateRequest, localVarRequestOptions, configuration);
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Create new Payment
      * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
      * @param {*} [options] Override http request option.
@@ -3312,14 +3352,14 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
-     * Get Mandates details by mandate_id
+     * Get Mandate details by mandate_id
      * @param {string} mandateId mandate id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getMandates: async (mandateId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getMandate: async (mandateId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'mandateId' is not null or undefined
-      assertParamExists('getMandates', 'mandateId', mandateId);
+      assertParamExists('getMandate', 'mandateId', mandateId);
       const localVarPath = `/mandates/{mandateId}`.replace(`{${'mandateId'}}`, encodeURIComponent(String(mandateId)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -3477,46 +3517,6 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
-     * CREATE Mandates
-     * @param {PostMandatesRequest} postMandatesRequest request body for creating mandate
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    postMandates: async (
-      postMandatesRequest: PostMandatesRequest,
-      options: AxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'postMandatesRequest' is not null or undefined
-      assertParamExists('postMandates', 'postMandatesRequest', postMandatesRequest);
-      const localVarPath = `/mandates`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(postMandatesRequest, localVarRequestOptions, configuration);
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
      * Refresh an access token
      * @param {RefreshRequest} refreshRequest The refresh token
      * @param {*} [options] Override http request option.
@@ -3563,6 +3563,19 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
 export const CustomerApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = CustomerApiAxiosParamCreator(configuration);
   return {
+    /**
+     * CREATE Mandate
+     * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createMandate(
+      createMandateRequest: CreateMandateRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateMandateResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createMandate(createMandateRequest, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
     /**
      * Create new Payment
      * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
@@ -3642,16 +3655,16 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
-     * Get Mandates details by mandate_id
+     * Get Mandate details by mandate_id
      * @param {string} mandateId mandate id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getMandates(
+    async getMandate(
       mandateId: string,
       options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandatesResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getMandates(mandateId, options);
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getMandate(mandateId, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
@@ -3706,19 +3719,6 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
-     * CREATE Mandates
-     * @param {PostMandatesRequest} postMandatesRequest request body for creating mandate
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async postMandates(
-      postMandatesRequest: PostMandatesRequest,
-      options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PostMandatesResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.postMandates(postMandatesRequest, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-    },
-    /**
      * Refresh an access token
      * @param {RefreshRequest} refreshRequest The refresh token
      * @param {*} [options] Override http request option.
@@ -3741,6 +3741,15 @@ export const CustomerApiFp = function (configuration?: Configuration) {
 export const CustomerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
   const localVarFp = CustomerApiFp(configuration);
   return {
+    /**
+     * CREATE Mandate
+     * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createMandate(createMandateRequest: CreateMandateRequest, options?: any): AxiosPromise<CreateMandateResponse> {
+      return localVarFp.createMandate(createMandateRequest, options).then((request) => request(axios, basePath));
+    },
     /**
      * Create new Payment
      * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
@@ -3801,13 +3810,13 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
       return localVarFp.getLoginIdentityHistory(loginIdentityId, options).then((request) => request(axios, basePath));
     },
     /**
-     * Get Mandates details by mandate_id
+     * Get Mandate details by mandate_id
      * @param {string} mandateId mandate id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getMandates(mandateId: string, options?: any): AxiosPromise<GetMandatesResponse> {
-      return localVarFp.getMandates(mandateId, options).then((request) => request(axios, basePath));
+    getMandate(mandateId: string, options?: any): AxiosPromise<GetMandateResponse> {
+      return localVarFp.getMandate(mandateId, options).then((request) => request(axios, basePath));
     },
     /**
      * Get Payment details by payment_id
@@ -3850,15 +3859,6 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
         .then((request) => request(axios, basePath));
     },
     /**
-     * CREATE Mandates
-     * @param {PostMandatesRequest} postMandatesRequest request body for creating mandate
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    postMandates(postMandatesRequest: PostMandatesRequest, options?: any): AxiosPromise<PostMandatesResponse> {
-      return localVarFp.postMandates(postMandatesRequest, options).then((request) => request(axios, basePath));
-    },
-    /**
      * Refresh an access token
      * @param {RefreshRequest} refreshRequest The refresh token
      * @param {*} [options] Override http request option.
@@ -3876,6 +3876,18 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
  * @interface CustomerApi
  */
 export interface CustomerApiInterface {
+  /**
+   * CREATE Mandate
+   * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  createMandate(
+    createMandateRequest: CreateMandateRequest,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<CreateMandateResponse>;
+
   /**
    * Create new Payment
    * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
@@ -3943,13 +3955,13 @@ export interface CustomerApiInterface {
   ): AxiosPromise<GetLoginIdentityHistoryResponse>;
 
   /**
-   * Get Mandates details by mandate_id
+   * Get Mandate details by mandate_id
    * @param {string} mandateId mandate id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
-  getMandates(mandateId: string, options?: AxiosRequestConfig): AxiosPromise<GetMandatesResponse>;
+  getMandate(mandateId: string, options?: AxiosRequestConfig): AxiosPromise<GetMandateResponse>;
 
   /**
    * Get Payment details by payment_id
@@ -3991,18 +4003,6 @@ export interface CustomerApiInterface {
   ): AxiosPromise<Array<Institution>>;
 
   /**
-   * CREATE Mandates
-   * @param {PostMandatesRequest} postMandatesRequest request body for creating mandate
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  postMandates(
-    postMandatesRequest: PostMandatesRequest,
-    options?: AxiosRequestConfig,
-  ): AxiosPromise<PostMandatesResponse>;
-
-  /**
    * Refresh an access token
    * @param {RefreshRequest} refreshRequest The refresh token
    * @param {*} [options] Override http request option.
@@ -4019,6 +4019,19 @@ export interface CustomerApiInterface {
  * @extends {BaseAPI}
  */
 export class CustomerApi extends BaseAPI implements CustomerApiInterface {
+  /**
+   * CREATE Mandate
+   * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public createMandate(createMandateRequest: CreateMandateRequest, options?: AxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .createMandate(createMandateRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
   /**
    * Create new Payment
    * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
@@ -4098,15 +4111,15 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   }
 
   /**
-   * Get Mandates details by mandate_id
+   * Get Mandate details by mandate_id
    * @param {string} mandateId mandate id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public getMandates(mandateId: string, options?: AxiosRequestConfig) {
+  public getMandate(mandateId: string, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
-      .getMandates(mandateId, options)
+      .getMandate(mandateId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -4155,19 +4168,6 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   ) {
     return CustomerApiFp(this.configuration)
       .listInstitutions(country, countries, productsSupported, institutionType, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * CREATE Mandates
-   * @param {PostMandatesRequest} postMandatesRequest request body for creating mandate
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public postMandates(postMandatesRequest: PostMandatesRequest, options?: AxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .postMandates(postMandatesRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
