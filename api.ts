@@ -121,6 +121,12 @@ export interface Account {
    * @type {string}
    * @memberof Account
    */
+  account_number_masked?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Account
+   */
   country?: string;
   /**
    *

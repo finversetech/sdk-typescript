@@ -27,7 +27,7 @@
     "axios-mock-adapter": "^1.21.1",
     "chai": "^4.3.6",
     "mocha": "^10.0.0",
-    "ts-node": "^10.8.1",
+    "ts-node": "^10.8.2",
     "typescript": "^3.6.4"
   },
   "files": [
