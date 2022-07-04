@@ -17,3 +17,7 @@ export function getStatements(): GetStatementsResponse {
     login_identity: accountData.login_identity,
   };
 }
+
+export function getStatementAsBuffer(): ArrayBuffer {
+  return new TextEncoder().encode("this is statement");
+}

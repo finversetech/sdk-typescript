@@ -5,8 +5,7 @@ import { config } from './config';
 import { Configuration } from '..';
 import { LoginIdentityApi } from '../api';
 import { loginIdentityToken } from './responses/loginIdentityToken';
-import { getStatements } from './responses/statement';
-import { getStatementLinkByStatementId } from './responses/statementLink';
+import { getStatements, getStatementAsBuffer } from './responses/statement';
 import { expect } from 'chai';
 
 describe('Statements', function () {
@@ -29,10 +28,10 @@ describe('Statements', function () {
     // Assuming there is only one statement
     const statementId = gotStatements.data.statements[0].id;
 
-    mock.onGet(`${config.apiHost}/statement_links/${statementId}`).reply(200, getStatementLinkByStatementId());
-    const gotStatementLink = await new LoginIdentityApi(configuration).getStatementLink(statementId);
+    mock.onGet(`${config.apiHost}/statements/${statementId}`).reply(200, getStatementAsBuffer());
+    const gotStatementLink = await new LoginIdentityApi(configuration).getStatement(statementId);
 
-    expect(gotStatementLink.data.statement_links).to.be.ok;
+    expect(gotStatementLink.data).to.be.ok;
   });
 
   after(() => {

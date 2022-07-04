@@ -159,7 +159,8 @@ console.log("statements: "  + statementsResp.statements)
 const statementId = statements.data.statements[0].id;
 
 // Can download statement from here 
-const satementLink = await new LoginIdentityApi(configuration).getStatementLink(statementId);
+const statementResp = await new LoginIdentityApi(configuration).getStatement(statementId, true, {responseType: "arraybuffer"});
+writeFileSync("statement.pdf", Buffer.from(statementResp.data));
 ```
 
 ## Getting started (Payment flow)
