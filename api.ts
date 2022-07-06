@@ -5170,43 +5170,6 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       };
     },
     /**
-     * (Deprecated) Get statement link for download
-     * @param {string} statementId The statement id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getStatementLink: async (statementId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'statementId' is not null or undefined
-      assertParamExists('getStatementLink', 'statementId', statementId);
-      const localVarPath = `/statement_links/{statementId}`.replace(
-        `{${'statementId'}}`,
-        encodeURIComponent(String(statementId)),
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
      * Get list of available statements
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5531,19 +5494,6 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
-     * (Deprecated) Get statement link for download
-     * @param {string} statementId The statement id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getStatementLink(
-      statementId: string,
-      options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetStatementLinkResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getStatementLink(statementId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-    },
-    /**
      * Get list of available statements
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5719,15 +5669,6 @@ export const LoginIdentityApiFactory = function (
       return localVarFp.getStatement(statementId, redirect, options).then((request) => request(axios, basePath));
     },
     /**
-     * (Deprecated) Get statement link for download
-     * @param {string} statementId The statement id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getStatementLink(statementId: string, options?: any): AxiosPromise<GetStatementLinkResponse> {
-      return localVarFp.getStatementLink(statementId, options).then((request) => request(axios, basePath));
-    },
-    /**
      * Get list of available statements
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -5884,15 +5825,6 @@ export interface LoginIdentityApiInterface {
     redirect?: boolean,
     options?: AxiosRequestConfig,
   ): AxiosPromise<GetStatementLinkResponse>;
-
-  /**
-   * (Deprecated) Get statement link for download
-   * @param {string} statementId The statement id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
-   */
-  getStatementLink(statementId: string, options?: AxiosRequestConfig): AxiosPromise<GetStatementLinkResponse>;
 
   /**
    * Get list of available statements
@@ -6080,19 +6012,6 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
   public getStatement(statementId: string, redirect?: boolean, options?: AxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .getStatement(statementId, redirect, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * (Deprecated) Get statement link for download
-   * @param {string} statementId The statement id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LoginIdentityApi
-   */
-  public getStatementLink(statementId: string, options?: AxiosRequestConfig) {
-    return LoginIdentityApiFp(this.configuration)
-      .getStatementLink(statementId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
