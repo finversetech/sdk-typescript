@@ -887,6 +887,19 @@ export interface GetIdentityResponse {
 /**
  *
  * @export
+ * @interface GetJWKSResponse
+ */
+export interface GetJWKSResponse {
+  /**
+   *
+   * @type {Array<JWKSKey>}
+   * @memberof GetJWKSResponse
+   */
+  keys?: Array<JWKSKey>;
+}
+/**
+ *
+ * @export
  * @interface GetLoginIdentityByIdResponse
  */
 export interface GetLoginIdentityByIdResponse {
@@ -1684,6 +1697,49 @@ export interface InstitutionShort {
    * @memberof InstitutionShort
    */
   portal_name?: string;
+}
+/**
+ *
+ * @export
+ * @interface JWKSKey
+ */
+export interface JWKSKey {
+  /**
+   * The \"kty\" (key type) parameter identifies the cryptographic algorithm family used with the key, such as \"RSA\" or \"EC\".
+   * @type {string}
+   * @memberof JWKSKey
+   */
+  kty?: string;
+  /**
+   * The \"kid\" (key ID) parameter is used to match a specific key
+   * @type {string}
+   * @memberof JWKSKey
+   */
+  kid?: string;
+  /**
+   * The \"use\" (public key use) parameter identifies the intended use of the public key
+   * @type {string}
+   * @memberof JWKSKey
+   */
+  use?: string;
+  /**
+   * RSA key value \"e\"
+   * @type {string}
+   * @memberof JWKSKey
+   */
+  e?: string;
+  /**
+   * RSA key value \"n\"
+   * @type {string}
+   * @memberof JWKSKey
+   */
+  n?: string;
+  /**
+   * The \"x5c\" (X.509 certificate chain) parameter contains a chain of one or more PKIX certificates
+   * @type {Array<string>}
+   * @memberof JWKSKey
+   */
+  x5c?: Array<string>;
 }
 /**
  *
@@ -6190,6 +6246,37 @@ export const PublicApiAxiosParamCreator = function (configuration?: Configuratio
         options: localVarRequestOptions,
       };
     },
+    /**
+     * get payment jwks
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPaymentsJwks: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/payments/jwks`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', ['test'], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
   };
 };
 
@@ -6241,6 +6328,17 @@ export const PublicApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs = await localVarAxiosParamCreator.generateCustomerAccessToken(tokenRequest, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
+    /**
+     * get payment jwks
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getPaymentsJwks(
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetJWKSResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentsJwks(options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
   };
 };
 
@@ -6282,6 +6380,14 @@ export const PublicApiFactory = function (configuration?: Configuration, basePat
     generateCustomerAccessToken(tokenRequest?: TokenRequest, options?: any): AxiosPromise<TokenResponse> {
       return localVarFp.generateCustomerAccessToken(tokenRequest, options).then((request) => request(axios, basePath));
     },
+    /**
+     * get payment jwks
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPaymentsJwks(options?: any): AxiosPromise<GetJWKSResponse> {
+      return localVarFp.getPaymentsJwks(options).then((request) => request(axios, basePath));
+    },
   };
 };
 
@@ -6319,6 +6425,14 @@ export interface PublicApiInterface {
    * @memberof PublicApiInterface
    */
   generateCustomerAccessToken(tokenRequest?: TokenRequest, options?: AxiosRequestConfig): AxiosPromise<TokenResponse>;
+
+  /**
+   * get payment jwks
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PublicApiInterface
+   */
+  getPaymentsJwks(options?: AxiosRequestConfig): AxiosPromise<GetJWKSResponse>;
 }
 
 /**
@@ -6362,6 +6476,18 @@ export class PublicApi extends BaseAPI implements PublicApiInterface {
   public generateCustomerAccessToken(tokenRequest?: TokenRequest, options?: AxiosRequestConfig) {
     return PublicApiFp(this.configuration)
       .generateCustomerAccessToken(tokenRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * get payment jwks
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PublicApi
+   */
+  public getPaymentsJwks(options?: AxiosRequestConfig) {
+    return PublicApiFp(this.configuration)
+      .getPaymentsJwks(options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
