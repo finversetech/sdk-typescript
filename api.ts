@@ -266,6 +266,96 @@ export interface AllProductStatus {
 /**
  *
  * @export
+ * @interface AuthChecklistFactor
+ */
+export interface AuthChecklistFactor {
+  /**
+   * Type of authorization factor
+   * @type {string}
+   * @memberof AuthChecklistFactor
+   */
+  type: AuthChecklistFactorTypeEnum;
+  /**
+   * Allows grouping similar checklist item types together
+   * @type {string}
+   * @memberof AuthChecklistFactor
+   */
+  group_id: string;
+  /**
+   * Indicates whether authorization factor is known to be required at this time.  Possible values are YES, NO, OPTIONAL
+   * @type {string}
+   * @memberof AuthChecklistFactor
+   */
+  required: AuthChecklistFactorRequiredEnum;
+  /**
+   * Array of the options accepted for a specific authorization factor
+   * @type {Array<AuthChecklistOptions>}
+   * @memberof AuthChecklistFactor
+   */
+  options: Array<AuthChecklistOptions>;
+}
+
+export const AuthChecklistFactorTypeEnum = {
+  AccountIdentification: 'ACCOUNT_IDENTIFICATION',
+  UserIdentification: 'USER_IDENTIFICATION',
+  EnduserConsent: 'ENDUSER_CONSENT',
+  AccountholderAuthentication: 'ACCOUNTHOLDER_AUTHENTICATION',
+} as const;
+
+export type AuthChecklistFactorTypeEnum = typeof AuthChecklistFactorTypeEnum[keyof typeof AuthChecklistFactorTypeEnum];
+export const AuthChecklistFactorRequiredEnum = {
+  Yes: 'YES',
+  No: 'NO',
+  Optional: 'OPTIONAL',
+} as const;
+
+export type AuthChecklistFactorRequiredEnum =
+  typeof AuthChecklistFactorRequiredEnum[keyof typeof AuthChecklistFactorRequiredEnum];
+
+/**
+ *
+ * @export
+ * @interface AuthChecklistOptions
+ */
+export interface AuthChecklistOptions {
+  /**
+   * Name of authorization factor. Possible values are INSTITUTION_CREDENTIALS_LOGIN, INSTITUTION_OAUTH_LOGIN,
+   * @type {string}
+   * @memberof AuthChecklistOptions
+   */
+  name: AuthChecklistOptionsNameEnum;
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ) for when the authorization factor was submitted to Finverse
+   * @type {string}
+   * @memberof AuthChecklistOptions
+   */
+  submitted_at: string;
+  /**
+   * Indicates who submitted the authorization factor to Finverse. Possible values are CUSTOMER_APP, FINVERSE_LINK
+   * @type {string}
+   * @memberof AuthChecklistOptions
+   */
+  submitted_by: AuthChecklistOptionsSubmittedByEnum;
+}
+
+export const AuthChecklistOptionsNameEnum = {
+  CredentialsLogin: 'INSTITUTION_CREDENTIALS_LOGIN',
+  OauthLogin: 'INSTITUTION_OAUTH_LOGIN',
+} as const;
+
+export type AuthChecklistOptionsNameEnum =
+  typeof AuthChecklistOptionsNameEnum[keyof typeof AuthChecklistOptionsNameEnum];
+export const AuthChecklistOptionsSubmittedByEnum = {
+  CustomerApp: 'CUSTOMER_APP',
+  FinverseLink: 'FINVERSE_LINK',
+} as const;
+
+export type AuthChecklistOptionsSubmittedByEnum =
+  typeof AuthChecklistOptionsSubmittedByEnum[keyof typeof AuthChecklistOptionsSubmittedByEnum];
+
+/**
+ *
+ * @export
  * @interface BadRequestModel
  */
 export interface BadRequestModel {
@@ -938,6 +1028,79 @@ export interface GetLoginIdentityHistoryResponse {
 /**
  *
  * @export
+ * @interface GetMandateAuthResponse
+ */
+export interface GetMandateAuthResponse {
+  /**
+   * Finverse Mandate ID
+   * @type {string}
+   * @memberof GetMandateAuthResponse
+   */
+  mandate_id: string;
+  /**
+   * Mandate status
+   * @type {string}
+   * @memberof GetMandateAuthResponse
+   */
+  mandate_status: GetMandateAuthResponseMandateStatusEnum;
+  /**
+   * Merchant account ID assigned by Finverse
+   * @type {string}
+   * @memberof GetMandateAuthResponse
+   */
+  recipient_account_id: string;
+  /**
+   * Finverse Institution ID. Only returned if institution_id was included in the request.
+   * @type {string}
+   * @memberof GetMandateAuthResponse
+   */
+  institution_id: string;
+  /**
+   * Type of account held by the Sender at the Institution. Possible values are PERSONAL, BUSINESS
+   * @type {string}
+   * @memberof GetMandateAuthResponse
+   */
+  sender_type: GetMandateAuthResponseSenderTypeEnum;
+  /**
+   * Checklist of the authorization factors needed to complete Mandate authorization
+   * @type {Array<AuthChecklistFactor>}
+   * @memberof GetMandateAuthResponse
+   */
+  auth_checklist: Array<AuthChecklistFactor>;
+  /**
+   *
+   * @type {MandateAuthEncryptionInfo}
+   * @memberof GetMandateAuthResponse
+   */
+  encryption_info: MandateAuthEncryptionInfo;
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof GetMandateAuthResponse
+   */
+  last_update: string;
+}
+
+export const GetMandateAuthResponseMandateStatusEnum = {
+  Created: 'CREATED',
+  Processing: 'PROCESSING',
+  Submitted: 'SUBMITTED',
+  Error: 'ERROR',
+} as const;
+
+export type GetMandateAuthResponseMandateStatusEnum =
+  typeof GetMandateAuthResponseMandateStatusEnum[keyof typeof GetMandateAuthResponseMandateStatusEnum];
+export const GetMandateAuthResponseSenderTypeEnum = {
+  Personal: 'PERSONAL',
+  Business: 'BUSINESS',
+} as const;
+
+export type GetMandateAuthResponseSenderTypeEnum =
+  typeof GetMandateAuthResponseSenderTypeEnum[keyof typeof GetMandateAuthResponseSenderTypeEnum];
+
+/**
+ *
+ * @export
  * @interface GetMandateResponse
  */
 export interface GetMandateResponse {
@@ -981,7 +1144,7 @@ export interface GetMandateResponse {
 
 export const GetMandateResponseMandateStatusEnum = {
   Created: 'CREATED',
-  Used: 'USED',
+  Processing: 'PROCESSING',
   Submitted: 'SUBMITTED',
   Error: 'ERROR',
 } as const;
@@ -2358,6 +2521,25 @@ export interface LoginMethod {
 /**
  *
  * @export
+ * @interface MandateAuthEncryptionInfo
+ */
+export interface MandateAuthEncryptionInfo {
+  /**
+   *
+   * @type {string}
+   * @memberof MandateAuthEncryptionInfo
+   */
+  jwks_url: string;
+  /**
+   *
+   * @type {string}
+   * @memberof MandateAuthEncryptionInfo
+   */
+  key_id: string;
+}
+/**
+ *
+ * @export
  * @interface MandateDetails
  */
 export interface MandateDetails {
@@ -3466,6 +3648,60 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
+     * Get Mandate Authorization by mandate id
+     * @param {string} mandateId Finverse Mandate ID
+     * @param {string} institutionId Finverse Institution ID
+     * @param {'PERSONAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are PERSONAL, BUSINESS
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getMandateAuth: async (
+      mandateId: string,
+      institutionId: string,
+      senderType?: 'PERSONAL' | 'BUSINESS',
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'mandateId' is not null or undefined
+      assertParamExists('getMandateAuth', 'mandateId', mandateId);
+      // verify required parameter 'institutionId' is not null or undefined
+      assertParamExists('getMandateAuth', 'institutionId', institutionId);
+      const localVarPath = `/mandates/{mandateId}/auth`.replace(
+        `{${'mandateId'}}`,
+        encodeURIComponent(String(mandateId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (institutionId !== undefined) {
+        localVarQueryParameter['institution_id'] = institutionId;
+      }
+
+      if (senderType !== undefined) {
+        localVarQueryParameter['sender_type'] = senderType;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get Payment details by payment_id
      * @param {string} paymentId payment id
      * @param {*} [options] Override http request option.
@@ -3760,6 +3996,28 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Get Mandate Authorization by mandate id
+     * @param {string} mandateId Finverse Mandate ID
+     * @param {string} institutionId Finverse Institution ID
+     * @param {'PERSONAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are PERSONAL, BUSINESS
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMandateAuth(
+      mandateId: string,
+      institutionId: string,
+      senderType?: 'PERSONAL' | 'BUSINESS',
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateAuthResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getMandateAuth(
+        mandateId,
+        institutionId,
+        senderType,
+        options,
+      );
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Get Payment details by payment_id
      * @param {string} paymentId payment id
      * @param {*} [options] Override http request option.
@@ -3925,6 +4183,24 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
       return localVarFp.getMandate(mandateId, options).then((request) => request(axios, basePath));
     },
     /**
+     * Get Mandate Authorization by mandate id
+     * @param {string} mandateId Finverse Mandate ID
+     * @param {string} institutionId Finverse Institution ID
+     * @param {'PERSONAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are PERSONAL, BUSINESS
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getMandateAuth(
+      mandateId: string,
+      institutionId: string,
+      senderType?: 'PERSONAL' | 'BUSINESS',
+      options?: any,
+    ): AxiosPromise<GetMandateAuthResponse> {
+      return localVarFp
+        .getMandateAuth(mandateId, institutionId, senderType, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Get Payment details by payment_id
      * @param {string} paymentId payment id
      * @param {*} [options] Override http request option.
@@ -4072,6 +4348,22 @@ export interface CustomerApiInterface {
    * @memberof CustomerApiInterface
    */
   getMandate(mandateId: string, options?: AxiosRequestConfig): AxiosPromise<GetMandateResponse>;
+
+  /**
+   * Get Mandate Authorization by mandate id
+   * @param {string} mandateId Finverse Mandate ID
+   * @param {string} institutionId Finverse Institution ID
+   * @param {'PERSONAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are PERSONAL, BUSINESS
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  getMandateAuth(
+    mandateId: string,
+    institutionId: string,
+    senderType?: 'PERSONAL' | 'BUSINESS',
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<GetMandateAuthResponse>;
 
   /**
    * Get Payment details by payment_id
@@ -4240,6 +4532,26 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public getMandate(mandateId: string, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getMandate(mandateId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get Mandate Authorization by mandate id
+   * @param {string} mandateId Finverse Mandate ID
+   * @param {string} institutionId Finverse Institution ID
+   * @param {'PERSONAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are PERSONAL, BUSINESS
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public getMandateAuth(
+    mandateId: string,
+    institutionId: string,
+    senderType?: 'PERSONAL' | 'BUSINESS',
+    options?: AxiosRequestConfig,
+  ) {
+    return CustomerApiFp(this.configuration)
+      .getMandateAuth(mandateId, institutionId, senderType, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
