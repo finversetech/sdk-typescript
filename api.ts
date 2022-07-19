@@ -3277,6 +3277,91 @@ export interface StatementLink {
 /**
  *
  * @export
+ * @interface SubmitAuthChecklistRequest
+ */
+export interface SubmitAuthChecklistRequest {
+  /**
+   * The key_id that was used to encrypt the envelope key
+   * @type {string}
+   * @memberof SubmitAuthChecklistRequest
+   */
+  key_id: string;
+  /**
+   * Finverse Institution ID
+   * @type {string}
+   * @memberof SubmitAuthChecklistRequest
+   */
+  institution_id: string;
+  /**
+   * The encrypted envelope key
+   * @type {string}
+   * @memberof SubmitAuthChecklistRequest
+   */
+  envelope_encryption_key: string;
+  /**
+   * The initialization vector used for enncrypting the payload
+   * @type {string}
+   * @memberof SubmitAuthChecklistRequest
+   */
+  initialization_vector: string;
+  /**
+   * The authentication code is used to authenticate the origin of the message
+   * @type {string}
+   * @memberof SubmitAuthChecklistRequest
+   */
+  message_authentication_code: string;
+  /**
+   * The encrypted payload that contains auth checklist items
+   * @type {string}
+   * @memberof SubmitAuthChecklistRequest
+   */
+  ciphertext: string;
+}
+/**
+ *
+ * @export
+ * @interface SubmitAuthChecklistResponse
+ */
+export interface SubmitAuthChecklistResponse {
+  /**
+   * Finverse Mandate ID
+   * @type {string}
+   * @memberof SubmitAuthChecklistResponse
+   */
+  mandate_id: string;
+  /**
+   * Checklist of the authorization factors needed to complete Mandate authorization
+   * @type {Array<AuthChecklistFactor>}
+   * @memberof SubmitAuthChecklistResponse
+   */
+  auth_checklist: Array<AuthChecklistFactor>;
+  /**
+   * Mandate status
+   * @type {string}
+   * @memberof SubmitAuthChecklistResponse
+   */
+  mandate_status: SubmitAuthChecklistResponseMandateStatusEnum;
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof SubmitAuthChecklistResponse
+   */
+  last_update: string;
+}
+
+export const SubmitAuthChecklistResponseMandateStatusEnum = {
+  Created: 'CREATED',
+  Processing: 'PROCESSING',
+  Submitted: 'SUBMITTED',
+  Error: 'ERROR',
+} as const;
+
+export type SubmitAuthChecklistResponseMandateStatusEnum =
+  typeof SubmitAuthChecklistResponseMandateStatusEnum[keyof typeof SubmitAuthChecklistResponseMandateStatusEnum];
+
+/**
+ *
+ * @export
  * @interface TokenRequest
  */
 export interface TokenRequest {
@@ -3484,7 +3569,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
     /**
      * CREATE Mandate
      * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. If missing we will generate a random one. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3530,7 +3615,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
     /**
      * Create new Payment
      * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. If missing we will generate a random one. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4067,6 +4152,57 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
         options: localVarRequestOptions,
       };
     },
+    /**
+     * Submit authorization checklist items
+     * @param {string} mandateId mandate id
+     * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    submitAuthChecklist: async (
+      mandateId: string,
+      submitAuthChecklistRequest: SubmitAuthChecklistRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'mandateId' is not null or undefined
+      assertParamExists('submitAuthChecklist', 'mandateId', mandateId);
+      // verify required parameter 'submitAuthChecklistRequest' is not null or undefined
+      assertParamExists('submitAuthChecklist', 'submitAuthChecklistRequest', submitAuthChecklistRequest);
+      const localVarPath = `/mandates/{mandateId}/auth`.replace(
+        `{${'mandateId'}}`,
+        encodeURIComponent(String(mandateId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        submitAuthChecklistRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
   };
 };
 
@@ -4080,7 +4216,7 @@ export const CustomerApiFp = function (configuration?: Configuration) {
     /**
      * CREATE Mandate
      * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. If missing we will generate a random one. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4099,7 +4235,7 @@ export const CustomerApiFp = function (configuration?: Configuration) {
     /**
      * Create new Payment
      * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. If missing we will generate a random one. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4292,6 +4428,25 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs = await localVarAxiosParamCreator.refreshToken(refreshRequest, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
+    /**
+     * Submit authorization checklist items
+     * @param {string} mandateId mandate id
+     * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async submitAuthChecklist(
+      mandateId: string,
+      submitAuthChecklistRequest: SubmitAuthChecklistRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SubmitAuthChecklistResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.submitAuthChecklist(
+        mandateId,
+        submitAuthChecklistRequest,
+        options,
+      );
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
   };
 };
 
@@ -4305,7 +4460,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
     /**
      * CREATE Mandate
      * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. If missing we will generate a random one. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4321,7 +4476,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
     /**
      * Create new Payment
      * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. If missing we will generate a random one. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4474,6 +4629,22 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
     refreshToken(refreshRequest: RefreshRequest, options?: any): AxiosPromise<AccessTokenResponse> {
       return localVarFp.refreshToken(refreshRequest, options).then((request) => request(axios, basePath));
     },
+    /**
+     * Submit authorization checklist items
+     * @param {string} mandateId mandate id
+     * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    submitAuthChecklist(
+      mandateId: string,
+      submitAuthChecklistRequest: SubmitAuthChecklistRequest,
+      options?: any,
+    ): AxiosPromise<SubmitAuthChecklistResponse> {
+      return localVarFp
+        .submitAuthChecklist(mandateId, submitAuthChecklistRequest, options)
+        .then((request) => request(axios, basePath));
+    },
   };
 };
 
@@ -4486,7 +4657,7 @@ export interface CustomerApiInterface {
   /**
    * CREATE Mandate
    * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
-   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. If missing we will generate a random one. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
@@ -4500,7 +4671,7 @@ export interface CustomerApiInterface {
   /**
    * Create new Payment
    * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
-   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. If missing we will generate a random one. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
@@ -4649,6 +4820,20 @@ export interface CustomerApiInterface {
    * @memberof CustomerApiInterface
    */
   refreshToken(refreshRequest: RefreshRequest, options?: AxiosRequestConfig): AxiosPromise<AccessTokenResponse>;
+
+  /**
+   * Submit authorization checklist items
+   * @param {string} mandateId mandate id
+   * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  submitAuthChecklist(
+    mandateId: string,
+    submitAuthChecklistRequest: SubmitAuthChecklistRequest,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<SubmitAuthChecklistResponse>;
 }
 
 /**
@@ -4661,7 +4846,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   /**
    * CREATE Mandate
    * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
-   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. If missing we will generate a random one. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApi
@@ -4679,7 +4864,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   /**
    * Create new Payment
    * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
-   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. If missing we will generate a random one. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApi
@@ -4863,6 +5048,24 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public refreshToken(refreshRequest: RefreshRequest, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .refreshToken(refreshRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Submit authorization checklist items
+   * @param {string} mandateId mandate id
+   * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public submitAuthChecklist(
+    mandateId: string,
+    submitAuthChecklistRequest: SubmitAuthChecklistRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return CustomerApiFp(this.configuration)
+      .submitAuthChecklist(mandateId, submitAuthChecklistRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
