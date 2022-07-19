@@ -1028,6 +1028,64 @@ export interface GetLoginIdentityHistoryResponse {
 /**
  *
  * @export
+ * @interface GetMandateAuthLinkRequest
+ */
+export interface GetMandateAuthLinkRequest {
+  /**
+   * Mandate ID
+   * @type {string}
+   * @memberof GetMandateAuthLinkRequest
+   */
+  mandate_id: string;
+  /**
+   *
+   * @type {MandateAuthLinkCustomizations}
+   * @memberof GetMandateAuthLinkRequest
+   */
+  link_customizations: MandateAuthLinkCustomizations;
+}
+/**
+ *
+ * @export
+ * @interface GetMandateAuthLinkResponse
+ */
+export interface GetMandateAuthLinkResponse {
+  /**
+   * Short-lived access-token to interact with Finverse Link
+   * @type {string}
+   * @memberof GetMandateAuthLinkResponse
+   */
+  access_token: string;
+  /**
+   * Access token validity duration (in seconds)
+   * @type {number}
+   * @memberof GetMandateAuthLinkResponse
+   */
+  expires_in: number;
+  /**
+   * URL to launch Finverse Link to authorize the mandate
+   * @type {string}
+   * @memberof GetMandateAuthLinkResponse
+   */
+  link_url: string;
+  /**
+   *
+   * @type {string}
+   * @memberof GetMandateAuthLinkResponse
+   */
+  token_type: GetMandateAuthLinkResponseTokenTypeEnum;
+}
+
+export const GetMandateAuthLinkResponseTokenTypeEnum = {
+  Bearer: 'Bearer',
+} as const;
+
+export type GetMandateAuthLinkResponseTokenTypeEnum =
+  typeof GetMandateAuthLinkResponseTokenTypeEnum[keyof typeof GetMandateAuthLinkResponseTokenTypeEnum];
+
+/**
+ *
+ * @export
  * @interface GetMandateAuthResponse
  */
 export interface GetMandateAuthResponse {
@@ -2540,6 +2598,72 @@ export interface MandateAuthEncryptionInfo {
 /**
  *
  * @export
+ * @interface MandateAuthLinkCustomizations
+ */
+export interface MandateAuthLinkCustomizations {
+  /**
+   * institution\'s country filter
+   * @type {Array<string>}
+   * @memberof MandateAuthLinkCustomizations
+   */
+  countries?: Array<string>;
+  /**
+   * Institution to preselect
+   * @type {string}
+   * @memberof MandateAuthLinkCustomizations
+   */
+  institution_id?: string;
+  /**
+   * institution\'s status filter
+   * @type {string}
+   * @memberof MandateAuthLinkCustomizations
+   */
+  institution_status?: string;
+  /**
+   * ISO639-1 language code. Language to display when user open the link, default to English (en) if not specified
+   * @type {string}
+   * @memberof MandateAuthLinkCustomizations
+   */
+  language?: string;
+  /**
+   * Space separated list of the tags of the institutions to view.
+   * @type {string}
+   * @memberof MandateAuthLinkCustomizations
+   */
+  link_mode?: string;
+  /**
+   * institution\'s supported product filter
+   * @type {Array<string>}
+   * @memberof MandateAuthLinkCustomizations
+   */
+  products_supported?: Array<string>;
+  /**
+   * The UI mode link is intended to be used in - \"iframe\" (default), \"auto_redirect\" or \"redirect\" or \"standalone\"
+   * @type {string}
+   * @memberof MandateAuthLinkCustomizations
+   */
+  ui_mode?: MandateAuthLinkCustomizationsUiModeEnum;
+  /**
+   * institution\'s supported user_type filter
+   * @type {Array<string>}
+   * @memberof MandateAuthLinkCustomizations
+   */
+  user_type?: Array<string>;
+}
+
+export const MandateAuthLinkCustomizationsUiModeEnum = {
+  Iframe: 'iframe',
+  Redirect: 'redirect',
+  AutoRedirect: 'auto_redirect',
+  Standalone: 'standalone',
+} as const;
+
+export type MandateAuthLinkCustomizationsUiModeEnum =
+  typeof MandateAuthLinkCustomizationsUiModeEnum[keyof typeof MandateAuthLinkCustomizationsUiModeEnum];
+
+/**
+ *
+ * @export
  * @interface MandateDetails
  */
 export interface MandateDetails {
@@ -3702,6 +3826,50 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
+     * Get link to launch FV Link UI in mandate authorization mode
+     * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getMandateAuthLink: async (
+      getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'getMandateAuthLinkRequest' is not null or undefined
+      assertParamExists('getMandateAuthLink', 'getMandateAuthLinkRequest', getMandateAuthLinkRequest);
+      const localVarPath = `/mandates/link`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        getMandateAuthLinkRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get Payment details by payment_id
      * @param {string} paymentId payment id
      * @param {*} [options] Override http request option.
@@ -4018,6 +4186,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Get link to launch FV Link UI in mandate authorization mode
+     * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMandateAuthLink(
+      getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateAuthLinkResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getMandateAuthLink(getMandateAuthLinkRequest, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Get Payment details by payment_id
      * @param {string} paymentId payment id
      * @param {*} [options] Override http request option.
@@ -4201,6 +4382,20 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
         .then((request) => request(axios, basePath));
     },
     /**
+     * Get link to launch FV Link UI in mandate authorization mode
+     * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getMandateAuthLink(
+      getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
+      options?: any,
+    ): AxiosPromise<GetMandateAuthLinkResponse> {
+      return localVarFp
+        .getMandateAuthLink(getMandateAuthLinkRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Get Payment details by payment_id
      * @param {string} paymentId payment id
      * @param {*} [options] Override http request option.
@@ -4364,6 +4559,18 @@ export interface CustomerApiInterface {
     senderType?: 'PERSONAL' | 'BUSINESS',
     options?: AxiosRequestConfig,
   ): AxiosPromise<GetMandateAuthResponse>;
+
+  /**
+   * Get link to launch FV Link UI in mandate authorization mode
+   * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  getMandateAuthLink(
+    getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<GetMandateAuthLinkResponse>;
 
   /**
    * Get Payment details by payment_id
@@ -4552,6 +4759,19 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   ) {
     return CustomerApiFp(this.configuration)
       .getMandateAuth(mandateId, institutionId, senderType, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get link to launch FV Link UI in mandate authorization mode
+   * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public getMandateAuthLink(getMandateAuthLinkRequest: GetMandateAuthLinkRequest, options?: AxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .getMandateAuthLink(getMandateAuthLinkRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
