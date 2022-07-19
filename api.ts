@@ -589,7 +589,22 @@ export interface CreateMandateSender {
    * @memberof CreateMandateSender
    */
   sender_reference_id?: string;
+  /**
+   * Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are PERSONAL, BUSINESS
+   * @type {string}
+   * @memberof CreateMandateSender
+   */
+  sender_type?: CreateMandateSenderSenderTypeEnum;
 }
+
+export const CreateMandateSenderSenderTypeEnum = {
+  Personal: 'PERSONAL',
+  Business: 'BUSINESS',
+} as const;
+
+export type CreateMandateSenderSenderTypeEnum =
+  typeof CreateMandateSenderSenderTypeEnum[keyof typeof CreateMandateSenderSenderTypeEnum];
+
 /**
  *
  * @export
@@ -1240,7 +1255,22 @@ export interface GetMandateSender {
    * @memberof GetMandateSender
    */
   sender_account: PaymentAccount;
+  /**
+   * Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are PERSONAL, BUSINESS
+   * @type {string}
+   * @memberof GetMandateSender
+   */
+  sender_type?: GetMandateSenderSenderTypeEnum;
 }
+
+export const GetMandateSenderSenderTypeEnum = {
+  Personal: 'PERSONAL',
+  Business: 'BUSINESS',
+} as const;
+
+export type GetMandateSenderSenderTypeEnum =
+  typeof GetMandateSenderSenderTypeEnum[keyof typeof GetMandateSenderSenderTypeEnum];
+
 /**
  *
  * @export
