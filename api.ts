@@ -799,19 +799,6 @@ export interface CustomizationDetails {
 /**
  *
  * @export
- * @interface DeleteInstitutionResponse
- */
-export interface DeleteInstitutionResponse {
-  /**
-   *
-   * @type {boolean}
-   * @memberof DeleteInstitutionResponse
-   */
-  success?: boolean;
-}
-/**
- *
- * @export
  * @interface DeleteLoginIdentityResponse
  */
 export interface DeleteLoginIdentityResponse {
@@ -1917,6 +1904,12 @@ export interface Institution {
    * @memberof Institution
    */
   updated_at?: string;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof Institution
+   */
+  payment_rails?: Array<string>;
 }
 /**
  *
