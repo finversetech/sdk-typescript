@@ -329,13 +329,13 @@ export interface AuthChecklistOptions {
    * @type {string}
    * @memberof AuthChecklistOptions
    */
-  submitted_at: string;
+  submitted_at?: string | null;
   /**
    * Indicates who submitted the authorization factor to Finverse. Possible values are CUSTOMER_APP, FINVERSE_LINK
    * @type {string}
    * @memberof AuthChecklistOptions
    */
-  submitted_by: AuthChecklistOptionsSubmittedByEnum;
+  submitted_by?: AuthChecklistOptionsSubmittedByEnum;
 }
 
 export const AuthChecklistOptionsNameEnum = {
