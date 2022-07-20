@@ -1541,6 +1541,12 @@ export interface IdentityDateOfBirth {
    * @type {string}
    * @memberof IdentityDateOfBirth
    */
+  masked_date_of_birth?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof IdentityDateOfBirth
+   */
   source?: string;
   /**
    *
