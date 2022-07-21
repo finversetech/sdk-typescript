@@ -2661,7 +2661,7 @@ export interface MandateAuthLinkCustomizations {
    */
   link_mode?: string;
   /**
-   * institution\'s supported product filter
+   * institution\'s supported product filter. For mandate authorization, this field should contain [\"MANDATE\"]
    * @type {Array<string>}
    * @memberof MandateAuthLinkCustomizations
    */
