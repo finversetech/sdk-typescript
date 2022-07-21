@@ -590,7 +590,7 @@ export interface CreateMandateSender {
    */
   sender_reference_id?: string;
   /**
-   * Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are PERSONAL, BUSINESS
+   * Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are INDIVIDUAL, BUSINESS
    * @type {string}
    * @memberof CreateMandateSender
    */
@@ -598,7 +598,7 @@ export interface CreateMandateSender {
 }
 
 export const CreateMandateSenderSenderTypeEnum = {
-  Personal: 'PERSONAL',
+  Individual: 'INDIVIDUAL',
   Business: 'BUSINESS',
 } as const;
 
@@ -1116,7 +1116,7 @@ export interface GetMandateAuthResponse {
    */
   institution_id: string;
   /**
-   * Type of account held by the Sender at the Institution. Possible values are PERSONAL, BUSINESS
+   * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
    * @type {string}
    * @memberof GetMandateAuthResponse
    */
@@ -1151,7 +1151,7 @@ export const GetMandateAuthResponseMandateStatusEnum = {
 export type GetMandateAuthResponseMandateStatusEnum =
   typeof GetMandateAuthResponseMandateStatusEnum[keyof typeof GetMandateAuthResponseMandateStatusEnum];
 export const GetMandateAuthResponseSenderTypeEnum = {
-  Personal: 'PERSONAL',
+  Individual: 'INDIVIDUAL',
   Business: 'BUSINESS',
 } as const;
 
@@ -1243,7 +1243,7 @@ export interface GetMandateSender {
    */
   sender_account: PaymentAccount;
   /**
-   * Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are PERSONAL, BUSINESS
+   * Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are INDIVIDUAL, BUSINESS
    * @type {string}
    * @memberof GetMandateSender
    */
@@ -1251,7 +1251,7 @@ export interface GetMandateSender {
 }
 
 export const GetMandateSenderSenderTypeEnum = {
-  Personal: 'PERSONAL',
+  Individual: 'INDIVIDUAL',
   Business: 'BUSINESS',
 } as const;
 
@@ -3298,7 +3298,7 @@ export interface SubmitAuthChecklistRequest {
    */
   institution_id: string;
   /**
-   * Type of account held by the Sender at the Institution. Possible values are PERSONAL, BUSINESS
+   * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
    * @type {string}
    * @memberof SubmitAuthChecklistRequest
    */
@@ -3330,7 +3330,7 @@ export interface SubmitAuthChecklistRequest {
 }
 
 export const SubmitAuthChecklistRequestSenderTypeEnum = {
-  Personal: 'PERSONAL',
+  Individual: 'INDIVIDUAL',
   Business: 'BUSINESS',
 } as const;
 
@@ -3909,13 +3909,13 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
     /**
      * Get Mandate Authorization by mandate id
      * @param {string} institutionId Finverse Institution ID
-     * @param {'PERSONAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are PERSONAL, BUSINESS
+     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are INDIVIDUAL, BUSINESS
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getMandateAuth: async (
       institutionId: string,
-      senderType?: 'PERSONAL' | 'BUSINESS',
+      senderType?: 'INDIVIDUAL' | 'BUSINESS',
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'institutionId' is not null or undefined
@@ -4338,13 +4338,13 @@ export const CustomerApiFp = function (configuration?: Configuration) {
     /**
      * Get Mandate Authorization by mandate id
      * @param {string} institutionId Finverse Institution ID
-     * @param {'PERSONAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are PERSONAL, BUSINESS
+     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are INDIVIDUAL, BUSINESS
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getMandateAuth(
       institutionId: string,
-      senderType?: 'PERSONAL' | 'BUSINESS',
+      senderType?: 'INDIVIDUAL' | 'BUSINESS',
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateAuthResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getMandateAuth(institutionId, senderType, options);
@@ -4547,13 +4547,13 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
     /**
      * Get Mandate Authorization by mandate id
      * @param {string} institutionId Finverse Institution ID
-     * @param {'PERSONAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are PERSONAL, BUSINESS
+     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are INDIVIDUAL, BUSINESS
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getMandateAuth(
       institutionId: string,
-      senderType?: 'PERSONAL' | 'BUSINESS',
+      senderType?: 'INDIVIDUAL' | 'BUSINESS',
       options?: any,
     ): AxiosPromise<GetMandateAuthResponse> {
       return localVarFp.getMandateAuth(institutionId, senderType, options).then((request) => request(axios, basePath));
@@ -4738,14 +4738,14 @@ export interface CustomerApiInterface {
   /**
    * Get Mandate Authorization by mandate id
    * @param {string} institutionId Finverse Institution ID
-   * @param {'PERSONAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are PERSONAL, BUSINESS
+   * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are INDIVIDUAL, BUSINESS
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
   getMandateAuth(
     institutionId: string,
-    senderType?: 'PERSONAL' | 'BUSINESS',
+    senderType?: 'INDIVIDUAL' | 'BUSINESS',
     options?: AxiosRequestConfig,
   ): AxiosPromise<GetMandateAuthResponse>;
 
@@ -4946,12 +4946,12 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   /**
    * Get Mandate Authorization by mandate id
    * @param {string} institutionId Finverse Institution ID
-   * @param {'PERSONAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are PERSONAL, BUSINESS
+   * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are INDIVIDUAL, BUSINESS
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public getMandateAuth(institutionId: string, senderType?: 'PERSONAL' | 'BUSINESS', options?: AxiosRequestConfig) {
+  public getMandateAuth(institutionId: string, senderType?: 'INDIVIDUAL' | 'BUSINESS', options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getMandateAuth(institutionId, senderType, options)
       .then((request) => request(this.axios, this.basePath));
