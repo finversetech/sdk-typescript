@@ -3298,6 +3298,12 @@ export interface SubmitAuthChecklistRequest {
    */
   institution_id: string;
   /**
+   * Type of account held by the Sender at the Institution. Possible values are PERSONAL, BUSINESS
+   * @type {string}
+   * @memberof SubmitAuthChecklistRequest
+   */
+  sender_type?: SubmitAuthChecklistRequestSenderTypeEnum;
+  /**
    * The encrypted envelope key
    * @type {string}
    * @memberof SubmitAuthChecklistRequest
@@ -3322,6 +3328,15 @@ export interface SubmitAuthChecklistRequest {
    */
   ciphertext: string;
 }
+
+export const SubmitAuthChecklistRequestSenderTypeEnum = {
+  Personal: 'PERSONAL',
+  Business: 'BUSINESS',
+} as const;
+
+export type SubmitAuthChecklistRequestSenderTypeEnum =
+  typeof SubmitAuthChecklistRequestSenderTypeEnum[keyof typeof SubmitAuthChecklistRequestSenderTypeEnum];
+
 /**
  *
  * @export
