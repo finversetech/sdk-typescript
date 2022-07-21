@@ -3074,6 +3074,12 @@ export interface Principal {
   customization_id?: string;
   /**
    *
+   * @type {string}
+   * @memberof Principal
+   */
+  mandate_id?: string;
+  /**
+   *
    * @type {number}
    * @memberof Principal
    */
@@ -3887,26 +3893,19 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
     },
     /**
      * Get Mandate Authorization by mandate id
-     * @param {string} mandateId Finverse Mandate ID
      * @param {string} institutionId Finverse Institution ID
      * @param {'PERSONAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are PERSONAL, BUSINESS
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getMandateAuth: async (
-      mandateId: string,
       institutionId: string,
       senderType?: 'PERSONAL' | 'BUSINESS',
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'mandateId' is not null or undefined
-      assertParamExists('getMandateAuth', 'mandateId', mandateId);
       // verify required parameter 'institutionId' is not null or undefined
       assertParamExists('getMandateAuth', 'institutionId', institutionId);
-      const localVarPath = `/mandates/{mandateId}/auth`.replace(
-        `{${'mandateId'}}`,
-        encodeURIComponent(String(mandateId)),
-      );
+      const localVarPath = `/mandates/auth`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -4153,24 +4152,17 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
     },
     /**
      * Submit authorization checklist items
-     * @param {string} mandateId mandate id
      * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     submitAuthChecklist: async (
-      mandateId: string,
       submitAuthChecklistRequest: SubmitAuthChecklistRequest,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'mandateId' is not null or undefined
-      assertParamExists('submitAuthChecklist', 'mandateId', mandateId);
       // verify required parameter 'submitAuthChecklistRequest' is not null or undefined
       assertParamExists('submitAuthChecklist', 'submitAuthChecklistRequest', submitAuthChecklistRequest);
-      const localVarPath = `/mandates/{mandateId}/auth`.replace(
-        `{${'mandateId'}}`,
-        encodeURIComponent(String(mandateId)),
-      );
+      const localVarPath = `/mandates/auth`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -4330,24 +4322,17 @@ export const CustomerApiFp = function (configuration?: Configuration) {
     },
     /**
      * Get Mandate Authorization by mandate id
-     * @param {string} mandateId Finverse Mandate ID
      * @param {string} institutionId Finverse Institution ID
      * @param {'PERSONAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are PERSONAL, BUSINESS
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getMandateAuth(
-      mandateId: string,
       institutionId: string,
       senderType?: 'PERSONAL' | 'BUSINESS',
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateAuthResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getMandateAuth(
-        mandateId,
-        institutionId,
-        senderType,
-        options,
-      );
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getMandateAuth(institutionId, senderType, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
@@ -4429,18 +4414,15 @@ export const CustomerApiFp = function (configuration?: Configuration) {
     },
     /**
      * Submit authorization checklist items
-     * @param {string} mandateId mandate id
      * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async submitAuthChecklist(
-      mandateId: string,
       submitAuthChecklistRequest: SubmitAuthChecklistRequest,
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SubmitAuthChecklistResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.submitAuthChecklist(
-        mandateId,
         submitAuthChecklistRequest,
         options,
       );
@@ -4549,21 +4531,17 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
     },
     /**
      * Get Mandate Authorization by mandate id
-     * @param {string} mandateId Finverse Mandate ID
      * @param {string} institutionId Finverse Institution ID
      * @param {'PERSONAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are PERSONAL, BUSINESS
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getMandateAuth(
-      mandateId: string,
       institutionId: string,
       senderType?: 'PERSONAL' | 'BUSINESS',
       options?: any,
     ): AxiosPromise<GetMandateAuthResponse> {
-      return localVarFp
-        .getMandateAuth(mandateId, institutionId, senderType, options)
-        .then((request) => request(axios, basePath));
+      return localVarFp.getMandateAuth(institutionId, senderType, options).then((request) => request(axios, basePath));
     },
     /**
      * Get link to launch FV Link UI in mandate authorization mode
@@ -4630,18 +4608,16 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
     },
     /**
      * Submit authorization checklist items
-     * @param {string} mandateId mandate id
      * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     submitAuthChecklist(
-      mandateId: string,
       submitAuthChecklistRequest: SubmitAuthChecklistRequest,
       options?: any,
     ): AxiosPromise<SubmitAuthChecklistResponse> {
       return localVarFp
-        .submitAuthChecklist(mandateId, submitAuthChecklistRequest, options)
+        .submitAuthChecklist(submitAuthChecklistRequest, options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -4746,7 +4722,6 @@ export interface CustomerApiInterface {
 
   /**
    * Get Mandate Authorization by mandate id
-   * @param {string} mandateId Finverse Mandate ID
    * @param {string} institutionId Finverse Institution ID
    * @param {'PERSONAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are PERSONAL, BUSINESS
    * @param {*} [options] Override http request option.
@@ -4754,7 +4729,6 @@ export interface CustomerApiInterface {
    * @memberof CustomerApiInterface
    */
   getMandateAuth(
-    mandateId: string,
     institutionId: string,
     senderType?: 'PERSONAL' | 'BUSINESS',
     options?: AxiosRequestConfig,
@@ -4822,14 +4796,12 @@ export interface CustomerApiInterface {
 
   /**
    * Submit authorization checklist items
-   * @param {string} mandateId mandate id
    * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
   submitAuthChecklist(
-    mandateId: string,
     submitAuthChecklistRequest: SubmitAuthChecklistRequest,
     options?: AxiosRequestConfig,
   ): AxiosPromise<SubmitAuthChecklistResponse>;
@@ -4958,21 +4930,15 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
 
   /**
    * Get Mandate Authorization by mandate id
-   * @param {string} mandateId Finverse Mandate ID
    * @param {string} institutionId Finverse Institution ID
    * @param {'PERSONAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are PERSONAL, BUSINESS
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public getMandateAuth(
-    mandateId: string,
-    institutionId: string,
-    senderType?: 'PERSONAL' | 'BUSINESS',
-    options?: AxiosRequestConfig,
-  ) {
+  public getMandateAuth(institutionId: string, senderType?: 'PERSONAL' | 'BUSINESS', options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
-      .getMandateAuth(mandateId, institutionId, senderType, options)
+      .getMandateAuth(institutionId, senderType, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -5052,19 +5018,14 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
 
   /**
    * Submit authorization checklist items
-   * @param {string} mandateId mandate id
    * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public submitAuthChecklist(
-    mandateId: string,
-    submitAuthChecklistRequest: SubmitAuthChecklistRequest,
-    options?: AxiosRequestConfig,
-  ) {
+  public submitAuthChecklist(submitAuthChecklistRequest: SubmitAuthChecklistRequest, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
-      .submitAuthChecklist(mandateId, submitAuthChecklistRequest, options)
+      .submitAuthChecklist(submitAuthChecklistRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
