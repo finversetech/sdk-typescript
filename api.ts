@@ -1801,19 +1801,19 @@ export interface Institution {
    * @type {Array<string>}
    * @memberof Institution
    */
-  tags?: Array<string>;
+  tags?: Array<InstitutionTagsEnum>;
   /**
    *
    * @type {string}
    * @memberof Institution
    */
-  institution_type: string;
+  institution_type: InstitutionInstitutionTypeEnum;
   /**
    *
    * @type {Array<string>}
    * @memberof Institution
    */
-  products_supported: Array<string>;
+  products_supported: Array<InstitutionProductsSupportedEnum>;
   /**
    *
    * @type {string}
@@ -1837,13 +1837,13 @@ export interface Institution {
    * @type {string}
    * @memberof Institution
    */
-  user_type: string;
+  user_type: InstitutionUserTypeEnum;
   /**
    *
    * @type {string}
    * @memberof Institution
    */
-  status: string;
+  status: InstitutionStatusEnum;
   /**
    *
    * @type {object}
@@ -1880,13 +1880,45 @@ export interface Institution {
    * @memberof Institution
    */
   updated_at?: string;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof Institution
-   */
-  payment_rails?: Array<string>;
 }
+
+export const InstitutionTagsEnum = {
+  Real: 'real',
+  Test: 'test',
+} as const;
+
+export type InstitutionTagsEnum = typeof InstitutionTagsEnum[keyof typeof InstitutionTagsEnum];
+export const InstitutionInstitutionTypeEnum = {
+  Bank: 'BANK',
+  Wallet: 'WALLET',
+} as const;
+
+export type InstitutionInstitutionTypeEnum =
+  typeof InstitutionInstitutionTypeEnum[keyof typeof InstitutionInstitutionTypeEnum];
+export const InstitutionProductsSupportedEnum = {
+  Accounts: 'ACCOUNTS',
+  Transactions: 'TRANSACTIONS',
+  Statements: 'STATEMENTS',
+  AccountNumbers: 'ACCOUNT_NUMBERS',
+  Identity: 'IDENTITY',
+} as const;
+
+export type InstitutionProductsSupportedEnum =
+  typeof InstitutionProductsSupportedEnum[keyof typeof InstitutionProductsSupportedEnum];
+export const InstitutionUserTypeEnum = {
+  Personal: 'PERSONAL',
+  Business: 'BUSINESS',
+} as const;
+
+export type InstitutionUserTypeEnum = typeof InstitutionUserTypeEnum[keyof typeof InstitutionUserTypeEnum];
+export const InstitutionStatusEnum = {
+  Supported: 'SUPPORTED',
+  Alpha: 'ALPHA',
+  Beta: 'BETA',
+} as const;
+
+export type InstitutionStatusEnum = typeof InstitutionStatusEnum[keyof typeof InstitutionStatusEnum];
+
 /**
  *
  * @export
@@ -3795,7 +3827,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      * @param {string} [country] The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
      * @param {string} [productsSupported] The products that this institution supports
-     * @param {string} [institutionType] The type of institution
+     * @param {'BANK' | 'WALLET'} [institutionType] The type of institution
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3803,7 +3835,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       country?: string,
       countries?: Array<string>,
       productsSupported?: string,
-      institutionType?: string,
+      institutionType?: 'BANK' | 'WALLET',
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/institutions`;
@@ -3977,7 +4009,7 @@ export const CustomerApiFp = function (configuration?: Configuration) {
      * @param {string} [country] The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
      * @param {string} [productsSupported] The products that this institution supports
-     * @param {string} [institutionType] The type of institution
+     * @param {'BANK' | 'WALLET'} [institutionType] The type of institution
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3985,7 +4017,7 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       country?: string,
       countries?: Array<string>,
       productsSupported?: string,
-      institutionType?: string,
+      institutionType?: 'BANK' | 'WALLET',
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Institution>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.listInstitutions(
@@ -4086,7 +4118,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      * @param {string} [country] The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
      * @param {string} [productsSupported] The products that this institution supports
-     * @param {string} [institutionType] The type of institution
+     * @param {'BANK' | 'WALLET'} [institutionType] The type of institution
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4094,7 +4126,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
       country?: string,
       countries?: Array<string>,
       productsSupported?: string,
-      institutionType?: string,
+      institutionType?: 'BANK' | 'WALLET',
       options?: any,
     ): AxiosPromise<Array<Institution>> {
       return localVarFp
@@ -4190,7 +4222,7 @@ export interface CustomerApiInterface {
    * @param {string} [country] The country the institution belongs to
    * @param {Array<string>} [countries] The countries the institution belongs to
    * @param {string} [productsSupported] The products that this institution supports
-   * @param {string} [institutionType] The type of institution
+   * @param {'BANK' | 'WALLET'} [institutionType] The type of institution
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
@@ -4199,7 +4231,7 @@ export interface CustomerApiInterface {
     country?: string,
     countries?: Array<string>,
     productsSupported?: string,
-    institutionType?: string,
+    institutionType?: 'BANK' | 'WALLET',
     options?: AxiosRequestConfig,
   ): AxiosPromise<Array<Institution>>;
 
@@ -4303,7 +4335,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @param {string} [country] The country the institution belongs to
    * @param {Array<string>} [countries] The countries the institution belongs to
    * @param {string} [productsSupported] The products that this institution supports
-   * @param {string} [institutionType] The type of institution
+   * @param {'BANK' | 'WALLET'} [institutionType] The type of institution
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApi
@@ -4312,7 +4344,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
     country?: string,
     countries?: Array<string>,
     productsSupported?: string,
-    institutionType?: string,
+    institutionType?: 'BANK' | 'WALLET',
     options?: AxiosRequestConfig,
   ) {
     return CustomerApiFp(this.configuration)
@@ -4413,7 +4445,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
      * @param {string} [country] The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
      * @param {string} [productsSupported] The products that this institution supports
-     * @param {string} [institutionType] The type of institution
+     * @param {'BANK' | 'WALLET'} [institutionType] The type of institution
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4421,7 +4453,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
       country?: string,
       countries?: Array<string>,
       productsSupported?: string,
-      institutionType?: string,
+      institutionType?: 'BANK' | 'WALLET',
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/institutions`;
@@ -4610,7 +4642,7 @@ export const LinkApiFp = function (configuration?: Configuration) {
      * @param {string} [country] The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
      * @param {string} [productsSupported] The products that this institution supports
-     * @param {string} [institutionType] The type of institution
+     * @param {'BANK' | 'WALLET'} [institutionType] The type of institution
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4618,7 +4650,7 @@ export const LinkApiFp = function (configuration?: Configuration) {
       country?: string,
       countries?: Array<string>,
       productsSupported?: string,
-      institutionType?: string,
+      institutionType?: 'BANK' | 'WALLET',
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Institution>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.listInstitutions(
@@ -4694,7 +4726,7 @@ export const LinkApiFactory = function (configuration?: Configuration, basePath?
      * @param {string} [country] The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
      * @param {string} [productsSupported] The products that this institution supports
-     * @param {string} [institutionType] The type of institution
+     * @param {'BANK' | 'WALLET'} [institutionType] The type of institution
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4702,7 +4734,7 @@ export const LinkApiFactory = function (configuration?: Configuration, basePath?
       country?: string,
       countries?: Array<string>,
       productsSupported?: string,
-      institutionType?: string,
+      institutionType?: 'BANK' | 'WALLET',
       options?: any,
     ): AxiosPromise<Array<Institution>> {
       return localVarFp
@@ -4769,7 +4801,7 @@ export interface LinkApiInterface {
    * @param {string} [country] The country the institution belongs to
    * @param {Array<string>} [countries] The countries the institution belongs to
    * @param {string} [productsSupported] The products that this institution supports
-   * @param {string} [institutionType] The type of institution
+   * @param {'BANK' | 'WALLET'} [institutionType] The type of institution
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LinkApiInterface
@@ -4778,7 +4810,7 @@ export interface LinkApiInterface {
     country?: string,
     countries?: Array<string>,
     productsSupported?: string,
-    institutionType?: string,
+    institutionType?: 'BANK' | 'WALLET',
     options?: AxiosRequestConfig,
   ): AxiosPromise<Array<Institution>>;
 
@@ -4847,7 +4879,7 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
    * @param {string} [country] The country the institution belongs to
    * @param {Array<string>} [countries] The countries the institution belongs to
    * @param {string} [productsSupported] The products that this institution supports
-   * @param {string} [institutionType] The type of institution
+   * @param {'BANK' | 'WALLET'} [institutionType] The type of institution
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LinkApi
@@ -4856,7 +4888,7 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
     country?: string,
     countries?: Array<string>,
     productsSupported?: string,
-    institutionType?: string,
+    institutionType?: 'BANK' | 'WALLET',
     options?: AxiosRequestConfig,
   ) {
     return LinkApiFp(this.configuration)
