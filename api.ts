@@ -3587,98 +3587,6 @@ export type TransactionLimitsPeriodEnum = typeof TransactionLimitsPeriodEnum[key
 export const CustomerApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
-     * CREATE Mandate
-     * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createMandate: async (
-      createMandateRequest: CreateMandateRequest,
-      idempotencyKey?: string,
-      options: AxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'createMandateRequest' is not null or undefined
-      assertParamExists('createMandate', 'createMandateRequest', createMandateRequest);
-      const localVarPath = `/mandates`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      if (idempotencyKey !== undefined && idempotencyKey !== null) {
-        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
-      }
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(createMandateRequest, localVarRequestOptions, configuration);
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Create new Payment
-     * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createPayment: async (
-      createPaymentRequest: CreatePaymentRequest,
-      idempotencyKey?: string,
-      options: AxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'createPaymentRequest' is not null or undefined
-      assertParamExists('createPayment', 'createPaymentRequest', createPaymentRequest);
-      const localVarPath = `/payments`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      if (idempotencyKey !== undefined && idempotencyKey !== null) {
-        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
-      }
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(createPaymentRequest, localVarRequestOptions, configuration);
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
      * Create a new payment instruction to be used when linking to perform new payment
      * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
      * @param {*} [options] Override http request option.
@@ -3873,165 +3781,6 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
-     * Get Mandate details by mandate_id
-     * @param {string} mandateId mandate id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getMandate: async (mandateId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'mandateId' is not null or undefined
-      assertParamExists('getMandate', 'mandateId', mandateId);
-      const localVarPath = `/mandates/{mandateId}`.replace(`{${'mandateId'}}`, encodeURIComponent(String(mandateId)));
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Get Mandate Authorization by mandate id
-     * @param {string} institutionId Finverse Institution ID
-     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are INDIVIDUAL, BUSINESS
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getMandateAuth: async (
-      institutionId: string,
-      senderType?: 'INDIVIDUAL' | 'BUSINESS',
-      options: AxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'institutionId' is not null or undefined
-      assertParamExists('getMandateAuth', 'institutionId', institutionId);
-      const localVarPath = `/mandates/auth`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      if (institutionId !== undefined) {
-        localVarQueryParameter['institution_id'] = institutionId;
-      }
-
-      if (senderType !== undefined) {
-        localVarQueryParameter['sender_type'] = senderType;
-      }
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Get link to launch FV Link UI in mandate authorization mode
-     * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getMandateAuthLink: async (
-      getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
-      options: AxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'getMandateAuthLinkRequest' is not null or undefined
-      assertParamExists('getMandateAuthLink', 'getMandateAuthLinkRequest', getMandateAuthLinkRequest);
-      const localVarPath = `/mandates/link`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        getMandateAuthLinkRequest,
-        localVarRequestOptions,
-        configuration,
-      );
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Get Payment details by payment_id
-     * @param {string} paymentId payment id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getPayment: async (paymentId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'paymentId' is not null or undefined
-      assertParamExists('getPayment', 'paymentId', paymentId);
-      const localVarPath = `/payments/{paymentId}`.replace(`{${'paymentId'}}`, encodeURIComponent(String(paymentId)));
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
      * Get payment instructions by payment_instruction_id
      * @param {string} paymentInstructionId The id of a payment instruction
      * @param {*} [options] Override http request option.
@@ -4165,50 +3914,6 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
         options: localVarRequestOptions,
       };
     },
-    /**
-     * Submit authorization checklist items
-     * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    submitAuthChecklist: async (
-      submitAuthChecklistRequest: SubmitAuthChecklistRequest,
-      options: AxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'submitAuthChecklistRequest' is not null or undefined
-      assertParamExists('submitAuthChecklist', 'submitAuthChecklistRequest', submitAuthChecklistRequest);
-      const localVarPath = `/mandates/auth`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        submitAuthChecklistRequest,
-        localVarRequestOptions,
-        configuration,
-      );
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
   };
 };
 
@@ -4219,44 +3924,6 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
 export const CustomerApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = CustomerApiAxiosParamCreator(configuration);
   return {
-    /**
-     * CREATE Mandate
-     * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async createMandate(
-      createMandateRequest: CreateMandateRequest,
-      idempotencyKey?: string,
-      options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateMandateResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createMandate(
-        createMandateRequest,
-        idempotencyKey,
-        options,
-      );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-    },
-    /**
-     * Create new Payment
-     * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async createPayment(
-      createPaymentRequest: CreatePaymentRequest,
-      idempotencyKey?: string,
-      options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePaymentResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createPayment(
-        createPaymentRequest,
-        idempotencyKey,
-        options,
-      );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-    },
     /**
      * Create a new payment instruction to be used when linking to perform new payment
      * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
@@ -4323,60 +3990,6 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
-     * Get Mandate details by mandate_id
-     * @param {string} mandateId mandate id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getMandate(
-      mandateId: string,
-      options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getMandate(mandateId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-    },
-    /**
-     * Get Mandate Authorization by mandate id
-     * @param {string} institutionId Finverse Institution ID
-     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are INDIVIDUAL, BUSINESS
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getMandateAuth(
-      institutionId: string,
-      senderType?: 'INDIVIDUAL' | 'BUSINESS',
-      options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateAuthResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getMandateAuth(institutionId, senderType, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-    },
-    /**
-     * Get link to launch FV Link UI in mandate authorization mode
-     * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getMandateAuthLink(
-      getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
-      options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateAuthLinkResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getMandateAuthLink(getMandateAuthLinkRequest, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-    },
-    /**
-     * Get Payment details by payment_id
-     * @param {string} paymentId payment id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getPayment(
-      paymentId: string,
-      options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPaymentResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getPayment(paymentId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-    },
-    /**
      * Get payment instructions by payment_instruction_id
      * @param {string} paymentInstructionId The id of a payment instruction
      * @param {*} [options] Override http request option.
@@ -4427,22 +4040,6 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs = await localVarAxiosParamCreator.refreshToken(refreshRequest, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
-    /**
-     * Submit authorization checklist items
-     * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async submitAuthChecklist(
-      submitAuthChecklistRequest: SubmitAuthChecklistRequest,
-      options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SubmitAuthChecklistResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.submitAuthChecklist(
-        submitAuthChecklistRequest,
-        options,
-      );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-    },
   };
 };
 
@@ -4453,38 +4050,6 @@ export const CustomerApiFp = function (configuration?: Configuration) {
 export const CustomerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
   const localVarFp = CustomerApiFp(configuration);
   return {
-    /**
-     * CREATE Mandate
-     * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createMandate(
-      createMandateRequest: CreateMandateRequest,
-      idempotencyKey?: string,
-      options?: any,
-    ): AxiosPromise<CreateMandateResponse> {
-      return localVarFp
-        .createMandate(createMandateRequest, idempotencyKey, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * Create new Payment
-     * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createPayment(
-      createPaymentRequest: CreatePaymentRequest,
-      idempotencyKey?: string,
-      options?: any,
-    ): AxiosPromise<CreatePaymentResponse> {
-      return localVarFp
-        .createPayment(createPaymentRequest, idempotencyKey, options)
-        .then((request) => request(axios, basePath));
-    },
     /**
      * Create a new payment instruction to be used when linking to perform new payment
      * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
@@ -4536,52 +4101,6 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
       return localVarFp.getLoginIdentityHistory(loginIdentityId, options).then((request) => request(axios, basePath));
     },
     /**
-     * Get Mandate details by mandate_id
-     * @param {string} mandateId mandate id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getMandate(mandateId: string, options?: any): AxiosPromise<GetMandateResponse> {
-      return localVarFp.getMandate(mandateId, options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Get Mandate Authorization by mandate id
-     * @param {string} institutionId Finverse Institution ID
-     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are INDIVIDUAL, BUSINESS
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getMandateAuth(
-      institutionId: string,
-      senderType?: 'INDIVIDUAL' | 'BUSINESS',
-      options?: any,
-    ): AxiosPromise<GetMandateAuthResponse> {
-      return localVarFp.getMandateAuth(institutionId, senderType, options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Get link to launch FV Link UI in mandate authorization mode
-     * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getMandateAuthLink(
-      getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
-      options?: any,
-    ): AxiosPromise<GetMandateAuthLinkResponse> {
-      return localVarFp
-        .getMandateAuthLink(getMandateAuthLinkRequest, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * Get Payment details by payment_id
-     * @param {string} paymentId payment id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getPayment(paymentId: string, options?: any): AxiosPromise<GetPaymentResponse> {
-      return localVarFp.getPayment(paymentId, options).then((request) => request(axios, basePath));
-    },
-    /**
      * Get payment instructions by payment_instruction_id
      * @param {string} paymentInstructionId The id of a payment instruction
      * @param {*} [options] Override http request option.
@@ -4621,20 +4140,6 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
     refreshToken(refreshRequest: RefreshRequest, options?: any): AxiosPromise<AccessTokenResponse> {
       return localVarFp.refreshToken(refreshRequest, options).then((request) => request(axios, basePath));
     },
-    /**
-     * Submit authorization checklist items
-     * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    submitAuthChecklist(
-      submitAuthChecklistRequest: SubmitAuthChecklistRequest,
-      options?: any,
-    ): AxiosPromise<SubmitAuthChecklistResponse> {
-      return localVarFp
-        .submitAuthChecklist(submitAuthChecklistRequest, options)
-        .then((request) => request(axios, basePath));
-    },
   };
 };
 
@@ -4644,34 +4149,6 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
  * @interface CustomerApi
  */
 export interface CustomerApiInterface {
-  /**
-   * CREATE Mandate
-   * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
-   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  createMandate(
-    createMandateRequest: CreateMandateRequest,
-    idempotencyKey?: string,
-    options?: AxiosRequestConfig,
-  ): AxiosPromise<CreateMandateResponse>;
-
-  /**
-   * Create new Payment
-   * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
-   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  createPayment(
-    createPaymentRequest: CreatePaymentRequest,
-    idempotencyKey?: string,
-    options?: AxiosRequestConfig,
-  ): AxiosPromise<CreatePaymentResponse>;
-
   /**
    * Create a new payment instruction to be used when linking to perform new payment
    * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
@@ -4727,50 +4204,6 @@ export interface CustomerApiInterface {
   ): AxiosPromise<GetLoginIdentityHistoryResponse>;
 
   /**
-   * Get Mandate details by mandate_id
-   * @param {string} mandateId mandate id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  getMandate(mandateId: string, options?: AxiosRequestConfig): AxiosPromise<GetMandateResponse>;
-
-  /**
-   * Get Mandate Authorization by mandate id
-   * @param {string} institutionId Finverse Institution ID
-   * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are INDIVIDUAL, BUSINESS
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  getMandateAuth(
-    institutionId: string,
-    senderType?: 'INDIVIDUAL' | 'BUSINESS',
-    options?: AxiosRequestConfig,
-  ): AxiosPromise<GetMandateAuthResponse>;
-
-  /**
-   * Get link to launch FV Link UI in mandate authorization mode
-   * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  getMandateAuthLink(
-    getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
-    options?: AxiosRequestConfig,
-  ): AxiosPromise<GetMandateAuthLinkResponse>;
-
-  /**
-   * Get Payment details by payment_id
-   * @param {string} paymentId payment id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  getPayment(paymentId: string, options?: AxiosRequestConfig): AxiosPromise<GetPaymentResponse>;
-
-  /**
    * Get payment instructions by payment_instruction_id
    * @param {string} paymentInstructionId The id of a payment instruction
    * @param {*} [options] Override http request option.
@@ -4808,18 +4241,6 @@ export interface CustomerApiInterface {
    * @memberof CustomerApiInterface
    */
   refreshToken(refreshRequest: RefreshRequest, options?: AxiosRequestConfig): AxiosPromise<AccessTokenResponse>;
-
-  /**
-   * Submit authorization checklist items
-   * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  submitAuthChecklist(
-    submitAuthChecklistRequest: SubmitAuthChecklistRequest,
-    options?: AxiosRequestConfig,
-  ): AxiosPromise<SubmitAuthChecklistResponse>;
 }
 
 /**
@@ -4829,42 +4250,6 @@ export interface CustomerApiInterface {
  * @extends {BaseAPI}
  */
 export class CustomerApi extends BaseAPI implements CustomerApiInterface {
-  /**
-   * CREATE Mandate
-   * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
-   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public createMandate(
-    createMandateRequest: CreateMandateRequest,
-    idempotencyKey?: string,
-    options?: AxiosRequestConfig,
-  ) {
-    return CustomerApiFp(this.configuration)
-      .createMandate(createMandateRequest, idempotencyKey, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Create new Payment
-   * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
-   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public createPayment(
-    createPaymentRequest: CreatePaymentRequest,
-    idempotencyKey?: string,
-    options?: AxiosRequestConfig,
-  ) {
-    return CustomerApiFp(this.configuration)
-      .createPayment(createPaymentRequest, idempotencyKey, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
   /**
    * Create a new payment instruction to be used when linking to perform new payment
    * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
@@ -4931,59 +4316,6 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   }
 
   /**
-   * Get Mandate details by mandate_id
-   * @param {string} mandateId mandate id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public getMandate(mandateId: string, options?: AxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .getMandate(mandateId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Get Mandate Authorization by mandate id
-   * @param {string} institutionId Finverse Institution ID
-   * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] Type of account held by the Sender at the Institution. Required if institution.user_type is undefined. Possible values are INDIVIDUAL, BUSINESS
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public getMandateAuth(institutionId: string, senderType?: 'INDIVIDUAL' | 'BUSINESS', options?: AxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .getMandateAuth(institutionId, senderType, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Get link to launch FV Link UI in mandate authorization mode
-   * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public getMandateAuthLink(getMandateAuthLinkRequest: GetMandateAuthLinkRequest, options?: AxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .getMandateAuthLink(getMandateAuthLinkRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Get Payment details by payment_id
-   * @param {string} paymentId payment id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public getPayment(paymentId: string, options?: AxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .getPayment(paymentId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
    * Get payment instructions by payment_instruction_id
    * @param {string} paymentInstructionId The id of a payment instruction
    * @param {*} [options] Override http request option.
@@ -5028,19 +4360,6 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public refreshToken(refreshRequest: RefreshRequest, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .refreshToken(refreshRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Submit authorization checklist items
-   * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public submitAuthChecklist(submitAuthChecklistRequest: SubmitAuthChecklistRequest, options?: AxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .submitAuthChecklist(submitAuthChecklistRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
@@ -6986,37 +6305,6 @@ export const PublicApiAxiosParamCreator = function (configuration?: Configuratio
         options: localVarRequestOptions,
       };
     },
-    /**
-     * get payment jwks
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getPaymentsJwks: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/payments/jwks`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', ['test'], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
   };
 };
 
@@ -7068,17 +6356,6 @@ export const PublicApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs = await localVarAxiosParamCreator.generateCustomerAccessToken(tokenRequest, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
-    /**
-     * get payment jwks
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getPaymentsJwks(
-      options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetJWKSResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentsJwks(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-    },
   };
 };
 
@@ -7120,14 +6397,6 @@ export const PublicApiFactory = function (configuration?: Configuration, basePat
     generateCustomerAccessToken(tokenRequest?: TokenRequest, options?: any): AxiosPromise<TokenResponse> {
       return localVarFp.generateCustomerAccessToken(tokenRequest, options).then((request) => request(axios, basePath));
     },
-    /**
-     * get payment jwks
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getPaymentsJwks(options?: any): AxiosPromise<GetJWKSResponse> {
-      return localVarFp.getPaymentsJwks(options).then((request) => request(axios, basePath));
-    },
   };
 };
 
@@ -7165,14 +6434,6 @@ export interface PublicApiInterface {
    * @memberof PublicApiInterface
    */
   generateCustomerAccessToken(tokenRequest?: TokenRequest, options?: AxiosRequestConfig): AxiosPromise<TokenResponse>;
-
-  /**
-   * get payment jwks
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof PublicApiInterface
-   */
-  getPaymentsJwks(options?: AxiosRequestConfig): AxiosPromise<GetJWKSResponse>;
 }
 
 /**
@@ -7216,18 +6477,6 @@ export class PublicApi extends BaseAPI implements PublicApiInterface {
   public generateCustomerAccessToken(tokenRequest?: TokenRequest, options?: AxiosRequestConfig) {
     return PublicApiFp(this.configuration)
       .generateCustomerAccessToken(tokenRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * get payment jwks
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof PublicApi
-   */
-  public getPaymentsJwks(options?: AxiosRequestConfig) {
-    return PublicApiFp(this.configuration)
-      .getPaymentsJwks(options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
