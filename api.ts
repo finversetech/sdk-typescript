@@ -238,7 +238,6 @@ export const AccountTypeTypeEnum = {
 
 export type AccountTypeTypeEnum = typeof AccountTypeTypeEnum[keyof typeof AccountTypeTypeEnum];
 export const AccountTypeSubtypeEnum = {
-  Checking: 'CHECKING',
   Current: 'CURRENT',
   Savings: 'SAVINGS',
   TimeDeposit: 'TIME_DEPOSIT',
