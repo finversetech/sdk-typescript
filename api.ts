@@ -7263,12 +7263,14 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
      * Get a list of transactions for a login identity. The transactions are returned in sorted order, with the most recent one appearing first.
      * @param {number} [offset] default is 0
      * @param {number} [limit] default is 500, max is 1000
+     * @param {boolean} [enrichedTransactions] when true, response will be enriched transactions; otherwise it will be raw transactions
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     listTransactionsByLoginIdentityId: async (
       offset?: number,
       limit?: number,
+      enrichedTransactions?: boolean,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/transactions`;
@@ -7293,6 +7295,10 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
 
       if (limit !== undefined) {
         localVarQueryParameter['limit'] = limit;
+      }
+
+      if (enrichedTransactions !== undefined) {
+        localVarQueryParameter['enrichedTransactions'] = enrichedTransactions;
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -7519,17 +7525,20 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
      * Get a list of transactions for a login identity. The transactions are returned in sorted order, with the most recent one appearing first.
      * @param {number} [offset] default is 0
      * @param {number} [limit] default is 500, max is 1000
+     * @param {boolean} [enrichedTransactions] when true, response will be enriched transactions; otherwise it will be raw transactions
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async listTransactionsByLoginIdentityId(
       offset?: number,
       limit?: number,
+      enrichedTransactions?: boolean,
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListTransactionsResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.listTransactionsByLoginIdentityId(
         offset,
         limit,
+        enrichedTransactions,
         options,
       );
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
@@ -7689,16 +7698,18 @@ export const LoginIdentityApiFactory = function (
      * Get a list of transactions for a login identity. The transactions are returned in sorted order, with the most recent one appearing first.
      * @param {number} [offset] default is 0
      * @param {number} [limit] default is 500, max is 1000
+     * @param {boolean} [enrichedTransactions] when true, response will be enriched transactions; otherwise it will be raw transactions
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     listTransactionsByLoginIdentityId(
       offset?: number,
       limit?: number,
+      enrichedTransactions?: boolean,
       options?: any,
     ): AxiosPromise<ListTransactionsResponse> {
       return localVarFp
-        .listTransactionsByLoginIdentityId(offset, limit, options)
+        .listTransactionsByLoginIdentityId(offset, limit, enrichedTransactions, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -7850,6 +7861,7 @@ export interface LoginIdentityApiInterface {
    * Get a list of transactions for a login identity. The transactions are returned in sorted order, with the most recent one appearing first.
    * @param {number} [offset] default is 0
    * @param {number} [limit] default is 500, max is 1000
+   * @param {boolean} [enrichedTransactions] when true, response will be enriched transactions; otherwise it will be raw transactions
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LoginIdentityApiInterface
@@ -7857,6 +7869,7 @@ export interface LoginIdentityApiInterface {
   listTransactionsByLoginIdentityId(
     offset?: number,
     limit?: number,
+    enrichedTransactions?: boolean,
     options?: AxiosRequestConfig,
   ): AxiosPromise<ListTransactionsResponse>;
 
@@ -8047,13 +8060,19 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * Get a list of transactions for a login identity. The transactions are returned in sorted order, with the most recent one appearing first.
    * @param {number} [offset] default is 0
    * @param {number} [limit] default is 500, max is 1000
+   * @param {boolean} [enrichedTransactions] when true, response will be enriched transactions; otherwise it will be raw transactions
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LoginIdentityApi
    */
-  public listTransactionsByLoginIdentityId(offset?: number, limit?: number, options?: AxiosRequestConfig) {
+  public listTransactionsByLoginIdentityId(
+    offset?: number,
+    limit?: number,
+    enrichedTransactions?: boolean,
+    options?: AxiosRequestConfig,
+  ) {
     return LoginIdentityApiFp(this.configuration)
-      .listTransactionsByLoginIdentityId(offset, limit, options)
+      .listTransactionsByLoginIdentityId(offset, limit, enrichedTransactions, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
