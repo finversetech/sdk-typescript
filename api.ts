@@ -752,6 +752,12 @@ export interface CreateMandateResponse {
    */
   mandate_details: MandateDetails;
   /**
+   * Sender details which will be used for fraud checking.
+   * @type {Array<SenderDetail>}
+   * @memberof CreateMandateResponse
+   */
+  sender_details?: Array<SenderDetail>;
+  /**
    *
    * @type {FvErrorModel}
    * @memberof CreateMandateResponse
