@@ -702,6 +702,12 @@ export interface CreateMandateRequest {
    * @memberof CreateMandateRequest
    */
   mandate_details: MandateDetails;
+  /**
+   * Sender details which will be used for fraud checking.
+   * @type {Array<SenderDetail>}
+   * @memberof CreateMandateRequest
+   */
+  sender_details: Array<SenderDetail>;
 }
 /**
  *
@@ -1482,6 +1488,12 @@ export interface GetMandateResponse {
    * @memberof GetMandateResponse
    */
   mandate_details: MandateDetails;
+  /**
+   * Sender details which will be used for fraud checking.
+   * @type {Array<SenderDetail>}
+   * @memberof GetMandateResponse
+   */
+  sender_details?: Array<SenderDetail>;
   /**
    *
    * @type {FvErrorModel}
@@ -3766,6 +3778,36 @@ export interface RelinkRequest {
    */
   consent?: boolean | null;
 }
+/**
+ *
+ * @export
+ * @interface SenderDetail
+ */
+export interface SenderDetail {
+  /**
+   * The type of the details. For e.g. HK_ID, PASSPORT, ACCOUNTHOLDER_NAME etc
+   * @type {string}
+   * @memberof SenderDetail
+   */
+  details_type?: SenderDetailDetailsTypeEnum;
+  /**
+   * The possible values of the detail. For e.g. \"John Wick Adams\" for ACCOUNTHOLDER_NAME or A123456 for HK_ID
+   * @type {Array<string>}
+   * @memberof SenderDetail
+   */
+  values?: Array<string>;
+}
+
+export const SenderDetailDetailsTypeEnum = {
+  HkId: 'HK_ID',
+  Passport: 'PASSPORT',
+  HkBusinessRegistration: 'HK_BUSINESS_REGISTRATION',
+  HkCertificateOfIncorporation: 'HK_CERTIFICATE_OF_INCORPORATION',
+  AccountholderName: 'ACCOUNTHOLDER_NAME',
+} as const;
+
+export type SenderDetailDetailsTypeEnum = typeof SenderDetailDetailsTypeEnum[keyof typeof SenderDetailDetailsTypeEnum];
+
 /**
  *
  * @export
