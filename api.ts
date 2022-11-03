@@ -702,12 +702,6 @@ export interface CreateMandateRequest {
    * @memberof CreateMandateRequest
    */
   mandate_details: MandateDetails;
-  /**
-   * Sender details which will be used for fraud checking.
-   * @type {Array<SenderDetail>}
-   * @memberof CreateMandateRequest
-   */
-  sender_details: Array<SenderDetail>;
 }
 /**
  *
@@ -751,12 +745,6 @@ export interface CreateMandateResponse {
    * @memberof CreateMandateResponse
    */
   mandate_details: MandateDetails;
-  /**
-   * Sender details which will be used for fraud checking.
-   * @type {Array<SenderDetail>}
-   * @memberof CreateMandateResponse
-   */
-  sender_details?: Array<SenderDetail>;
   /**
    *
    * @type {FvErrorModel}
@@ -802,7 +790,28 @@ export interface CreateMandateSender {
    * @memberof CreateMandateSender
    */
   sender_reference_id?: string;
+  /**
+   * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
+   * @type {string}
+   * @memberof CreateMandateSender
+   */
+  sender_type: CreateMandateSenderSenderTypeEnum;
+  /**
+   * Sender details which will be used for fraud checking.
+   * @type {Array<SenderDetail>}
+   * @memberof CreateMandateSender
+   */
+  sender_details: Array<SenderDetail>;
 }
+
+export const CreateMandateSenderSenderTypeEnum = {
+  Individual: 'INDIVIDUAL',
+  Business: 'BUSINESS',
+} as const;
+
+export type CreateMandateSenderSenderTypeEnum =
+  typeof CreateMandateSenderSenderTypeEnum[keyof typeof CreateMandateSenderSenderTypeEnum];
+
 /**
  *
  * @export
@@ -1495,12 +1504,6 @@ export interface GetMandateResponse {
    */
   mandate_details: MandateDetails;
   /**
-   * Sender details which will be used for fraud checking.
-   * @type {Array<SenderDetail>}
-   * @memberof GetMandateResponse
-   */
-  sender_details?: Array<SenderDetail>;
-  /**
    *
    * @type {FvErrorModel}
    * @memberof GetMandateResponse
@@ -1551,7 +1554,28 @@ export interface GetMandateSender {
    * @memberof GetMandateSender
    */
   sender_account: PaymentAccount;
+  /**
+   * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
+   * @type {string}
+   * @memberof GetMandateSender
+   */
+  sender_type: GetMandateSenderSenderTypeEnum;
+  /**
+   * Sender details which will be used for fraud checking.
+   * @type {Array<SenderDetail>}
+   * @memberof GetMandateSender
+   */
+  sender_details?: Array<SenderDetail>;
 }
+
+export const GetMandateSenderSenderTypeEnum = {
+  Individual: 'INDIVIDUAL',
+  Business: 'BUSINESS',
+} as const;
+
+export type GetMandateSenderSenderTypeEnum =
+  typeof GetMandateSenderSenderTypeEnum[keyof typeof GetMandateSenderSenderTypeEnum];
+
 /**
  *
  * @export
@@ -3166,22 +3190,7 @@ export interface MandateDetails {
    * @memberof MandateDetails
    */
   description?: string;
-  /**
-   * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
-   * @type {string}
-   * @memberof MandateDetails
-   */
-  sender_type: MandateDetailsSenderTypeEnum;
 }
-
-export const MandateDetailsSenderTypeEnum = {
-  Individual: 'INDIVIDUAL',
-  Business: 'BUSINESS',
-} as const;
-
-export type MandateDetailsSenderTypeEnum =
-  typeof MandateDetailsSenderTypeEnum[keyof typeof MandateDetailsSenderTypeEnum];
-
 /**
  *
  * @export
