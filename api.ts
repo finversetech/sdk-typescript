@@ -3131,6 +3131,12 @@ export interface MandateAuthLinkCustomizations {
    */
   ui_mode?: MandateAuthLinkCustomizationsUiModeEnum;
   /**
+   * The URI to redirect to. Required if ui_mode is \"redirect\" or \"auto_redirect\"
+   * @type {string}
+   * @memberof MandateAuthLinkCustomizations
+   */
+  redirect_uri?: string;
+  /**
    * institution\'s supported user_type filter
    * @type {Array<string>}
    * @memberof MandateAuthLinkCustomizations
