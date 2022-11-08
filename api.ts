@@ -2101,6 +2101,12 @@ export interface Institution {
   products_supported: Array<InstitutionProductsSupportedEnum>;
   /**
    *
+   * @type {Array<string>}
+   * @memberof Institution
+   */
+  payments_supported: Array<InstitutionPaymentsSupportedEnum>;
+  /**
+   *
    * @type {string}
    * @memberof Institution
    */
@@ -2203,6 +2209,13 @@ export const InstitutionProductsSupportedEnum = {
 
 export type InstitutionProductsSupportedEnum =
   typeof InstitutionProductsSupportedEnum[keyof typeof InstitutionProductsSupportedEnum];
+export const InstitutionPaymentsSupportedEnum = {
+  Mandate: 'MANDATE',
+  DebitAuthorization: 'DEBIT_AUTHORIZATION',
+} as const;
+
+export type InstitutionPaymentsSupportedEnum =
+  typeof InstitutionPaymentsSupportedEnum[keyof typeof InstitutionPaymentsSupportedEnum];
 export const InstitutionUserTypeEnum = {
   Personal: 'PERSONAL',
   Individual: 'INDIVIDUAL',
