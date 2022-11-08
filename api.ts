@@ -801,7 +801,7 @@ export interface CreateMandateSender {
    * @type {Array<SenderDetail>}
    * @memberof CreateMandateSender
    */
-  sender_details: Array<SenderDetail>;
+  sender_details?: Array<SenderDetail>;
 }
 
 export const CreateMandateSenderSenderTypeEnum = {
@@ -3806,13 +3806,13 @@ export interface RelinkRequest {
  */
 export interface SenderDetail {
   /**
-   * The type of the details. For e.g. HK_ID, PASSPORT, ACCOUNTHOLDER_NAME etc
+   * The type of the details. For e.g. HK_ID, PASSPORT etc
    * @type {string}
    * @memberof SenderDetail
    */
   details_type?: SenderDetailDetailsTypeEnum;
   /**
-   * The possible values of the detail. For e.g. \"John Wick Adams\" for ACCOUNTHOLDER_NAME or A123456 for HK_ID
+   * The possible values of the detail. For e.g. A123456 for HK_ID
    * @type {Array<string>}
    * @memberof SenderDetail
    */
@@ -3824,7 +3824,6 @@ export const SenderDetailDetailsTypeEnum = {
   Passport: 'PASSPORT',
   HkBusinessRegistration: 'HK_BUSINESS_REGISTRATION',
   HkCertificateOfIncorporation: 'HK_CERTIFICATE_OF_INCORPORATION',
-  AccountholderName: 'ACCOUNTHOLDER_NAME',
 } as const;
 
 export type SenderDetailDetailsTypeEnum = typeof SenderDetailDetailsTypeEnum[keyof typeof SenderDetailDetailsTypeEnum];

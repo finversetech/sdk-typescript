@@ -21,11 +21,11 @@
     "axios": "^0.21.4"
   },
   "devDependencies": {
-    "@types/chai": "^4.3.3",
+    "@types/chai": "^4.3.4",
     "@types/mocha": "^10.0.0",
     "@types/node": "^12.11.5",
     "axios-mock-adapter": "^1.21.2",
-    "chai": "^4.3.6",
+    "chai": "^4.3.7",
     "mocha": "^10.1.0",
     "ts-node": "^10.9.1",
     "typescript": "^3.6.4"
