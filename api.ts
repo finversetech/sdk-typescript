@@ -722,11 +722,17 @@ export interface CreateMandateResponse {
    */
   mandate_id: string;
   /**
-   * Mandate status
+   * Mandate status (deprecated)
    * @type {string}
    * @memberof CreateMandateResponse
    */
   mandate_status: CreateMandateResponseMandateStatusEnum;
+  /**
+   * Mandate status
+   * @type {string}
+   * @memberof CreateMandateResponse
+   */
+  status: CreateMandateResponseStatusEnum;
   /**
    *
    * @type {MandateRecipient}
@@ -765,6 +771,18 @@ export const CreateMandateResponseMandateStatusEnum = {
 
 export type CreateMandateResponseMandateStatusEnum =
   typeof CreateMandateResponseMandateStatusEnum[keyof typeof CreateMandateResponseMandateStatusEnum];
+export const CreateMandateResponseStatusEnum = {
+  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
+  Authorizing: 'AUTHORIZING',
+  Processing: 'PROCESSING',
+  Submitted: 'SUBMITTED',
+  Succeeded: 'SUCCEEDED',
+  Failed: 'FAILED',
+  Revoked: 'REVOKED',
+} as const;
+
+export type CreateMandateResponseStatusEnum =
+  typeof CreateMandateResponseStatusEnum[keyof typeof CreateMandateResponseStatusEnum];
 
 /**
  *
@@ -1480,11 +1498,17 @@ export interface GetMandateResponse {
    */
   mandate_id: string;
   /**
-   * Mandate status
+   * Mandate status (deprecated)
    * @type {string}
    * @memberof GetMandateResponse
    */
   mandate_status: GetMandateResponseMandateStatusEnum;
+  /**
+   * Mandate status
+   * @type {string}
+   * @memberof GetMandateResponse
+   */
+  status: GetMandateResponseStatusEnum;
   /**
    *
    * @type {MandateRecipient}
@@ -1523,6 +1547,18 @@ export const GetMandateResponseMandateStatusEnum = {
 
 export type GetMandateResponseMandateStatusEnum =
   typeof GetMandateResponseMandateStatusEnum[keyof typeof GetMandateResponseMandateStatusEnum];
+export const GetMandateResponseStatusEnum = {
+  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
+  Authorizing: 'AUTHORIZING',
+  Processing: 'PROCESSING',
+  Submitted: 'SUBMITTED',
+  Succeeded: 'SUCCEEDED',
+  Failed: 'FAILED',
+  Revoked: 'REVOKED',
+} as const;
+
+export type GetMandateResponseStatusEnum =
+  typeof GetMandateResponseStatusEnum[keyof typeof GetMandateResponseStatusEnum];
 
 /**
  *
