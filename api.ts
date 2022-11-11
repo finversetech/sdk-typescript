@@ -1480,7 +1480,7 @@ export interface GetMandateResponse {
    */
   mandate_id: string;
   /**
-   * Mandate status
+   * Mandate Status
    * @type {string}
    * @memberof GetMandateResponse
    */
@@ -2659,6 +2659,32 @@ export interface ListAccountsResponse {
    * @memberof ListAccountsResponse
    */
   institution?: InstitutionShort;
+}
+/**
+ *
+ * @export
+ * @interface ListMandatesResponse
+ */
+export interface ListMandatesResponse {
+  /**
+   *
+   * @type {Array<GetMandateResponse>}
+   * @memberof ListMandatesResponse
+   */
+  mandates?: Array<GetMandateResponse>;
+}
+/**
+ *
+ * @export
+ * @interface ListPaymentsResponse
+ */
+export interface ListPaymentsResponse {
+  /**
+   *
+   * @type {Array<PaymentResponse>}
+   * @memberof ListPaymentsResponse
+   */
+  payments?: Array<PaymentResponse>;
 }
 /**
  *
@@ -5903,6 +5929,571 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public submitAuthChecklist(submitAuthChecklistRequest: SubmitAuthChecklistRequest, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .submitAuthChecklist(submitAuthChecklistRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+}
+
+/**
+ * DefaultApi - axios parameter creator
+ * @export
+ */
+export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
+  return {
+    /**
+     * List mandates
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'} [status] The mandate status to query for
+     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+     * @param {string} [userId] The user_id the mandate was setup for
+     * @param {string} [institutionId] The institution the mandate was executed against
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listMandates: async (
+      dateFrom?: string,
+      dateTo?: string,
+      status?:
+        | 'AUTHORIZATION_REQUIRED'
+        | 'AUTHORIZING'
+        | 'PROCESSING'
+        | 'SUBMITTED'
+        | 'SUCCEEDED'
+        | 'FAILED'
+        | 'REVOKED',
+      senderType?: 'INDIVIDUAL' | 'BUSINESS',
+      userId?: string,
+      institutionId?: string,
+      offset?: number,
+      limit?: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/mandates`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (dateFrom !== undefined) {
+        localVarQueryParameter['date_from'] =
+          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substr(0, 10) : dateFrom;
+      }
+
+      if (dateTo !== undefined) {
+        localVarQueryParameter['date_to'] =
+          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substr(0, 10) : dateTo;
+      }
+
+      if (status !== undefined) {
+        localVarQueryParameter['status'] = status;
+      }
+
+      if (senderType !== undefined) {
+        localVarQueryParameter['sender_type'] = senderType;
+      }
+
+      if (userId !== undefined) {
+        localVarQueryParameter['user_id'] = userId;
+      }
+
+      if (institutionId !== undefined) {
+        localVarQueryParameter['institution_id'] = institutionId;
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter['offset'] = offset;
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter['limit'] = limit;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * List Payments
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'} [status] The payment status to query for
+     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+     * @param {string} [userId] The user_id the mandate was setup for
+     * @param {string} [institutionId] The institution the mandate was executed against
+     * @param {string} [paymentType] The type of payment
+     * @param {string} [mandateId] The mandate the payment belongs to
+     * @param {string} [currency] The currency the payment is made in
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPayments: async (
+      dateFrom?: string,
+      dateTo?: string,
+      status?:
+        | 'AUTHORIZATION_REQUIRED'
+        | 'AUTHORIZING'
+        | 'PROCESSING'
+        | 'SUBMITTED'
+        | 'EXECUTED'
+        | 'FAILED'
+        | 'REVOKED',
+      senderType?: 'INDIVIDUAL' | 'BUSINESS',
+      userId?: string,
+      institutionId?: string,
+      paymentType?: string,
+      mandateId?: string,
+      currency?: string,
+      offset?: number,
+      limit?: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/payments`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (dateFrom !== undefined) {
+        localVarQueryParameter['date_from'] =
+          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substr(0, 10) : dateFrom;
+      }
+
+      if (dateTo !== undefined) {
+        localVarQueryParameter['date_to'] =
+          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substr(0, 10) : dateTo;
+      }
+
+      if (status !== undefined) {
+        localVarQueryParameter['status'] = status;
+      }
+
+      if (senderType !== undefined) {
+        localVarQueryParameter['sender_type'] = senderType;
+      }
+
+      if (userId !== undefined) {
+        localVarQueryParameter['user_id'] = userId;
+      }
+
+      if (institutionId !== undefined) {
+        localVarQueryParameter['institution_id'] = institutionId;
+      }
+
+      if (paymentType !== undefined) {
+        localVarQueryParameter['payment_type'] = paymentType;
+      }
+
+      if (mandateId !== undefined) {
+        localVarQueryParameter['mandate_id'] = mandateId;
+      }
+
+      if (currency !== undefined) {
+        localVarQueryParameter['currency'] = currency;
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter['offset'] = offset;
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter['limit'] = limit;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * DefaultApi - functional programming interface
+ * @export
+ */
+export const DefaultApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration);
+  return {
+    /**
+     * List mandates
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'} [status] The mandate status to query for
+     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+     * @param {string} [userId] The user_id the mandate was setup for
+     * @param {string} [institutionId] The institution the mandate was executed against
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listMandates(
+      dateFrom?: string,
+      dateTo?: string,
+      status?:
+        | 'AUTHORIZATION_REQUIRED'
+        | 'AUTHORIZING'
+        | 'PROCESSING'
+        | 'SUBMITTED'
+        | 'SUCCEEDED'
+        | 'FAILED'
+        | 'REVOKED',
+      senderType?: 'INDIVIDUAL' | 'BUSINESS',
+      userId?: string,
+      institutionId?: string,
+      offset?: number,
+      limit?: number,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListMandatesResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listMandates(
+        dateFrom,
+        dateTo,
+        status,
+        senderType,
+        userId,
+        institutionId,
+        offset,
+        limit,
+        options,
+      );
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
+     * List Payments
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'} [status] The payment status to query for
+     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+     * @param {string} [userId] The user_id the mandate was setup for
+     * @param {string} [institutionId] The institution the mandate was executed against
+     * @param {string} [paymentType] The type of payment
+     * @param {string} [mandateId] The mandate the payment belongs to
+     * @param {string} [currency] The currency the payment is made in
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listPayments(
+      dateFrom?: string,
+      dateTo?: string,
+      status?:
+        | 'AUTHORIZATION_REQUIRED'
+        | 'AUTHORIZING'
+        | 'PROCESSING'
+        | 'SUBMITTED'
+        | 'EXECUTED'
+        | 'FAILED'
+        | 'REVOKED',
+      senderType?: 'INDIVIDUAL' | 'BUSINESS',
+      userId?: string,
+      institutionId?: string,
+      paymentType?: string,
+      mandateId?: string,
+      currency?: string,
+      offset?: number,
+      limit?: number,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPaymentsResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listPayments(
+        dateFrom,
+        dateTo,
+        status,
+        senderType,
+        userId,
+        institutionId,
+        paymentType,
+        mandateId,
+        currency,
+        offset,
+        limit,
+        options,
+      );
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+  };
+};
+
+/**
+ * DefaultApi - factory interface
+ * @export
+ */
+export const DefaultApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+  const localVarFp = DefaultApiFp(configuration);
+  return {
+    /**
+     * List mandates
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'} [status] The mandate status to query for
+     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+     * @param {string} [userId] The user_id the mandate was setup for
+     * @param {string} [institutionId] The institution the mandate was executed against
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listMandates(
+      dateFrom?: string,
+      dateTo?: string,
+      status?:
+        | 'AUTHORIZATION_REQUIRED'
+        | 'AUTHORIZING'
+        | 'PROCESSING'
+        | 'SUBMITTED'
+        | 'SUCCEEDED'
+        | 'FAILED'
+        | 'REVOKED',
+      senderType?: 'INDIVIDUAL' | 'BUSINESS',
+      userId?: string,
+      institutionId?: string,
+      offset?: number,
+      limit?: number,
+      options?: any,
+    ): AxiosPromise<ListMandatesResponse> {
+      return localVarFp
+        .listMandates(dateFrom, dateTo, status, senderType, userId, institutionId, offset, limit, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * List Payments
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'} [status] The payment status to query for
+     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+     * @param {string} [userId] The user_id the mandate was setup for
+     * @param {string} [institutionId] The institution the mandate was executed against
+     * @param {string} [paymentType] The type of payment
+     * @param {string} [mandateId] The mandate the payment belongs to
+     * @param {string} [currency] The currency the payment is made in
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPayments(
+      dateFrom?: string,
+      dateTo?: string,
+      status?:
+        | 'AUTHORIZATION_REQUIRED'
+        | 'AUTHORIZING'
+        | 'PROCESSING'
+        | 'SUBMITTED'
+        | 'EXECUTED'
+        | 'FAILED'
+        | 'REVOKED',
+      senderType?: 'INDIVIDUAL' | 'BUSINESS',
+      userId?: string,
+      institutionId?: string,
+      paymentType?: string,
+      mandateId?: string,
+      currency?: string,
+      offset?: number,
+      limit?: number,
+      options?: any,
+    ): AxiosPromise<ListPaymentsResponse> {
+      return localVarFp
+        .listPayments(
+          dateFrom,
+          dateTo,
+          status,
+          senderType,
+          userId,
+          institutionId,
+          paymentType,
+          mandateId,
+          currency,
+          offset,
+          limit,
+          options,
+        )
+        .then((request) => request(axios, basePath));
+    },
+  };
+};
+
+/**
+ * DefaultApi - interface
+ * @export
+ * @interface DefaultApi
+ */
+export interface DefaultApiInterface {
+  /**
+   * List mandates
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'} [status] The mandate status to query for
+   * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+   * @param {string} [userId] The user_id the mandate was setup for
+   * @param {string} [institutionId] The institution the mandate was executed against
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  listMandates(
+    dateFrom?: string,
+    dateTo?: string,
+    status?: 'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED',
+    senderType?: 'INDIVIDUAL' | 'BUSINESS',
+    userId?: string,
+    institutionId?: string,
+    offset?: number,
+    limit?: number,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<ListMandatesResponse>;
+
+  /**
+   * List Payments
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'} [status] The payment status to query for
+   * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+   * @param {string} [userId] The user_id the mandate was setup for
+   * @param {string} [institutionId] The institution the mandate was executed against
+   * @param {string} [paymentType] The type of payment
+   * @param {string} [mandateId] The mandate the payment belongs to
+   * @param {string} [currency] The currency the payment is made in
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  listPayments(
+    dateFrom?: string,
+    dateTo?: string,
+    status?: 'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED',
+    senderType?: 'INDIVIDUAL' | 'BUSINESS',
+    userId?: string,
+    institutionId?: string,
+    paymentType?: string,
+    mandateId?: string,
+    currency?: string,
+    offset?: number,
+    limit?: number,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<ListPaymentsResponse>;
+}
+
+/**
+ * DefaultApi - object-oriented interface
+ * @export
+ * @class DefaultApi
+ * @extends {BaseAPI}
+ */
+export class DefaultApi extends BaseAPI implements DefaultApiInterface {
+  /**
+   * List mandates
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'} [status] The mandate status to query for
+   * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+   * @param {string} [userId] The user_id the mandate was setup for
+   * @param {string} [institutionId] The institution the mandate was executed against
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public listMandates(
+    dateFrom?: string,
+    dateTo?: string,
+    status?: 'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED',
+    senderType?: 'INDIVIDUAL' | 'BUSINESS',
+    userId?: string,
+    institutionId?: string,
+    offset?: number,
+    limit?: number,
+    options?: AxiosRequestConfig,
+  ) {
+    return DefaultApiFp(this.configuration)
+      .listMandates(dateFrom, dateTo, status, senderType, userId, institutionId, offset, limit, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * List Payments
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'} [status] The payment status to query for
+   * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+   * @param {string} [userId] The user_id the mandate was setup for
+   * @param {string} [institutionId] The institution the mandate was executed against
+   * @param {string} [paymentType] The type of payment
+   * @param {string} [mandateId] The mandate the payment belongs to
+   * @param {string} [currency] The currency the payment is made in
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public listPayments(
+    dateFrom?: string,
+    dateTo?: string,
+    status?: 'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED',
+    senderType?: 'INDIVIDUAL' | 'BUSINESS',
+    userId?: string,
+    institutionId?: string,
+    paymentType?: string,
+    mandateId?: string,
+    currency?: string,
+    offset?: number,
+    limit?: number,
+    options?: AxiosRequestConfig,
+  ) {
+    return DefaultApiFp(this.configuration)
+      .listPayments(
+        dateFrom,
+        dateTo,
+        status,
+        senderType,
+        userId,
+        institutionId,
+        paymentType,
+        mandateId,
+        currency,
+        offset,
+        limit,
+        options,
+      )
       .then((request) => request(this.axios, this.basePath));
   }
 }
