@@ -722,12 +722,6 @@ export interface CreateMandateResponse {
    */
   mandate_id: string;
   /**
-   * Mandate status (deprecated)
-   * @type {string}
-   * @memberof CreateMandateResponse
-   */
-  mandate_status: CreateMandateResponseMandateStatusEnum;
-  /**
    * Mandate status
    * @type {string}
    * @memberof CreateMandateResponse
@@ -759,18 +753,6 @@ export interface CreateMandateResponse {
   error?: FvErrorModel;
 }
 
-export const CreateMandateResponseMandateStatusEnum = {
-  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
-  Authorizing: 'AUTHORIZING',
-  Processing: 'PROCESSING',
-  Submitted: 'SUBMITTED',
-  Succeeded: 'SUCCEEDED',
-  Failed: 'FAILED',
-  Revoked: 'REVOKED',
-} as const;
-
-export type CreateMandateResponseMandateStatusEnum =
-  typeof CreateMandateResponseMandateStatusEnum[keyof typeof CreateMandateResponseMandateStatusEnum];
 export const CreateMandateResponseStatusEnum = {
   AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
   Authorizing: 'AUTHORIZING',
@@ -1498,12 +1480,6 @@ export interface GetMandateResponse {
    */
   mandate_id: string;
   /**
-   * Mandate status (deprecated)
-   * @type {string}
-   * @memberof GetMandateResponse
-   */
-  mandate_status: GetMandateResponseMandateStatusEnum;
-  /**
    * Mandate status
    * @type {string}
    * @memberof GetMandateResponse
@@ -1535,18 +1511,6 @@ export interface GetMandateResponse {
   error?: FvErrorModel;
 }
 
-export const GetMandateResponseMandateStatusEnum = {
-  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
-  Authorizing: 'AUTHORIZING',
-  Processing: 'PROCESSING',
-  Submitted: 'SUBMITTED',
-  Succeeded: 'SUCCEEDED',
-  Failed: 'FAILED',
-  Revoked: 'REVOKED',
-} as const;
-
-export type GetMandateResponseMandateStatusEnum =
-  typeof GetMandateResponseMandateStatusEnum[keyof typeof GetMandateResponseMandateStatusEnum];
 export const GetMandateResponseStatusEnum = {
   AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
   Authorizing: 'AUTHORIZING',
