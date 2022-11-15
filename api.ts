@@ -2672,6 +2672,12 @@ export interface ListMandatesResponse {
    * @memberof ListMandatesResponse
    */
   mandates?: Array<GetMandateResponse>;
+  /**
+   *
+   * @type {number}
+   * @memberof ListMandatesResponse
+   */
+  total_mandates: number;
 }
 /**
  *
@@ -2685,6 +2691,12 @@ export interface ListPaymentsResponse {
    * @memberof ListPaymentsResponse
    */
   payments?: Array<PaymentResponse>;
+  /**
+   *
+   * @type {number}
+   * @memberof ListPaymentsResponse
+   */
+  total_payments: number;
 }
 /**
  *
@@ -5943,7 +5955,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'} [status] The mandate status to query for
+     * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'>} [statuses] The mandate statuses to filter for, comma separated
      * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
@@ -5955,14 +5967,9 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     listMandates: async (
       dateFrom?: string,
       dateTo?: string,
-      status?:
-        | 'AUTHORIZATION_REQUIRED'
-        | 'AUTHORIZING'
-        | 'PROCESSING'
-        | 'SUBMITTED'
-        | 'SUCCEEDED'
-        | 'FAILED'
-        | 'REVOKED',
+      statuses?: Array<
+        'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'
+      >,
       senderType?: 'INDIVIDUAL' | 'BUSINESS',
       userId?: string,
       institutionId?: string,
@@ -5996,8 +6003,8 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
           (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substr(0, 10) : dateTo;
       }
 
-      if (status !== undefined) {
-        localVarQueryParameter['status'] = status;
+      if (statuses) {
+        localVarQueryParameter['statuses'] = statuses.join(COLLECTION_FORMATS.csv);
       }
 
       if (senderType !== undefined) {
@@ -6033,11 +6040,11 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * List Payments
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'} [status] The payment status to query for
+     * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'>} [statuses] The payment statuses to filter for, comma separated
      * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {string} [paymentType] The type of payment
+     * @param {'MANDATE' | 'SINGLE'} [paymentType] The type of payment
      * @param {string} [mandateId] The mandate the payment belongs to
      * @param {string} [currency] The currency the payment is made in
      * @param {number} [offset] default is 0
@@ -6048,18 +6055,13 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     listPayments: async (
       dateFrom?: string,
       dateTo?: string,
-      status?:
-        | 'AUTHORIZATION_REQUIRED'
-        | 'AUTHORIZING'
-        | 'PROCESSING'
-        | 'SUBMITTED'
-        | 'EXECUTED'
-        | 'FAILED'
-        | 'REVOKED',
+      statuses?: Array<
+        'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'
+      >,
       senderType?: 'INDIVIDUAL' | 'BUSINESS',
       userId?: string,
       institutionId?: string,
-      paymentType?: string,
+      paymentType?: 'MANDATE' | 'SINGLE',
       mandateId?: string,
       currency?: string,
       offset?: number,
@@ -6092,8 +6094,8 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
           (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substr(0, 10) : dateTo;
       }
 
-      if (status !== undefined) {
-        localVarQueryParameter['status'] = status;
+      if (statuses) {
+        localVarQueryParameter['statuses'] = statuses.join(COLLECTION_FORMATS.csv);
       }
 
       if (senderType !== undefined) {
@@ -6151,7 +6153,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'} [status] The mandate status to query for
+     * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'>} [statuses] The mandate statuses to filter for, comma separated
      * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
@@ -6163,14 +6165,9 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async listMandates(
       dateFrom?: string,
       dateTo?: string,
-      status?:
-        | 'AUTHORIZATION_REQUIRED'
-        | 'AUTHORIZING'
-        | 'PROCESSING'
-        | 'SUBMITTED'
-        | 'SUCCEEDED'
-        | 'FAILED'
-        | 'REVOKED',
+      statuses?: Array<
+        'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'
+      >,
       senderType?: 'INDIVIDUAL' | 'BUSINESS',
       userId?: string,
       institutionId?: string,
@@ -6181,7 +6178,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs = await localVarAxiosParamCreator.listMandates(
         dateFrom,
         dateTo,
-        status,
+        statuses,
         senderType,
         userId,
         institutionId,
@@ -6195,11 +6192,11 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * List Payments
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'} [status] The payment status to query for
+     * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'>} [statuses] The payment statuses to filter for, comma separated
      * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {string} [paymentType] The type of payment
+     * @param {'MANDATE' | 'SINGLE'} [paymentType] The type of payment
      * @param {string} [mandateId] The mandate the payment belongs to
      * @param {string} [currency] The currency the payment is made in
      * @param {number} [offset] default is 0
@@ -6210,18 +6207,13 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async listPayments(
       dateFrom?: string,
       dateTo?: string,
-      status?:
-        | 'AUTHORIZATION_REQUIRED'
-        | 'AUTHORIZING'
-        | 'PROCESSING'
-        | 'SUBMITTED'
-        | 'EXECUTED'
-        | 'FAILED'
-        | 'REVOKED',
+      statuses?: Array<
+        'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'
+      >,
       senderType?: 'INDIVIDUAL' | 'BUSINESS',
       userId?: string,
       institutionId?: string,
-      paymentType?: string,
+      paymentType?: 'MANDATE' | 'SINGLE',
       mandateId?: string,
       currency?: string,
       offset?: number,
@@ -6231,7 +6223,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs = await localVarAxiosParamCreator.listPayments(
         dateFrom,
         dateTo,
-        status,
+        statuses,
         senderType,
         userId,
         institutionId,
@@ -6258,7 +6250,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'} [status] The mandate status to query for
+     * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'>} [statuses] The mandate statuses to filter for, comma separated
      * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
@@ -6270,14 +6262,9 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     listMandates(
       dateFrom?: string,
       dateTo?: string,
-      status?:
-        | 'AUTHORIZATION_REQUIRED'
-        | 'AUTHORIZING'
-        | 'PROCESSING'
-        | 'SUBMITTED'
-        | 'SUCCEEDED'
-        | 'FAILED'
-        | 'REVOKED',
+      statuses?: Array<
+        'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'
+      >,
       senderType?: 'INDIVIDUAL' | 'BUSINESS',
       userId?: string,
       institutionId?: string,
@@ -6286,18 +6273,18 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       options?: any,
     ): AxiosPromise<ListMandatesResponse> {
       return localVarFp
-        .listMandates(dateFrom, dateTo, status, senderType, userId, institutionId, offset, limit, options)
+        .listMandates(dateFrom, dateTo, statuses, senderType, userId, institutionId, offset, limit, options)
         .then((request) => request(axios, basePath));
     },
     /**
      * List Payments
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'} [status] The payment status to query for
+     * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'>} [statuses] The payment statuses to filter for, comma separated
      * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {string} [paymentType] The type of payment
+     * @param {'MANDATE' | 'SINGLE'} [paymentType] The type of payment
      * @param {string} [mandateId] The mandate the payment belongs to
      * @param {string} [currency] The currency the payment is made in
      * @param {number} [offset] default is 0
@@ -6308,18 +6295,13 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     listPayments(
       dateFrom?: string,
       dateTo?: string,
-      status?:
-        | 'AUTHORIZATION_REQUIRED'
-        | 'AUTHORIZING'
-        | 'PROCESSING'
-        | 'SUBMITTED'
-        | 'EXECUTED'
-        | 'FAILED'
-        | 'REVOKED',
+      statuses?: Array<
+        'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'
+      >,
       senderType?: 'INDIVIDUAL' | 'BUSINESS',
       userId?: string,
       institutionId?: string,
-      paymentType?: string,
+      paymentType?: 'MANDATE' | 'SINGLE',
       mandateId?: string,
       currency?: string,
       offset?: number,
@@ -6330,7 +6312,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         .listPayments(
           dateFrom,
           dateTo,
-          status,
+          statuses,
           senderType,
           userId,
           institutionId,
@@ -6356,7 +6338,7 @@ export interface DefaultApiInterface {
    * List mandates
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
    * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'} [status] The mandate status to query for
+   * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'>} [statuses] The mandate statuses to filter for, comma separated
    * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
    * @param {string} [userId] The user_id the mandate was setup for
    * @param {string} [institutionId] The institution the mandate was executed against
@@ -6369,7 +6351,9 @@ export interface DefaultApiInterface {
   listMandates(
     dateFrom?: string,
     dateTo?: string,
-    status?: 'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED',
+    statuses?: Array<
+      'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'
+    >,
     senderType?: 'INDIVIDUAL' | 'BUSINESS',
     userId?: string,
     institutionId?: string,
@@ -6382,11 +6366,11 @@ export interface DefaultApiInterface {
    * List Payments
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
    * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'} [status] The payment status to query for
+   * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'>} [statuses] The payment statuses to filter for, comma separated
    * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
    * @param {string} [userId] The user_id the mandate was setup for
    * @param {string} [institutionId] The institution the mandate was executed against
-   * @param {string} [paymentType] The type of payment
+   * @param {'MANDATE' | 'SINGLE'} [paymentType] The type of payment
    * @param {string} [mandateId] The mandate the payment belongs to
    * @param {string} [currency] The currency the payment is made in
    * @param {number} [offset] default is 0
@@ -6398,11 +6382,13 @@ export interface DefaultApiInterface {
   listPayments(
     dateFrom?: string,
     dateTo?: string,
-    status?: 'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED',
+    statuses?: Array<
+      'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'
+    >,
     senderType?: 'INDIVIDUAL' | 'BUSINESS',
     userId?: string,
     institutionId?: string,
-    paymentType?: string,
+    paymentType?: 'MANDATE' | 'SINGLE',
     mandateId?: string,
     currency?: string,
     offset?: number,
@@ -6422,7 +6408,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * List mandates
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
    * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'} [status] The mandate status to query for
+   * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'>} [statuses] The mandate statuses to filter for, comma separated
    * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
    * @param {string} [userId] The user_id the mandate was setup for
    * @param {string} [institutionId] The institution the mandate was executed against
@@ -6435,7 +6421,9 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public listMandates(
     dateFrom?: string,
     dateTo?: string,
-    status?: 'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED',
+    statuses?: Array<
+      'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'
+    >,
     senderType?: 'INDIVIDUAL' | 'BUSINESS',
     userId?: string,
     institutionId?: string,
@@ -6444,7 +6432,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
     options?: AxiosRequestConfig,
   ) {
     return DefaultApiFp(this.configuration)
-      .listMandates(dateFrom, dateTo, status, senderType, userId, institutionId, offset, limit, options)
+      .listMandates(dateFrom, dateTo, statuses, senderType, userId, institutionId, offset, limit, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -6452,11 +6440,11 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * List Payments
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
    * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'} [status] The payment status to query for
+   * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'>} [statuses] The payment statuses to filter for, comma separated
    * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
    * @param {string} [userId] The user_id the mandate was setup for
    * @param {string} [institutionId] The institution the mandate was executed against
-   * @param {string} [paymentType] The type of payment
+   * @param {'MANDATE' | 'SINGLE'} [paymentType] The type of payment
    * @param {string} [mandateId] The mandate the payment belongs to
    * @param {string} [currency] The currency the payment is made in
    * @param {number} [offset] default is 0
@@ -6468,11 +6456,13 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public listPayments(
     dateFrom?: string,
     dateTo?: string,
-    status?: 'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED',
+    statuses?: Array<
+      'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'
+    >,
     senderType?: 'INDIVIDUAL' | 'BUSINESS',
     userId?: string,
     institutionId?: string,
-    paymentType?: string,
+    paymentType?: 'MANDATE' | 'SINGLE',
     mandateId?: string,
     currency?: string,
     offset?: number,
@@ -6483,7 +6473,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
       .listPayments(
         dateFrom,
         dateTo,
-        status,
+        statuses,
         senderType,
         userId,
         institutionId,
