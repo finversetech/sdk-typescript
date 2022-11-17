@@ -3634,6 +3634,12 @@ export interface PaymentResponse {
    */
   sender?: GetMandateSender;
   /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof PaymentResponse
+   */
+  transaction_date?: string | null;
+  /**
    *
    * @type {FvErrorModel}
    * @memberof PaymentResponse
