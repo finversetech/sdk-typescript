@@ -4276,10 +4276,10 @@ export interface Transaction {
   categories?: Array<string>;
   /**
    *
-   * @type {CategoryDetails}
+   * @type {Array<CategoryDetails>}
    * @memberof Transaction
    */
-  category_details?: CategoryDetails;
+  category_details?: Array<CategoryDetails>;
 }
 /**
  *
