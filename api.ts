@@ -1549,6 +1549,12 @@ export interface GetMandateSender {
    */
   sender_reference_id?: string;
   /**
+   * Finverse Institution ID.
+   * @type {string}
+   * @memberof GetMandateSender
+   */
+  institution_id?: string;
+  /**
    *
    * @type {PaymentAccount}
    * @memberof GetMandateSender
