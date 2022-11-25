@@ -1549,12 +1549,6 @@ export interface GetMandateSender {
    */
   sender_reference_id?: string;
   /**
-   * Finverse Institution ID.
-   * @type {string}
-   * @memberof GetMandateSender
-   */
-  institution_id?: string;
-  /**
    *
    * @type {PaymentAccount}
    * @memberof GetMandateSender
@@ -3342,6 +3336,12 @@ export interface PaymentAccount {
    * @memberof PaymentAccount
    */
   raw?: string;
+  /**
+   * Finverse Institution ID. Only returned if institution_id was included in the request.
+   * @type {string}
+   * @memberof PaymentAccount
+   */
+  institution_id?: string;
 }
 /**
  *
