@@ -946,41 +946,11 @@ export interface CreateRecipientRequest {
  */
 export interface CreateRecipientResponse {
   /**
-   * A unique identifier generated after creating recipient
-   * @type {string}
-   * @memberof CreateRecipientResponse
-   */
-  recipient_account_id?: string;
-  /**
-   * Recipient\'s name/nickname (note: this does not need to match the actual accountholder name of the recipient\'s account)
-   * @type {string}
-   * @memberof CreateRecipientResponse
-   */
-  name: string;
-  /**
    *
-   * @type {RecipientAccount}
+   * @type {RecipientResponse}
    * @memberof CreateRecipientResponse
    */
-  recipient_account: RecipientAccount;
-  /**
-   * Customer App\'s internal ID for the recipient
-   * @type {string}
-   * @memberof CreateRecipientResponse
-   */
-  user_id?: string;
-  /**
-   * Additional attributes of the recipient in key:value format (e.g. employer_name: Apple Inc for a payroll case where recipient is an employee)
-   * @type {object}
-   * @memberof CreateRecipientResponse
-   */
-  metadata?: object;
-  /**
-   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof CreateRecipientResponse
-   */
-  last_update?: string;
+  recipient?: RecipientResponse;
 }
 /**
  *
@@ -1705,6 +1675,19 @@ export interface GetPaymentInstructionsResponse {
    * @memberof GetPaymentInstructionsResponse
    */
   payment_instruction?: PaymentInstruction;
+}
+/**
+ *
+ * @export
+ * @interface GetRecipientResponse
+ */
+export interface GetRecipientResponse {
+  /**
+   *
+   * @type {RecipientResponse}
+   * @memberof GetRecipientResponse
+   */
+  recipient?: RecipientResponse;
 }
 /**
  *
@@ -4066,6 +4049,49 @@ export type RecipientAccountNumberTypeEnum =
 /**
  *
  * @export
+ * @interface RecipientResponse
+ */
+export interface RecipientResponse {
+  /**
+   * A unique identifier generated after creating recipient
+   * @type {string}
+   * @memberof RecipientResponse
+   */
+  recipient_account_id?: string;
+  /**
+   * Recipient\'s name/nickname (note: this does not need to match the actual accountholder name of the recipient\'s account)
+   * @type {string}
+   * @memberof RecipientResponse
+   */
+  name: string;
+  /**
+   *
+   * @type {RecipientAccount}
+   * @memberof RecipientResponse
+   */
+  recipient_account: RecipientAccount;
+  /**
+   * Customer App\'s internal ID for the recipient
+   * @type {string}
+   * @memberof RecipientResponse
+   */
+  user_id?: string;
+  /**
+   * Additional attributes of the recipient in key:value format (e.g. employer_name: Apple Inc for a payroll case where recipient is an employee)
+   * @type {object}
+   * @memberof RecipientResponse
+   */
+  metadata?: object;
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof RecipientResponse
+   */
+  last_update?: string;
+}
+/**
+ *
+ * @export
  * @interface RedirectUriResponse
  */
 export interface RedirectUriResponse {
@@ -4972,6 +4998,43 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
+     * Delete Recipient
+     * @param {string} recipientAccountId The institution id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteRecipient: async (recipientAccountId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'recipientAccountId' is not null or undefined
+      assertParamExists('deleteRecipient', 'recipientAccountId', recipientAccountId);
+      const localVarPath = `/recipients/{recipientAccountId}`.replace(
+        `{${'recipientAccountId'}}`,
+        encodeURIComponent(String(recipientAccountId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * generate a link token that can be used to create link
      * @param {LinkTokenRequest} linkTokenRequest token request
      * @param {*} [options] Override http request option.
@@ -5349,6 +5412,43 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
+     * Get Recipient
+     * @param {string} recipientAccountId The institution id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getRecipient: async (recipientAccountId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'recipientAccountId' is not null or undefined
+      assertParamExists('getRecipient', 'recipientAccountId', recipientAccountId);
+      const localVarPath = `/recipients/{recipientAccountId}`.replace(
+        `{${'recipientAccountId'}}`,
+        encodeURIComponent(String(recipientAccountId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get a list of institutions
      * @param {string} [country] (Deprecated) The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
@@ -5633,6 +5733,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Delete Recipient
+     * @param {string} recipientAccountId The institution id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteRecipient(
+      recipientAccountId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.deleteRecipient(recipientAccountId, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * generate a link token that can be used to create link
      * @param {LinkTokenRequest} linkTokenRequest token request
      * @param {*} [options] Override http request option.
@@ -5758,6 +5871,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutInstructionResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getPayoutInstruction(payoutInstructionId, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
+     * Get Recipient
+     * @param {string} recipientAccountId The institution id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getRecipient(
+      recipientAccountId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetRecipientResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getRecipient(recipientAccountId, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
@@ -5923,6 +6049,15 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
       return localVarFp.createRecipient(createRecipientRequest, options).then((request) => request(axios, basePath));
     },
     /**
+     * Delete Recipient
+     * @param {string} recipientAccountId The institution id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteRecipient(recipientAccountId: string, options?: any): AxiosPromise<void> {
+      return localVarFp.deleteRecipient(recipientAccountId, options).then((request) => request(axios, basePath));
+    },
+    /**
      * generate a link token that can be used to create link
      * @param {LinkTokenRequest} linkTokenRequest token request
      * @param {*} [options] Override http request option.
@@ -6017,6 +6152,15 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      */
     getPayoutInstruction(payoutInstructionId: string, options?: any): AxiosPromise<PayoutInstructionResponse> {
       return localVarFp.getPayoutInstruction(payoutInstructionId, options).then((request) => request(axios, basePath));
+    },
+    /**
+     * Get Recipient
+     * @param {string} recipientAccountId The institution id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getRecipient(recipientAccountId: string, options?: any): AxiosPromise<GetRecipientResponse> {
+      return localVarFp.getRecipient(recipientAccountId, options).then((request) => request(axios, basePath));
     },
     /**
      * Get a list of institutions
@@ -6158,6 +6302,15 @@ export interface CustomerApiInterface {
   ): AxiosPromise<CreateRecipientResponse>;
 
   /**
+   * Delete Recipient
+   * @param {string} recipientAccountId The institution id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  deleteRecipient(recipientAccountId: string, options?: AxiosRequestConfig): AxiosPromise<void>;
+
+  /**
    * generate a link token that can be used to create link
    * @param {LinkTokenRequest} linkTokenRequest token request
    * @param {*} [options] Override http request option.
@@ -6260,6 +6413,15 @@ export interface CustomerApiInterface {
     payoutInstructionId: string,
     options?: AxiosRequestConfig,
   ): AxiosPromise<PayoutInstructionResponse>;
+
+  /**
+   * Get Recipient
+   * @param {string} recipientAccountId The institution id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  getRecipient(recipientAccountId: string, options?: AxiosRequestConfig): AxiosPromise<GetRecipientResponse>;
 
   /**
    * Get a list of institutions
@@ -6414,6 +6576,19 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   }
 
   /**
+   * Delete Recipient
+   * @param {string} recipientAccountId The institution id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public deleteRecipient(recipientAccountId: string, options?: AxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .deleteRecipient(recipientAccountId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
    * generate a link token that can be used to create link
    * @param {LinkTokenRequest} linkTokenRequest token request
    * @param {*} [options] Override http request option.
@@ -6539,6 +6714,19 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public getPayoutInstruction(payoutInstructionId: string, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getPayoutInstruction(payoutInstructionId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get Recipient
+   * @param {string} recipientAccountId The institution id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public getRecipient(recipientAccountId: string, options?: AxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .getRecipient(recipientAccountId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
