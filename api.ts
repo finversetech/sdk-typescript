@@ -868,6 +868,80 @@ export type CreatePaymentRequestTypeEnum =
 /**
  *
  * @export
+ * @interface CreateRecipientRequest
+ */
+export interface CreateRecipientRequest {
+  /**
+   * Recipient\'s name/nickname (note: this does not need to match the actual accountholder name of the recipient\'s account)
+   * @type {string}
+   * @memberof CreateRecipientRequest
+   */
+  name: string;
+  /**
+   *
+   * @type {RecipientAccount}
+   * @memberof CreateRecipientRequest
+   */
+  recipient_account: RecipientAccount;
+  /**
+   * Customer App\'s internal ID for the recipient
+   * @type {string}
+   * @memberof CreateRecipientRequest
+   */
+  user_id?: string;
+  /**
+   * Additional attributes of the recipient in key:value format (e.g. employer_name: Apple Inc for a payroll case where recipient is an employee)
+   * @type {{ [key: string]: string; }}
+   * @memberof CreateRecipientRequest
+   */
+  metadata?: { [key: string]: string };
+}
+/**
+ *
+ * @export
+ * @interface CreateRecipientResponse
+ */
+export interface CreateRecipientResponse {
+  /**
+   * A unique identifier generated after creating recipient
+   * @type {string}
+   * @memberof CreateRecipientResponse
+   */
+  recipient_account_id?: string;
+  /**
+   * Recipient\'s name/nickname (note: this does not need to match the actual accountholder name of the recipient\'s account)
+   * @type {string}
+   * @memberof CreateRecipientResponse
+   */
+  name: string;
+  /**
+   *
+   * @type {RecipientAccount}
+   * @memberof CreateRecipientResponse
+   */
+  recipient_account: RecipientAccount;
+  /**
+   * Customer App\'s internal ID for the recipient
+   * @type {string}
+   * @memberof CreateRecipientResponse
+   */
+  user_id?: string;
+  /**
+   * Additional attributes of the recipient in key:value format (e.g. employer_name: Apple Inc for a payroll case where recipient is an employee)
+   * @type {object}
+   * @memberof CreateRecipientResponse
+   */
+  metadata?: object;
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof CreateRecipientResponse
+   */
+  last_update?: string;
+}
+/**
+ *
+ * @export
  * @interface CurrencyAmount
  */
 export interface CurrencyAmount {
@@ -3803,6 +3877,79 @@ export interface ProductStatus {
 /**
  *
  * @export
+ * @interface RecipientAccount
+ */
+export interface RecipientAccount {
+  /**
+   * Accountholder name of the recipient\'s account
+   * @type {string}
+   * @memberof RecipientAccount
+   */
+  accountholder_name: string;
+  /**
+   *
+   * @type {RecipientAccountNumber}
+   * @memberof RecipientAccount
+   */
+  account_number?: RecipientAccountNumber;
+  /**
+   * Type of recipient account.
+   * @type {string}
+   * @memberof RecipientAccount
+   */
+  account_type: RecipientAccountAccountTypeEnum;
+  /**
+   * List of currencies supported by the recipient account
+   * @type {Array<string>}
+   * @memberof RecipientAccount
+   */
+  currencies: Array<string>;
+  /**
+   * Finverse Institution ID for the recipient’s institution.
+   * @type {string}
+   * @memberof RecipientAccount
+   */
+  institution_id: string;
+}
+
+export const RecipientAccountAccountTypeEnum = {
+  ExternalAccount: 'EXTERNAL_ACCOUNT',
+} as const;
+
+export type RecipientAccountAccountTypeEnum =
+  typeof RecipientAccountAccountTypeEnum[keyof typeof RecipientAccountAccountTypeEnum];
+
+/**
+ *
+ * @export
+ * @interface RecipientAccountNumber
+ */
+export interface RecipientAccountNumber {
+  /**
+   * Type of account number. Possible values: LOCAL, IBAN
+   * @type {string}
+   * @memberof RecipientAccountNumber
+   */
+  type: RecipientAccountNumberTypeEnum;
+  /**
+   * Account number value
+   * @type {string}
+   * @memberof RecipientAccountNumber
+   */
+  number: string;
+}
+
+export const RecipientAccountNumberTypeEnum = {
+  Local: 'LOCAL',
+  Iban: 'IBAN',
+} as const;
+
+export type RecipientAccountNumberTypeEnum =
+  typeof RecipientAccountNumberTypeEnum[keyof typeof RecipientAccountNumberTypeEnum];
+
+/**
+ *
+ * @export
  * @interface RedirectUriResponse
  */
 export interface RedirectUriResponse {
@@ -4575,6 +4722,50 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
+     * Create Recipients
+     * @param {CreateRecipientRequest} createRecipientRequest request body for creating recipient
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createRecipient: async (
+      createRecipientRequest: CreateRecipientRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'createRecipientRequest' is not null or undefined
+      assertParamExists('createRecipient', 'createRecipientRequest', createRecipientRequest);
+      const localVarPath = `/recipients`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        createRecipientRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * generate a link token that can be used to create link
      * @param {LinkTokenRequest} linkTokenRequest token request
      * @param {*} [options] Override http request option.
@@ -5151,6 +5342,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Create Recipients
+     * @param {CreateRecipientRequest} createRecipientRequest request body for creating recipient
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createRecipient(
+      createRecipientRequest: CreateRecipientRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateRecipientResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createRecipient(createRecipientRequest, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * generate a link token that can be used to create link
      * @param {LinkTokenRequest} linkTokenRequest token request
      * @param {*} [options] Override http request option.
@@ -5389,6 +5593,18 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
         .then((request) => request(axios, basePath));
     },
     /**
+     * Create Recipients
+     * @param {CreateRecipientRequest} createRecipientRequest request body for creating recipient
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createRecipient(
+      createRecipientRequest: CreateRecipientRequest,
+      options?: any,
+    ): AxiosPromise<CreateRecipientResponse> {
+      return localVarFp.createRecipient(createRecipientRequest, options).then((request) => request(axios, basePath));
+    },
+    /**
      * generate a link token that can be used to create link
      * @param {LinkTokenRequest} linkTokenRequest token request
      * @param {*} [options] Override http request option.
@@ -5578,6 +5794,18 @@ export interface CustomerApiInterface {
     paymentInstruction: CustomerPaymentInstruction,
     options?: AxiosRequestConfig,
   ): AxiosPromise<CreatePaymentInstructionResponse>;
+
+  /**
+   * Create Recipients
+   * @param {CreateRecipientRequest} createRecipientRequest request body for creating recipient
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  createRecipient(
+    createRecipientRequest: CreateRecipientRequest,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<CreateRecipientResponse>;
 
   /**
    * generate a link token that can be used to create link
@@ -5776,6 +6004,19 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public createPaymentInstruction(paymentInstruction: CustomerPaymentInstruction, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .createPaymentInstruction(paymentInstruction, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Create Recipients
+   * @param {CreateRecipientRequest} createRecipientRequest request body for creating recipient
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public createRecipient(createRecipientRequest: CreateRecipientRequest, options?: AxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .createRecipient(createRecipientRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
