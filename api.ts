@@ -5645,7 +5645,7 @@ export const CustomerApiFp = function (configuration?: Configuration) {
     async cancelPayoutInstruction(
       payoutInstructionId: string,
       options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutInstructionResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.cancelPayoutInstruction(payoutInstructionId, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
@@ -5969,7 +5969,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    cancelPayoutInstruction(payoutInstructionId: string, options?: any): AxiosPromise<void> {
+    cancelPayoutInstruction(payoutInstructionId: string, options?: any): AxiosPromise<PayoutInstructionResponse> {
       return localVarFp
         .cancelPayoutInstruction(payoutInstructionId, options)
         .then((request) => request(axios, basePath));
@@ -6233,7 +6233,10 @@ export interface CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
-  cancelPayoutInstruction(payoutInstructionId: string, options?: AxiosRequestConfig): AxiosPromise<void>;
+  cancelPayoutInstruction(
+    payoutInstructionId: string,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<PayoutInstructionResponse>;
 
   /**
    * CREATE Mandate
