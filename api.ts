@@ -3990,7 +3990,7 @@ export interface RecipientAccount {
    * @type {RecipientAccountNumber}
    * @memberof RecipientAccount
    */
-  account_number?: RecipientAccountNumber;
+  account_number: RecipientAccountNumber;
   /**
    * Type of recipient account.
    * @type {string}
