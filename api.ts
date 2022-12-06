@@ -3986,6 +3986,12 @@ export interface ProductStatus {
  */
 export interface RecipientAccount {
   /**
+   * A unique identifier generated after creating recipient
+   * @type {string}
+   * @memberof RecipientAccount
+   */
+  recipient_account_id?: string;
+  /**
    * Accountholder name of the recipient\'s account
    * @type {string}
    * @memberof RecipientAccount
@@ -4058,12 +4064,6 @@ export type RecipientAccountNumberTypeEnum =
  * @interface RecipientResponse
  */
 export interface RecipientResponse {
-  /**
-   * A unique identifier generated after creating recipient
-   * @type {string}
-   * @memberof RecipientResponse
-   */
-  recipient_account_id?: string;
   /**
    * Recipient\'s name/nickname (note: this does not need to match the actual accountholder name of the recipient\'s account)
    * @type {string}
