@@ -714,7 +714,7 @@ export interface CreateMandateResponse {
    * @type {string}
    * @memberof CreateMandateResponse
    */
-  last_update: string;
+  updated_at: string;
   /**
    * Finverse Mandate ID (ULID)
    * @type {string}
@@ -1559,7 +1559,7 @@ export interface GetMandateResponse {
    * @type {string}
    * @memberof GetMandateResponse
    */
-  last_update: string;
+  updated_at: string;
   /**
    * Finverse Mandate ID (ULID)
    * @type {string}
@@ -3714,7 +3714,7 @@ export interface PaymentResponse {
    * @type {string}
    * @memberof PaymentResponse
    */
-  last_update?: string;
+  updated_at?: string;
   /**
    * Possible values - CREATED, AUTHORIZED, SUBMITTED, EXECUTED, FAILED, REJECTED, CANCELLED.
    * @type {string}
@@ -3739,6 +3739,12 @@ export interface PaymentResponse {
    * @memberof PaymentResponse
    */
   sender?: GetMandateSender;
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof PaymentResponse
+   */
+  created_at?: string;
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
