@@ -942,19 +942,6 @@ export interface CreateRecipientRequest {
 /**
  *
  * @export
- * @interface CreateRecipientResponse
- */
-export interface CreateRecipientResponse {
-  /**
-   *
-   * @type {RecipientResponse}
-   * @memberof CreateRecipientResponse
-   */
-  recipient?: RecipientResponse;
-}
-/**
- *
- * @export
  * @interface CurrencyAmount
  */
 export interface CurrencyAmount {
@@ -1675,19 +1662,6 @@ export interface GetPaymentInstructionsResponse {
    * @memberof GetPaymentInstructionsResponse
    */
   payment_instruction?: PaymentInstruction;
-}
-/**
- *
- * @export
- * @interface GetRecipientResponse
- */
-export interface GetRecipientResponse {
-  /**
-   *
-   * @type {RecipientResponse}
-   * @memberof GetRecipientResponse
-   */
-  recipient?: RecipientResponse;
 }
 /**
  *
@@ -4089,11 +4063,17 @@ export interface RecipientResponse {
    */
   metadata?: object;
   /**
-   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * Timestamp of when the recipient was created in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
    * @memberof RecipientResponse
    */
-  last_update?: string;
+  created_at?: string;
+  /**
+   * Timestamp of when the recipient was last updated in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof RecipientResponse
+   */
+  updated_at?: string;
 }
 /**
  *
@@ -5734,7 +5714,7 @@ export const CustomerApiFp = function (configuration?: Configuration) {
     async createRecipient(
       createRecipientRequest: CreateRecipientRequest,
       options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateRecipientResponse>> {
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RecipientResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createRecipient(createRecipientRequest, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
@@ -5888,7 +5868,7 @@ export const CustomerApiFp = function (configuration?: Configuration) {
     async getRecipient(
       recipientAccountId: string,
       options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetRecipientResponse>> {
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RecipientResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getRecipient(recipientAccountId, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
@@ -6048,10 +6028,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createRecipient(
-      createRecipientRequest: CreateRecipientRequest,
-      options?: any,
-    ): AxiosPromise<CreateRecipientResponse> {
+    createRecipient(createRecipientRequest: CreateRecipientRequest, options?: any): AxiosPromise<RecipientResponse> {
       return localVarFp.createRecipient(createRecipientRequest, options).then((request) => request(axios, basePath));
     },
     /**
@@ -6165,7 +6142,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getRecipient(recipientAccountId: string, options?: any): AxiosPromise<GetRecipientResponse> {
+    getRecipient(recipientAccountId: string, options?: any): AxiosPromise<RecipientResponse> {
       return localVarFp.getRecipient(recipientAccountId, options).then((request) => request(axios, basePath));
     },
     /**
@@ -6308,7 +6285,7 @@ export interface CustomerApiInterface {
   createRecipient(
     createRecipientRequest: CreateRecipientRequest,
     options?: AxiosRequestConfig,
-  ): AxiosPromise<CreateRecipientResponse>;
+  ): AxiosPromise<RecipientResponse>;
 
   /**
    * Delete Recipient
@@ -6430,7 +6407,7 @@ export interface CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
-  getRecipient(recipientAccountId: string, options?: AxiosRequestConfig): AxiosPromise<GetRecipientResponse>;
+  getRecipient(recipientAccountId: string, options?: AxiosRequestConfig): AxiosPromise<RecipientResponse>;
 
   /**
    * Get a list of institutions
