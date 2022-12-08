@@ -4729,7 +4729,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
     ): Promise<RequestArgs> => {
       // verify required parameter 'payoutInstructionId' is not null or undefined
       assertParamExists('cancelPayoutInstruction', 'payoutInstructionId', payoutInstructionId);
-      const localVarPath = `/payout_instruction/{payoutInstructionId}/cancel`.replace(
+      const localVarPath = `/payout_instructions/{payoutInstructionId}/cancel`.replace(
         `{${'payoutInstructionId'}}`,
         encodeURIComponent(String(payoutInstructionId)),
       );
@@ -4903,7 +4903,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
     ): Promise<RequestArgs> => {
       // verify required parameter 'createPayoutInstructionRequest' is not null or undefined
       assertParamExists('createPayoutInstruction', 'createPayoutInstructionRequest', createPayoutInstructionRequest);
-      const localVarPath = `/payout_instruction`;
+      const localVarPath = `/payout_instructions`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -5369,7 +5369,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
     ): Promise<RequestArgs> => {
       // verify required parameter 'payoutInstructionId' is not null or undefined
       assertParamExists('getPayoutInstruction', 'payoutInstructionId', payoutInstructionId);
-      const localVarPath = `/payout_instruction/{payoutInstructionId}`.replace(
+      const localVarPath = `/payout_instructions/{payoutInstructionId}`.replace(
         `{${'payoutInstructionId'}}`,
         encodeURIComponent(String(payoutInstructionId)),
       );
