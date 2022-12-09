@@ -911,6 +911,51 @@ export interface CreatePayoutInstructionRequest {
 /**
  *
  * @export
+ * @interface CreateRecipientAccount
+ */
+export interface CreateRecipientAccount {
+  /**
+   * Accountholder name of the recipient\'s account
+   * @type {string}
+   * @memberof CreateRecipientAccount
+   */
+  accountholder_name: string;
+  /**
+   *
+   * @type {RecipientAccountNumber}
+   * @memberof CreateRecipientAccount
+   */
+  account_number: RecipientAccountNumber;
+  /**
+   * Type of recipient account.
+   * @type {string}
+   * @memberof CreateRecipientAccount
+   */
+  account_type: CreateRecipientAccountAccountTypeEnum;
+  /**
+   * List of currencies supported by the recipient account
+   * @type {Array<string>}
+   * @memberof CreateRecipientAccount
+   */
+  currencies: Array<string>;
+  /**
+   * Finverse Institution ID for the recipient’s institution.
+   * @type {string}
+   * @memberof CreateRecipientAccount
+   */
+  institution_id: string;
+}
+
+export const CreateRecipientAccountAccountTypeEnum = {
+  ExternalAccount: 'EXTERNAL_ACCOUNT',
+} as const;
+
+export type CreateRecipientAccountAccountTypeEnum =
+  typeof CreateRecipientAccountAccountTypeEnum[keyof typeof CreateRecipientAccountAccountTypeEnum];
+
+/**
+ *
+ * @export
  * @interface CreateRecipientRequest
  */
 export interface CreateRecipientRequest {
@@ -922,16 +967,16 @@ export interface CreateRecipientRequest {
   name: string;
   /**
    *
-   * @type {RecipientAccount}
+   * @type {CreateRecipientAccount}
    * @memberof CreateRecipientRequest
    */
-  recipient_account: RecipientAccount;
+  recipient_account: CreateRecipientAccount;
   /**
    * Customer App\'s internal ID for the recipient
    * @type {string}
    * @memberof CreateRecipientRequest
    */
-  user_id?: string;
+  user_id: string;
   /**
    * Additional attributes of the recipient in key:value format (e.g. employer_name: Apple Inc for a payroll case where recipient is an employee)
    * @type {{ [key: string]: string; }}
@@ -956,7 +1001,7 @@ export interface CreateSenderRequest {
    * @type {string}
    * @memberof CreateSenderRequest
    */
-  user_id?: string;
+  user_id: string;
   /**
    * Sender details which will be used for fraud checking.
    * @type {Array<SenderDetail>}
@@ -974,7 +1019,7 @@ export interface CreateSenderRequest {
    * @type {string}
    * @memberof CreateSenderRequest
    */
-  sender_type?: CreateSenderRequestSenderTypeEnum;
+  sender_type: CreateSenderRequestSenderTypeEnum;
   /**
    * Additional attributes of the sender in key:value format (e.g. employer_name: Apple Inc for a payroll case where sender is an employee)
    * @type {{ [key: string]: string; }}
@@ -4008,57 +4053,6 @@ export interface ProductStatus {
 /**
  *
  * @export
- * @interface RecipientAccount
- */
-export interface RecipientAccount {
-  /**
-   * A unique identifier generated after creating recipient
-   * @type {string}
-   * @memberof RecipientAccount
-   */
-  recipient_account_id?: string;
-  /**
-   * Accountholder name of the recipient\'s account
-   * @type {string}
-   * @memberof RecipientAccount
-   */
-  accountholder_name: string;
-  /**
-   *
-   * @type {RecipientAccountNumber}
-   * @memberof RecipientAccount
-   */
-  account_number: RecipientAccountNumber;
-  /**
-   * Type of recipient account.
-   * @type {string}
-   * @memberof RecipientAccount
-   */
-  account_type: RecipientAccountAccountTypeEnum;
-  /**
-   * List of currencies supported by the recipient account
-   * @type {Array<string>}
-   * @memberof RecipientAccount
-   */
-  currencies: Array<string>;
-  /**
-   * Finverse Institution ID for the recipient’s institution.
-   * @type {string}
-   * @memberof RecipientAccount
-   */
-  institution_id: string;
-}
-
-export const RecipientAccountAccountTypeEnum = {
-  ExternalAccount: 'EXTERNAL_ACCOUNT',
-} as const;
-
-export type RecipientAccountAccountTypeEnum =
-  typeof RecipientAccountAccountTypeEnum[keyof typeof RecipientAccountAccountTypeEnum];
-
-/**
- *
- * @export
  * @interface RecipientAccountNumber
  */
 export interface RecipientAccountNumber {
@@ -4087,6 +4081,58 @@ export type RecipientAccountNumberTypeEnum =
 /**
  *
  * @export
+ * @interface RecipientAccountResponse
+ */
+export interface RecipientAccountResponse {
+  /**
+   * A unique identifier generated after creating recipient
+   * @type {string}
+   * @memberof RecipientAccountResponse
+   */
+  recipient_account_id?: string;
+  /**
+   * Accountholder name of the recipient\'s account
+   * @type {string}
+   * @memberof RecipientAccountResponse
+   */
+  accountholder_name?: string;
+  /**
+   *
+   * @type {RecipientAccountNumber}
+   * @memberof RecipientAccountResponse
+   */
+  account_number?: RecipientAccountNumber;
+  /**
+   * Type of recipient account.
+   * @type {string}
+   * @memberof RecipientAccountResponse
+   */
+  account_type?: RecipientAccountResponseAccountTypeEnum;
+  /**
+   * List of currencies supported by the recipient account
+   * @type {Array<string>}
+   * @memberof RecipientAccountResponse
+   */
+  currencies?: Array<string>;
+  /**
+   * Finverse Institution ID for the recipient’s institution.
+   * @type {string}
+   * @memberof RecipientAccountResponse
+   */
+  institution_id?: string;
+}
+
+export const RecipientAccountResponseAccountTypeEnum = {
+  ExternalAccount: 'EXTERNAL_ACCOUNT',
+  SettlementAccount: 'SETTLEMENT_ACCOUNT',
+} as const;
+
+export type RecipientAccountResponseAccountTypeEnum =
+  typeof RecipientAccountResponseAccountTypeEnum[keyof typeof RecipientAccountResponseAccountTypeEnum];
+
+/**
+ *
+ * @export
  * @interface RecipientResponse
  */
 export interface RecipientResponse {
@@ -4098,10 +4144,10 @@ export interface RecipientResponse {
   name: string;
   /**
    *
-   * @type {RecipientAccount}
+   * @type {RecipientAccountResponse}
    * @memberof RecipientResponse
    */
-  recipient_account: RecipientAccount;
+  recipient_account: RecipientAccountResponse;
   /**
    * Customer App\'s internal ID for the recipient
    * @type {string}
@@ -4231,7 +4277,7 @@ export interface SenderResponse {
    * @type {string}
    * @memberof SenderResponse
    */
-  sender_id: string;
+  sender_id?: string;
   /**
    * Customer App\'s internal ID for the sender
    * @type {string}
@@ -4243,7 +4289,7 @@ export interface SenderResponse {
    * @type {string}
    * @memberof SenderResponse
    */
-  name: string;
+  name?: string;
   /**
    * Sender details which will be used for fraud checking.
    * @type {Array<SenderDetail>}
