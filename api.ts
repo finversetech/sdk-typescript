@@ -4141,13 +4141,13 @@ export interface RecipientResponse {
    * @type {string}
    * @memberof RecipientResponse
    */
-  name: string;
+  name?: string;
   /**
    *
    * @type {RecipientAccountResponse}
    * @memberof RecipientResponse
    */
-  recipient_account: RecipientAccountResponse;
+  recipient_account?: RecipientAccountResponse;
   /**
    * Customer App\'s internal ID for the recipient
    * @type {string}
