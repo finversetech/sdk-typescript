@@ -942,6 +942,58 @@ export interface CreateRecipientRequest {
 /**
  *
  * @export
+ * @interface CreateSenderRequest
+ */
+export interface CreateSenderRequest {
+  /**
+   * Sender’s name/nickname (note: this does not need to match the actual accountholder name of the sender’s account)
+   * @type {string}
+   * @memberof CreateSenderRequest
+   */
+  name: string;
+  /**
+   * Customer App\'s internal ID for the sender
+   * @type {string}
+   * @memberof CreateSenderRequest
+   */
+  user_id?: string;
+  /**
+   * Sender details which will be used for fraud checking.
+   * @type {Array<SenderDetail>}
+   * @memberof CreateSenderRequest
+   */
+  sender_details?: Array<SenderDetail>;
+  /**
+   * Customer reference for the sender
+   * @type {string}
+   * @memberof CreateSenderRequest
+   */
+  sender_reference_id?: string;
+  /**
+   * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
+   * @type {string}
+   * @memberof CreateSenderRequest
+   */
+  sender_type?: CreateSenderRequestSenderTypeEnum;
+  /**
+   * Additional attributes of the sender in key:value format (e.g. employer_name: Apple Inc for a payroll case where sender is an employee)
+   * @type {{ [key: string]: string; }}
+   * @memberof CreateSenderRequest
+   */
+  metadata?: { [key: string]: string };
+}
+
+export const CreateSenderRequestSenderTypeEnum = {
+  Individual: 'INDIVIDUAL',
+  Business: 'BUSINESS',
+} as const;
+
+export type CreateSenderRequestSenderTypeEnum =
+  typeof CreateSenderRequestSenderTypeEnum[keyof typeof CreateSenderRequestSenderTypeEnum];
+
+/**
+ *
+ * @export
  * @interface CurrencyAmount
  */
 export interface CurrencyAmount {
@@ -4171,6 +4223,76 @@ export type SenderDetailDetailsTypeEnum = typeof SenderDetailDetailsTypeEnum[key
 /**
  *
  * @export
+ * @interface SenderResponse
+ */
+export interface SenderResponse {
+  /**
+   * A unique identifier generated after creating sender
+   * @type {string}
+   * @memberof SenderResponse
+   */
+  sender_id: string;
+  /**
+   * Customer App\'s internal ID for the sender
+   * @type {string}
+   * @memberof SenderResponse
+   */
+  user_id?: string;
+  /**
+   * Sender’s name/nickname (note: this does not need to match the actual accountholder name of the sender’s account)
+   * @type {string}
+   * @memberof SenderResponse
+   */
+  name: string;
+  /**
+   * Sender details which will be used for fraud checking.
+   * @type {Array<SenderDetail>}
+   * @memberof SenderResponse
+   */
+  sender_details?: Array<SenderDetail>;
+  /**
+   * Customer reference for the sender
+   * @type {string}
+   * @memberof SenderResponse
+   */
+  sender_reference_id?: string;
+  /**
+   * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
+   * @type {string}
+   * @memberof SenderResponse
+   */
+  sender_type?: SenderResponseSenderTypeEnum;
+  /**
+   * Additional attributes of the sender in key:value format (e.g. employer_name: Apple Inc for a payroll case where sender is an employee)
+   * @type {{ [key: string]: string; }}
+   * @memberof SenderResponse
+   */
+  metadata?: { [key: string]: string };
+  /**
+   * Timestamp of when the sender was created in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof SenderResponse
+   */
+  created_at?: string;
+  /**
+   * Timestamp of when the sender was last updated in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof SenderResponse
+   */
+  updated_at?: string;
+}
+
+export const SenderResponseSenderTypeEnum = {
+  Individual: 'INDIVIDUAL',
+  Business: 'BUSINESS',
+} as const;
+
+export type SenderResponseSenderTypeEnum =
+  typeof SenderResponseSenderTypeEnum[keyof typeof SenderResponseSenderTypeEnum];
+
+/**
+ *
+ * @export
  * @interface SetMandateInstitutionRequest
  */
 export interface SetMandateInstitutionRequest {
@@ -4984,6 +5106,46 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
+     * Create Sender
+     * @param {CreateSenderRequest} createSenderRequest request body for creating sender
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createSender: async (
+      createSenderRequest: CreateSenderRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'createSenderRequest' is not null or undefined
+      assertParamExists('createSender', 'createSenderRequest', createSenderRequest);
+      const localVarPath = `/senders`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(createSenderRequest, localVarRequestOptions, configuration);
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Delete Recipient
      * @param {string} recipientAccountId The institution id
      * @param {*} [options] Override http request option.
@@ -5435,6 +5597,40 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
+     * Get Sender
+     * @param {string} senderId The sender id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getSender: async (senderId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'senderId' is not null or undefined
+      assertParamExists('getSender', 'senderId', senderId);
+      const localVarPath = `/senders/{senderId}`.replace(`{${'senderId'}}`, encodeURIComponent(String(senderId)));
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get a list of institutions
      * @param {string} [country] (Deprecated) The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
@@ -5719,6 +5915,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Create Sender
+     * @param {CreateSenderRequest} createSenderRequest request body for creating sender
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createSender(
+      createSenderRequest: CreateSenderRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SenderResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createSender(createSenderRequest, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Delete Recipient
      * @param {string} recipientAccountId The institution id
      * @param {*} [options] Override http request option.
@@ -5870,6 +6079,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RecipientResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getRecipient(recipientAccountId, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
+     * Get Sender
+     * @param {string} senderId The sender id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getSender(
+      senderId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SenderResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getSender(senderId, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
@@ -6032,6 +6254,15 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
       return localVarFp.createRecipient(createRecipientRequest, options).then((request) => request(axios, basePath));
     },
     /**
+     * Create Sender
+     * @param {CreateSenderRequest} createSenderRequest request body for creating sender
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createSender(createSenderRequest: CreateSenderRequest, options?: any): AxiosPromise<SenderResponse> {
+      return localVarFp.createSender(createSenderRequest, options).then((request) => request(axios, basePath));
+    },
+    /**
      * Delete Recipient
      * @param {string} recipientAccountId The institution id
      * @param {*} [options] Override http request option.
@@ -6144,6 +6375,15 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      */
     getRecipient(recipientAccountId: string, options?: any): AxiosPromise<RecipientResponse> {
       return localVarFp.getRecipient(recipientAccountId, options).then((request) => request(axios, basePath));
+    },
+    /**
+     * Get Sender
+     * @param {string} senderId The sender id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getSender(senderId: string, options?: any): AxiosPromise<SenderResponse> {
+      return localVarFp.getSender(senderId, options).then((request) => request(axios, basePath));
     },
     /**
      * Get a list of institutions
@@ -6288,6 +6528,15 @@ export interface CustomerApiInterface {
   ): AxiosPromise<RecipientResponse>;
 
   /**
+   * Create Sender
+   * @param {CreateSenderRequest} createSenderRequest request body for creating sender
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  createSender(createSenderRequest: CreateSenderRequest, options?: AxiosRequestConfig): AxiosPromise<SenderResponse>;
+
+  /**
    * Delete Recipient
    * @param {string} recipientAccountId The institution id
    * @param {*} [options] Override http request option.
@@ -6408,6 +6657,15 @@ export interface CustomerApiInterface {
    * @memberof CustomerApiInterface
    */
   getRecipient(recipientAccountId: string, options?: AxiosRequestConfig): AxiosPromise<RecipientResponse>;
+
+  /**
+   * Get Sender
+   * @param {string} senderId The sender id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  getSender(senderId: string, options?: AxiosRequestConfig): AxiosPromise<SenderResponse>;
 
   /**
    * Get a list of institutions
@@ -6558,6 +6816,19 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public createRecipient(createRecipientRequest: CreateRecipientRequest, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .createRecipient(createRecipientRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Create Sender
+   * @param {CreateSenderRequest} createSenderRequest request body for creating sender
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public createSender(createSenderRequest: CreateSenderRequest, options?: AxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .createSender(createSenderRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -6713,6 +6984,19 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public getRecipient(recipientAccountId: string, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getRecipient(recipientAccountId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get Sender
+   * @param {string} senderId The sender id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public getSender(senderId: string, options?: AxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .getSender(senderId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
