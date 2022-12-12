@@ -1020,12 +1020,6 @@ export interface CreateSenderAccountRequest {
    * @memberof CreateSenderAccountRequest
    */
   sender_id: string;
-  /**
-   * Customer App\'s internal ID for the recipient
-   * @type {string}
-   * @memberof CreateSenderAccountRequest
-   */
-  user_id: string;
 }
 
 export const CreateSenderAccountRequestAccountTypeEnum = {
@@ -4388,12 +4382,6 @@ export interface SenderAccountResponse {
    * @memberof SenderAccountResponse
    */
   sender_id?: string;
-  /**
-   * Customer App\'s internal ID for the recipient
-   * @type {string}
-   * @memberof SenderAccountResponse
-   */
-  user_id?: string;
   /**
    * Timestamp of when the sender was created in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
