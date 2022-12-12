@@ -747,10 +747,10 @@ export interface CreateMandateResponse {
   mandate_details: MandateDetails;
   /**
    *
-   * @type {FvErrorModel}
+   * @type {FvErrorModelV2}
    * @memberof CreateMandateResponse
    */
-  error?: FvErrorModel;
+  error?: FvErrorModelV2;
 }
 
 export const CreateMandateResponseStatusEnum = {
@@ -1214,6 +1214,19 @@ export interface ErrBodyModel {
 /**
  *
  * @export
+ * @interface ErrBodyModelV2
+ */
+export interface ErrBodyModelV2 {
+  /**
+   *
+   * @type {FvErrorModelV2}
+   * @memberof ErrBodyModelV2
+   */
+  error?: FvErrorModelV2;
+}
+/**
+ *
+ * @export
  * @interface ErrorResponse
  */
 export interface ErrorResponse {
@@ -1310,6 +1323,51 @@ export const FvErrorModelTypeEnum = {
 } as const;
 
 export type FvErrorModelTypeEnum = typeof FvErrorModelTypeEnum[keyof typeof FvErrorModelTypeEnum];
+
+/**
+ *
+ * @export
+ * @interface FvErrorModelV2
+ */
+export interface FvErrorModelV2 {
+  /**
+   * The error type
+   * @type {string}
+   * @memberof FvErrorModelV2
+   */
+  type: FvErrorModelV2TypeEnum;
+  /**
+   *
+   * @type {string}
+   * @memberof FvErrorModelV2
+   */
+  error_code: string;
+  /**
+   *
+   * @type {string}
+   * @memberof FvErrorModelV2
+   */
+  message: string;
+  /**
+   *
+   * @type {string}
+   * @memberof FvErrorModelV2
+   */
+  details: string;
+  /**
+   * The request_id provided in the request header
+   * @type {string}
+   * @memberof FvErrorModelV2
+   */
+  request_id: string;
+}
+
+export const FvErrorModelV2TypeEnum = {
+  LinkError: 'LINK_ERROR',
+  ApiError: 'API_ERROR',
+} as const;
+
+export type FvErrorModelV2TypeEnum = typeof FvErrorModelV2TypeEnum[keyof typeof FvErrorModelV2TypeEnum];
 
 /**
  *
@@ -1609,10 +1667,10 @@ export interface GetMandateAuthResponse {
   last_update: string;
   /**
    *
-   * @type {FvErrorModel}
+   * @type {FvErrorModelV2}
    * @memberof GetMandateAuthResponse
    */
-  error?: FvErrorModel;
+  error?: FvErrorModelV2;
 }
 
 export const GetMandateAuthResponseMandateStatusEnum = {
@@ -1676,10 +1734,10 @@ export interface GetMandateResponse {
   mandate_details: MandateDetails;
   /**
    *
-   * @type {FvErrorModel}
+   * @type {FvErrorModelV2}
    * @memberof GetMandateResponse
    */
-  error?: FvErrorModel;
+  error?: FvErrorModelV2;
 }
 
 export const GetMandateResponseStatusEnum = {
@@ -3824,10 +3882,10 @@ export interface PaymentResponse {
   transaction_date?: string | null;
   /**
    *
-   * @type {FvErrorModel}
+   * @type {FvErrorModelV2}
    * @memberof PaymentResponse
    */
-  error?: FvErrorModel;
+  error?: FvErrorModelV2;
 }
 
 export const PaymentResponseTypeEnum = {
@@ -3935,10 +3993,10 @@ export interface PayoutInstructionResponse {
   currency?: string;
   /**
    *
-   * @type {FvErrorModel}
+   * @type {FvErrorModelV2}
    * @memberof PayoutInstructionResponse
    */
-  error?: FvErrorModel;
+  error?: FvErrorModelV2;
 }
 
 export const PayoutInstructionResponseStatusEnum = {
