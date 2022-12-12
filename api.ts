@@ -987,6 +987,57 @@ export interface CreateRecipientRequest {
 /**
  *
  * @export
+ * @interface CreateSenderAccountRequest
+ */
+export interface CreateSenderAccountRequest {
+  /**
+   * Accountholder name of the sender\'s account
+   * @type {string}
+   * @memberof CreateSenderAccountRequest
+   */
+  accountholder_name: string;
+  /**
+   *
+   * @type {RecipientAccountNumber}
+   * @memberof CreateSenderAccountRequest
+   */
+  account_number: RecipientAccountNumber;
+  /**
+   * Type of sender account.
+   * @type {string}
+   * @memberof CreateSenderAccountRequest
+   */
+  account_type: CreateSenderAccountRequestAccountTypeEnum;
+  /**
+   * Finverse Institution ID for the sender’s institution.
+   * @type {string}
+   * @memberof CreateSenderAccountRequest
+   */
+  institution_id: string;
+  /**
+   * A unique identifier generated after creating sender
+   * @type {string}
+   * @memberof CreateSenderAccountRequest
+   */
+  sender_id: string;
+  /**
+   * Customer App\'s internal ID for the recipient
+   * @type {string}
+   * @memberof CreateSenderAccountRequest
+   */
+  user_id: string;
+}
+
+export const CreateSenderAccountRequestAccountTypeEnum = {
+  ExternalAccount: 'EXTERNAL_ACCOUNT',
+} as const;
+
+export type CreateSenderAccountRequestAccountTypeEnum =
+  typeof CreateSenderAccountRequestAccountTypeEnum[keyof typeof CreateSenderAccountRequestAccountTypeEnum];
+
+/**
+ *
+ * @export
  * @interface CreateSenderRequest
  */
 export interface CreateSenderRequest {
@@ -4298,6 +4349,88 @@ export interface RelinkRequest {
 /**
  *
  * @export
+ * @interface SenderAccountResponse
+ */
+export interface SenderAccountResponse {
+  /**
+   * A unique identifier generated after creating sender account
+   * @type {string}
+   * @memberof SenderAccountResponse
+   */
+  sender_account_id?: string;
+  /**
+   * Accountholder name of the sender\'s account
+   * @type {string}
+   * @memberof SenderAccountResponse
+   */
+  accountholder_name?: string;
+  /**
+   *
+   * @type {RecipientAccountNumber}
+   * @memberof SenderAccountResponse
+   */
+  account_number?: RecipientAccountNumber;
+  /**
+   * Type of sender account.
+   * @type {string}
+   * @memberof SenderAccountResponse
+   */
+  account_type?: SenderAccountResponseAccountTypeEnum;
+  /**
+   * Finverse Institution ID for the sender’s institution.
+   * @type {string}
+   * @memberof SenderAccountResponse
+   */
+  institution_id?: string;
+  /**
+   * A unique identifier generated after creating sender
+   * @type {string}
+   * @memberof SenderAccountResponse
+   */
+  sender_id?: string;
+  /**
+   * Customer App\'s internal ID for the recipient
+   * @type {string}
+   * @memberof SenderAccountResponse
+   */
+  user_id?: string;
+  /**
+   * Timestamp of when the sender was created in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof SenderAccountResponse
+   */
+  created_at?: string;
+  /**
+   * Timestamp of when the sender was last updated in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof SenderAccountResponse
+   */
+  updated_at?: string;
+}
+
+export const SenderAccountResponseAccountTypeEnum = {
+  ExternalAccount: 'EXTERNAL_ACCOUNT',
+} as const;
+
+export type SenderAccountResponseAccountTypeEnum =
+  typeof SenderAccountResponseAccountTypeEnum[keyof typeof SenderAccountResponseAccountTypeEnum];
+
+/**
+ *
+ * @export
+ * @interface SenderAccountsResponse
+ */
+export interface SenderAccountsResponse {
+  /**
+   *
+   * @type {Array<SenderAccountResponse>}
+   * @memberof SenderAccountsResponse
+   */
+  sender_accounts?: Array<SenderAccountResponse>;
+}
+/**
+ *
+ * @export
  * @interface SenderDetail
  */
 export interface SenderDetail {
@@ -5250,6 +5383,50 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
+     * Create Sender Account
+     * @param {CreateSenderAccountRequest} createSenderAccountRequest request body for creating senderAccount
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createSenderAccount: async (
+      createSenderAccountRequest: CreateSenderAccountRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'createSenderAccountRequest' is not null or undefined
+      assertParamExists('createSenderAccount', 'createSenderAccountRequest', createSenderAccountRequest);
+      const localVarPath = `/sender_accounts`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        createSenderAccountRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Delete Recipient
      * @param {string} recipientAccountId The institution id
      * @param {*} [options] Override http request option.
@@ -5261,6 +5438,43 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       const localVarPath = `/recipients/{recipientAccountId}`.replace(
         `{${'recipientAccountId'}}`,
         encodeURIComponent(String(recipientAccountId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Delete Sender Account
+     * @param {string} senderAccountId The sender account id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteSenderAccount: async (senderAccountId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'senderAccountId' is not null or undefined
+      assertParamExists('deleteSenderAccount', 'senderAccountId', senderAccountId);
+      const localVarPath = `/sender_accounts/{senderAccountId}`.replace(
+        `{${'senderAccountId'}}`,
+        encodeURIComponent(String(senderAccountId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -5735,6 +5949,43 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
+     * Get Sender Accounts associated with a senderId
+     * @param {string} senderId The sender id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getSenderAccounts: async (senderId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'senderId' is not null or undefined
+      assertParamExists('getSenderAccounts', 'senderId', senderId);
+      const localVarPath = `/senders/{senderId}/sender_accounts`.replace(
+        `{${'senderId'}}`,
+        encodeURIComponent(String(senderId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get a list of institutions
      * @param {string} [country] (Deprecated) The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
@@ -6032,6 +6283,22 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Create Sender Account
+     * @param {CreateSenderAccountRequest} createSenderAccountRequest request body for creating senderAccount
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createSenderAccount(
+      createSenderAccountRequest: CreateSenderAccountRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SenderAccountResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createSenderAccount(
+        createSenderAccountRequest,
+        options,
+      );
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Delete Recipient
      * @param {string} recipientAccountId The institution id
      * @param {*} [options] Override http request option.
@@ -6042,6 +6309,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.deleteRecipient(recipientAccountId, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
+     * Delete Sender Account
+     * @param {string} senderAccountId The sender account id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deleteSenderAccount(
+      senderAccountId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.deleteSenderAccount(senderAccountId, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
@@ -6196,6 +6476,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SenderResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getSender(senderId, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
+     * Get Sender Accounts associated with a senderId
+     * @param {string} senderId The sender id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getSenderAccounts(
+      senderId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SenderAccountsResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getSenderAccounts(senderId, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
@@ -6367,6 +6660,20 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
       return localVarFp.createSender(createSenderRequest, options).then((request) => request(axios, basePath));
     },
     /**
+     * Create Sender Account
+     * @param {CreateSenderAccountRequest} createSenderAccountRequest request body for creating senderAccount
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createSenderAccount(
+      createSenderAccountRequest: CreateSenderAccountRequest,
+      options?: any,
+    ): AxiosPromise<SenderAccountResponse> {
+      return localVarFp
+        .createSenderAccount(createSenderAccountRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Delete Recipient
      * @param {string} recipientAccountId The institution id
      * @param {*} [options] Override http request option.
@@ -6374,6 +6681,15 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      */
     deleteRecipient(recipientAccountId: string, options?: any): AxiosPromise<void> {
       return localVarFp.deleteRecipient(recipientAccountId, options).then((request) => request(axios, basePath));
+    },
+    /**
+     * Delete Sender Account
+     * @param {string} senderAccountId The sender account id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deleteSenderAccount(senderAccountId: string, options?: any): AxiosPromise<void> {
+      return localVarFp.deleteSenderAccount(senderAccountId, options).then((request) => request(axios, basePath));
     },
     /**
      * generate a link token that can be used to create link
@@ -6488,6 +6804,15 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      */
     getSender(senderId: string, options?: any): AxiosPromise<SenderResponse> {
       return localVarFp.getSender(senderId, options).then((request) => request(axios, basePath));
+    },
+    /**
+     * Get Sender Accounts associated with a senderId
+     * @param {string} senderId The sender id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getSenderAccounts(senderId: string, options?: any): AxiosPromise<SenderAccountsResponse> {
+      return localVarFp.getSenderAccounts(senderId, options).then((request) => request(axios, basePath));
     },
     /**
      * Get a list of institutions
@@ -6641,6 +6966,18 @@ export interface CustomerApiInterface {
   createSender(createSenderRequest: CreateSenderRequest, options?: AxiosRequestConfig): AxiosPromise<SenderResponse>;
 
   /**
+   * Create Sender Account
+   * @param {CreateSenderAccountRequest} createSenderAccountRequest request body for creating senderAccount
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  createSenderAccount(
+    createSenderAccountRequest: CreateSenderAccountRequest,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<SenderAccountResponse>;
+
+  /**
    * Delete Recipient
    * @param {string} recipientAccountId The institution id
    * @param {*} [options] Override http request option.
@@ -6648,6 +6985,15 @@ export interface CustomerApiInterface {
    * @memberof CustomerApiInterface
    */
   deleteRecipient(recipientAccountId: string, options?: AxiosRequestConfig): AxiosPromise<void>;
+
+  /**
+   * Delete Sender Account
+   * @param {string} senderAccountId The sender account id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  deleteSenderAccount(senderAccountId: string, options?: AxiosRequestConfig): AxiosPromise<void>;
 
   /**
    * generate a link token that can be used to create link
@@ -6770,6 +7116,15 @@ export interface CustomerApiInterface {
    * @memberof CustomerApiInterface
    */
   getSender(senderId: string, options?: AxiosRequestConfig): AxiosPromise<SenderResponse>;
+
+  /**
+   * Get Sender Accounts associated with a senderId
+   * @param {string} senderId The sender id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  getSenderAccounts(senderId: string, options?: AxiosRequestConfig): AxiosPromise<SenderAccountsResponse>;
 
   /**
    * Get a list of institutions
@@ -6937,6 +7292,19 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   }
 
   /**
+   * Create Sender Account
+   * @param {CreateSenderAccountRequest} createSenderAccountRequest request body for creating senderAccount
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public createSenderAccount(createSenderAccountRequest: CreateSenderAccountRequest, options?: AxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .createSenderAccount(createSenderAccountRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
    * Delete Recipient
    * @param {string} recipientAccountId The institution id
    * @param {*} [options] Override http request option.
@@ -6946,6 +7314,19 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public deleteRecipient(recipientAccountId: string, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .deleteRecipient(recipientAccountId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Delete Sender Account
+   * @param {string} senderAccountId The sender account id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public deleteSenderAccount(senderAccountId: string, options?: AxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .deleteSenderAccount(senderAccountId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -7101,6 +7482,19 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public getSender(senderId: string, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getSender(senderId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get Sender Accounts associated with a senderId
+   * @param {string} senderId The sender id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public getSenderAccounts(senderId: string, options?: AxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .getSenderAccounts(senderId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
