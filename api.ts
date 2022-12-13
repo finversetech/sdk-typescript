@@ -872,41 +872,29 @@ export type CreatePaymentRequestTypeEnum =
  */
 export interface CreatePayoutInstructionRequest {
   /**
-   * The mandate used to execute payments for this payout instruction. Currency for the mandate must be supported by the recipient account
-   * @type {string}
-   * @memberof CreatePayoutInstructionRequest
-   */
-  mandate_id: string;
-  /**
-   * The recipient account to receive the payment
-   * @type {string}
-   * @memberof CreatePayoutInstructionRequest
-   */
-  recipient_account_id: string;
-  /**
    * Amount to be paid, in currency\'s smallest unit or “minor unit”, as defined in ISO 4217. For example, HKD 100.01 is represented as amount = 10001 (minor unit = cents). For currencies without minor units (e.g. VND, JPY), the amount is represented as is, without modification. For example, VND 15101 is represented as amount = 15101.
    * @type {number}
    * @memberof CreatePayoutInstructionRequest
    */
   amount: number;
   /**
-   * YYYY-MM-DD, date (in UTC) to execute the payment, must be 1 day later than current date
-   * @type {string}
-   * @memberof CreatePayoutInstructionRequest
-   */
-  date: string;
-  /**
-   * A description for the payment (that will appear as the transaction description on bank statements)
-   * @type {string}
-   * @memberof CreatePayoutInstructionRequest
-   */
-  description?: string;
-  /**
    * The currency code as defined in ISO 4217.
    * @type {string}
    * @memberof CreatePayoutInstructionRequest
    */
   currency: string;
+  /**
+   *
+   * @type {PayoutDetails}
+   * @memberof CreatePayoutInstructionRequest
+   */
+  payment_details: PayoutDetails;
+  /**
+   *
+   * @type {MandateRecipientRequest}
+   * @memberof CreatePayoutInstructionRequest
+   */
+  recipient: MandateRecipientRequest;
 }
 /**
  *
@@ -3985,9 +3973,64 @@ export type PaymentScheduleFrequencyEnum =
 /**
  *
  * @export
+ * @interface PayoutDetails
+ */
+export interface PayoutDetails {
+  /**
+   * The mandate used to execute payments for this payout instruction. Currency for the mandate must be supported by the recipient account
+   * @type {string}
+   * @memberof PayoutDetails
+   */
+  mandate_id: string;
+  /**
+   * A description for the payment (that will appear as the transaction description on bank statements)
+   * @type {string}
+   * @memberof PayoutDetails
+   */
+  description?: string;
+  /**
+   * YYYY-MM-DD, date (in UTC) to execute the payment, must be 1 day later than current date
+   * @type {string}
+   * @memberof PayoutDetails
+   */
+  scheduled_date: string;
+}
+/**
+ *
+ * @export
  * @interface PayoutInstructionResponse
  */
 export interface PayoutInstructionResponse {
+  /**
+   * Amount to be paid, in currency\'s smallest unit or “minor unit”, as defined in ISO 4217. For example, HKD 100.01 is represented as amount = 10001 (minor unit = cents). For currencies without minor units (e.g. VND, JPY), the amount is represented as is, without modification. For example, VND 15101 is represented as amount = 15101.
+   * @type {number}
+   * @memberof PayoutInstructionResponse
+   */
+  amount?: number;
+  /**
+   * The currency code as defined in ISO 4217.
+   * @type {string}
+   * @memberof PayoutInstructionResponse
+   */
+  currency?: string;
+  /**
+   *
+   * @type {PayoutDetails}
+   * @memberof PayoutInstructionResponse
+   */
+  payment_details?: PayoutDetails;
+  /**
+   *
+   * @type {MandateRecipient}
+   * @memberof PayoutInstructionResponse
+   */
+  recipient?: MandateRecipient;
+  /**
+   *
+   * @type {PayoutSender}
+   * @memberof PayoutInstructionResponse
+   */
+  sender?: PayoutSender;
   /**
    * Finverse Payout Instruction ID
    * @type {string}
@@ -4001,41 +4044,17 @@ export interface PayoutInstructionResponse {
    */
   status: PayoutInstructionResponseStatusEnum;
   /**
-   * The mandate used to execute payments for this payout instruction. Currency for the mandate must be supported by the recipient account
+   * Timestamp of when the recipient was created in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
    * @memberof PayoutInstructionResponse
    */
-  mandate_id?: string;
+  created_at?: string;
   /**
-   * The recipient account to receive the payment
+   * Timestamp of when the recipient was last updated in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
    * @memberof PayoutInstructionResponse
    */
-  recipient_account_id?: string;
-  /**
-   * Amount to be paid, in currency\'s smallest unit or “minor unit”, as defined in ISO 4217. For example, HKD 100.01 is represented as amount = 10001 (minor unit = cents). For currencies without minor units (e.g. VND, JPY), the amount is represented as is, without modification. For example, VND 15101 is represented as amount = 15101.
-   * @type {number}
-   * @memberof PayoutInstructionResponse
-   */
-  amount?: number;
-  /**
-   * YYYY-MM-DD, date (in UTC) to execute the payment, must be 1 day later than current date
-   * @type {string}
-   * @memberof PayoutInstructionResponse
-   */
-  date?: string;
-  /**
-   * A description for the payment (that will appear as the transaction description on bank statements)
-   * @type {string}
-   * @memberof PayoutInstructionResponse
-   */
-  description?: string;
-  /**
-   * The currency code as defined in ISO 4217.
-   * @type {string}
-   * @memberof PayoutInstructionResponse
-   */
-  currency?: string;
+  updated_at?: string;
   /**
    *
    * @type {FvErrorModelV2}
@@ -4055,6 +4074,19 @@ export const PayoutInstructionResponseStatusEnum = {
 export type PayoutInstructionResponseStatusEnum =
   typeof PayoutInstructionResponseStatusEnum[keyof typeof PayoutInstructionResponseStatusEnum];
 
+/**
+ *
+ * @export
+ * @interface PayoutSender
+ */
+export interface PayoutSender {
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSender
+   */
+  name?: string;
+}
 /**
  *
  * @export
