@@ -3998,6 +3998,31 @@ export interface PayoutDetails {
 /**
  *
  * @export
+ * @interface PayoutDetailsResponse
+ */
+export interface PayoutDetailsResponse {
+  /**
+   * The mandate used to execute payments for this payout instruction. Currency for the mandate must be supported by the recipient account
+   * @type {string}
+   * @memberof PayoutDetailsResponse
+   */
+  mandate_id?: string;
+  /**
+   * A description for the payment (that will appear as the transaction description on bank statements)
+   * @type {string}
+   * @memberof PayoutDetailsResponse
+   */
+  description?: string;
+  /**
+   * YYYY-MM-DD, date (in UTC) to execute the payment, must be 1 day later than current date
+   * @type {string}
+   * @memberof PayoutDetailsResponse
+   */
+  scheduled_date?: string;
+}
+/**
+ *
+ * @export
  * @interface PayoutInstructionResponse
  */
 export interface PayoutInstructionResponse {
@@ -4015,16 +4040,16 @@ export interface PayoutInstructionResponse {
   currency?: string;
   /**
    *
-   * @type {PayoutDetails}
+   * @type {PayoutDetailsResponse}
    * @memberof PayoutInstructionResponse
    */
-  payment_details?: PayoutDetails;
+  payment_details?: PayoutDetailsResponse;
   /**
    *
-   * @type {MandateRecipient}
+   * @type {PayoutRecipient}
    * @memberof PayoutInstructionResponse
    */
-  recipient?: MandateRecipient;
+  recipient?: PayoutRecipient;
   /**
    *
    * @type {PayoutSender}
@@ -4036,13 +4061,13 @@ export interface PayoutInstructionResponse {
    * @type {string}
    * @memberof PayoutInstructionResponse
    */
-  payout_instruction_id: string;
+  payout_instruction_id?: string;
   /**
    * Possible values - CREATED, PROCESSING, EXECUTED, CANCELLED, FAILED.
    * @type {string}
    * @memberof PayoutInstructionResponse
    */
-  status: PayoutInstructionResponseStatusEnum;
+  status?: PayoutInstructionResponseStatusEnum;
   /**
    * Timestamp of when the recipient was created in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
@@ -4074,6 +4099,25 @@ export const PayoutInstructionResponseStatusEnum = {
 export type PayoutInstructionResponseStatusEnum =
   typeof PayoutInstructionResponseStatusEnum[keyof typeof PayoutInstructionResponseStatusEnum];
 
+/**
+ *
+ * @export
+ * @interface PayoutRecipient
+ */
+export interface PayoutRecipient {
+  /**
+   * Merchant account name
+   * @type {string}
+   * @memberof PayoutRecipient
+   */
+  name?: string;
+  /**
+   * Merchant account ID assigned by Finverse
+   * @type {string}
+   * @memberof PayoutRecipient
+   */
+  recipient_account_id?: string;
+}
 /**
  *
  * @export
