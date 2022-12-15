@@ -702,6 +702,12 @@ export interface CreateMandateRequest {
    * @memberof CreateMandateRequest
    */
   mandate_details: MandateDetails;
+  /**
+   * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * @type {{ [key: string]: string; }}
+   * @memberof CreateMandateRequest
+   */
+  metadata?: { [key: string]: string };
 }
 /**
  *
@@ -745,6 +751,12 @@ export interface CreateMandateResponse {
    * @memberof CreateMandateResponse
    */
   mandate_details: MandateDetails;
+  /**
+   * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * @type {{ [key: string]: string; }}
+   * @memberof CreateMandateResponse
+   */
+  metadata?: { [key: string]: string };
   /**
    *
    * @type {FvErrorModelV2}
@@ -855,6 +867,12 @@ export interface CreatePaymentRequest {
    * @memberof CreatePaymentRequest
    */
   payment_details: PaymentDetails2;
+  /**
+   * Additional attributes of the payment in key:value format (e.g. payment_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * @type {{ [key: string]: string; }}
+   * @memberof CreatePaymentRequest
+   */
+  metadata?: { [key: string]: string };
 }
 
 export const CreatePaymentRequestTypeEnum = {
@@ -895,6 +913,12 @@ export interface CreatePayoutInstructionRequest {
    * @memberof CreatePayoutInstructionRequest
    */
   recipient: MandateRecipientRequest;
+  /**
+   * Additional attributes of the payout instruction in key:value format (e.g. payout_instruction_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * @type {{ [key: string]: string; }}
+   * @memberof CreatePayoutInstructionRequest
+   */
+  metadata?: { [key: string]: string };
 }
 /**
  *
@@ -1771,6 +1795,12 @@ export interface GetMandateResponse {
    * @memberof GetMandateResponse
    */
   error?: FvErrorModelV2;
+  /**
+   * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * @type {{ [key: string]: string; }}
+   * @memberof GetMandateResponse
+   */
+  metadata?: { [key: string]: string };
 }
 
 export const GetMandateResponseStatusEnum = {
@@ -3914,6 +3944,12 @@ export interface PaymentResponse {
    */
   transaction_date?: string | null;
   /**
+   * Additional attributes of the payment in key:value format (e.g. payment_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * @type {{ [key: string]: string; }}
+   * @memberof PaymentResponse
+   */
+  metadata?: { [key: string]: string };
+  /**
    *
    * @type {FvErrorModelV2}
    * @memberof PaymentResponse
@@ -4068,6 +4104,12 @@ export interface PayoutInstructionResponse {
    * @memberof PayoutInstructionResponse
    */
   status?: PayoutInstructionResponseStatusEnum;
+  /**
+   * Additional attributes of the payout instruction in key:value format (e.g. payout_instruction_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * @type {{ [key: string]: string; }}
+   * @memberof PayoutInstructionResponse
+   */
+  metadata?: { [key: string]: string };
   /**
    * Timestamp of when the recipient was created in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
