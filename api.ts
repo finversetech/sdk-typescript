@@ -1823,6 +1823,12 @@ export type GetMandateResponseStatusEnum =
  */
 export interface GetMandateSender {
   /**
+   * A unique identifier generated after creating sender
+   * @type {string}
+   * @memberof GetMandateSender
+   */
+  sender_id: string;
+  /**
    *
    * @type {string}
    * @memberof GetMandateSender
