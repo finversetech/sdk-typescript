@@ -1032,6 +1032,12 @@ export interface CreateSenderAccountRequest {
    * @memberof CreateSenderAccountRequest
    */
   sender_id: string;
+  /**
+   * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * @type {{ [key: string]: string; }}
+   * @memberof CreateSenderAccountRequest
+   */
+  metadata?: { [key: string]: string };
 }
 
 export const CreateSenderAccountRequestAccountTypeEnum = {
@@ -4506,6 +4512,12 @@ export interface SenderAccountResponse {
    * @memberof SenderAccountResponse
    */
   sender_id?: string;
+  /**
+   * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * @type {{ [key: string]: string; }}
+   * @memberof SenderAccountResponse
+   */
+  metadata?: { [key: string]: string };
   /**
    * Timestamp of when the sender was created in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
