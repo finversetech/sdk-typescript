@@ -1791,10 +1791,10 @@ export interface GetMandateResponse {
   sender: GetMandateSender;
   /**
    *
-   * @type {SenderAccountResponse}
+   * @type {MandateSenderAccount}
    * @memberof GetMandateResponse
    */
-  sender_account?: SenderAccountResponse;
+  sender_account?: MandateSenderAccount;
   /**
    *
    * @type {MandateDetails}
@@ -3577,6 +3577,63 @@ export interface MandateRecipientRequest {
    */
   recipient_account_id: string;
 }
+/**
+ *
+ * @export
+ * @interface MandateSenderAccount
+ */
+export interface MandateSenderAccount {
+  /**
+   * A unique identifier generated after creating sender account
+   * @type {string}
+   * @memberof MandateSenderAccount
+   */
+  sender_account_id?: string;
+  /**
+   * Accountholder name of the sender\'s account
+   * @type {string}
+   * @memberof MandateSenderAccount
+   */
+  accountholder_name?: string;
+  /**
+   *
+   * @type {RecipientAccountNumber}
+   * @memberof MandateSenderAccount
+   */
+  account_number?: RecipientAccountNumber;
+  /**
+   * Type of sender account.
+   * @type {string}
+   * @memberof MandateSenderAccount
+   */
+  account_type?: MandateSenderAccountAccountTypeEnum;
+  /**
+   * Finverse Institution ID for the sender’s institution.
+   * @type {string}
+   * @memberof MandateSenderAccount
+   */
+  institution_id?: string;
+  /**
+   * A unique identifier generated after creating sender
+   * @type {string}
+   * @memberof MandateSenderAccount
+   */
+  sender_id?: string;
+  /**
+   * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * @type {{ [key: string]: string; }}
+   * @memberof MandateSenderAccount
+   */
+  metadata?: { [key: string]: string };
+}
+
+export const MandateSenderAccountAccountTypeEnum = {
+  ExternalAccount: 'EXTERNAL_ACCOUNT',
+} as const;
+
+export type MandateSenderAccountAccountTypeEnum =
+  typeof MandateSenderAccountAccountTypeEnum[keyof typeof MandateSenderAccountAccountTypeEnum];
+
 /**
  *
  * @export
