@@ -1791,6 +1791,12 @@ export interface GetMandateResponse {
   sender: GetMandateSender;
   /**
    *
+   * @type {SenderAccountResponse}
+   * @memberof GetMandateResponse
+   */
+  sender_account?: SenderAccountResponse;
+  /**
+   *
    * @type {MandateDetails}
    * @memberof GetMandateResponse
    */
