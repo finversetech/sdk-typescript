@@ -698,6 +698,12 @@ export interface CreateMandateRequest {
   sender: CreateMandateSender;
   /**
    *
+   * @type {CreateMandateSenderAccount}
+   * @memberof CreateMandateRequest
+   */
+  sender_account?: CreateMandateSenderAccount;
+  /**
+   *
    * @type {MandateDetails}
    * @memberof CreateMandateRequest
    */
@@ -747,6 +753,12 @@ export interface CreateMandateResponse {
   sender: GetMandateSender;
   /**
    *
+   * @type {MandateSenderAccount}
+   * @memberof CreateMandateResponse
+   */
+  sender_account?: MandateSenderAccount;
+  /**
+   *
    * @type {MandateDetails}
    * @memberof CreateMandateResponse
    */
@@ -785,6 +797,12 @@ export type CreateMandateResponseStatusEnum =
  */
 export interface CreateMandateSender {
   /**
+   * A unique identifier generated after creating sender
+   * @type {string}
+   * @memberof CreateMandateSender
+   */
+  sender_id?: string;
+  /**
    *
    * @type {string}
    * @memberof CreateMandateSender
@@ -795,7 +813,7 @@ export interface CreateMandateSender {
    * @type {string}
    * @memberof CreateMandateSender
    */
-  user_id: string;
+  user_id?: string;
   /**
    * Customer App\'s reference ID, representing the sender\'s account or billing reference number.
    * @type {string}
@@ -807,7 +825,7 @@ export interface CreateMandateSender {
    * @type {string}
    * @memberof CreateMandateSender
    */
-  sender_type: CreateMandateSenderSenderTypeEnum;
+  sender_type?: CreateMandateSenderSenderTypeEnum;
   /**
    * Sender details which will be used for fraud checking.
    * @type {Array<SenderDetail>}
@@ -824,6 +842,19 @@ export const CreateMandateSenderSenderTypeEnum = {
 export type CreateMandateSenderSenderTypeEnum =
   typeof CreateMandateSenderSenderTypeEnum[keyof typeof CreateMandateSenderSenderTypeEnum];
 
+/**
+ *
+ * @export
+ * @interface CreateMandateSenderAccount
+ */
+export interface CreateMandateSenderAccount {
+  /**
+   * A unique identifier generated after creating sender account
+   * @type {string}
+   * @memberof CreateMandateSenderAccount
+   */
+  sender_account_id?: string;
+}
 /**
  *
  * @export
