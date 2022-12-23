@@ -1890,12 +1890,6 @@ export interface GetMandateSender {
    */
   sender_reference_id?: string;
   /**
-   *
-   * @type {PaymentAccount}
-   * @memberof GetMandateSender
-   */
-  sender_account: PaymentAccount;
-  /**
    * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
    * @type {string}
    * @memberof GetMandateSender
