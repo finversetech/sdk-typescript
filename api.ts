@@ -4038,12 +4038,6 @@ export interface PaymentResponse {
    */
   created_at?: string;
   /**
-   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof PaymentResponse
-   */
-  transaction_date?: string | null;
-  /**
    * Additional attributes of the payment in key:value format (e.g. payment_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
    * @type {{ [key: string]: string; }}
    * @memberof PaymentResponse
@@ -5090,12 +5084,6 @@ export interface Transaction {
    * @memberof Transaction
    */
   posted_date?: string;
-  /**
-   * YYYY-MM-DD
-   * @type {string}
-   * @memberof Transaction
-   */
-  transaction_date?: string;
   /**
    *
    * @type {CurrencyAmount}
