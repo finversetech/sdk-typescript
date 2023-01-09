@@ -236,7 +236,7 @@ export const AccountTypeTypeEnum = {
   Unknown: 'UNKNOWN',
 } as const;
 
-export type AccountTypeTypeEnum = typeof AccountTypeTypeEnum[keyof typeof AccountTypeTypeEnum];
+export type AccountTypeTypeEnum = (typeof AccountTypeTypeEnum)[keyof typeof AccountTypeTypeEnum];
 export const AccountTypeSubtypeEnum = {
   Current: 'CURRENT',
   Savings: 'SAVINGS',
@@ -254,7 +254,7 @@ export const AccountTypeSubtypeEnum = {
   Unknown: 'UNKNOWN',
 } as const;
 
-export type AccountTypeSubtypeEnum = typeof AccountTypeSubtypeEnum[keyof typeof AccountTypeSubtypeEnum];
+export type AccountTypeSubtypeEnum = (typeof AccountTypeSubtypeEnum)[keyof typeof AccountTypeSubtypeEnum];
 
 /**
  *
@@ -449,7 +449,8 @@ export const AuthChecklistFactorTypeEnum = {
   AccountholderAuthentication: 'ACCOUNTHOLDER_AUTHENTICATION',
 } as const;
 
-export type AuthChecklistFactorTypeEnum = typeof AuthChecklistFactorTypeEnum[keyof typeof AuthChecklistFactorTypeEnum];
+export type AuthChecklistFactorTypeEnum =
+  (typeof AuthChecklistFactorTypeEnum)[keyof typeof AuthChecklistFactorTypeEnum];
 export const AuthChecklistFactorRequiredEnum = {
   Yes: 'YES',
   No: 'NO',
@@ -457,7 +458,7 @@ export const AuthChecklistFactorRequiredEnum = {
 } as const;
 
 export type AuthChecklistFactorRequiredEnum =
-  typeof AuthChecklistFactorRequiredEnum[keyof typeof AuthChecklistFactorRequiredEnum];
+  (typeof AuthChecklistFactorRequiredEnum)[keyof typeof AuthChecklistFactorRequiredEnum];
 
 /**
  *
@@ -491,14 +492,14 @@ export const AuthChecklistOptionsNameEnum = {
 } as const;
 
 export type AuthChecklistOptionsNameEnum =
-  typeof AuthChecklistOptionsNameEnum[keyof typeof AuthChecklistOptionsNameEnum];
+  (typeof AuthChecklistOptionsNameEnum)[keyof typeof AuthChecklistOptionsNameEnum];
 export const AuthChecklistOptionsSubmittedByEnum = {
   CustomerApp: 'CUSTOMER_APP',
   FinverseLink: 'FINVERSE_LINK',
 } as const;
 
 export type AuthChecklistOptionsSubmittedByEnum =
-  typeof AuthChecklistOptionsSubmittedByEnum[keyof typeof AuthChecklistOptionsSubmittedByEnum];
+  (typeof AuthChecklistOptionsSubmittedByEnum)[keyof typeof AuthChecklistOptionsSubmittedByEnum];
 
 /**
  *
@@ -607,7 +608,7 @@ export const BadRequestModelV2ErrorTypeEnum = {
 } as const;
 
 export type BadRequestModelV2ErrorTypeEnum =
-  typeof BadRequestModelV2ErrorTypeEnum[keyof typeof BadRequestModelV2ErrorTypeEnum];
+  (typeof BadRequestModelV2ErrorTypeEnum)[keyof typeof BadRequestModelV2ErrorTypeEnum];
 
 /**
  *
@@ -788,7 +789,7 @@ export const CreateMandateResponseStatusEnum = {
 } as const;
 
 export type CreateMandateResponseStatusEnum =
-  typeof CreateMandateResponseStatusEnum[keyof typeof CreateMandateResponseStatusEnum];
+  (typeof CreateMandateResponseStatusEnum)[keyof typeof CreateMandateResponseStatusEnum];
 
 /**
  *
@@ -840,7 +841,7 @@ export const CreateMandateSenderSenderTypeEnum = {
 } as const;
 
 export type CreateMandateSenderSenderTypeEnum =
-  typeof CreateMandateSenderSenderTypeEnum[keyof typeof CreateMandateSenderSenderTypeEnum];
+  (typeof CreateMandateSenderSenderTypeEnum)[keyof typeof CreateMandateSenderSenderTypeEnum];
 
 /**
  *
@@ -912,7 +913,7 @@ export const CreatePaymentRequestTypeEnum = {
 } as const;
 
 export type CreatePaymentRequestTypeEnum =
-  typeof CreatePaymentRequestTypeEnum[keyof typeof CreatePaymentRequestTypeEnum];
+  (typeof CreatePaymentRequestTypeEnum)[keyof typeof CreatePaymentRequestTypeEnum];
 
 /**
  *
@@ -994,7 +995,7 @@ export const CreateRecipientAccountAccountTypeEnum = {
 } as const;
 
 export type CreateRecipientAccountAccountTypeEnum =
-  typeof CreateRecipientAccountAccountTypeEnum[keyof typeof CreateRecipientAccountAccountTypeEnum];
+  (typeof CreateRecipientAccountAccountTypeEnum)[keyof typeof CreateRecipientAccountAccountTypeEnum];
 
 /**
  *
@@ -1076,7 +1077,7 @@ export const CreateSenderAccountRequestAccountTypeEnum = {
 } as const;
 
 export type CreateSenderAccountRequestAccountTypeEnum =
-  typeof CreateSenderAccountRequestAccountTypeEnum[keyof typeof CreateSenderAccountRequestAccountTypeEnum];
+  (typeof CreateSenderAccountRequestAccountTypeEnum)[keyof typeof CreateSenderAccountRequestAccountTypeEnum];
 
 /**
  *
@@ -1128,7 +1129,7 @@ export const CreateSenderRequestSenderTypeEnum = {
 } as const;
 
 export type CreateSenderRequestSenderTypeEnum =
-  typeof CreateSenderRequestSenderTypeEnum[keyof typeof CreateSenderRequestSenderTypeEnum];
+  (typeof CreateSenderRequestSenderTypeEnum)[keyof typeof CreateSenderRequestSenderTypeEnum];
 
 /**
  *
@@ -1240,7 +1241,7 @@ export const CustomerPaymentInstructionTypeEnum = {
 } as const;
 
 export type CustomerPaymentInstructionTypeEnum =
-  typeof CustomerPaymentInstructionTypeEnum[keyof typeof CustomerPaymentInstructionTypeEnum];
+  (typeof CustomerPaymentInstructionTypeEnum)[keyof typeof CustomerPaymentInstructionTypeEnum];
 
 /**
  *
@@ -1416,7 +1417,7 @@ export const FvErrorModelTypeEnum = {
   ApiError: 'API_ERROR',
 } as const;
 
-export type FvErrorModelTypeEnum = typeof FvErrorModelTypeEnum[keyof typeof FvErrorModelTypeEnum];
+export type FvErrorModelTypeEnum = (typeof FvErrorModelTypeEnum)[keyof typeof FvErrorModelTypeEnum];
 
 /**
  *
@@ -1461,7 +1462,7 @@ export const FvErrorModelV2TypeEnum = {
   ApiError: 'API_ERROR',
 } as const;
 
-export type FvErrorModelV2TypeEnum = typeof FvErrorModelV2TypeEnum[keyof typeof FvErrorModelV2TypeEnum];
+export type FvErrorModelV2TypeEnum = (typeof FvErrorModelV2TypeEnum)[keyof typeof FvErrorModelV2TypeEnum];
 
 /**
  *
@@ -1569,7 +1570,7 @@ export const GetBalanceHistoryResponseSourceEnum = {
 } as const;
 
 export type GetBalanceHistoryResponseSourceEnum =
-  typeof GetBalanceHistoryResponseSourceEnum[keyof typeof GetBalanceHistoryResponseSourceEnum];
+  (typeof GetBalanceHistoryResponseSourceEnum)[keyof typeof GetBalanceHistoryResponseSourceEnum];
 
 /**
  *
@@ -1703,7 +1704,7 @@ export const GetMandateAuthLinkResponseTokenTypeEnum = {
 } as const;
 
 export type GetMandateAuthLinkResponseTokenTypeEnum =
-  typeof GetMandateAuthLinkResponseTokenTypeEnum[keyof typeof GetMandateAuthLinkResponseTokenTypeEnum];
+  (typeof GetMandateAuthLinkResponseTokenTypeEnum)[keyof typeof GetMandateAuthLinkResponseTokenTypeEnum];
 
 /**
  *
@@ -1775,14 +1776,14 @@ export const GetMandateAuthResponseMandateStatusEnum = {
 } as const;
 
 export type GetMandateAuthResponseMandateStatusEnum =
-  typeof GetMandateAuthResponseMandateStatusEnum[keyof typeof GetMandateAuthResponseMandateStatusEnum];
+  (typeof GetMandateAuthResponseMandateStatusEnum)[keyof typeof GetMandateAuthResponseMandateStatusEnum];
 export const GetMandateAuthResponseSenderTypeEnum = {
   Individual: 'INDIVIDUAL',
   Business: 'BUSINESS',
 } as const;
 
 export type GetMandateAuthResponseSenderTypeEnum =
-  typeof GetMandateAuthResponseSenderTypeEnum[keyof typeof GetMandateAuthResponseSenderTypeEnum];
+  (typeof GetMandateAuthResponseSenderTypeEnum)[keyof typeof GetMandateAuthResponseSenderTypeEnum];
 
 /**
  *
@@ -1857,7 +1858,7 @@ export const GetMandateResponseStatusEnum = {
 } as const;
 
 export type GetMandateResponseStatusEnum =
-  typeof GetMandateResponseStatusEnum[keyof typeof GetMandateResponseStatusEnum];
+  (typeof GetMandateResponseStatusEnum)[keyof typeof GetMandateResponseStatusEnum];
 
 /**
  *
@@ -1909,7 +1910,7 @@ export const GetMandateSenderSenderTypeEnum = {
 } as const;
 
 export type GetMandateSenderSenderTypeEnum =
-  typeof GetMandateSenderSenderTypeEnum[keyof typeof GetMandateSenderSenderTypeEnum];
+  (typeof GetMandateSenderSenderTypeEnum)[keyof typeof GetMandateSenderSenderTypeEnum];
 
 /**
  *
@@ -2519,7 +2520,7 @@ export const InstitutionTagsEnum = {
   Test: 'test',
 } as const;
 
-export type InstitutionTagsEnum = typeof InstitutionTagsEnum[keyof typeof InstitutionTagsEnum];
+export type InstitutionTagsEnum = (typeof InstitutionTagsEnum)[keyof typeof InstitutionTagsEnum];
 export const InstitutionInstitutionTypeEnum = {
   Bank: 'BANK',
   Wallet: 'WALLET',
@@ -2527,7 +2528,7 @@ export const InstitutionInstitutionTypeEnum = {
 } as const;
 
 export type InstitutionInstitutionTypeEnum =
-  typeof InstitutionInstitutionTypeEnum[keyof typeof InstitutionInstitutionTypeEnum];
+  (typeof InstitutionInstitutionTypeEnum)[keyof typeof InstitutionInstitutionTypeEnum];
 export const InstitutionProductsSupportedEnum = {
   Accounts: 'ACCOUNTS',
   Transactions: 'TRANSACTIONS',
@@ -2537,21 +2538,21 @@ export const InstitutionProductsSupportedEnum = {
 } as const;
 
 export type InstitutionProductsSupportedEnum =
-  typeof InstitutionProductsSupportedEnum[keyof typeof InstitutionProductsSupportedEnum];
+  (typeof InstitutionProductsSupportedEnum)[keyof typeof InstitutionProductsSupportedEnum];
 export const InstitutionUserTypeEnum = {
   Personal: 'PERSONAL',
   Individual: 'INDIVIDUAL',
   Business: 'BUSINESS',
 } as const;
 
-export type InstitutionUserTypeEnum = typeof InstitutionUserTypeEnum[keyof typeof InstitutionUserTypeEnum];
+export type InstitutionUserTypeEnum = (typeof InstitutionUserTypeEnum)[keyof typeof InstitutionUserTypeEnum];
 export const InstitutionStatusEnum = {
   Supported: 'SUPPORTED',
   Alpha: 'ALPHA',
   Beta: 'BETA',
 } as const;
 
-export type InstitutionStatusEnum = typeof InstitutionStatusEnum[keyof typeof InstitutionStatusEnum];
+export type InstitutionStatusEnum = (typeof InstitutionStatusEnum)[keyof typeof InstitutionStatusEnum];
 
 /**
  *
@@ -2923,7 +2924,7 @@ export const LinkTokenRequestUiModeEnum = {
   Standalone: 'standalone',
 } as const;
 
-export type LinkTokenRequestUiModeEnum = typeof LinkTokenRequestUiModeEnum[keyof typeof LinkTokenRequestUiModeEnum];
+export type LinkTokenRequestUiModeEnum = (typeof LinkTokenRequestUiModeEnum)[keyof typeof LinkTokenRequestUiModeEnum];
 export const LinkTokenRequestAutomaticDataRefreshEnum = {
   On: 'ON',
   Off: 'OFF',
@@ -2931,7 +2932,7 @@ export const LinkTokenRequestAutomaticDataRefreshEnum = {
 } as const;
 
 export type LinkTokenRequestAutomaticDataRefreshEnum =
-  typeof LinkTokenRequestAutomaticDataRefreshEnum[keyof typeof LinkTokenRequestAutomaticDataRefreshEnum];
+  (typeof LinkTokenRequestAutomaticDataRefreshEnum)[keyof typeof LinkTokenRequestAutomaticDataRefreshEnum];
 
 /**
  *
@@ -3434,7 +3435,7 @@ export const LoginMethodStatusEnum = {
   Beta: 'BETA',
 } as const;
 
-export type LoginMethodStatusEnum = typeof LoginMethodStatusEnum[keyof typeof LoginMethodStatusEnum];
+export type LoginMethodStatusEnum = (typeof LoginMethodStatusEnum)[keyof typeof LoginMethodStatusEnum];
 
 /**
  *
@@ -3525,7 +3526,7 @@ export const MandateAuthLinkCustomizationsUiModeEnum = {
 } as const;
 
 export type MandateAuthLinkCustomizationsUiModeEnum =
-  typeof MandateAuthLinkCustomizationsUiModeEnum[keyof typeof MandateAuthLinkCustomizationsUiModeEnum];
+  (typeof MandateAuthLinkCustomizationsUiModeEnum)[keyof typeof MandateAuthLinkCustomizationsUiModeEnum];
 
 /**
  *
@@ -3657,7 +3658,7 @@ export const MandateSenderAccountAccountTypeEnum = {
 } as const;
 
 export type MandateSenderAccountAccountTypeEnum =
-  typeof MandateSenderAccountAccountTypeEnum[keyof typeof MandateSenderAccountAccountTypeEnum];
+  (typeof MandateSenderAccountAccountTypeEnum)[keyof typeof MandateSenderAccountAccountTypeEnum];
 
 /**
  *
@@ -3841,7 +3842,7 @@ export const PaymentInfoPaymentsSupportedEnum = {
 } as const;
 
 export type PaymentInfoPaymentsSupportedEnum =
-  typeof PaymentInfoPaymentsSupportedEnum[keyof typeof PaymentInfoPaymentsSupportedEnum];
+  (typeof PaymentInfoPaymentsSupportedEnum)[keyof typeof PaymentInfoPaymentsSupportedEnum];
 
 /**
  *
@@ -3969,7 +3970,7 @@ export const PaymentInstructionTypeEnum = {
   DebitAuthorization: 'DEBIT_AUTHORIZATION',
 } as const;
 
-export type PaymentInstructionTypeEnum = typeof PaymentInstructionTypeEnum[keyof typeof PaymentInstructionTypeEnum];
+export type PaymentInstructionTypeEnum = (typeof PaymentInstructionTypeEnum)[keyof typeof PaymentInstructionTypeEnum];
 
 /**
  *
@@ -4056,7 +4057,7 @@ export const PaymentResponseTypeEnum = {
   Single: 'SINGLE',
 } as const;
 
-export type PaymentResponseTypeEnum = typeof PaymentResponseTypeEnum[keyof typeof PaymentResponseTypeEnum];
+export type PaymentResponseTypeEnum = (typeof PaymentResponseTypeEnum)[keyof typeof PaymentResponseTypeEnum];
 export const PaymentResponseStatusEnum = {
   AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
   Authorizing: 'AUTHORIZING',
@@ -4067,7 +4068,7 @@ export const PaymentResponseStatusEnum = {
   Revoked: 'REVOKED',
 } as const;
 
-export type PaymentResponseStatusEnum = typeof PaymentResponseStatusEnum[keyof typeof PaymentResponseStatusEnum];
+export type PaymentResponseStatusEnum = (typeof PaymentResponseStatusEnum)[keyof typeof PaymentResponseStatusEnum];
 
 /**
  *
@@ -4098,7 +4099,7 @@ export const PaymentScheduleFrequencyEnum = {
 } as const;
 
 export type PaymentScheduleFrequencyEnum =
-  typeof PaymentScheduleFrequencyEnum[keyof typeof PaymentScheduleFrequencyEnum];
+  (typeof PaymentScheduleFrequencyEnum)[keyof typeof PaymentScheduleFrequencyEnum];
 
 /**
  *
@@ -4233,7 +4234,7 @@ export const PayoutInstructionResponseStatusEnum = {
 } as const;
 
 export type PayoutInstructionResponseStatusEnum =
-  typeof PayoutInstructionResponseStatusEnum[keyof typeof PayoutInstructionResponseStatusEnum];
+  (typeof PayoutInstructionResponseStatusEnum)[keyof typeof PayoutInstructionResponseStatusEnum];
 
 /**
  *
@@ -4391,7 +4392,7 @@ export const RecipientAccountNumberTypeEnum = {
 } as const;
 
 export type RecipientAccountNumberTypeEnum =
-  typeof RecipientAccountNumberTypeEnum[keyof typeof RecipientAccountNumberTypeEnum];
+  (typeof RecipientAccountNumberTypeEnum)[keyof typeof RecipientAccountNumberTypeEnum];
 
 /**
  *
@@ -4435,6 +4436,18 @@ export interface RecipientAccountResponse {
    * @memberof RecipientAccountResponse
    */
   institution_id?: string;
+  /**
+   * 3-digit code associated with bank
+   * @type {string}
+   * @memberof RecipientAccountResponse
+   */
+  bank_code?: string;
+  /**
+   * 3-digit code used to identify specific bank branch
+   * @type {string}
+   * @memberof RecipientAccountResponse
+   */
+  branch_code?: string;
 }
 
 export const RecipientAccountResponseAccountTypeEnum = {
@@ -4443,7 +4456,7 @@ export const RecipientAccountResponseAccountTypeEnum = {
 } as const;
 
 export type RecipientAccountResponseAccountTypeEnum =
-  typeof RecipientAccountResponseAccountTypeEnum[keyof typeof RecipientAccountResponseAccountTypeEnum];
+  (typeof RecipientAccountResponseAccountTypeEnum)[keyof typeof RecipientAccountResponseAccountTypeEnum];
 
 /**
  *
@@ -4619,7 +4632,7 @@ export const SenderAccountResponseAccountTypeEnum = {
 } as const;
 
 export type SenderAccountResponseAccountTypeEnum =
-  typeof SenderAccountResponseAccountTypeEnum[keyof typeof SenderAccountResponseAccountTypeEnum];
+  (typeof SenderAccountResponseAccountTypeEnum)[keyof typeof SenderAccountResponseAccountTypeEnum];
 
 /**
  *
@@ -4661,7 +4674,8 @@ export const SenderDetailDetailsTypeEnum = {
   HkCertificateOfIncorporation: 'HK_CERTIFICATE_OF_INCORPORATION',
 } as const;
 
-export type SenderDetailDetailsTypeEnum = typeof SenderDetailDetailsTypeEnum[keyof typeof SenderDetailDetailsTypeEnum];
+export type SenderDetailDetailsTypeEnum =
+  (typeof SenderDetailDetailsTypeEnum)[keyof typeof SenderDetailDetailsTypeEnum];
 
 /**
  *
@@ -4731,7 +4745,7 @@ export const SenderResponseSenderTypeEnum = {
 } as const;
 
 export type SenderResponseSenderTypeEnum =
-  typeof SenderResponseSenderTypeEnum[keyof typeof SenderResponseSenderTypeEnum];
+  (typeof SenderResponseSenderTypeEnum)[keyof typeof SenderResponseSenderTypeEnum];
 
 /**
  *
@@ -4923,7 +4937,7 @@ export const SubmitAuthChecklistResponseMandateStatusEnum = {
 } as const;
 
 export type SubmitAuthChecklistResponseMandateStatusEnum =
-  typeof SubmitAuthChecklistResponseMandateStatusEnum[keyof typeof SubmitAuthChecklistResponseMandateStatusEnum];
+  (typeof SubmitAuthChecklistResponseMandateStatusEnum)[keyof typeof SubmitAuthChecklistResponseMandateStatusEnum];
 
 /**
  *
@@ -5161,7 +5175,8 @@ export const TransactionLimitsPeriodEnum = {
   Yearly: 'YEARLY',
 } as const;
 
-export type TransactionLimitsPeriodEnum = typeof TransactionLimitsPeriodEnum[keyof typeof TransactionLimitsPeriodEnum];
+export type TransactionLimitsPeriodEnum =
+  (typeof TransactionLimitsPeriodEnum)[keyof typeof TransactionLimitsPeriodEnum];
 
 /**
  *
