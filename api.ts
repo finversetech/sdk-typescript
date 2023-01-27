@@ -682,6 +682,19 @@ export interface CompositeStatementLink {
 /**
  *
  * @export
+ * @interface ConfirmPaymentResponse
+ */
+export interface ConfirmPaymentResponse {
+  /**
+   *
+   * @type {boolean}
+   * @memberof ConfirmPaymentResponse
+   */
+  success: boolean;
+}
+/**
+ *
+ * @export
  * @interface CreateMandateRequest
  */
 export interface CreateMandateRequest {
@@ -7782,6 +7795,37 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
 export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
+     * Confirm a payment against a payment Link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    confirmPayment: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/payments/confirm`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -7980,6 +8024,17 @@ export const DefaultApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration);
   return {
     /**
+     * Confirm a payment against a payment Link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async confirmPayment(
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConfirmPaymentResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.confirmPayment(options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -8077,6 +8132,14 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
   const localVarFp = DefaultApiFp(configuration);
   return {
     /**
+     * Confirm a payment against a payment Link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    confirmPayment(options?: any): AxiosPromise<ConfirmPaymentResponse> {
+      return localVarFp.confirmPayment(options).then((request) => request(axios, basePath));
+    },
+    /**
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -8165,6 +8228,14 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
  */
 export interface DefaultApiInterface {
   /**
+   * Confirm a payment against a payment Link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  confirmPayment(options?: AxiosRequestConfig): AxiosPromise<ConfirmPaymentResponse>;
+
+  /**
    * List mandates
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
    * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -8234,6 +8305,18 @@ export interface DefaultApiInterface {
  * @extends {BaseAPI}
  */
 export class DefaultApi extends BaseAPI implements DefaultApiInterface {
+  /**
+   * Confirm a payment against a payment Link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public confirmPayment(options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .confirmPayment(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
   /**
    * List mandates
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
