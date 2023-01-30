@@ -4337,6 +4337,12 @@ export interface Principal {
   expires_in?: number;
   /**
    *
+   * @type {string}
+   * @memberof Principal
+   */
+  invoice_id?: string;
+  /**
+   *
    * @type {Array<string>}
    * @memberof Principal
    */
