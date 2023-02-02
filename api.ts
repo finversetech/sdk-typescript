@@ -885,6 +885,47 @@ export interface CreatePaymentInstructionResponse {
 /**
  *
  * @export
+ * @interface CreatePaymentLinkMandateRequest
+ */
+export interface CreatePaymentLinkMandateRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof CreatePaymentLinkMandateRequest
+   */
+  invoice_id: string;
+  /**
+   * The sender type of the mandate
+   * @type {string}
+   * @memberof CreatePaymentLinkMandateRequest
+   */
+  sender_type: CreatePaymentLinkMandateRequestSenderTypeEnum;
+}
+
+export const CreatePaymentLinkMandateRequestSenderTypeEnum = {
+  Individual: 'INDIVIDUAL',
+  Business: 'BUSINESS',
+} as const;
+
+export type CreatePaymentLinkMandateRequestSenderTypeEnum =
+  (typeof CreatePaymentLinkMandateRequestSenderTypeEnum)[keyof typeof CreatePaymentLinkMandateRequestSenderTypeEnum];
+
+/**
+ *
+ * @export
+ * @interface CreatePaymentLinkMandateResponse
+ */
+export interface CreatePaymentLinkMandateResponse {
+  /**
+   *
+   * @type {PaymentLinkTokenResponse}
+   * @memberof CreatePaymentLinkMandateResponse
+   */
+  mandate_link_token: PaymentLinkTokenResponse;
+}
+/**
+ *
+ * @export
  * @interface CreatePaymentRequest
  */
 export interface CreatePaymentRequest {
@@ -3984,6 +4025,45 @@ export const PaymentInstructionTypeEnum = {
 } as const;
 
 export type PaymentInstructionTypeEnum = (typeof PaymentInstructionTypeEnum)[keyof typeof PaymentInstructionTypeEnum];
+
+/**
+ *
+ * @export
+ * @interface PaymentLinkTokenResponse
+ */
+export interface PaymentLinkTokenResponse {
+  /**
+   * Short-lived access-token to interact with Finverse Link
+   * @type {string}
+   * @memberof PaymentLinkTokenResponse
+   */
+  access_token: string;
+  /**
+   * Access token validity duration (in seconds)
+   * @type {number}
+   * @memberof PaymentLinkTokenResponse
+   */
+  expires_in: number;
+  /**
+   * URL to launch Finverse Link to authorize the mandate
+   * @type {string}
+   * @memberof PaymentLinkTokenResponse
+   */
+  link_url: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentLinkTokenResponse
+   */
+  token_type: PaymentLinkTokenResponseTokenTypeEnum;
+}
+
+export const PaymentLinkTokenResponseTokenTypeEnum = {
+  Bearer: 'Bearer',
+} as const;
+
+export type PaymentLinkTokenResponseTokenTypeEnum =
+  (typeof PaymentLinkTokenResponseTokenTypeEnum)[keyof typeof PaymentLinkTokenResponseTokenTypeEnum];
 
 /**
  *
@@ -7806,7 +7886,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @throws {RequiredError}
      */
     confirmPayment: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/payments/confirm`;
+      const localVarPath = `/payment-link/confirm`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -7825,6 +7905,50 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * CREATE Mandate for payment link
+     * @param {CreatePaymentLinkMandateRequest} createPaymentLinkMandateRequest request body for creating mandate for payment-link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentLinkMandate: async (
+      createPaymentLinkMandateRequest: CreatePaymentLinkMandateRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'createPaymentLinkMandateRequest' is not null or undefined
+      assertParamExists('createPaymentLinkMandate', 'createPaymentLinkMandateRequest', createPaymentLinkMandateRequest);
+      const localVarPath = `/payment-link/mandates`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        createPaymentLinkMandateRequest,
+        localVarRequestOptions,
+        configuration,
+      );
 
       return {
         url: toPathString(localVarUrlObj),
@@ -8041,6 +8165,22 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * CREATE Mandate for payment link
+     * @param {CreatePaymentLinkMandateRequest} createPaymentLinkMandateRequest request body for creating mandate for payment-link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createPaymentLinkMandate(
+      createPaymentLinkMandateRequest: CreatePaymentLinkMandateRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePaymentLinkMandateResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentLinkMandate(
+        createPaymentLinkMandateRequest,
+        options,
+      );
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -8146,6 +8286,20 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       return localVarFp.confirmPayment(options).then((request) => request(axios, basePath));
     },
     /**
+     * CREATE Mandate for payment link
+     * @param {CreatePaymentLinkMandateRequest} createPaymentLinkMandateRequest request body for creating mandate for payment-link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentLinkMandate(
+      createPaymentLinkMandateRequest: CreatePaymentLinkMandateRequest,
+      options?: any,
+    ): AxiosPromise<CreatePaymentLinkMandateResponse> {
+      return localVarFp
+        .createPaymentLinkMandate(createPaymentLinkMandateRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -8242,6 +8396,18 @@ export interface DefaultApiInterface {
   confirmPayment(options?: AxiosRequestConfig): AxiosPromise<ConfirmPaymentResponse>;
 
   /**
+   * CREATE Mandate for payment link
+   * @param {CreatePaymentLinkMandateRequest} createPaymentLinkMandateRequest request body for creating mandate for payment-link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  createPaymentLinkMandate(
+    createPaymentLinkMandateRequest: CreatePaymentLinkMandateRequest,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<CreatePaymentLinkMandateResponse>;
+
+  /**
    * List mandates
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
    * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -8320,6 +8486,22 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public confirmPayment(options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .confirmPayment(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * CREATE Mandate for payment link
+   * @param {CreatePaymentLinkMandateRequest} createPaymentLinkMandateRequest request body for creating mandate for payment-link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public createPaymentLinkMandate(
+    createPaymentLinkMandateRequest: CreatePaymentLinkMandateRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return DefaultApiFp(this.configuration)
+      .createPaymentLinkMandate(createPaymentLinkMandateRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
