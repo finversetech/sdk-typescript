@@ -1820,6 +1820,18 @@ export interface GetMandateAuthResponse {
    * @memberof GetMandateAuthResponse
    */
   error?: FvErrorModelV2;
+  /**
+   *
+   * @type {MandateDetails}
+   * @memberof GetMandateAuthResponse
+   */
+  mandate_details?: MandateDetails;
+  /**
+   *
+   * @type {MandateRecipient}
+   * @memberof GetMandateAuthResponse
+   */
+  recipient?: MandateRecipient;
 }
 
 export const GetMandateAuthResponseMandateStatusEnum = {
