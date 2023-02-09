@@ -638,25 +638,25 @@ export interface BalanceHistory {
 /**
  *
  * @export
- * @interface CategoryDetails
+ * @interface CategoryPredictions
  */
-export interface CategoryDetails {
+export interface CategoryPredictions {
   /**
    *
    * @type {Array<string>}
-   * @memberof CategoryDetails
+   * @memberof CategoryPredictions
    */
   categories?: Array<string>;
   /**
    *
    * @type {string}
-   * @memberof CategoryDetails
+   * @memberof CategoryPredictions
    */
   source?: string;
   /**
    *
    * @type {string}
-   * @memberof CategoryDetails
+   * @memberof CategoryPredictions
    */
   source_id?: string;
 }
@@ -5241,10 +5241,10 @@ export interface Transaction {
   categories?: Array<string>;
   /**
    *
-   * @type {Array<CategoryDetails>}
+   * @type {Array<CategoryPredictions>}
    * @memberof Transaction
    */
-  category_details?: Array<CategoryDetails>;
+  category_predictions?: Array<CategoryPredictions>;
 }
 /**
  *
