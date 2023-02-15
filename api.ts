@@ -7898,7 +7898,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @throws {RequiredError}
      */
     confirmPayment: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/payment_link/confirm`;
+      const localVarPath = `/payment_links/confirm`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -7935,7 +7935,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     ): Promise<RequestArgs> => {
       // verify required parameter 'createPaymentLinkMandateRequest' is not null or undefined
       assertParamExists('createPaymentLinkMandate', 'createPaymentLinkMandateRequest', createPaymentLinkMandateRequest);
-      const localVarPath = `/payment_link/mandates`;
+      const localVarPath = `/payment_links/mandates`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
