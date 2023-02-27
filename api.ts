@@ -712,12 +712,6 @@ export interface CreateMandateRequest {
   sender: CreateMandateSender;
   /**
    *
-   * @type {CreateMandateSenderAccount}
-   * @memberof CreateMandateRequest
-   */
-  sender_account?: CreateMandateSenderAccount;
-  /**
-   *
    * @type {MandateDetails}
    * @memberof CreateMandateRequest
    */
@@ -811,12 +805,6 @@ export type CreateMandateResponseStatusEnum =
  */
 export interface CreateMandateSender {
   /**
-   * A unique identifier generated after creating sender
-   * @type {string}
-   * @memberof CreateMandateSender
-   */
-  sender_id?: string;
-  /**
    *
    * @type {string}
    * @memberof CreateMandateSender
@@ -828,12 +816,6 @@ export interface CreateMandateSender {
    * @memberof CreateMandateSender
    */
   user_id?: string;
-  /**
-   * Customer App\'s reference ID, representing the sender\'s account or billing reference number.
-   * @type {string}
-   * @memberof CreateMandateSender
-   */
-  sender_reference_id?: string;
   /**
    * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
    * @type {string}
@@ -856,19 +838,6 @@ export const CreateMandateSenderSenderTypeEnum = {
 export type CreateMandateSenderSenderTypeEnum =
   (typeof CreateMandateSenderSenderTypeEnum)[keyof typeof CreateMandateSenderSenderTypeEnum];
 
-/**
- *
- * @export
- * @interface CreateMandateSenderAccount
- */
-export interface CreateMandateSenderAccount {
-  /**
-   * A unique identifier generated after creating sender account
-   * @type {string}
-   * @memberof CreateMandateSenderAccount
-   */
-  sender_account_id?: string;
-}
 /**
  *
  * @export
@@ -1157,12 +1126,6 @@ export interface CreateSenderRequest {
    * @memberof CreateSenderRequest
    */
   sender_details?: Array<SenderDetail>;
-  /**
-   * Customer reference for the sender
-   * @type {string}
-   * @memberof CreateSenderRequest
-   */
-  sender_reference_id?: string;
   /**
    * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
    * @type {string}
@@ -1950,12 +1913,6 @@ export interface GetMandateSender {
    * @memberof GetMandateSender
    */
   user_id: string;
-  /**
-   * Customer App\'s reference ID, representing the sender\'s account or billing reference number.
-   * @type {string}
-   * @memberof GetMandateSender
-   */
-  sender_reference_id?: string;
   /**
    * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
    * @type {string}
@@ -4818,12 +4775,6 @@ export interface SenderResponse {
    * @memberof SenderResponse
    */
   sender_details?: Array<SenderDetail>;
-  /**
-   * Customer reference for the sender
-   * @type {string}
-   * @memberof SenderResponse
-   */
-  sender_reference_id?: string;
   /**
    * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
    * @type {string}
