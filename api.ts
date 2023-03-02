@@ -755,6 +755,12 @@ export interface CreateMandateResponse {
   recipient: MandateRecipient;
   /**
    *
+   * @type {MandateRecipientAccount}
+   * @memberof CreateMandateResponse
+   */
+  recipient_account?: MandateRecipientAccount;
+  /**
+   *
    * @type {GetMandateSender}
    * @memberof CreateMandateResponse
    */
@@ -1716,6 +1722,12 @@ export interface GetMandateResponse {
    * @memberof GetMandateResponse
    */
   recipient: MandateRecipient;
+  /**
+   *
+   * @type {MandateRecipientAccount}
+   * @memberof GetMandateResponse
+   */
+  recipient_account?: MandateRecipientAccount;
   /**
    *
    * @type {GetMandateSender}
@@ -3478,13 +3490,35 @@ export interface MandateRecipient {
    * @memberof MandateRecipient
    */
   name: string;
+}
+/**
+ *
+ * @export
+ * @interface MandateRecipientAccount
+ */
+export interface MandateRecipientAccount {
   /**
    * Merchant account ID assigned by Finverse
    * @type {string}
-   * @memberof MandateRecipient
+   * @memberof MandateRecipientAccount
    */
-  recipient_account_id: string;
+  account_id: string;
+  /**
+   * Type of recipient account.
+   * @type {string}
+   * @memberof MandateRecipientAccount
+   */
+  account_type: MandateRecipientAccountAccountTypeEnum;
 }
+
+export const MandateRecipientAccountAccountTypeEnum = {
+  ExternalAccount: 'EXTERNAL_ACCOUNT',
+  SettlementAccount: 'SETTLEMENT_ACCOUNT',
+} as const;
+
+export type MandateRecipientAccountAccountTypeEnum =
+  (typeof MandateRecipientAccountAccountTypeEnum)[keyof typeof MandateRecipientAccountAccountTypeEnum];
+
 /**
  *
  * @export
@@ -3509,7 +3543,7 @@ export interface MandateSenderAccount {
    * @type {string}
    * @memberof MandateSenderAccount
    */
-  sender_account_id?: string;
+  account_id?: string;
   /**
    * Accountholder name of the sender\'s account
    * @type {string}
@@ -3960,6 +3994,12 @@ export interface PaymentResponse {
    * @memberof PaymentResponse
    */
   recipient?: MandateRecipient;
+  /**
+   *
+   * @type {MandateRecipientAccount}
+   * @memberof PaymentResponse
+   */
+  recipient_account?: MandateRecipientAccount;
   /**
    *
    * @type {GetMandateSender}
