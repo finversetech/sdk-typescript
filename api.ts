@@ -827,22 +827,22 @@ export interface CreateMandateSender {
    * @type {string}
    * @memberof CreateMandateSender
    */
-  sender_type?: CreateMandateSenderSenderTypeEnum;
+  user_type?: CreateMandateSenderUserTypeEnum;
   /**
    * Sender details which will be used for fraud checking.
    * @type {Array<SenderDetail>}
    * @memberof CreateMandateSender
    */
-  sender_details?: Array<SenderDetail>;
+  user_details?: Array<SenderDetail>;
 }
 
-export const CreateMandateSenderSenderTypeEnum = {
+export const CreateMandateSenderUserTypeEnum = {
   Individual: 'INDIVIDUAL',
   Business: 'BUSINESS',
 } as const;
 
-export type CreateMandateSenderSenderTypeEnum =
-  (typeof CreateMandateSenderSenderTypeEnum)[keyof typeof CreateMandateSenderSenderTypeEnum];
+export type CreateMandateSenderUserTypeEnum =
+  (typeof CreateMandateSenderUserTypeEnum)[keyof typeof CreateMandateSenderUserTypeEnum];
 
 /**
  *
@@ -1802,22 +1802,22 @@ export interface GetMandateSender {
    * @type {string}
    * @memberof GetMandateSender
    */
-  sender_type: GetMandateSenderSenderTypeEnum;
+  user_type: GetMandateSenderUserTypeEnum;
   /**
    * Sender details which will be used for fraud checking.
    * @type {Array<SenderDetail>}
    * @memberof GetMandateSender
    */
-  sender_details?: Array<SenderDetail>;
+  user_details?: Array<SenderDetail>;
 }
 
-export const GetMandateSenderSenderTypeEnum = {
+export const GetMandateSenderUserTypeEnum = {
   Individual: 'INDIVIDUAL',
   Business: 'BUSINESS',
 } as const;
 
-export type GetMandateSenderSenderTypeEnum =
-  (typeof GetMandateSenderSenderTypeEnum)[keyof typeof GetMandateSenderSenderTypeEnum];
+export type GetMandateSenderUserTypeEnum =
+  (typeof GetMandateSenderUserTypeEnum)[keyof typeof GetMandateSenderUserTypeEnum];
 
 /**
  *
@@ -3530,7 +3530,7 @@ export interface MandateRecipientRequest {
    * @type {string}
    * @memberof MandateRecipientRequest
    */
-  recipient_account_id: string;
+  account_id: string;
 }
 /**
  *
@@ -4227,7 +4227,7 @@ export interface PayoutRecipient {
    * @type {string}
    * @memberof PayoutRecipient
    */
-  recipient_account_id?: string;
+  account_id?: string;
 }
 /**
  *
