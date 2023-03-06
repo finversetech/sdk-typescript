@@ -703,7 +703,7 @@ export interface CreateMandateRequest {
    * @type {MandateRecipientRequest}
    * @memberof CreateMandateRequest
    */
-  recipient: MandateRecipientRequest;
+  recipient_account: MandateRecipientRequest;
   /**
    *
    * @type {CreateMandateSender}
@@ -973,7 +973,7 @@ export interface CreatePayoutInstructionRequest {
    * @type {MandateRecipientRequest}
    * @memberof CreatePayoutInstructionRequest
    */
-  recipient: MandateRecipientRequest;
+  recipient_account: MandateRecipientRequest;
   /**
    * Additional attributes of the payout instruction in key:value format (e.g. payout_instruction_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
    * @type {{ [key: string]: string; }}
