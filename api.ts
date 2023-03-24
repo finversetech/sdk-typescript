@@ -1835,6 +1835,31 @@ export interface GetPaymentInstructionsResponse {
 /**
  *
  * @export
+ * @interface GetPaymentUserResponse
+ */
+export interface GetPaymentUserResponse {
+  /**
+   *
+   * @type {string}
+   * @memberof GetPaymentUserResponse
+   */
+  payment_user_id: string;
+  /**
+   *
+   * @type {string}
+   * @memberof GetPaymentUserResponse
+   */
+  customer_app_id: string;
+  /**
+   *
+   * @type {boolean}
+   * @memberof GetPaymentUserResponse
+   */
+  autopay_consent: boolean;
+}
+/**
+ *
+ * @export
  * @interface GetStatementLinkResponse
  */
 export interface GetStatementLinkResponse {
@@ -4535,6 +4560,19 @@ export type SenderDetailDetailsTypeEnum =
 /**
  *
  * @export
+ * @interface SetAutopayConsentRequest
+ */
+export interface SetAutopayConsentRequest {
+  /**
+   *
+   * @type {boolean}
+   * @memberof SetAutopayConsentRequest
+   */
+  autopay_consent: boolean;
+}
+/**
+ *
+ * @export
  * @interface SetMandateInstitutionRequest
  */
 export interface SetMandateInstitutionRequest {
@@ -6966,6 +7004,37 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Get sender payment user for mandate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getSenderPaymentUser: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/mandates/payment_user/sender`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -7153,6 +7222,50 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         options: localVarRequestOptions,
       };
     },
+    /**
+     * Set autopay consent for payment user
+     * @param {SetAutopayConsentRequest} setAutopayConsentRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    setAutopayConsent: async (
+      setAutopayConsentRequest: SetAutopayConsentRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'setAutopayConsentRequest' is not null or undefined
+      assertParamExists('setAutopayConsent', 'setAutopayConsentRequest', setAutopayConsentRequest);
+      const localVarPath = `/mandates/payment_user/autopay`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        setAutopayConsentRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
   };
 };
 
@@ -7188,6 +7301,17 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         createPaymentLinkMandateRequest,
         options,
       );
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
+     * Get sender payment user for mandate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getSenderPaymentUser(
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPaymentUserResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getSenderPaymentUser(options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
@@ -7277,6 +7401,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       );
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
+    /**
+     * Set autopay consent for payment user
+     * @param {SetAutopayConsentRequest} setAutopayConsentRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async setAutopayConsent(
+      setAutopayConsentRequest: SetAutopayConsentRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.setAutopayConsent(setAutopayConsentRequest, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
   };
 };
 
@@ -7308,6 +7445,14 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       return localVarFp
         .createPaymentLinkMandate(createPaymentLinkMandateRequest, options)
         .then((request) => request(axios, basePath));
+    },
+    /**
+     * Get sender payment user for mandate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getSenderPaymentUser(options?: any): AxiosPromise<GetPaymentUserResponse> {
+      return localVarFp.getSenderPaymentUser(options).then((request) => request(axios, basePath));
     },
     /**
      * List mandates
@@ -7388,6 +7533,17 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         )
         .then((request) => request(axios, basePath));
     },
+    /**
+     * Set autopay consent for payment user
+     * @param {SetAutopayConsentRequest} setAutopayConsentRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    setAutopayConsent(setAutopayConsentRequest: SetAutopayConsentRequest, options?: any): AxiosPromise<void> {
+      return localVarFp
+        .setAutopayConsent(setAutopayConsentRequest, options)
+        .then((request) => request(axios, basePath));
+    },
   };
 };
 
@@ -7416,6 +7572,14 @@ export interface DefaultApiInterface {
     createPaymentLinkMandateRequest: CreatePaymentLinkMandateRequest,
     options?: AxiosRequestConfig,
   ): AxiosPromise<CreatePaymentLinkMandateResponse>;
+
+  /**
+   * Get sender payment user for mandate
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  getSenderPaymentUser(options?: AxiosRequestConfig): AxiosPromise<GetPaymentUserResponse>;
 
   /**
    * List mandates
@@ -7478,6 +7642,18 @@ export interface DefaultApiInterface {
     limit?: number,
     options?: AxiosRequestConfig,
   ): AxiosPromise<ListPaymentsResponse>;
+
+  /**
+   * Set autopay consent for payment user
+   * @param {SetAutopayConsentRequest} setAutopayConsentRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  setAutopayConsent(
+    setAutopayConsentRequest: SetAutopayConsentRequest,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<void>;
 }
 
 /**
@@ -7512,6 +7688,18 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   ) {
     return DefaultApiFp(this.configuration)
       .createPaymentLinkMandate(createPaymentLinkMandateRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get sender payment user for mandate
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public getSenderPaymentUser(options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .getSenderPaymentUser(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -7595,6 +7783,19 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
         limit,
         options,
       )
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Set autopay consent for payment user
+   * @param {SetAutopayConsentRequest} setAutopayConsentRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public setAutopayConsent(setAutopayConsentRequest: SetAutopayConsentRequest, options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .setAutopayConsent(setAutopayConsentRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
