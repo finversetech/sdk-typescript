@@ -778,6 +778,12 @@ export interface CreateMandateResponse {
    */
   mandate_details: MandateDetails;
   /**
+   *
+   * @type {Array<Fee>}
+   * @memberof CreateMandateResponse
+   */
+  fees?: Array<Fee>;
+  /**
    * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
    * @type {{ [key: string]: string; }}
    * @memberof CreateMandateResponse
@@ -1266,6 +1272,45 @@ export interface ErrorResponse {
 /**
  *
  * @export
+ * @interface Fee
+ */
+export interface Fee {
+  /**
+   * The amount of fee for a single transaction. Expressed in currency\'s smallest unit or “minor unit”, as defined in ISO 4217.
+   * @type {number}
+   * @memberof Fee
+   */
+  amount: number;
+  /**
+   *
+   * @type {string}
+   * @memberof Fee
+   */
+  currency?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Fee
+   */
+  paid_by?: FeePaidByEnum;
+  /**
+   * The payment account Id
+   * @type {string}
+   * @memberof Fee
+   */
+  paid_by_account_id?: string;
+}
+
+export const FeePaidByEnum = {
+  Recipient: 'RECIPIENT',
+  Sender: 'SENDER',
+} as const;
+
+export type FeePaidByEnum = (typeof FeePaidByEnum)[keyof typeof FeePaidByEnum];
+
+/**
+ *
+ * @export
  * @interface FvErrorModel
  */
 export interface FvErrorModel {
@@ -1746,6 +1791,12 @@ export interface GetMandateResponse {
    * @memberof GetMandateResponse
    */
   mandate_details: MandateDetails;
+  /**
+   *
+   * @type {Array<Fee>}
+   * @memberof GetMandateResponse
+   */
+  fees?: Array<Fee>;
   /**
    *
    * @type {FvErrorModelV2}
@@ -3502,6 +3553,12 @@ export interface MandateDetails {
    * @memberof MandateDetails
    */
   description?: string;
+  /**
+   * A bank specific reference, what the end user may see
+   * @type {string}
+   * @memberof MandateDetails
+   */
+  mandate_bank_reference?: string;
 }
 /**
  *
@@ -4031,6 +4088,12 @@ export interface PaymentResponse {
    * @memberof PaymentResponse
    */
   sender?: GetMandateSender;
+  /**
+   *
+   * @type {Array<Fee>}
+   * @memberof PaymentResponse
+   */
+  fees?: Array<Fee>;
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
