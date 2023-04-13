@@ -827,7 +827,7 @@ export interface CreateMandateSender {
    * @type {string}
    * @memberof CreateMandateSender
    */
-  user_id?: string;
+  external_user_id?: string;
   /**
    * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
    * @type {string}
@@ -1835,7 +1835,7 @@ export interface GetMandateSender {
    * @type {string}
    * @memberof GetMandateSender
    */
-  sender_id: string;
+  user_id: string;
   /**
    *
    * @type {string}
@@ -1847,7 +1847,7 @@ export interface GetMandateSender {
    * @type {string}
    * @memberof GetMandateSender
    */
-  user_id: string;
+  external_user_id: string;
   /**
    * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
    * @type {string}
