@@ -3674,6 +3674,25 @@ export type MandateSenderAccountAccountTypeEnum =
 /**
  *
  * @export
+ * @interface ManualPaymentConfirmationRequest
+ */
+export interface ManualPaymentConfirmationRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof ManualPaymentConfirmationRequest
+   */
+  accountholder_name: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ManualPaymentConfirmationRequest
+   */
+  account_number_last4: string;
+}
+/**
+ *
+ * @export
  * @interface MonthlyIncomeEstimate
  */
 export interface MonthlyIncomeEstimate {
@@ -6992,6 +7011,50 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
 export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
+     * Submit manual payment confirmation
+     * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    confirmManualPayment: async (
+      manualPaymentIdentifiers: ManualPaymentConfirmationRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'manualPaymentIdentifiers' is not null or undefined
+      assertParamExists('confirmManualPayment', 'manualPaymentIdentifiers', manualPaymentIdentifiers);
+      const localVarPath = `/payments/manual_payment`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        manualPaymentIdentifiers,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Confirm a payment against a payment Link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7340,6 +7403,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration);
   return {
     /**
+     * Submit manual payment confirmation
+     * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async confirmManualPayment(
+      manualPaymentIdentifiers: ManualPaymentConfirmationRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.confirmManualPayment(manualPaymentIdentifiers, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Confirm a payment against a payment Link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7488,6 +7564,20 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
   const localVarFp = DefaultApiFp(configuration);
   return {
     /**
+     * Submit manual payment confirmation
+     * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    confirmManualPayment(
+      manualPaymentIdentifiers: ManualPaymentConfirmationRequest,
+      options?: any,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .confirmManualPayment(manualPaymentIdentifiers, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Confirm a payment against a payment Link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7617,6 +7707,18 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
  */
 export interface DefaultApiInterface {
   /**
+   * Submit manual payment confirmation
+   * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  confirmManualPayment(
+    manualPaymentIdentifiers: ManualPaymentConfirmationRequest,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<void>;
+
+  /**
    * Confirm a payment against a payment Link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -7726,6 +7828,22 @@ export interface DefaultApiInterface {
  * @extends {BaseAPI}
  */
 export class DefaultApi extends BaseAPI implements DefaultApiInterface {
+  /**
+   * Submit manual payment confirmation
+   * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public confirmManualPayment(
+    manualPaymentIdentifiers: ManualPaymentConfirmationRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return DefaultApiFp(this.configuration)
+      .confirmManualPayment(manualPaymentIdentifiers, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
   /**
    * Confirm a payment against a payment Link
    * @param {*} [options] Override http request option.
