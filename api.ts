@@ -3651,11 +3651,11 @@ export interface MandateSenderAccount {
    */
   institution_id?: string;
   /**
-   * A unique identifier generated after creating sender
+   * A unique identifier generated after creating sender (Finverse Payment User ID)
    * @type {string}
    * @memberof MandateSenderAccount
    */
-  sender_id?: string;
+  user_id?: string;
   /**
    * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
    * @type {{ [key: string]: string; }}
