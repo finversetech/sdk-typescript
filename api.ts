@@ -3693,6 +3693,19 @@ export interface ManualPaymentConfirmationRequest {
 /**
  *
  * @export
+ * @interface ManualPaymentConfirmationResponse
+ */
+export interface ManualPaymentConfirmationResponse {
+  /**
+   *
+   * @type {string}
+   * @memberof ManualPaymentConfirmationResponse
+   */
+  payment_id?: string;
+}
+/**
+ *
+ * @export
  * @interface MonthlyIncomeEstimate
  */
 export interface MonthlyIncomeEstimate {
@@ -7411,7 +7424,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async confirmManualPayment(
       manualPaymentIdentifiers: ManualPaymentConfirmationRequest,
       options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManualPaymentConfirmationResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.confirmManualPayment(manualPaymentIdentifiers, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
@@ -7572,7 +7585,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     confirmManualPayment(
       manualPaymentIdentifiers: ManualPaymentConfirmationRequest,
       options?: any,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<ManualPaymentConfirmationResponse> {
       return localVarFp
         .confirmManualPayment(manualPaymentIdentifiers, options)
         .then((request) => request(axios, basePath));
@@ -7716,7 +7729,7 @@ export interface DefaultApiInterface {
   confirmManualPayment(
     manualPaymentIdentifiers: ManualPaymentConfirmationRequest,
     options?: AxiosRequestConfig,
-  ): AxiosPromise<void>;
+  ): AxiosPromise<ManualPaymentConfirmationResponse>;
 
   /**
    * Confirm a payment against a payment Link
