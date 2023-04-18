@@ -695,6 +695,32 @@ export interface ConfirmPaymentResponse {
 /**
  *
  * @export
+ * @interface CreateFpsTokenRequest
+ */
+export interface CreateFpsTokenRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof CreateFpsTokenRequest
+   */
+  invoice_id: string;
+}
+/**
+ *
+ * @export
+ * @interface CreateFpsTokenResponse
+ */
+export interface CreateFpsTokenResponse {
+  /**
+   *
+   * @type {PaymentLinkTokenResponse}
+   * @memberof CreateFpsTokenResponse
+   */
+  fps_token: PaymentLinkTokenResponse;
+}
+/**
+ *
+ * @export
  * @interface CreateMandateRequest
  */
 export interface CreateMandateRequest {
@@ -7099,6 +7125,46 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Create token for fps flow
+     * @param {CreateFpsTokenRequest} createFpsTokenRequest request body for creating fps token for payment-link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createFpsToken: async (
+      createFpsTokenRequest: CreateFpsTokenRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'createFpsTokenRequest' is not null or undefined
+      assertParamExists('createFpsToken', 'createFpsTokenRequest', createFpsTokenRequest);
+      const localVarPath = `/payment_links/fps/token`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(createFpsTokenRequest, localVarRequestOptions, configuration);
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * CREATE Mandate for payment link
      * @param {CreatePaymentLinkMandateRequest} createPaymentLinkMandateRequest request body for creating mandate for payment-link
      * @param {*} [options] Override http request option.
@@ -7440,6 +7506,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Create token for fps flow
+     * @param {CreateFpsTokenRequest} createFpsTokenRequest request body for creating fps token for payment-link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createFpsToken(
+      createFpsTokenRequest: CreateFpsTokenRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateFpsTokenResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createFpsToken(createFpsTokenRequest, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * CREATE Mandate for payment link
      * @param {CreatePaymentLinkMandateRequest} createPaymentLinkMandateRequest request body for creating mandate for payment-link
      * @param {*} [options] Override http request option.
@@ -7599,6 +7678,15 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       return localVarFp.confirmPayment(options).then((request) => request(axios, basePath));
     },
     /**
+     * Create token for fps flow
+     * @param {CreateFpsTokenRequest} createFpsTokenRequest request body for creating fps token for payment-link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createFpsToken(createFpsTokenRequest: CreateFpsTokenRequest, options?: any): AxiosPromise<CreateFpsTokenResponse> {
+      return localVarFp.createFpsToken(createFpsTokenRequest, options).then((request) => request(axios, basePath));
+    },
+    /**
      * CREATE Mandate for payment link
      * @param {CreatePaymentLinkMandateRequest} createPaymentLinkMandateRequest request body for creating mandate for payment-link
      * @param {*} [options] Override http request option.
@@ -7740,6 +7828,18 @@ export interface DefaultApiInterface {
   confirmPayment(options?: AxiosRequestConfig): AxiosPromise<ConfirmPaymentResponse>;
 
   /**
+   * Create token for fps flow
+   * @param {CreateFpsTokenRequest} createFpsTokenRequest request body for creating fps token for payment-link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  createFpsToken(
+    createFpsTokenRequest: CreateFpsTokenRequest,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<CreateFpsTokenResponse>;
+
+  /**
    * CREATE Mandate for payment link
    * @param {CreatePaymentLinkMandateRequest} createPaymentLinkMandateRequest request body for creating mandate for payment-link
    * @param {*} [options] Override http request option.
@@ -7866,6 +7966,19 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public confirmPayment(options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .confirmPayment(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Create token for fps flow
+   * @param {CreateFpsTokenRequest} createFpsTokenRequest request body for creating fps token for payment-link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public createFpsToken(createFpsTokenRequest: CreateFpsTokenRequest, options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .createFpsToken(createFpsTokenRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
