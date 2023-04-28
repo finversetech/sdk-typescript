@@ -879,6 +879,19 @@ export interface CreatePaymentInstructionResponse {
 /**
  *
  * @export
+ * @interface CreatePaymentLinkCreditCardPaymentResponse
+ */
+export interface CreatePaymentLinkCreditCardPaymentResponse {
+  /**
+   * URL to redirect to for making the CC payment (e.g. Stripe)
+   * @type {string}
+   * @memberof CreatePaymentLinkCreditCardPaymentResponse
+   */
+  cc_processor_redirect_uri: string;
+}
+/**
+ *
+ * @export
  * @interface CreatePaymentLinkMandateRequest
  */
 export interface CreatePaymentLinkMandateRequest {
@@ -7143,6 +7156,37 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Initiate CC Payment for a Payment Link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentLinkCreditCardPayment: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/payment_links/credit_card`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * CREATE Mandate for payment link
      * @param {CreatePaymentLinkMandateRequest} createPaymentLinkMandateRequest request body for creating mandate for payment-link
      * @param {*} [options] Override http request option.
@@ -7495,6 +7539,17 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Initiate CC Payment for a Payment Link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createPaymentLinkCreditCardPayment(
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePaymentLinkCreditCardPaymentResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentLinkCreditCardPayment(options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * CREATE Mandate for payment link
      * @param {CreatePaymentLinkMandateRequest} createPaymentLinkMandateRequest request body for creating mandate for payment-link
      * @param {*} [options] Override http request option.
@@ -7662,6 +7717,14 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       return localVarFp.createFpsToken(options).then((request) => request(axios, basePath));
     },
     /**
+     * Initiate CC Payment for a Payment Link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentLinkCreditCardPayment(options?: any): AxiosPromise<CreatePaymentLinkCreditCardPaymentResponse> {
+      return localVarFp.createPaymentLinkCreditCardPayment(options).then((request) => request(axios, basePath));
+    },
+    /**
      * CREATE Mandate for payment link
      * @param {CreatePaymentLinkMandateRequest} createPaymentLinkMandateRequest request body for creating mandate for payment-link
      * @param {*} [options] Override http request option.
@@ -7811,6 +7874,16 @@ export interface DefaultApiInterface {
   createFpsToken(options?: AxiosRequestConfig): AxiosPromise<CreateFpsTokenResponse>;
 
   /**
+   * Initiate CC Payment for a Payment Link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  createPaymentLinkCreditCardPayment(
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<CreatePaymentLinkCreditCardPaymentResponse>;
+
+  /**
    * CREATE Mandate for payment link
    * @param {CreatePaymentLinkMandateRequest} createPaymentLinkMandateRequest request body for creating mandate for payment-link
    * @param {*} [options] Override http request option.
@@ -7949,6 +8022,18 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public createFpsToken(options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .createFpsToken(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Initiate CC Payment for a Payment Link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public createPaymentLinkCreditCardPayment(options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .createPaymentLinkCreditCardPayment(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
