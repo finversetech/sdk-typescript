@@ -888,6 +888,12 @@ export interface CreatePaymentLinkCardPaymentResponse {
    * @memberof CreatePaymentLinkCardPaymentResponse
    */
   card_processor_redirect_uri: string;
+  /**
+   * Finverse Payment ID
+   * @type {string}
+   * @memberof CreatePaymentLinkCardPaymentResponse
+   */
+  payment_id?: string;
 }
 /**
  *
