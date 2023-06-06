@@ -484,6 +484,12 @@ export interface AuthChecklistOptions {
    * @memberof AuthChecklistOptions
    */
   submitted_by?: AuthChecklistOptionsSubmittedByEnum;
+  /**
+   * Redirect to bank for authentication
+   * @type {string}
+   * @memberof AuthChecklistOptions
+   */
+  redirect_url?: string;
 }
 
 export const AuthChecklistOptionsNameEnum = {
