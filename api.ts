@@ -912,7 +912,7 @@ export interface CreatePaymentLinkMandateRequest {
    * @type {string}
    * @memberof CreatePaymentLinkMandateRequest
    */
-  invoice_id: string;
+  payment_attempt_id: string;
   /**
    * The sender type of the mandate
    * @type {string}
