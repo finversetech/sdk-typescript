@@ -4459,7 +4459,7 @@ export interface Principal {
    * @type {string}
    * @memberof Principal
    */
-  invoice_id?: string;
+  payment_attempt_id?: string;
   /**
    *
    * @type {Array<string>}
