@@ -435,6 +435,12 @@ export interface AuthChecklistFactor {
    */
   required: AuthChecklistFactorRequiredEnum;
   /**
+   * Helper text that applies to a specific checklist item
+   * @type {string}
+   * @memberof AuthChecklistFactor
+   */
+  helper_text?: string;
+  /**
    * Array of the options accepted for a specific authorization factor
    * @type {Array<AuthChecklistOptions>}
    * @memberof AuthChecklistFactor
