@@ -8437,43 +8437,6 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
       };
     },
     /**
-     * Check the status of a given loginIdentity
-     * @param {string} loginIdentityId The login identity id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    postLinkStatus: async (loginIdentityId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'loginIdentityId' is not null or undefined
-      assertParamExists('postLinkStatus', 'loginIdentityId', loginIdentityId);
-      const localVarPath = `/link/status/{loginIdentityId}`.replace(
-        `{${'loginIdentityId'}}`,
-        encodeURIComponent(String(loginIdentityId)),
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
      * Update an existing link
      * @param {RelinkRequest} relinkRequest Request body for updating Link
      * @param {*} [options] Override http request option.
@@ -8729,19 +8692,6 @@ export const LinkApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
-     * Check the status of a given loginIdentity
-     * @param {string} loginIdentityId The login identity id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async postLinkStatus(
-      loginIdentityId: string,
-      options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LinkStatusResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.postLinkStatus(loginIdentityId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-    },
-    /**
      * Update an existing link
      * @param {RelinkRequest} relinkRequest Request body for updating Link
      * @param {*} [options] Override http request option.
@@ -8869,15 +8819,6 @@ export const LinkApiFactory = function (configuration?: Configuration, basePath?
         .then((request) => request(axios, basePath));
     },
     /**
-     * Check the status of a given loginIdentity
-     * @param {string} loginIdentityId The login identity id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    postLinkStatus(loginIdentityId: string, options?: any): AxiosPromise<LinkStatusResponse> {
-      return localVarFp.postLinkStatus(loginIdentityId, options).then((request) => request(axios, basePath));
-    },
-    /**
      * Update an existing link
      * @param {RelinkRequest} relinkRequest Request body for updating Link
      * @param {*} [options] Override http request option.
@@ -9001,15 +8942,6 @@ export interface LinkApiInterface {
     institutionType?: 'BANK' | 'WALLET' | 'TEST',
     options?: AxiosRequestConfig,
   ): AxiosPromise<Array<Institution>>;
-
-  /**
-   * Check the status of a given loginIdentity
-   * @param {string} loginIdentityId The login identity id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LinkApiInterface
-   */
-  postLinkStatus(loginIdentityId: string, options?: AxiosRequestConfig): AxiosPromise<LinkStatusResponse>;
 
   /**
    * Update an existing link
@@ -9145,19 +9077,6 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
   ) {
     return LinkApiFp(this.configuration)
       .listInstitutions(country, countries, productsSupported, institutionType, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Check the status of a given loginIdentity
-   * @param {string} loginIdentityId The login identity id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LinkApi
-   */
-  public postLinkStatus(loginIdentityId: string, options?: AxiosRequestConfig) {
-    return LinkApiFp(this.configuration)
-      .postLinkStatus(loginIdentityId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
