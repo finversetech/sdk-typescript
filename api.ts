@@ -983,7 +983,7 @@ export interface CreatePaymentLinkRequest {
    * @type {PaymentLinkDetails}
    * @memberof CreatePaymentLinkRequest
    */
-  payment_details: PaymentLinkDetails;
+  payment_details?: PaymentLinkDetails;
   /**
    *
    * @type {PaymentLinkRecipientAccount}
@@ -1028,7 +1028,7 @@ export interface CreatePaymentLinkResponse {
    * @type {string}
    * @memberof CreatePaymentLinkResponse
    */
-  payment_link_url: string;
+  payment_link_url?: string;
 }
 /**
  *
