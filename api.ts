@@ -951,6 +951,88 @@ export interface CreatePaymentLinkMandateResponse {
 /**
  *
  * @export
+ * @interface CreatePaymentLinkRequest
+ */
+export interface CreatePaymentLinkRequest {
+  /**
+   * The amount of the payment. Expressed in currency\'s smallest unit or “minor unit”, as defined in ISO 4217.
+   * @type {number}
+   * @memberof CreatePaymentLinkRequest
+   */
+  amount: number;
+  /**
+   *
+   * @type {string}
+   * @memberof CreatePaymentLinkRequest
+   */
+  currency: string;
+  /**
+   * Specifies language to be used in Finverse UI
+   * @type {string}
+   * @memberof CreatePaymentLinkRequest
+   */
+  language?: string;
+  /**
+   * The payment link mode
+   * @type {string}
+   * @memberof CreatePaymentLinkRequest
+   */
+  mode: CreatePaymentLinkRequestModeEnum;
+  /**
+   *
+   * @type {PaymentLinkDetails}
+   * @memberof CreatePaymentLinkRequest
+   */
+  payment_details: PaymentLinkDetails;
+  /**
+   *
+   * @type {PaymentLinkRecipientAccount}
+   * @memberof CreatePaymentLinkRequest
+   */
+  recipient_account: PaymentLinkRecipientAccount;
+  /**
+   *
+   * @type {PaymentLinkSender}
+   * @memberof CreatePaymentLinkRequest
+   */
+  sender: PaymentLinkSender;
+  /**
+   * Unique reference id to identifying the payment to be collected.
+   * @type {string}
+   * @memberof CreatePaymentLinkRequest
+   */
+  unique_reference_id: string;
+  /**
+   * Additional attributes of the payment link in key:value format (e.g. payment_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * @type {{ [key: string]: string; }}
+   * @memberof CreatePaymentLinkRequest
+   */
+  metadata?: { [key: string]: string };
+}
+
+export const CreatePaymentLinkRequestModeEnum = {
+  Payment: 'PAYMENT',
+} as const;
+
+export type CreatePaymentLinkRequestModeEnum =
+  (typeof CreatePaymentLinkRequestModeEnum)[keyof typeof CreatePaymentLinkRequestModeEnum];
+
+/**
+ *
+ * @export
+ * @interface CreatePaymentLinkResponse
+ */
+export interface CreatePaymentLinkResponse {
+  /**
+   * The URL for payment link
+   * @type {string}
+   * @memberof CreatePaymentLinkResponse
+   */
+  payment_link_url: string;
+}
+/**
+ *
+ * @export
  * @interface CreatePaymentRequest
  */
 export interface CreatePaymentRequest {
@@ -4059,6 +4141,63 @@ export const PaymentInstructionTypeEnum = {
 
 export type PaymentInstructionTypeEnum = (typeof PaymentInstructionTypeEnum)[keyof typeof PaymentInstructionTypeEnum];
 
+/**
+ *
+ * @export
+ * @interface PaymentLinkDetails
+ */
+export interface PaymentLinkDetails {
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentLinkDetails
+   */
+  description?: string;
+  /**
+   * For external invoice reference
+   * @type {string}
+   * @memberof PaymentLinkDetails
+   */
+  external_invoice_id?: string;
+}
+/**
+ *
+ * @export
+ * @interface PaymentLinkRecipientAccount
+ */
+export interface PaymentLinkRecipientAccount {
+  /**
+   * Merchant account ID assigned by Finverse
+   * @type {string}
+   * @memberof PaymentLinkRecipientAccount
+   */
+  recipient_account_id: string;
+}
+/**
+ *
+ * @export
+ * @interface PaymentLinkSender
+ */
+export interface PaymentLinkSender {
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentLinkSender
+   */
+  email?: string;
+  /**
+   * Customer App\'s user ID, representing the end-user making the payment.
+   * @type {string}
+   * @memberof PaymentLinkSender
+   */
+  external_user_id: string;
+  /**
+   * Accountholder name of the sender\'s account
+   * @type {string}
+   * @memberof PaymentLinkSender
+   */
+  name: string;
+}
 /**
  *
  * @export
@@ -7174,6 +7313,50 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Create payment link
+     * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentLink: async (
+      createPaymentLinkRequest: CreatePaymentLinkRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'createPaymentLinkRequest' is not null or undefined
+      assertParamExists('createPaymentLink', 'createPaymentLinkRequest', createPaymentLinkRequest);
+      const localVarPath = `/payment_links`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        createPaymentLinkRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Initiate Card Payment for a Payment Link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7557,6 +7740,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Create payment link
+     * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createPaymentLink(
+      createPaymentLinkRequest: CreatePaymentLinkRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePaymentLinkResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentLink(createPaymentLinkRequest, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Initiate Card Payment for a Payment Link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7735,6 +7931,20 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       return localVarFp.createFpsToken(options).then((request) => request(axios, basePath));
     },
     /**
+     * Create payment link
+     * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentLink(
+      createPaymentLinkRequest: CreatePaymentLinkRequest,
+      options?: any,
+    ): AxiosPromise<CreatePaymentLinkResponse> {
+      return localVarFp
+        .createPaymentLink(createPaymentLinkRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Initiate Card Payment for a Payment Link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -7892,6 +8102,18 @@ export interface DefaultApiInterface {
   createFpsToken(options?: AxiosRequestConfig): AxiosPromise<CreateFpsTokenResponse>;
 
   /**
+   * Create payment link
+   * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  createPaymentLink(
+    createPaymentLinkRequest: CreatePaymentLinkRequest,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<CreatePaymentLinkResponse>;
+
+  /**
    * Initiate Card Payment for a Payment Link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -8038,6 +8260,19 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public createFpsToken(options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .createFpsToken(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Create payment link
+   * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public createPaymentLink(createPaymentLinkRequest: CreatePaymentLinkRequest, options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .createPaymentLink(createPaymentLinkRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
