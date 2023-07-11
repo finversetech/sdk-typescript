@@ -1020,19 +1020,6 @@ export type CreatePaymentLinkRequestModeEnum =
 /**
  *
  * @export
- * @interface CreatePaymentLinkResponse
- */
-export interface CreatePaymentLinkResponse {
-  /**
-   * The URL for payment link
-   * @type {string}
-   * @memberof CreatePaymentLinkResponse
-   */
-  payment_link_url?: string;
-}
-/**
- *
- * @export
  * @interface CreatePaymentRequest
  */
 export interface CreatePaymentRequest {
@@ -4176,6 +4163,137 @@ export interface PaymentLinkRecipientAccount {
 /**
  *
  * @export
+ * @interface PaymentLinkResponse
+ */
+export interface PaymentLinkResponse {
+  /**
+   * Finverse Payment Link ID
+   * @type {string}
+   * @memberof PaymentLinkResponse
+   */
+  payment_link_id?: string;
+  /**
+   * The amount of the payment. Expressed in currency\'s smallest unit or “minor unit”, as defined in ISO 4217.
+   * @type {number}
+   * @memberof PaymentLinkResponse
+   */
+  amount?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentLinkResponse
+   */
+  currency?: string;
+  /**
+   * Specifies language to be used in Finverse UI
+   * @type {string}
+   * @memberof PaymentLinkResponse
+   */
+  language?: string;
+  /**
+   * The payment link mode
+   * @type {string}
+   * @memberof PaymentLinkResponse
+   */
+  mode?: PaymentLinkResponseModeEnum;
+  /**
+   *
+   * @type {PaymentLinkDetails}
+   * @memberof PaymentLinkResponse
+   */
+  payment_details?: PaymentLinkDetails;
+  /**
+   * Unique reference id to identifying the payment to be collected.
+   * @type {string}
+   * @memberof PaymentLinkResponse
+   */
+  unique_reference_id?: string;
+  /**
+   * Additional attributes of the payment link in key:value format (e.g. payment_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * @type {{ [key: string]: string; }}
+   * @memberof PaymentLinkResponse
+   */
+  metadata?: { [key: string]: string };
+  /**
+   * The URL for payment link
+   * @type {string}
+   * @memberof PaymentLinkResponse
+   */
+  url?: string;
+  /**
+   * The status of payment link
+   * @type {string}
+   * @memberof PaymentLinkResponse
+   */
+  status?: PaymentLinkResponseStatusEnum;
+  /**
+   * Timestamp of when the payment link was or will expired in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof PaymentLinkResponse
+   */
+  expires_at?: string;
+  /**
+   * Timestamp of when the payment link was created in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof PaymentLinkResponse
+   */
+  created_at?: string;
+  /**
+   * Timestamp of when the payment link was last updated in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof PaymentLinkResponse
+   */
+  updated_at?: string;
+  /**
+   *
+   * @type {GetMandateResponse}
+   * @memberof PaymentLinkResponse
+   */
+  mandate?: GetMandateResponse;
+  /**
+   *
+   * @type {PaymentResponse}
+   * @memberof PaymentLinkResponse
+   */
+  payment?: PaymentResponse;
+  /**
+   *
+   * @type {MandateRecipient}
+   * @memberof PaymentLinkResponse
+   */
+  recipient?: MandateRecipient;
+  /**
+   *
+   * @type {MandateRecipientAccount}
+   * @memberof PaymentLinkResponse
+   */
+  recipient_account?: MandateRecipientAccount;
+  /**
+   *
+   * @type {PaymentLinkSenderResponse}
+   * @memberof PaymentLinkResponse
+   */
+  sender?: PaymentLinkSenderResponse;
+}
+
+export const PaymentLinkResponseModeEnum = {
+  Payment: 'PAYMENT',
+} as const;
+
+export type PaymentLinkResponseModeEnum =
+  (typeof PaymentLinkResponseModeEnum)[keyof typeof PaymentLinkResponseModeEnum];
+export const PaymentLinkResponseStatusEnum = {
+  Created: 'CREATED',
+  Paid: 'PAID',
+  Expired: 'EXPIRED',
+} as const;
+
+export type PaymentLinkResponseStatusEnum =
+  (typeof PaymentLinkResponseStatusEnum)[keyof typeof PaymentLinkResponseStatusEnum];
+
+/**
+ *
+ * @export
  * @interface PaymentLinkSender
  */
 export interface PaymentLinkSender {
@@ -4197,6 +4315,37 @@ export interface PaymentLinkSender {
    * @memberof PaymentLinkSender
    */
   name: string;
+}
+/**
+ *
+ * @export
+ * @interface PaymentLinkSenderResponse
+ */
+export interface PaymentLinkSenderResponse {
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentLinkSenderResponse
+   */
+  email?: string;
+  /**
+   * Customer App\'s user ID, representing the end-user making the payment.
+   * @type {string}
+   * @memberof PaymentLinkSenderResponse
+   */
+  external_user_id?: string;
+  /**
+   * Accountholder name of the sender\'s account
+   * @type {string}
+   * @memberof PaymentLinkSenderResponse
+   */
+  name?: string;
+  /**
+   * A unique identifier generated after creating sender
+   * @type {string}
+   * @memberof PaymentLinkSenderResponse
+   */
+  user_id?: string;
 }
 /**
  *
@@ -7748,7 +7897,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async createPaymentLink(
       createPaymentLinkRequest: CreatePaymentLinkRequest,
       options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePaymentLinkResponse>> {
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentLinkResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentLink(createPaymentLinkRequest, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
@@ -7939,7 +8088,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     createPaymentLink(
       createPaymentLinkRequest: CreatePaymentLinkRequest,
       options?: any,
-    ): AxiosPromise<CreatePaymentLinkResponse> {
+    ): AxiosPromise<PaymentLinkResponse> {
       return localVarFp
         .createPaymentLink(createPaymentLinkRequest, options)
         .then((request) => request(axios, basePath));
@@ -8111,7 +8260,7 @@ export interface DefaultApiInterface {
   createPaymentLink(
     createPaymentLinkRequest: CreatePaymentLinkRequest,
     options?: AxiosRequestConfig,
-  ): AxiosPromise<CreatePaymentLinkResponse>;
+  ): AxiosPromise<PaymentLinkResponse>;
 
   /**
    * Initiate Card Payment for a Payment Link
