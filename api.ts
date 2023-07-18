@@ -4158,7 +4158,7 @@ export interface PaymentLinkRecipientAccount {
    * @type {string}
    * @memberof PaymentLinkRecipientAccount
    */
-  recipient_account_id: string;
+  account_id: string;
 }
 /**
  *
