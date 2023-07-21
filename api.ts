@@ -986,12 +986,6 @@ export interface CreatePaymentLinkRequest {
   payment_details?: PaymentLinkDetails;
   /**
    *
-   * @type {PaymentLinkRecipientAccount}
-   * @memberof CreatePaymentLinkRequest
-   */
-  recipient_account: PaymentLinkRecipientAccount;
-  /**
-   *
    * @type {PaymentLinkSender}
    * @memberof CreatePaymentLinkRequest
    */
@@ -4150,19 +4144,6 @@ export interface PaymentLinkDetails {
 /**
  *
  * @export
- * @interface PaymentLinkRecipientAccount
- */
-export interface PaymentLinkRecipientAccount {
-  /**
-   * Merchant account ID assigned by Finverse
-   * @type {string}
-   * @memberof PaymentLinkRecipientAccount
-   */
-  account_id: string;
-}
-/**
- *
- * @export
  * @interface PaymentLinkResponse
  */
 export interface PaymentLinkResponse {
@@ -4256,18 +4237,6 @@ export interface PaymentLinkResponse {
    * @memberof PaymentLinkResponse
    */
   payment?: PaymentResponse;
-  /**
-   *
-   * @type {MandateRecipient}
-   * @memberof PaymentLinkResponse
-   */
-  recipient?: MandateRecipient;
-  /**
-   *
-   * @type {MandateRecipientAccount}
-   * @memberof PaymentLinkResponse
-   */
-  recipient_account?: MandateRecipientAccount;
   /**
    *
    * @type {PaymentLinkSenderResponse}
