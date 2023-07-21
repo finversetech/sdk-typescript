@@ -4139,7 +4139,7 @@ export interface PaymentLinkDetails {
    * @type {string}
    * @memberof PaymentLinkDetails
    */
-  external_invoice_id?: string;
+  external_invoice_number?: string;
 }
 /**
  *
