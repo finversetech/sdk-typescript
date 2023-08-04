@@ -7325,6 +7325,43 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
 export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
+     * Cancel a payment link
+     * @param {string} paymentLinkId The payment link id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    cancelPaymentLink: async (paymentLinkId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'paymentLinkId' is not null or undefined
+      assertParamExists('cancelPaymentLink', 'paymentLinkId', paymentLinkId);
+      const localVarPath = `/payment_links/{paymentLinkId}/cancel`.replace(
+        `{${'paymentLinkId'}}`,
+        encodeURIComponent(String(paymentLinkId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Submit manual payment confirmation
      * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
      * @param {*} [options] Override http request option.
@@ -7860,6 +7897,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration);
   return {
     /**
+     * Cancel a payment link
+     * @param {string} paymentLinkId The payment link id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async cancelPaymentLink(
+      paymentLinkId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentLinkResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.cancelPaymentLink(paymentLinkId, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Submit manual payment confirmation
      * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
      * @param {*} [options] Override http request option.
@@ -8069,6 +8119,15 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
   const localVarFp = DefaultApiFp(configuration);
   return {
     /**
+     * Cancel a payment link
+     * @param {string} paymentLinkId The payment link id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    cancelPaymentLink(paymentLinkId: string, options?: any): AxiosPromise<PaymentLinkResponse> {
+      return localVarFp.cancelPaymentLink(paymentLinkId, options).then((request) => request(axios, basePath));
+    },
+    /**
      * Submit manual payment confirmation
      * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
      * @param {*} [options] Override http request option.
@@ -8251,6 +8310,15 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
  */
 export interface DefaultApiInterface {
   /**
+   * Cancel a payment link
+   * @param {string} paymentLinkId The payment link id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  cancelPaymentLink(paymentLinkId: string, options?: AxiosRequestConfig): AxiosPromise<PaymentLinkResponse>;
+
+  /**
    * Submit manual payment confirmation
    * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
    * @param {*} [options] Override http request option.
@@ -8409,6 +8477,19 @@ export interface DefaultApiInterface {
  * @extends {BaseAPI}
  */
 export class DefaultApi extends BaseAPI implements DefaultApiInterface {
+  /**
+   * Cancel a payment link
+   * @param {string} paymentLinkId The payment link id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public cancelPaymentLink(paymentLinkId: string, options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .cancelPaymentLink(paymentLinkId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
   /**
    * Submit manual payment confirmation
    * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
