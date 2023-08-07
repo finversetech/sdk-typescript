@@ -967,11 +967,11 @@ export interface CreatePaymentLinkRequest {
    */
   currency: string;
   /**
-   * Specifies language to be used in Finverse UI
-   * @type {string}
+   *
+   * @type {PaymentLinkCustomizations}
    * @memberof CreatePaymentLinkRequest
    */
-  language?: string;
+  link_customizations?: PaymentLinkCustomizations;
   /**
    * The payment link mode
    * @type {string}
@@ -2922,7 +2922,7 @@ export interface LinkTokenRequest {
    */
   link_mode?: string;
   /**
-   * The UI mode link is intended to be used in - \"iframe\" (default), \"auto_redirect\" or \"redirect\" or \"standalone\"
+   * The UI mode link is intended to be used in - \"iframe\", \"auto_redirect\", \"redirect\" or \"standalone\"
    * @type {string}
    * @memberof LinkTokenRequest
    */
@@ -3589,7 +3589,7 @@ export interface MandateAuthLinkCustomizations {
    */
   products_supported?: Array<string>;
   /**
-   * The UI mode link is intended to be used in - \"iframe\" (default), \"auto_redirect\" or \"redirect\" or \"standalone\"
+   * The UI mode link is intended to be used in - \"iframe\", \"auto_redirect\", \"redirect\" or \"standalone\"
    * @type {string}
    * @memberof MandateAuthLinkCustomizations
    */
@@ -4125,6 +4125,36 @@ export type PaymentInstructionTypeEnum = (typeof PaymentInstructionTypeEnum)[key
 /**
  *
  * @export
+ * @interface PaymentLinkCustomizations
+ */
+export interface PaymentLinkCustomizations {
+  /**
+   * ISO639-1 language code. Language to display when user open the link, default to English (en) if not specified
+   * @type {string}
+   * @memberof PaymentLinkCustomizations
+   */
+  language?: string;
+  /**
+   * The UI mode link is intended to be used in - \"iframe\", \"auto_redirect\", \"redirect\" or \"standalone\"
+   * @type {string}
+   * @memberof PaymentLinkCustomizations
+   */
+  ui_mode?: PaymentLinkCustomizationsUiModeEnum;
+}
+
+export const PaymentLinkCustomizationsUiModeEnum = {
+  Iframe: 'iframe',
+  Redirect: 'redirect',
+  AutoRedirect: 'auto_redirect',
+  Standalone: 'standalone',
+} as const;
+
+export type PaymentLinkCustomizationsUiModeEnum =
+  (typeof PaymentLinkCustomizationsUiModeEnum)[keyof typeof PaymentLinkCustomizationsUiModeEnum];
+
+/**
+ *
+ * @export
  * @interface PaymentLinkDetails
  */
 export interface PaymentLinkDetails {
@@ -4166,11 +4196,11 @@ export interface PaymentLinkResponse {
    */
   currency?: string;
   /**
-   * Specifies language to be used in Finverse UI
-   * @type {string}
+   *
+   * @type {PaymentLinkCustomizations}
    * @memberof PaymentLinkResponse
    */
-  language?: string;
+  link_customizations?: PaymentLinkCustomizations;
   /**
    * The payment link mode
    * @type {string}
