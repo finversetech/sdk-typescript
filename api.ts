@@ -1002,12 +1002,6 @@ export interface CreatePaymentLinkRequest {
    * @memberof CreatePaymentLinkRequest
    */
   metadata?: { [key: string]: string };
-  /**
-   * URI to redirect to. Only needed if ui_mode = redirect
-   * @type {string}
-   * @memberof CreatePaymentLinkRequest
-   */
-  redirect_uri?: string;
 }
 
 export const CreatePaymentLinkRequestModeEnum = {
@@ -4146,6 +4140,12 @@ export interface PaymentLinkCustomizations {
    * @memberof PaymentLinkCustomizations
    */
   ui_mode?: PaymentLinkCustomizationsUiModeEnum;
+  /**
+   * URI to redirect to. Only needed if ui_mode = redirect
+   * @type {string}
+   * @memberof PaymentLinkCustomizations
+   */
+  redirect_uri?: string;
 }
 
 export const PaymentLinkCustomizationsUiModeEnum = {
@@ -4279,12 +4279,6 @@ export interface PaymentLinkResponse {
    * @memberof PaymentLinkResponse
    */
   sender?: PaymentLinkSenderResponse;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentLinkResponse
-   */
-  redirect_uri?: string;
 }
 
 export const PaymentLinkResponseModeEnum = {
