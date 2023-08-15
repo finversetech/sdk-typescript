@@ -4777,6 +4777,24 @@ export interface Principal {
    * @memberof Principal
    */
   link_token_request?: LinkTokenRequest;
+  /**
+   *
+   * @type {string}
+   * @memberof Principal
+   */
+  redirect_uri?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Principal
+   */
+  payment_link_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Principal
+   */
+  unique_reference_id?: string;
 }
 /**
  *
