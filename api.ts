@@ -4761,6 +4761,12 @@ export interface Principal {
   payment_attempt_id?: string;
   /**
    *
+   * @type {string}
+   * @memberof Principal
+   */
+  product_flow?: string;
+  /**
+   *
    * @type {Array<string>}
    * @memberof Principal
    */
