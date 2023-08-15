@@ -7629,6 +7629,37 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Get a customer-specific list of institutions for Finverse Link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getInstitutionsForCustomer: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/institutions/customer`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get payment link
      * @param {string} paymentLinkId The payment link id
      * @param {*} [options] Override http request option.
@@ -8027,6 +8058,17 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Get a customer-specific list of institutions for Finverse Link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getInstitutionsForCustomer(
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Institution>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getInstitutionsForCustomer(options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Get payment link
      * @param {string} paymentLinkId The payment link id
      * @param {*} [options] Override http request option.
@@ -8236,6 +8278,14 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         .then((request) => request(axios, basePath));
     },
     /**
+     * Get a customer-specific list of institutions for Finverse Link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getInstitutionsForCustomer(options?: any): AxiosPromise<Array<Institution>> {
+      return localVarFp.getInstitutionsForCustomer(options).then((request) => request(axios, basePath));
+    },
+    /**
      * Get payment link
      * @param {string} paymentLinkId The payment link id
      * @param {*} [options] Override http request option.
@@ -8419,6 +8469,14 @@ export interface DefaultApiInterface {
     createPaymentLinkMandateRequest: CreatePaymentLinkMandateRequest,
     options?: AxiosRequestConfig,
   ): AxiosPromise<CreatePaymentLinkMandateResponse>;
+
+  /**
+   * Get a customer-specific list of institutions for Finverse Link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  getInstitutionsForCustomer(options?: AxiosRequestConfig): AxiosPromise<Array<Institution>>;
 
   /**
    * Get payment link
@@ -8610,6 +8668,18 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   ) {
     return DefaultApiFp(this.configuration)
       .createPaymentLinkMandate(createPaymentLinkMandateRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get a customer-specific list of institutions for Finverse Link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public getInstitutionsForCustomer(options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .getInstitutionsForCustomer(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
