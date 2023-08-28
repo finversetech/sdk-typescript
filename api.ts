@@ -1660,6 +1660,19 @@ export interface GetJWKSResponse {
 /**
  *
  * @export
+ * @interface GetLineItemsForDisplayResponse
+ */
+export interface GetLineItemsForDisplayResponse {
+  /**
+   *
+   * @type {Array<LineItem>}
+   * @memberof GetLineItemsForDisplayResponse
+   */
+  line_items?: Array<LineItem>;
+}
+/**
+ *
+ * @export
  * @interface GetLoginIdentityByIdResponse
  */
 export interface GetLoginIdentityByIdResponse {
@@ -2718,6 +2731,40 @@ export interface JWKSKey {
    */
   x5c?: Array<string>;
 }
+/**
+ *
+ * @export
+ * @interface LineItem
+ */
+export interface LineItem {
+  /**
+   *
+   * @type {string}
+   * @memberof LineItem
+   */
+  currency?: string;
+  /**
+   * The amount in decimal
+   * @type {string}
+   * @memberof LineItem
+   */
+  amount?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof LineItem
+   */
+  item_type?: LineItemItemTypeEnum;
+}
+
+export const LineItemItemTypeEnum = {
+  AmountDue: 'AMOUNT_DUE',
+  Surcharge: 'SURCHARGE',
+  Total: 'TOTAL',
+} as const;
+
+export type LineItemItemTypeEnum = (typeof LineItemItemTypeEnum)[keyof typeof LineItemItemTypeEnum];
+
 /**
  *
  * @export
@@ -5876,6 +5923,46 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
+     * Get line items for display
+     * @param {'MANDATE' | 'MANUAL'} paymentType The payment type
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getLineItemsForDisplay: async (
+      paymentType: 'MANDATE' | 'MANUAL',
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'paymentType' is not null or undefined
+      assertParamExists('getLineItemsForDisplay', 'paymentType', paymentType);
+      const localVarPath = `/calculate/line_items/{paymentType}`.replace(
+        `{${'paymentType'}}`,
+        encodeURIComponent(String(paymentType)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get a specific loginIdentity
      * @param {string} loginIdentityId The login identity id
      * @param {*} [options] Override http request option.
@@ -6473,6 +6560,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Get line items for display
+     * @param {'MANDATE' | 'MANUAL'} paymentType The payment type
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getLineItemsForDisplay(
+      paymentType: 'MANDATE' | 'MANUAL',
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetLineItemsForDisplayResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getLineItemsForDisplay(paymentType, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Get a specific loginIdentity
      * @param {string} loginIdentityId The login identity id
      * @param {*} [options] Override http request option.
@@ -6743,6 +6843,18 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
       return localVarFp.getInstitution(institutionId, options).then((request) => request(axios, basePath));
     },
     /**
+     * Get line items for display
+     * @param {'MANDATE' | 'MANUAL'} paymentType The payment type
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getLineItemsForDisplay(
+      paymentType: 'MANDATE' | 'MANUAL',
+      options?: any,
+    ): AxiosPromise<GetLineItemsForDisplayResponse> {
+      return localVarFp.getLineItemsForDisplay(paymentType, options).then((request) => request(axios, basePath));
+    },
+    /**
      * Get a specific loginIdentity
      * @param {string} loginIdentityId The login identity id
      * @param {*} [options] Override http request option.
@@ -6967,6 +7079,18 @@ export interface CustomerApiInterface {
    * @memberof CustomerApiInterface
    */
   getInstitution(institutionId: string, options?: AxiosRequestConfig): AxiosPromise<Institution>;
+
+  /**
+   * Get line items for display
+   * @param {'MANDATE' | 'MANUAL'} paymentType The payment type
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  getLineItemsForDisplay(
+    paymentType: 'MANDATE' | 'MANUAL',
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<GetLineItemsForDisplayResponse>;
 
   /**
    * Get a specific loginIdentity
@@ -7216,6 +7340,19 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public getInstitution(institutionId: string, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getInstitution(institutionId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get line items for display
+   * @param {'MANDATE' | 'MANUAL'} paymentType The payment type
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public getLineItemsForDisplay(paymentType: 'MANDATE' | 'MANUAL', options?: AxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .getLineItemsForDisplay(paymentType, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
