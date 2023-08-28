@@ -4779,6 +4779,12 @@ export interface Principal {
   link_token_request?: LinkTokenRequest;
   /**
    *
+   * @type {GetMandateAuthLinkRequest}
+   * @memberof Principal
+   */
+  get_mandate_auth_link_request?: GetMandateAuthLinkRequest;
+  /**
+   *
    * @type {string}
    * @memberof Principal
    */
