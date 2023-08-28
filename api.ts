@@ -3793,6 +3793,12 @@ export interface MandateSenderAccount {
    */
   account_number?: RecipientAccountNumber;
   /**
+   * Masked Account number of the sender’s account
+   * @type {string}
+   * @memberof MandateSenderAccount
+   */
+  account_number_masked?: string;
+  /**
    * Type of sender account.
    * @type {string}
    * @memberof MandateSenderAccount
@@ -4504,6 +4510,12 @@ export interface PaymentResponse {
    * @memberof PaymentResponse
    */
   sender?: GetMandateSender;
+  /**
+   *
+   * @type {MandateSenderAccount}
+   * @memberof PaymentResponse
+   */
+  sender_account?: MandateSenderAccount;
   /**
    *
    * @type {Array<Fee>}
