@@ -4835,6 +4835,12 @@ export interface Principal {
    * @type {string}
    * @memberof Principal
    */
+  currency?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Principal
+   */
   redirect_uri?: string;
   /**
    *
