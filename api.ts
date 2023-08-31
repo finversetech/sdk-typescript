@@ -3155,6 +3155,19 @@ export interface ListMandatesResponse {
 /**
  *
  * @export
+ * @interface ListPaymentAccountsResponse
+ */
+export interface ListPaymentAccountsResponse {
+  /**
+   *
+   * @type {Array<PaymentAccountDetails>}
+   * @memberof ListPaymentAccountsResponse
+   */
+  payment_accounts?: Array<PaymentAccountDetails>;
+}
+/**
+ *
+ * @export
  * @interface ListPaymentsResponse
  */
 export interface ListPaymentsResponse {
@@ -3939,6 +3952,100 @@ export interface PaymentAccount {
    */
   institution_id?: string;
 }
+/**
+ *
+ * @export
+ * @interface PaymentAccountDetails
+ */
+export interface PaymentAccountDetails {
+  /**
+   * Payment account id
+   * @type {string}
+   * @memberof PaymentAccountDetails
+   */
+  account_id?: string;
+  /**
+   *
+   * @type {RecipientAccountNumber}
+   * @memberof PaymentAccountDetails
+   */
+  account_number?: RecipientAccountNumber;
+  /**
+   * Masked Account number of the payment account
+   * @type {string}
+   * @memberof PaymentAccountDetails
+   */
+  account_number_masked?: string;
+  /**
+   * Type of payment account.
+   * @type {string}
+   * @memberof PaymentAccountDetails
+   */
+  account_type?: PaymentAccountDetailsAccountTypeEnum;
+  /**
+   * Accountholder name of the payment account
+   * @type {string}
+   * @memberof PaymentAccountDetails
+   */
+  accountholder_name?: string;
+  /**
+   * Finverse Institution ID for the payment institution.
+   * @type {string}
+   * @memberof PaymentAccountDetails
+   */
+  institution_id?: string;
+  /**
+   * A unique identifier generated after creating user (Finverse Payment User ID)
+   * @type {string}
+   * @memberof PaymentAccountDetails
+   */
+  user_id?: string;
+  /**
+   * 3-digit code associated with bank
+   * @type {string}
+   * @memberof PaymentAccountDetails
+   */
+  bank_code?: string;
+  /**
+   * 3-digit code used to identify specific bank branch
+   * @type {string}
+   * @memberof PaymentAccountDetails
+   */
+  branch_code?: string;
+  /**
+   * List of currencies supported by the payment account
+   * @type {Array<string>}
+   * @memberof PaymentAccountDetails
+   */
+  currencies?: Array<string>;
+  /**
+   * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * @type {{ [key: string]: string; }}
+   * @memberof PaymentAccountDetails
+   */
+  metadata?: { [key: string]: string };
+  /**
+   * Timestamp of when the payment link was created in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof PaymentAccountDetails
+   */
+  created_at?: string;
+  /**
+   * Timestamp of when the payment link was last updated in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof PaymentAccountDetails
+   */
+  updated_at?: string;
+}
+
+export const PaymentAccountDetailsAccountTypeEnum = {
+  ExternalAccount: 'EXTERNAL_ACCOUNT',
+  SettlementAccount: 'SETTLEMENT_ACCOUNT',
+} as const;
+
+export type PaymentAccountDetailsAccountTypeEnum =
+  (typeof PaymentAccountDetailsAccountTypeEnum)[keyof typeof PaymentAccountDetailsAccountTypeEnum];
+
 /**
  *
  * @export
@@ -6338,6 +6445,43 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
+     * Get payment account by user id
+     * @param {string} paymentUserId The payment user id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPaymentAccount: async (paymentUserId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'paymentUserId' is not null or undefined
+      assertParamExists('listPaymentAccount', 'paymentUserId', paymentUserId);
+      const localVarPath = `/payment_users/{paymentUserId}/payment_accounts`.replace(
+        `{${'paymentUserId'}}`,
+        encodeURIComponent(String(paymentUserId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Refresh an access token
      * @param {RefreshRequest} refreshRequest The refresh token
      * @param {*} [options] Override http request option.
@@ -6718,6 +6862,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Get payment account by user id
+     * @param {string} paymentUserId The payment user id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listPaymentAccount(
+      paymentUserId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPaymentAccountsResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listPaymentAccount(paymentUserId, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Refresh an access token
      * @param {RefreshRequest} refreshRequest The refresh token
      * @param {*} [options] Override http request option.
@@ -6971,6 +7128,15 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
         .then((request) => request(axios, basePath));
     },
     /**
+     * Get payment account by user id
+     * @param {string} paymentUserId The payment user id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPaymentAccount(paymentUserId: string, options?: any): AxiosPromise<ListPaymentAccountsResponse> {
+      return localVarFp.listPaymentAccount(paymentUserId, options).then((request) => request(axios, basePath));
+    },
+    /**
      * Refresh an access token
      * @param {RefreshRequest} refreshRequest The refresh token
      * @param {*} [options] Override http request option.
@@ -7213,6 +7379,15 @@ export interface CustomerApiInterface {
     institutionType?: 'BANK' | 'WALLET' | 'TEST',
     options?: AxiosRequestConfig,
   ): AxiosPromise<Array<Institution>>;
+
+  /**
+   * Get payment account by user id
+   * @param {string} paymentUserId The payment user id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  listPaymentAccount(paymentUserId: string, options?: AxiosRequestConfig): AxiosPromise<ListPaymentAccountsResponse>;
 
   /**
    * Refresh an access token
@@ -7496,6 +7671,19 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   ) {
     return CustomerApiFp(this.configuration)
       .listInstitutions(country, countries, productsSupported, institutionType, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get payment account by user id
+   * @param {string} paymentUserId The payment user id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public listPaymentAccount(paymentUserId: string, options?: AxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .listPaymentAccount(paymentUserId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
