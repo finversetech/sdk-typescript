@@ -6450,9 +6450,9 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    listPaymentAccount: async (paymentUserId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    listPaymentAccounts: async (paymentUserId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'paymentUserId' is not null or undefined
-      assertParamExists('listPaymentAccount', 'paymentUserId', paymentUserId);
+      assertParamExists('listPaymentAccounts', 'paymentUserId', paymentUserId);
       const localVarPath = `/payment_users/{paymentUserId}/payment_accounts`.replace(
         `{${'paymentUserId'}}`,
         encodeURIComponent(String(paymentUserId)),
@@ -6867,11 +6867,11 @@ export const CustomerApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async listPaymentAccount(
+    async listPaymentAccounts(
       paymentUserId: string,
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPaymentAccountsResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.listPaymentAccount(paymentUserId, options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listPaymentAccounts(paymentUserId, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
@@ -7133,8 +7133,8 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    listPaymentAccount(paymentUserId: string, options?: any): AxiosPromise<ListPaymentAccountsResponse> {
-      return localVarFp.listPaymentAccount(paymentUserId, options).then((request) => request(axios, basePath));
+    listPaymentAccounts(paymentUserId: string, options?: any): AxiosPromise<ListPaymentAccountsResponse> {
+      return localVarFp.listPaymentAccounts(paymentUserId, options).then((request) => request(axios, basePath));
     },
     /**
      * Refresh an access token
@@ -7387,7 +7387,7 @@ export interface CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
-  listPaymentAccount(paymentUserId: string, options?: AxiosRequestConfig): AxiosPromise<ListPaymentAccountsResponse>;
+  listPaymentAccounts(paymentUserId: string, options?: AxiosRequestConfig): AxiosPromise<ListPaymentAccountsResponse>;
 
   /**
    * Refresh an access token
@@ -7681,9 +7681,9 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public listPaymentAccount(paymentUserId: string, options?: AxiosRequestConfig) {
+  public listPaymentAccounts(paymentUserId: string, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
-      .listPaymentAccount(paymentUserId, options)
+      .listPaymentAccounts(paymentUserId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
