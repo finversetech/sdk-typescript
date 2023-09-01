@@ -878,6 +878,63 @@ export type CreateMandateSenderUserTypeEnum =
 /**
  *
  * @export
+ * @interface CreatePaymentAccountRequest
+ */
+export interface CreatePaymentAccountRequest {
+  /**
+   *
+   * @type {RecipientAccountNumber}
+   * @memberof CreatePaymentAccountRequest
+   */
+  account_number: RecipientAccountNumber;
+  /**
+   * Type of payment account. Currently only allow creating external account.
+   * @type {string}
+   * @memberof CreatePaymentAccountRequest
+   */
+  account_type: CreatePaymentAccountRequestAccountTypeEnum;
+  /**
+   * Accountholder name of the payment account
+   * @type {string}
+   * @memberof CreatePaymentAccountRequest
+   */
+  accountholder_name: string;
+  /**
+   * List of currencies supported by the payment account
+   * @type {Array<string>}
+   * @memberof CreatePaymentAccountRequest
+   */
+  currencies?: Array<string>;
+  /**
+   * Finverse Institution ID for the payment institution.
+   * @type {string}
+   * @memberof CreatePaymentAccountRequest
+   */
+  institution_id: string;
+  /**
+   * A unique identifier generated after creating user (Finverse Payment User ID)
+   * @type {string}
+   * @memberof CreatePaymentAccountRequest
+   */
+  user_id: string;
+  /**
+   * Additional attributes of the payment in key:value format (e.g. payment_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * @type {{ [key: string]: string; }}
+   * @memberof CreatePaymentAccountRequest
+   */
+  metadata?: { [key: string]: string };
+}
+
+export const CreatePaymentAccountRequestAccountTypeEnum = {
+  ExternalAccount: 'EXTERNAL_ACCOUNT',
+} as const;
+
+export type CreatePaymentAccountRequestAccountTypeEnum =
+  (typeof CreatePaymentAccountRequestAccountTypeEnum)[keyof typeof CreatePaymentAccountRequestAccountTypeEnum];
+
+/**
+ *
+ * @export
  * @interface CreatePaymentInstructionResponse
  */
 export interface CreatePaymentInstructionResponse {
@@ -5881,6 +5938,50 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
+     * create payment account
+     * @param {CreatePaymentAccountRequest} createPaymentAccountRequest request body for creating payment account
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentAccount: async (
+      createPaymentAccountRequest: CreatePaymentAccountRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'createPaymentAccountRequest' is not null or undefined
+      assertParamExists('createPaymentAccount', 'createPaymentAccountRequest', createPaymentAccountRequest);
+      const localVarPath = `/payment_accounts`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        createPaymentAccountRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Create a new payment instruction to be used when linking to perform new payment
      * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
      * @param {*} [options] Override http request option.
@@ -5964,6 +6065,43 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
         localVarRequestOptions,
         configuration,
       );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * delete payment account
+     * @param {string} paymentAccountId The payment account id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deletePaymentAccount: async (paymentAccountId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'paymentAccountId' is not null or undefined
+      assertParamExists('deletePaymentAccount', 'paymentAccountId', paymentAccountId);
+      const localVarPath = `/payment_accounts/{paymentAccountId}`.replace(
+        `{${'paymentAccountId'}}`,
+        encodeURIComponent(String(paymentAccountId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
 
       return {
         url: toPathString(localVarUrlObj),
@@ -6664,6 +6802,22 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * create payment account
+     * @param {CreatePaymentAccountRequest} createPaymentAccountRequest request body for creating payment account
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createPaymentAccount(
+      createPaymentAccountRequest: CreatePaymentAccountRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentAccountDetails>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentAccount(
+        createPaymentAccountRequest,
+        options,
+      );
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Create a new payment instruction to be used when linking to perform new payment
      * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
      * @param {*} [options] Override http request option.
@@ -6693,6 +6847,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
         idempotencyKey,
         options,
       );
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
+     * delete payment account
+     * @param {string} paymentAccountId The payment account id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deletePaymentAccount(
+      paymentAccountId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.deletePaymentAccount(paymentAccountId, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
@@ -6970,6 +7137,20 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
         .then((request) => request(axios, basePath));
     },
     /**
+     * create payment account
+     * @param {CreatePaymentAccountRequest} createPaymentAccountRequest request body for creating payment account
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentAccount(
+      createPaymentAccountRequest: CreatePaymentAccountRequest,
+      options?: any,
+    ): AxiosPromise<PaymentAccountDetails> {
+      return localVarFp
+        .createPaymentAccount(createPaymentAccountRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Create a new payment instruction to be used when linking to perform new payment
      * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
      * @param {*} [options] Override http request option.
@@ -6998,6 +7179,15 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
       return localVarFp
         .createPayoutInstruction(createPayoutInstructionRequest, idempotencyKey, options)
         .then((request) => request(axios, basePath));
+    },
+    /**
+     * delete payment account
+     * @param {string} paymentAccountId The payment account id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deletePaymentAccount(paymentAccountId: string, options?: any): AxiosPromise<void> {
+      return localVarFp.deletePaymentAccount(paymentAccountId, options).then((request) => request(axios, basePath));
     },
     /**
      * generate a link token that can be used to create link
@@ -7221,6 +7411,18 @@ export interface CustomerApiInterface {
   ): AxiosPromise<PaymentResponse>;
 
   /**
+   * create payment account
+   * @param {CreatePaymentAccountRequest} createPaymentAccountRequest request body for creating payment account
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  createPaymentAccount(
+    createPaymentAccountRequest: CreatePaymentAccountRequest,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<PaymentAccountDetails>;
+
+  /**
    * Create a new payment instruction to be used when linking to perform new payment
    * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
    * @param {*} [options] Override http request option.
@@ -7245,6 +7447,15 @@ export interface CustomerApiInterface {
     idempotencyKey?: string,
     options?: AxiosRequestConfig,
   ): AxiosPromise<PayoutInstructionResponse>;
+
+  /**
+   * delete payment account
+   * @param {string} paymentAccountId The payment account id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  deletePaymentAccount(paymentAccountId: string, options?: AxiosRequestConfig): AxiosPromise<void>;
 
   /**
    * generate a link token that can be used to create link
@@ -7480,6 +7691,19 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   }
 
   /**
+   * create payment account
+   * @param {CreatePaymentAccountRequest} createPaymentAccountRequest request body for creating payment account
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public createPaymentAccount(createPaymentAccountRequest: CreatePaymentAccountRequest, options?: AxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .createPaymentAccount(createPaymentAccountRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
    * Create a new payment instruction to be used when linking to perform new payment
    * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
    * @param {*} [options] Override http request option.
@@ -7507,6 +7731,19 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   ) {
     return CustomerApiFp(this.configuration)
       .createPayoutInstruction(createPayoutInstructionRequest, idempotencyKey, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * delete payment account
+   * @param {string} paymentAccountId The payment account id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public deletePaymentAccount(paymentAccountId: string, options?: AxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .deletePaymentAccount(paymentAccountId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
