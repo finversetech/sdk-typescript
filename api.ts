@@ -1117,6 +1117,58 @@ export type CreatePaymentRequestTypeEnum =
 /**
  *
  * @export
+ * @interface CreatePaymentUserRequest
+ */
+export interface CreatePaymentUserRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof CreatePaymentUserRequest
+   */
+  name: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CreatePaymentUserRequest
+   */
+  external_user_id: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CreatePaymentUserRequest
+   */
+  user_type?: CreatePaymentUserRequestUserTypeEnum;
+  /**
+   *
+   * @type {string}
+   * @memberof CreatePaymentUserRequest
+   */
+  email?: string;
+  /**
+   *
+   * @type {Array<SenderDetail>}
+   * @memberof CreatePaymentUserRequest
+   */
+  user_details?: Array<SenderDetail>;
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof CreatePaymentUserRequest
+   */
+  metadata?: { [key: string]: string };
+}
+
+export const CreatePaymentUserRequestUserTypeEnum = {
+  Individual: 'INDIVIDUAL',
+  Business: 'BUSINESS',
+} as const;
+
+export type CreatePaymentUserRequestUserTypeEnum =
+  (typeof CreatePaymentUserRequestUserTypeEnum)[keyof typeof CreatePaymentUserRequestUserTypeEnum];
+
+/**
+ *
+ * @export
  * @interface CreatePayoutInstructionRequest
  */
 export interface CreatePayoutInstructionRequest {
@@ -4758,6 +4810,75 @@ export type PaymentScheduleFrequencyEnum =
 /**
  *
  * @export
+ * @interface PaymentUser
+ */
+export interface PaymentUser {
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentUser
+   */
+  created_at?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentUser
+   */
+  email?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentUser
+   */
+  external_user_id?: string;
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof PaymentUser
+   */
+  metadata?: { [key: string]: string };
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentUser
+   */
+  name?: string;
+  /**
+   *
+   * @type {Array<SenderDetail>}
+   * @memberof PaymentUser
+   */
+  user_details?: Array<SenderDetail>;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentUser
+   */
+  updated_at?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentUser
+   */
+  user_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentUser
+   */
+  user_type?: PaymentUserUserTypeEnum;
+}
+
+export const PaymentUserUserTypeEnum = {
+  Individual: 'INDIVIDUAL',
+  Business: 'BUSINESS',
+} as const;
+
+export type PaymentUserUserTypeEnum = (typeof PaymentUserUserTypeEnum)[keyof typeof PaymentUserUserTypeEnum];
+
+/**
+ *
+ * @export
  * @interface PayoutDetails
  */
 export interface PayoutDetails {
@@ -6022,6 +6143,50 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
+     * Create a payment user
+     * @param {CreatePaymentUserRequest} createPaymentAccountRequest request body for creating payment account
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentUser: async (
+      createPaymentAccountRequest: CreatePaymentUserRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'createPaymentAccountRequest' is not null or undefined
+      assertParamExists('createPaymentUser', 'createPaymentAccountRequest', createPaymentAccountRequest);
+      const localVarPath = `/payment_users`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        createPaymentAccountRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Create new Payout instruction
      * @param {CreatePayoutInstructionRequest} createPayoutInstructionRequest request body for creating payout instruction
      * @param {string} [idempotencyKey] A random key provided by the customer, per unique payout. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
@@ -6486,6 +6651,43 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
+     * Get a payment user
+     * @param {string} paymentUserId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPaymentUser: async (paymentUserId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'paymentUserId' is not null or undefined
+      assertParamExists('getPaymentUser', 'paymentUserId', paymentUserId);
+      const localVarPath = `/payment_users/{paymentUserId}`.replace(
+        `{${'paymentUserId'}}`,
+        encodeURIComponent(String(paymentUserId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get Payout Instruction details by payout_instruction_id
      * @param {string} payoutInstructionId payout instruction id
      * @param {*} [options] Override http request option.
@@ -6831,6 +7033,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Create a payment user
+     * @param {CreatePaymentUserRequest} createPaymentAccountRequest request body for creating payment account
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createPaymentUser(
+      createPaymentAccountRequest: CreatePaymentUserRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentUser>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentUser(createPaymentAccountRequest, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Create new Payout instruction
      * @param {CreatePayoutInstructionRequest} createPayoutInstructionRequest request body for creating payout instruction
      * @param {string} [idempotencyKey] A random key provided by the customer, per unique payout. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
@@ -6988,6 +7203,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPaymentInstructionsResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentInstruction(paymentInstructionId, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
+     * Get a payment user
+     * @param {string} paymentUserId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getPaymentUser(
+      paymentUserId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentUser>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentUser(paymentUserId, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
@@ -7165,6 +7393,17 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
         .then((request) => request(axios, basePath));
     },
     /**
+     * Create a payment user
+     * @param {CreatePaymentUserRequest} createPaymentAccountRequest request body for creating payment account
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentUser(createPaymentAccountRequest: CreatePaymentUserRequest, options?: any): AxiosPromise<PaymentUser> {
+      return localVarFp
+        .createPaymentUser(createPaymentAccountRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Create new Payout instruction
      * @param {CreatePayoutInstructionRequest} createPayoutInstructionRequest request body for creating payout instruction
      * @param {string} [idempotencyKey] A random key provided by the customer, per unique payout. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
@@ -7287,6 +7526,15 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
       return localVarFp
         .getPaymentInstruction(paymentInstructionId, options)
         .then((request) => request(axios, basePath));
+    },
+    /**
+     * Get a payment user
+     * @param {string} paymentUserId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPaymentUser(paymentUserId: string, options?: any): AxiosPromise<PaymentUser> {
+      return localVarFp.getPaymentUser(paymentUserId, options).then((request) => request(axios, basePath));
     },
     /**
      * Get Payout Instruction details by payout_instruction_id
@@ -7435,6 +7683,18 @@ export interface CustomerApiInterface {
   ): AxiosPromise<CreatePaymentInstructionResponse>;
 
   /**
+   * Create a payment user
+   * @param {CreatePaymentUserRequest} createPaymentAccountRequest request body for creating payment account
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  createPaymentUser(
+    createPaymentAccountRequest: CreatePaymentUserRequest,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<PaymentUser>;
+
+  /**
    * Create new Payout instruction
    * @param {CreatePayoutInstructionRequest} createPayoutInstructionRequest request body for creating payout instruction
    * @param {string} [idempotencyKey] A random key provided by the customer, per unique payout. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
@@ -7560,6 +7820,15 @@ export interface CustomerApiInterface {
     paymentInstructionId: string,
     options?: AxiosRequestConfig,
   ): AxiosPromise<GetPaymentInstructionsResponse>;
+
+  /**
+   * Get a payment user
+   * @param {string} paymentUserId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  getPaymentUser(paymentUserId: string, options?: AxiosRequestConfig): AxiosPromise<PaymentUser>;
 
   /**
    * Get Payout Instruction details by payout_instruction_id
@@ -7713,6 +7982,19 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public createPaymentInstruction(paymentInstruction: CustomerPaymentInstruction, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .createPaymentInstruction(paymentInstruction, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Create a payment user
+   * @param {CreatePaymentUserRequest} createPaymentAccountRequest request body for creating payment account
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public createPaymentUser(createPaymentAccountRequest: CreatePaymentUserRequest, options?: AxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .createPaymentUser(createPaymentAccountRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -7873,6 +8155,19 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public getPaymentInstruction(paymentInstructionId: string, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getPaymentInstruction(paymentInstructionId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get a payment user
+   * @param {string} paymentUserId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public getPaymentUser(paymentUserId: string, options?: AxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .getPaymentUser(paymentUserId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
