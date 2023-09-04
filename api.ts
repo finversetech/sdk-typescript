@@ -6144,16 +6144,16 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
     },
     /**
      * Create a payment user
-     * @param {CreatePaymentUserRequest} createPaymentAccountRequest request body for creating payment account
+     * @param {CreatePaymentUserRequest} createPaymentUserRequest request body for creating payment user
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     createPaymentUser: async (
-      createPaymentAccountRequest: CreatePaymentUserRequest,
+      createPaymentUserRequest: CreatePaymentUserRequest,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'createPaymentAccountRequest' is not null or undefined
-      assertParamExists('createPaymentUser', 'createPaymentAccountRequest', createPaymentAccountRequest);
+      // verify required parameter 'createPaymentUserRequest' is not null or undefined
+      assertParamExists('createPaymentUser', 'createPaymentUserRequest', createPaymentUserRequest);
       const localVarPath = `/payment_users`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -6176,7 +6176,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
       localVarRequestOptions.data = serializeDataIfNeeded(
-        createPaymentAccountRequest,
+        createPaymentUserRequest,
         localVarRequestOptions,
         configuration,
       );
@@ -7034,15 +7034,15 @@ export const CustomerApiFp = function (configuration?: Configuration) {
     },
     /**
      * Create a payment user
-     * @param {CreatePaymentUserRequest} createPaymentAccountRequest request body for creating payment account
+     * @param {CreatePaymentUserRequest} createPaymentUserRequest request body for creating payment user
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async createPaymentUser(
-      createPaymentAccountRequest: CreatePaymentUserRequest,
+      createPaymentUserRequest: CreatePaymentUserRequest,
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentUser>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentUser(createPaymentAccountRequest, options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentUser(createPaymentUserRequest, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
@@ -7394,13 +7394,13 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
     },
     /**
      * Create a payment user
-     * @param {CreatePaymentUserRequest} createPaymentAccountRequest request body for creating payment account
+     * @param {CreatePaymentUserRequest} createPaymentUserRequest request body for creating payment user
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createPaymentUser(createPaymentAccountRequest: CreatePaymentUserRequest, options?: any): AxiosPromise<PaymentUser> {
+    createPaymentUser(createPaymentUserRequest: CreatePaymentUserRequest, options?: any): AxiosPromise<PaymentUser> {
       return localVarFp
-        .createPaymentUser(createPaymentAccountRequest, options)
+        .createPaymentUser(createPaymentUserRequest, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -7684,13 +7684,13 @@ export interface CustomerApiInterface {
 
   /**
    * Create a payment user
-   * @param {CreatePaymentUserRequest} createPaymentAccountRequest request body for creating payment account
+   * @param {CreatePaymentUserRequest} createPaymentUserRequest request body for creating payment user
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
   createPaymentUser(
-    createPaymentAccountRequest: CreatePaymentUserRequest,
+    createPaymentUserRequest: CreatePaymentUserRequest,
     options?: AxiosRequestConfig,
   ): AxiosPromise<PaymentUser>;
 
@@ -7987,14 +7987,14 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
 
   /**
    * Create a payment user
-   * @param {CreatePaymentUserRequest} createPaymentAccountRequest request body for creating payment account
+   * @param {CreatePaymentUserRequest} createPaymentUserRequest request body for creating payment user
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public createPaymentUser(createPaymentAccountRequest: CreatePaymentUserRequest, options?: AxiosRequestConfig) {
+  public createPaymentUser(createPaymentUserRequest: CreatePaymentUserRequest, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
-      .createPaymentUser(createPaymentAccountRequest, options)
+      .createPaymentUser(createPaymentUserRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
