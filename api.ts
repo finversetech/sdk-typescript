@@ -650,6 +650,195 @@ export interface BalanceHistory {
 /**
  *
  * @export
+ * @interface CardAccount
+ */
+export interface CardAccount {
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CardAccount
+   */
+  current_balance?: CurrencyAmount;
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CardAccount
+   */
+  payment_due_amount?: CurrencyAmount;
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CardAccount
+   */
+  statement_due_amount?: CurrencyAmount;
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CardAccount
+   */
+  total_credit_limit?: CurrencyAmount;
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CardAccount
+   */
+  available_credit_limit?: CurrencyAmount;
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CardAccount
+   */
+  minimum_payment_due?: CurrencyAmount;
+  /**
+   *
+   * @type {RewardsPointsBalance}
+   * @memberof CardAccount
+   */
+  rewards_points_balance?: RewardsPointsBalance;
+  /**
+   *
+   * @type {string}
+   * @memberof CardAccount
+   */
+  last_update?: string;
+  /**
+   * Account this card is associated with
+   * @type {string}
+   * @memberof CardAccount
+   */
+  account_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CardAccount
+   */
+  account_name?: string;
+  /**
+   * Masked Account number of the card account
+   * @type {string}
+   * @memberof CardAccount
+   */
+  account_number_masked?: string;
+  /**
+   *
+   * @type {AccountType}
+   * @memberof CardAccount
+   */
+  account_type?: AccountType;
+  /**
+   * The statement payment due date
+   * @type {string}
+   * @memberof CardAccount
+   */
+  statement_payment_due_date?: string;
+  /**
+   * The next payment due date
+   * @type {string}
+   * @memberof CardAccount
+   */
+  next_payment_due_date?: string;
+  /**
+   * The statement date
+   * @type {string}
+   * @memberof CardAccount
+   */
+  statement_date?: string;
+  /**
+   * The date of the last payment
+   * @type {string}
+   * @memberof CardAccount
+   */
+  last_payment_date?: string;
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CardAccount
+   */
+  last_payment_amount?: CurrencyAmount;
+}
+/**
+ *
+ * @export
+ * @interface CardAccountAllOf
+ */
+export interface CardAccountAllOf {
+  /**
+   * Account this card is associated with
+   * @type {string}
+   * @memberof CardAccountAllOf
+   */
+  account_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CardAccountAllOf
+   */
+  account_name?: string;
+  /**
+   * Masked Account number of the card account
+   * @type {string}
+   * @memberof CardAccountAllOf
+   */
+  account_number_masked?: string;
+  /**
+   *
+   * @type {AccountType}
+   * @memberof CardAccountAllOf
+   */
+  account_type?: AccountType;
+  /**
+   * The statement payment due date
+   * @type {string}
+   * @memberof CardAccountAllOf
+   */
+  statement_payment_due_date?: string;
+  /**
+   * The next payment due date
+   * @type {string}
+   * @memberof CardAccountAllOf
+   */
+  next_payment_due_date?: string;
+  /**
+   * The statement date
+   * @type {string}
+   * @memberof CardAccountAllOf
+   */
+  statement_date?: string;
+  /**
+   * The date of the last payment
+   * @type {string}
+   * @memberof CardAccountAllOf
+   */
+  last_payment_date?: string;
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CardAccountAllOf
+   */
+  last_payment_amount?: CurrencyAmount;
+}
+/**
+ *
+ * @export
+ * @interface CardDetails
+ */
+export interface CardDetails {
+  /**
+   *
+   * @type {Array<CardAccount>}
+   * @memberof CardDetails
+   */
+  card_accounts?: Array<CardAccount>;
+  /**
+   *
+   * @type {CommonCardDetails}
+   * @memberof CardDetails
+   */
+  card_total?: CommonCardDetails;
+}
+/**
+ *
+ * @export
  * @interface CategoryPredictions
  */
 export interface CategoryPredictions {
@@ -671,6 +860,61 @@ export interface CategoryPredictions {
    * @memberof CategoryPredictions
    */
   source_id?: string;
+}
+/**
+ *
+ * @export
+ * @interface CommonCardDetails
+ */
+export interface CommonCardDetails {
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CommonCardDetails
+   */
+  current_balance?: CurrencyAmount;
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CommonCardDetails
+   */
+  payment_due_amount?: CurrencyAmount;
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CommonCardDetails
+   */
+  statement_due_amount?: CurrencyAmount;
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CommonCardDetails
+   */
+  total_credit_limit?: CurrencyAmount;
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CommonCardDetails
+   */
+  available_credit_limit?: CurrencyAmount;
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CommonCardDetails
+   */
+  minimum_payment_due?: CurrencyAmount;
+  /**
+   *
+   * @type {RewardsPointsBalance}
+   * @memberof CommonCardDetails
+   */
+  rewards_points_balance?: RewardsPointsBalance;
+  /**
+   *
+   * @type {string}
+   * @memberof CommonCardDetails
+   */
+  last_update?: string;
 }
 /**
  *
@@ -3245,6 +3489,31 @@ export interface ListAccountsResponse {
 /**
  *
  * @export
+ * @interface ListCardsDetailsResponse
+ */
+export interface ListCardsDetailsResponse {
+  /**
+   *
+   * @type {LoginIdentityShort}
+   * @memberof ListCardsDetailsResponse
+   */
+  login_identity?: LoginIdentityShort;
+  /**
+   *
+   * @type {InstitutionShort}
+   * @memberof ListCardsDetailsResponse
+   */
+  institution?: InstitutionShort;
+  /**
+   *
+   * @type {CardDetails}
+   * @memberof ListCardsDetailsResponse
+   */
+  card_details?: CardDetails;
+}
+/**
+ *
+ * @export
  * @interface ListMandatesResponse
  */
 export interface ListMandatesResponse {
@@ -5338,6 +5607,31 @@ export interface RelinkRequest {
    * @memberof RelinkRequest
    */
   consent?: boolean | null;
+}
+/**
+ *
+ * @export
+ * @interface RewardsPointsBalance
+ */
+export interface RewardsPointsBalance {
+  /**
+   *
+   * @type {string}
+   * @memberof RewardsPointsBalance
+   */
+  currency?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof RewardsPointsBalance
+   */
+  balance: number;
+  /**
+   *
+   * @type {string}
+   * @memberof RewardsPointsBalance
+   */
+  raw?: string;
 }
 /**
  *
@@ -11082,6 +11376,37 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       };
     },
     /**
+     * Get a list of card details for a login identity
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listCardDetails: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/card_details`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get a list of transactions for a particular account. The transactions are returned in sorted order, with the most recent one appearing first.
      * @param {string} accountId The account id (ULID, example - 01EP4A1MZDHKETZFRPF0K62S6S)
      * @param {number} [offset] default is 0
@@ -11380,6 +11705,17 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Get a list of card details for a login identity
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listCardDetails(
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListCardsDetailsResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listCardDetails(options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Get a list of transactions for a particular account. The transactions are returned in sorted order, with the most recent one appearing first.
      * @param {string} accountId The account id (ULID, example - 01EP4A1MZDHKETZFRPF0K62S6S)
      * @param {number} [offset] default is 0
@@ -11560,6 +11896,14 @@ export const LoginIdentityApiFactory = function (
       return localVarFp.listAccounts(options).then((request) => request(axios, basePath));
     },
     /**
+     * Get a list of card details for a login identity
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listCardDetails(options?: any): AxiosPromise<ListCardsDetailsResponse> {
+      return localVarFp.listCardDetails(options).then((request) => request(axios, basePath));
+    },
+    /**
      * Get a list of transactions for a particular account. The transactions are returned in sorted order, with the most recent one appearing first.
      * @param {string} accountId The account id (ULID, example - 01EP4A1MZDHKETZFRPF0K62S6S)
      * @param {number} [offset] default is 0
@@ -11725,6 +12069,14 @@ export interface LoginIdentityApiInterface {
    * @memberof LoginIdentityApiInterface
    */
   listAccounts(options?: AxiosRequestConfig): AxiosPromise<ListAccountsResponse>;
+
+  /**
+   * Get a list of card details for a login identity
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LoginIdentityApiInterface
+   */
+  listCardDetails(options?: AxiosRequestConfig): AxiosPromise<ListCardsDetailsResponse>;
 
   /**
    * Get a list of transactions for a particular account. The transactions are returned in sorted order, with the most recent one appearing first.
@@ -11925,6 +12277,18 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
   public listAccounts(options?: AxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .listAccounts(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get a list of card details for a login identity
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LoginIdentityApi
+   */
+  public listCardDetails(options?: AxiosRequestConfig) {
+    return LoginIdentityApiFp(this.configuration)
+      .listCardDetails(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
