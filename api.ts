@@ -335,6 +335,12 @@ export interface AllProductStatus {
    * @memberof AllProductStatus
    */
   income_estimation?: ProductStatus;
+  /**
+   *
+   * @type {ProductStatus}
+   * @memberof AllProductStatus
+   */
+  card_details?: ProductStatus;
 }
 /**
  *
