@@ -5625,7 +5625,7 @@ export interface RewardsPointsBalance {
    * @type {string}
    * @memberof RewardsPointsBalance
    */
-  currency?: string;
+  unit?: string;
   /**
    *
    * @type {number}
