@@ -706,7 +706,7 @@ export interface CardAccount {
    * @type {string}
    * @memberof CardAccount
    */
-  last_update?: string;
+  updated_at?: string;
   /**
    * Account this card is associated with
    * @type {string}
@@ -920,7 +920,7 @@ export interface CommonCardDetails {
    * @type {string}
    * @memberof CommonCardDetails
    */
-  last_update?: string;
+  updated_at?: string;
 }
 /**
  *
