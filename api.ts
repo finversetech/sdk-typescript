@@ -660,6 +660,60 @@ export interface BalanceHistory {
  */
 export interface CardAccount {
   /**
+   * Account this card is associated with
+   * @type {string}
+   * @memberof CardAccount
+   */
+  account_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CardAccount
+   */
+  account_name?: string;
+  /**
+   * Masked Account number of the card account
+   * @type {string}
+   * @memberof CardAccount
+   */
+  account_number_masked?: string;
+  /**
+   *
+   * @type {AccountType}
+   * @memberof CardAccount
+   */
+  account_type?: AccountType;
+  /**
+   * The statement payment due date
+   * @type {string}
+   * @memberof CardAccount
+   */
+  statement_payment_due_date?: string;
+  /**
+   * The next payment due date
+   * @type {string}
+   * @memberof CardAccount
+   */
+  next_payment_due_date?: string;
+  /**
+   * The statement date
+   * @type {string}
+   * @memberof CardAccount
+   */
+  statement_date?: string;
+  /**
+   * The date of the last payment
+   * @type {string}
+   * @memberof CardAccount
+   */
+  last_payment_date?: string;
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CardAccount
+   */
+  last_payment_amount?: CurrencyAmount;
+  /**
    *
    * @type {CurrencyAmount}
    * @memberof CardAccount
@@ -697,131 +751,16 @@ export interface CardAccount {
   minimum_payment_due?: CurrencyAmount;
   /**
    *
-   * @type {RewardsPointsBalance}
+   * @type {GenericAmount}
    * @memberof CardAccount
    */
-  rewards_points_balance?: RewardsPointsBalance;
+  rewards_points_balance?: GenericAmount;
   /**
    *
    * @type {string}
    * @memberof CardAccount
    */
   updated_at?: string;
-  /**
-   * Account this card is associated with
-   * @type {string}
-   * @memberof CardAccount
-   */
-  account_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CardAccount
-   */
-  account_name?: string;
-  /**
-   * Masked Account number of the card account
-   * @type {string}
-   * @memberof CardAccount
-   */
-  account_number_masked?: string;
-  /**
-   *
-   * @type {AccountType}
-   * @memberof CardAccount
-   */
-  account_type?: AccountType;
-  /**
-   * The statement payment due date
-   * @type {string}
-   * @memberof CardAccount
-   */
-  statement_payment_due_date?: string;
-  /**
-   * The next payment due date
-   * @type {string}
-   * @memberof CardAccount
-   */
-  next_payment_due_date?: string;
-  /**
-   * The statement date
-   * @type {string}
-   * @memberof CardAccount
-   */
-  statement_date?: string;
-  /**
-   * The date of the last payment
-   * @type {string}
-   * @memberof CardAccount
-   */
-  last_payment_date?: string;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CardAccount
-   */
-  last_payment_amount?: CurrencyAmount;
-}
-/**
- *
- * @export
- * @interface CardAccountAllOf
- */
-export interface CardAccountAllOf {
-  /**
-   * Account this card is associated with
-   * @type {string}
-   * @memberof CardAccountAllOf
-   */
-  account_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CardAccountAllOf
-   */
-  account_name?: string;
-  /**
-   * Masked Account number of the card account
-   * @type {string}
-   * @memberof CardAccountAllOf
-   */
-  account_number_masked?: string;
-  /**
-   *
-   * @type {AccountType}
-   * @memberof CardAccountAllOf
-   */
-  account_type?: AccountType;
-  /**
-   * The statement payment due date
-   * @type {string}
-   * @memberof CardAccountAllOf
-   */
-  statement_payment_due_date?: string;
-  /**
-   * The next payment due date
-   * @type {string}
-   * @memberof CardAccountAllOf
-   */
-  next_payment_due_date?: string;
-  /**
-   * The statement date
-   * @type {string}
-   * @memberof CardAccountAllOf
-   */
-  statement_date?: string;
-  /**
-   * The date of the last payment
-   * @type {string}
-   * @memberof CardAccountAllOf
-   */
-  last_payment_date?: string;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CardAccountAllOf
-   */
-  last_payment_amount?: CurrencyAmount;
 }
 /**
  *
@@ -837,10 +776,65 @@ export interface CardDetails {
   card_accounts?: Array<CardAccount>;
   /**
    *
-   * @type {CommonCardDetails}
+   * @type {CardTotal}
    * @memberof CardDetails
    */
-  card_total?: CommonCardDetails;
+  card_total?: CardTotal;
+}
+/**
+ *
+ * @export
+ * @interface CardTotal
+ */
+export interface CardTotal {
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CardTotal
+   */
+  current_balance?: CurrencyAmount;
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CardTotal
+   */
+  payment_due_amount?: CurrencyAmount;
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CardTotal
+   */
+  statement_due_amount?: CurrencyAmount;
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CardTotal
+   */
+  total_credit_limit?: CurrencyAmount;
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CardTotal
+   */
+  available_credit_limit?: CurrencyAmount;
+  /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof CardTotal
+   */
+  minimum_payment_due?: CurrencyAmount;
+  /**
+   *
+   * @type {GenericAmount}
+   * @memberof CardTotal
+   */
+  rewards_points_balance?: GenericAmount;
+  /**
+   *
+   * @type {string}
+   * @memberof CardTotal
+   */
+  updated_at?: string;
 }
 /**
  *
@@ -866,61 +860,6 @@ export interface CategoryPredictions {
    * @memberof CategoryPredictions
    */
   source_id?: string;
-}
-/**
- *
- * @export
- * @interface CommonCardDetails
- */
-export interface CommonCardDetails {
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CommonCardDetails
-   */
-  current_balance?: CurrencyAmount;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CommonCardDetails
-   */
-  payment_due_amount?: CurrencyAmount;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CommonCardDetails
-   */
-  statement_due_amount?: CurrencyAmount;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CommonCardDetails
-   */
-  total_credit_limit?: CurrencyAmount;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CommonCardDetails
-   */
-  available_credit_limit?: CurrencyAmount;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CommonCardDetails
-   */
-  minimum_payment_due?: CurrencyAmount;
-  /**
-   *
-   * @type {RewardsPointsBalance}
-   * @memberof CommonCardDetails
-   */
-  rewards_points_balance?: RewardsPointsBalance;
-  /**
-   *
-   * @type {string}
-   * @memberof CommonCardDetails
-   */
-  updated_at?: string;
 }
 /**
  *
@@ -1870,6 +1809,31 @@ export const FvErrorModelV2TypeEnum = {
 
 export type FvErrorModelV2TypeEnum = (typeof FvErrorModelV2TypeEnum)[keyof typeof FvErrorModelV2TypeEnum];
 
+/**
+ *
+ * @export
+ * @interface GenericAmount
+ */
+export interface GenericAmount {
+  /**
+   *
+   * @type {string}
+   * @memberof GenericAmount
+   */
+  unit?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof GenericAmount
+   */
+  value: number;
+  /**
+   *
+   * @type {string}
+   * @memberof GenericAmount
+   */
+  raw?: string;
+}
 /**
  *
  * @export
@@ -5613,31 +5577,6 @@ export interface RelinkRequest {
    * @memberof RelinkRequest
    */
   consent?: boolean | null;
-}
-/**
- *
- * @export
- * @interface RewardsPointsBalance
- */
-export interface RewardsPointsBalance {
-  /**
-   *
-   * @type {string}
-   * @memberof RewardsPointsBalance
-   */
-  unit?: string;
-  /**
-   *
-   * @type {number}
-   * @memberof RewardsPointsBalance
-   */
-  balance: number;
-  /**
-   *
-   * @type {string}
-   * @memberof RewardsPointsBalance
-   */
-  raw?: string;
 }
 /**
  *
