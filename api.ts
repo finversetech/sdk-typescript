@@ -8648,6 +8648,59 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Create mandate for an existing sender account
+     * @param {string} senderAccountId The Finverse ID of the sender account
+     * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createMandateForExistingSender: async (
+      senderAccountId: string,
+      createMandateRequest: CreateMandateRequest,
+      idempotencyKey?: string,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'senderAccountId' is not null or undefined
+      assertParamExists('createMandateForExistingSender', 'senderAccountId', senderAccountId);
+      // verify required parameter 'createMandateRequest' is not null or undefined
+      assertParamExists('createMandateForExistingSender', 'createMandateRequest', createMandateRequest);
+      const localVarPath = `/mandates/sender_account/{senderAccountId}`.replace(
+        `{${'senderAccountId'}}`,
+        encodeURIComponent(String(senderAccountId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (idempotencyKey !== undefined && idempotencyKey !== null) {
+        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
+      }
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(createMandateRequest, localVarRequestOptions, configuration);
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Create payment link
      * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
      * @param {*} [options] Override http request option.
@@ -9156,6 +9209,28 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Create mandate for an existing sender account
+     * @param {string} senderAccountId The Finverse ID of the sender account
+     * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createMandateForExistingSender(
+      senderAccountId: string,
+      createMandateRequest: CreateMandateRequest,
+      idempotencyKey?: string,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateMandateResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createMandateForExistingSender(
+        senderAccountId,
+        createMandateRequest,
+        idempotencyKey,
+        options,
+      );
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Create payment link
      * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
      * @param {*} [options] Override http request option.
@@ -9380,6 +9455,24 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       return localVarFp.createFpsToken(options).then((request) => request(axios, basePath));
     },
     /**
+     * Create mandate for an existing sender account
+     * @param {string} senderAccountId The Finverse ID of the sender account
+     * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createMandateForExistingSender(
+      senderAccountId: string,
+      createMandateRequest: CreateMandateRequest,
+      idempotencyKey?: string,
+      options?: any,
+    ): AxiosPromise<CreateMandateResponse> {
+      return localVarFp
+        .createMandateForExistingSender(senderAccountId, createMandateRequest, idempotencyKey, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Create payment link
      * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
      * @param {*} [options] Override http request option.
@@ -9577,6 +9670,22 @@ export interface DefaultApiInterface {
   createFpsToken(options?: AxiosRequestConfig): AxiosPromise<CreateFpsTokenResponse>;
 
   /**
+   * Create mandate for an existing sender account
+   * @param {string} senderAccountId The Finverse ID of the sender account
+   * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
+   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  createMandateForExistingSender(
+    senderAccountId: string,
+    createMandateRequest: CreateMandateRequest,
+    idempotencyKey?: string,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<CreateMandateResponse>;
+
+  /**
    * Create payment link
    * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
    * @param {*} [options] Override http request option.
@@ -9765,6 +9874,26 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public createFpsToken(options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .createFpsToken(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Create mandate for an existing sender account
+   * @param {string} senderAccountId The Finverse ID of the sender account
+   * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
+   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public createMandateForExistingSender(
+    senderAccountId: string,
+    createMandateRequest: CreateMandateRequest,
+    idempotencyKey?: string,
+    options?: AxiosRequestConfig,
+  ) {
+    return DefaultApiFp(this.configuration)
+      .createMandateForExistingSender(senderAccountId, createMandateRequest, idempotencyKey, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
