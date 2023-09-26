@@ -8693,16 +8693,18 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     },
     /**
      * Create mandate for an existing sender account
+     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     createMandateForExistingSender: async (
+      idempotencyKey: string,
       createMandateRequest: CreateMandateWithSenderAccountRequest,
-      idempotencyKey?: string,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
+      // verify required parameter 'idempotencyKey' is not null or undefined
+      assertParamExists('createMandateForExistingSender', 'idempotencyKey', idempotencyKey);
       // verify required parameter 'createMandateRequest' is not null or undefined
       assertParamExists('createMandateForExistingSender', 'createMandateRequest', createMandateRequest);
       const localVarPath = `/mandates/sender_account`;
@@ -9247,19 +9249,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     },
     /**
      * Create mandate for an existing sender account
+     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async createMandateForExistingSender(
+      idempotencyKey: string,
       createMandateRequest: CreateMandateWithSenderAccountRequest,
-      idempotencyKey?: string,
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateMandateResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createMandateForExistingSender(
-        createMandateRequest,
         idempotencyKey,
+        createMandateRequest,
         options,
       );
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
@@ -9490,18 +9492,18 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     },
     /**
      * Create mandate for an existing sender account
+     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     createMandateForExistingSender(
+      idempotencyKey: string,
       createMandateRequest: CreateMandateWithSenderAccountRequest,
-      idempotencyKey?: string,
       options?: any,
     ): AxiosPromise<CreateMandateResponse> {
       return localVarFp
-        .createMandateForExistingSender(createMandateRequest, idempotencyKey, options)
+        .createMandateForExistingSender(idempotencyKey, createMandateRequest, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -9703,15 +9705,15 @@ export interface DefaultApiInterface {
 
   /**
    * Create mandate for an existing sender account
+   * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
    * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
-   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
   createMandateForExistingSender(
+    idempotencyKey: string,
     createMandateRequest: CreateMandateWithSenderAccountRequest,
-    idempotencyKey?: string,
     options?: AxiosRequestConfig,
   ): AxiosPromise<CreateMandateResponse>;
 
@@ -9909,19 +9911,19 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
 
   /**
    * Create mandate for an existing sender account
+   * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
    * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
-   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
   public createMandateForExistingSender(
+    idempotencyKey: string,
     createMandateRequest: CreateMandateWithSenderAccountRequest,
-    idempotencyKey?: string,
     options?: AxiosRequestConfig,
   ) {
     return DefaultApiFp(this.configuration)
-      .createMandateForExistingSender(createMandateRequest, idempotencyKey, options)
+      .createMandateForExistingSender(idempotencyKey, createMandateRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
