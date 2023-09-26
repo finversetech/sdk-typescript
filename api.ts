@@ -522,6 +522,19 @@ export type AuthChecklistOptionsSubmittedByEnum =
 /**
  *
  * @export
+ * @interface AuthorizeMandateRequest
+ */
+export interface AuthorizeMandateRequest {
+  /**
+   * Whether a consent was provided by the enduser to authorize a mandate
+   * @type {boolean}
+   * @memberof AuthorizeMandateRequest
+   */
+  enduser_consent: boolean;
+}
+/**
+ *
+ * @export
  * @interface BadRequestModel
  */
 export interface BadRequestModel {
@@ -6210,6 +6223,57 @@ export interface UserMessage {
 export const CustomerApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
+     * Allows a customer to authorize a specific mandate
+     * @param {string} mandateId The mandate_id that is being authorized
+     * @param {AuthorizeMandateRequest} authorizeMandateRequest request body for authorizing a mandate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authorizeMandate: async (
+      mandateId: string,
+      authorizeMandateRequest: AuthorizeMandateRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'mandateId' is not null or undefined
+      assertParamExists('authorizeMandate', 'mandateId', mandateId);
+      // verify required parameter 'authorizeMandateRequest' is not null or undefined
+      assertParamExists('authorizeMandate', 'authorizeMandateRequest', authorizeMandateRequest);
+      const localVarPath = `/mandates/{mandateId}/authorize`.replace(
+        `{${'mandateId'}}`,
+        encodeURIComponent(String(mandateId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        authorizeMandateRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Cancel Payout Instruction by payout_instruction_id
      * @param {string} payoutInstructionId payout instruction id
      * @param {*} [options] Override http request option.
@@ -7236,6 +7300,25 @@ export const CustomerApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = CustomerApiAxiosParamCreator(configuration);
   return {
     /**
+     * Allows a customer to authorize a specific mandate
+     * @param {string} mandateId The mandate_id that is being authorized
+     * @param {AuthorizeMandateRequest} authorizeMandateRequest request body for authorizing a mandate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async authorizeMandate(
+      mandateId: string,
+      authorizeMandateRequest: AuthorizeMandateRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SubmitAuthChecklistResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.authorizeMandate(
+        mandateId,
+        authorizeMandateRequest,
+        options,
+      );
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Cancel Payout Instruction by payout_instruction_id
      * @param {string} payoutInstructionId payout instruction id
      * @param {*} [options] Override http request option.
@@ -7605,6 +7688,22 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
   const localVarFp = CustomerApiFp(configuration);
   return {
     /**
+     * Allows a customer to authorize a specific mandate
+     * @param {string} mandateId The mandate_id that is being authorized
+     * @param {AuthorizeMandateRequest} authorizeMandateRequest request body for authorizing a mandate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authorizeMandate(
+      mandateId: string,
+      authorizeMandateRequest: AuthorizeMandateRequest,
+      options?: any,
+    ): AxiosPromise<SubmitAuthChecklistResponse> {
+      return localVarFp
+        .authorizeMandate(mandateId, authorizeMandateRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Cancel Payout Instruction by payout_instruction_id
      * @param {string} payoutInstructionId payout instruction id
      * @param {*} [options] Override http request option.
@@ -7902,6 +8001,20 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
  */
 export interface CustomerApiInterface {
   /**
+   * Allows a customer to authorize a specific mandate
+   * @param {string} mandateId The mandate_id that is being authorized
+   * @param {AuthorizeMandateRequest} authorizeMandateRequest request body for authorizing a mandate
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  authorizeMandate(
+    mandateId: string,
+    authorizeMandateRequest: AuthorizeMandateRequest,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<SubmitAuthChecklistResponse>;
+
+  /**
    * Cancel Payout Instruction by payout_instruction_id
    * @param {string} payoutInstructionId payout instruction id
    * @param {*} [options] Override http request option.
@@ -8193,6 +8306,24 @@ export interface CustomerApiInterface {
  * @extends {BaseAPI}
  */
 export class CustomerApi extends BaseAPI implements CustomerApiInterface {
+  /**
+   * Allows a customer to authorize a specific mandate
+   * @param {string} mandateId The mandate_id that is being authorized
+   * @param {AuthorizeMandateRequest} authorizeMandateRequest request body for authorizing a mandate
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public authorizeMandate(
+    mandateId: string,
+    authorizeMandateRequest: AuthorizeMandateRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return CustomerApiFp(this.configuration)
+      .authorizeMandate(mandateId, authorizeMandateRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
   /**
    * Cancel Payout Instruction by payout_instruction_id
    * @param {string} payoutInstructionId payout instruction id
