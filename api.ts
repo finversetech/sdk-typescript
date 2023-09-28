@@ -4942,6 +4942,12 @@ export interface PaymentLinkTokenResponse {
    */
   link_url: string;
   /**
+   * The FPS QR code in base64
+   * @type {string}
+   * @memberof PaymentLinkTokenResponse
+   */
+  qr_code?: string;
+  /**
    *
    * @type {string}
    * @memberof PaymentLinkTokenResponse
