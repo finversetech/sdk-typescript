@@ -7310,7 +7310,7 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       mandateId: string,
       authorizeMandateRequest: AuthorizeMandateRequest,
       options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SubmitAuthChecklistResponse>> {
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.authorizeMandate(
         mandateId,
         authorizeMandateRequest,
@@ -7698,7 +7698,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
       mandateId: string,
       authorizeMandateRequest: AuthorizeMandateRequest,
       options?: any,
-    ): AxiosPromise<SubmitAuthChecklistResponse> {
+    ): AxiosPromise<GetMandateResponse> {
       return localVarFp
         .authorizeMandate(mandateId, authorizeMandateRequest, options)
         .then((request) => request(axios, basePath));
@@ -8012,7 +8012,7 @@ export interface CustomerApiInterface {
     mandateId: string,
     authorizeMandateRequest: AuthorizeMandateRequest,
     options?: AxiosRequestConfig,
-  ): AxiosPromise<SubmitAuthChecklistResponse>;
+  ): AxiosPromise<GetMandateResponse>;
 
   /**
    * Cancel Payout Instruction by payout_instruction_id
