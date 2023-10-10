@@ -4260,13 +4260,7 @@ export interface ManualPaymentConfirmationRequest {
    * @type {string}
    * @memberof ManualPaymentConfirmationRequest
    */
-  account_number_last4?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof ManualPaymentConfirmationRequest
-   */
-  accountholder_name?: string;
+  accountholder_name: string;
 }
 /**
  *
