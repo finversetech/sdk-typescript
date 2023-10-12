@@ -764,10 +764,10 @@ export interface CardAccount {
   minimum_payment_due?: CurrencyAmount;
   /**
    *
-   * @type {GenericAmount}
+   * @type {Array<GenericAmount>}
    * @memberof CardAccount
    */
-  rewards_points_balance?: GenericAmount;
+  rewards_balances?: Array<GenericAmount>;
   /**
    *
    * @type {string}
@@ -838,10 +838,10 @@ export interface CardTotal {
   minimum_payment_due?: CurrencyAmount;
   /**
    *
-   * @type {GenericAmount}
+   * @type {Array<GenericAmount>}
    * @memberof CardTotal
    */
-  rewards_points_balance?: GenericAmount;
+  rewards_balances?: Array<GenericAmount>;
   /**
    *
    * @type {string}
