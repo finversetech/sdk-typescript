@@ -1402,43 +1402,6 @@ export type CreatePaymentUserRequestUserTypeEnum =
 /**
  *
  * @export
- * @interface CreatePayoutInstructionRequest
- */
-export interface CreatePayoutInstructionRequest {
-  /**
-   * Amount to be paid, in currency\'s smallest unit or “minor unit”, as defined in ISO 4217. For example, HKD 100.01 is represented as amount = 10001 (minor unit = cents). For currencies without minor units (e.g. VND, JPY), the amount is represented as is, without modification. For example, VND 15101 is represented as amount = 15101.
-   * @type {number}
-   * @memberof CreatePayoutInstructionRequest
-   */
-  amount: number;
-  /**
-   * The currency code as defined in ISO 4217.
-   * @type {string}
-   * @memberof CreatePayoutInstructionRequest
-   */
-  currency: string;
-  /**
-   *
-   * @type {PayoutDetails}
-   * @memberof CreatePayoutInstructionRequest
-   */
-  payment_details: PayoutDetails;
-  /**
-   *
-   * @type {MandateRecipientRequest}
-   * @memberof CreatePayoutInstructionRequest
-   */
-  recipient_account: MandateRecipientRequest;
-  /**
-   * Additional attributes of the payout instruction in key:value format (e.g. payout_instruction_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
-   * @type {{ [key: string]: string; }}
-   * @memberof CreatePayoutInstructionRequest
-   */
-  metadata?: { [key: string]: string };
-}
-/**
- *
- * @export
  * @interface CreateRecipientAccount
  */
 export interface CreateRecipientAccount {
@@ -1481,6 +1444,43 @@ export const CreateRecipientAccountAccountTypeEnum = {
 export type CreateRecipientAccountAccountTypeEnum =
   (typeof CreateRecipientAccountAccountTypeEnum)[keyof typeof CreateRecipientAccountAccountTypeEnum];
 
+/**
+ *
+ * @export
+ * @interface CreateScheduledPayoutRequest
+ */
+export interface CreateScheduledPayoutRequest {
+  /**
+   * Amount to be paid, in currency\'s smallest unit or “minor unit”, as defined in ISO 4217. For example, HKD 100.01 is represented as amount = 10001 (minor unit = cents). For currencies without minor units (e.g. VND, JPY), the amount is represented as is, without modification. For example, VND 15101 is represented as amount = 15101.
+   * @type {number}
+   * @memberof CreateScheduledPayoutRequest
+   */
+  amount: number;
+  /**
+   * The currency code as defined in ISO 4217.
+   * @type {string}
+   * @memberof CreateScheduledPayoutRequest
+   */
+  currency: string;
+  /**
+   *
+   * @type {PayoutDetails}
+   * @memberof CreateScheduledPayoutRequest
+   */
+  payment_details: PayoutDetails;
+  /**
+   *
+   * @type {MandateRecipientRequest}
+   * @memberof CreateScheduledPayoutRequest
+   */
+  recipient_account: MandateRecipientRequest;
+  /**
+   * Additional attributes of the payout instruction in key:value format (e.g. payout_instruction_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * @type {{ [key: string]: string; }}
+   * @memberof CreateScheduledPayoutRequest
+   */
+  metadata?: { [key: string]: string };
+}
 /**
  *
  * @export
@@ -5342,6 +5342,153 @@ export interface PayoutSender {
 /**
  *
  * @export
+ * @interface PayoutSnapshotDetails
+ */
+export interface PayoutSnapshotDetails {
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSnapshotDetails
+   */
+  description?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSnapshotDetails
+   */
+  transaction_reference_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSnapshotDetails
+   */
+  mandate_id?: string;
+}
+/**
+ *
+ * @export
+ * @interface PayoutSnapshotPaymentAccount
+ */
+export interface PayoutSnapshotPaymentAccount {
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSnapshotPaymentAccount
+   */
+  payment_user_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSnapshotPaymentAccount
+   */
+  payment_account_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSnapshotPaymentAccount
+   */
+  name?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSnapshotPaymentAccount
+   */
+  institution_id?: string;
+}
+/**
+ *
+ * @export
+ * @interface PayoutSnapshotResponse
+ */
+export interface PayoutSnapshotResponse {
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSnapshotResponse
+   */
+  payout_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSnapshotResponse
+   */
+  transaction_reference_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSnapshotResponse
+   */
+  status?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSnapshotResponse
+   */
+  payout_type?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSnapshotResponse
+   */
+  created_at?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSnapshotResponse
+   */
+  updated_at?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSnapshotResponse
+   */
+  scheduled_date?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSnapshotResponse
+   */
+  transaction_date?: string;
+  /**
+   *
+   * @type {PayoutSnapshotDetails}
+   * @memberof PayoutSnapshotResponse
+   */
+  payout_details?: PayoutSnapshotDetails;
+  /**
+   *
+   * @type {number}
+   * @memberof PayoutSnapshotResponse
+   */
+  amount?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSnapshotResponse
+   */
+  currency?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSnapshotResponse
+   */
+  description?: string;
+  /**
+   *
+   * @type {PayoutSnapshotPaymentAccount}
+   * @memberof PayoutSnapshotResponse
+   */
+  recipient?: PayoutSnapshotPaymentAccount;
+  /**
+   *
+   * @type {PayoutSnapshotPaymentAccount}
+   * @memberof PayoutSnapshotResponse
+   */
+  sender?: PayoutSnapshotPaymentAccount;
+}
+/**
+ *
+ * @export
  * @interface Principal
  */
 export interface Principal {
@@ -6534,56 +6681,6 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
-     * Create new Payout instruction
-     * @param {CreatePayoutInstructionRequest} createPayoutInstructionRequest request body for creating payout instruction
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payout. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createPayoutInstruction: async (
-      createPayoutInstructionRequest: CreatePayoutInstructionRequest,
-      idempotencyKey?: string,
-      options: AxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'createPayoutInstructionRequest' is not null or undefined
-      assertParamExists('createPayoutInstruction', 'createPayoutInstructionRequest', createPayoutInstructionRequest);
-      const localVarPath = `/payout_instructions`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      if (idempotencyKey !== undefined && idempotencyKey !== null) {
-        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
-      }
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        createPayoutInstructionRequest,
-        localVarRequestOptions,
-        configuration,
-      );
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
      * delete payment account
      * @param {string} paymentAccountId The payment account id
      * @param {*} [options] Override http request option.
@@ -7412,25 +7509,6 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
-     * Create new Payout instruction
-     * @param {CreatePayoutInstructionRequest} createPayoutInstructionRequest request body for creating payout instruction
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payout. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async createPayoutInstruction(
-      createPayoutInstructionRequest: CreatePayoutInstructionRequest,
-      idempotencyKey?: string,
-      options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutInstructionResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createPayoutInstruction(
-        createPayoutInstructionRequest,
-        idempotencyKey,
-        options,
-      );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-    },
-    /**
      * delete payment account
      * @param {string} paymentAccountId The payment account id
      * @param {*} [options] Override http request option.
@@ -7786,22 +7864,6 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
         .then((request) => request(axios, basePath));
     },
     /**
-     * Create new Payout instruction
-     * @param {CreatePayoutInstructionRequest} createPayoutInstructionRequest request body for creating payout instruction
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payout. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createPayoutInstruction(
-      createPayoutInstructionRequest: CreatePayoutInstructionRequest,
-      idempotencyKey?: string,
-      options?: any,
-    ): AxiosPromise<PayoutInstructionResponse> {
-      return localVarFp
-        .createPayoutInstruction(createPayoutInstructionRequest, idempotencyKey, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
      * delete payment account
      * @param {string} paymentAccountId The payment account id
      * @param {*} [options] Override http request option.
@@ -8089,20 +8151,6 @@ export interface CustomerApiInterface {
     createPaymentUserRequest: CreatePaymentUserRequest,
     options?: AxiosRequestConfig,
   ): AxiosPromise<PaymentUser>;
-
-  /**
-   * Create new Payout instruction
-   * @param {CreatePayoutInstructionRequest} createPayoutInstructionRequest request body for creating payout instruction
-   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payout. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  createPayoutInstruction(
-    createPayoutInstructionRequest: CreatePayoutInstructionRequest,
-    idempotencyKey?: string,
-    options?: AxiosRequestConfig,
-  ): AxiosPromise<PayoutInstructionResponse>;
 
   /**
    * delete payment account
@@ -8409,24 +8457,6 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public createPaymentUser(createPaymentUserRequest: CreatePaymentUserRequest, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .createPaymentUser(createPaymentUserRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Create new Payout instruction
-   * @param {CreatePayoutInstructionRequest} createPayoutInstructionRequest request body for creating payout instruction
-   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payout. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public createPayoutInstruction(
-    createPayoutInstructionRequest: CreatePayoutInstructionRequest,
-    idempotencyKey?: string,
-    options?: AxiosRequestConfig,
-  ) {
-    return CustomerApiFp(this.configuration)
-      .createPayoutInstruction(createPayoutInstructionRequest, idempotencyKey, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -8990,6 +9020,50 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Create a scheduled payout
+     * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createScheduledPayout: async (
+      createScheduledPayoutRequest: CreateScheduledPayoutRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'createScheduledPayoutRequest' is not null or undefined
+      assertParamExists('createScheduledPayout', 'createScheduledPayoutRequest', createScheduledPayoutRequest);
+      const localVarPath = `/payouts/scheduled`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        createScheduledPayoutRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get a customer-specific list of institutions for Finverse Link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9438,6 +9512,22 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Create a scheduled payout
+     * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createScheduledPayout(
+      createScheduledPayoutRequest: CreateScheduledPayoutRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutSnapshotResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createScheduledPayout(
+        createScheduledPayoutRequest,
+        options,
+      );
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Get a customer-specific list of institutions for Finverse Link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9674,6 +9764,20 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         .then((request) => request(axios, basePath));
     },
     /**
+     * Create a scheduled payout
+     * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createScheduledPayout(
+      createScheduledPayoutRequest: CreateScheduledPayoutRequest,
+      options?: any,
+    ): AxiosPromise<PayoutSnapshotResponse> {
+      return localVarFp
+        .createScheduledPayout(createScheduledPayoutRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Get a customer-specific list of institutions for Finverse Link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9879,6 +9983,18 @@ export interface DefaultApiInterface {
     createPaymentLinkMandateRequest: CreatePaymentLinkMandateRequest,
     options?: AxiosRequestConfig,
   ): AxiosPromise<CreatePaymentLinkMandateResponse>;
+
+  /**
+   * Create a scheduled payout
+   * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  createScheduledPayout(
+    createScheduledPayoutRequest: CreateScheduledPayoutRequest,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<PayoutSnapshotResponse>;
 
   /**
    * Get a customer-specific list of institutions for Finverse Link
@@ -10096,6 +10212,22 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   ) {
     return DefaultApiFp(this.configuration)
       .createPaymentLinkMandate(createPaymentLinkMandateRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Create a scheduled payout
+   * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public createScheduledPayout(
+    createScheduledPayoutRequest: CreateScheduledPayoutRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return DefaultApiFp(this.configuration)
+      .createScheduledPayout(createScheduledPayoutRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
