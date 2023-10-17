@@ -5200,148 +5200,6 @@ export interface PayoutDetails {
 /**
  *
  * @export
- * @interface PayoutDetailsResponse
- */
-export interface PayoutDetailsResponse {
-  /**
-   * The mandate used to execute payments for this payout instruction. Currency for the mandate must be supported by the recipient account
-   * @type {string}
-   * @memberof PayoutDetailsResponse
-   */
-  mandate_id?: string;
-  /**
-   * A description for the payment (that will appear as the transaction description on bank statements)
-   * @type {string}
-   * @memberof PayoutDetailsResponse
-   */
-  description?: string;
-  /**
-   * YYYY-MM-DD, date (in UTC) to execute the payment, must be 1 day later than current date
-   * @type {string}
-   * @memberof PayoutDetailsResponse
-   */
-  scheduled_date?: string;
-}
-/**
- *
- * @export
- * @interface PayoutInstructionResponse
- */
-export interface PayoutInstructionResponse {
-  /**
-   * Amount to be paid, in currency\'s smallest unit or “minor unit”, as defined in ISO 4217. For example, HKD 100.01 is represented as amount = 10001 (minor unit = cents). For currencies without minor units (e.g. VND, JPY), the amount is represented as is, without modification. For example, VND 15101 is represented as amount = 15101.
-   * @type {number}
-   * @memberof PayoutInstructionResponse
-   */
-  amount?: number;
-  /**
-   * The currency code as defined in ISO 4217.
-   * @type {string}
-   * @memberof PayoutInstructionResponse
-   */
-  currency?: string;
-  /**
-   *
-   * @type {PayoutDetailsResponse}
-   * @memberof PayoutInstructionResponse
-   */
-  payment_details?: PayoutDetailsResponse;
-  /**
-   *
-   * @type {PayoutRecipient}
-   * @memberof PayoutInstructionResponse
-   */
-  recipient?: PayoutRecipient;
-  /**
-   *
-   * @type {PayoutSender}
-   * @memberof PayoutInstructionResponse
-   */
-  sender?: PayoutSender;
-  /**
-   * Finverse Payout Instruction ID
-   * @type {string}
-   * @memberof PayoutInstructionResponse
-   */
-  payout_instruction_id?: string;
-  /**
-   * Possible values - CREATED, PROCESSING, EXECUTED, CANCELLED, FAILED.
-   * @type {string}
-   * @memberof PayoutInstructionResponse
-   */
-  status?: PayoutInstructionResponseStatusEnum;
-  /**
-   * Additional attributes of the payout instruction in key:value format (e.g. payout_instruction_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
-   * @type {{ [key: string]: string; }}
-   * @memberof PayoutInstructionResponse
-   */
-  metadata?: { [key: string]: string };
-  /**
-   * Timestamp of when the recipient was created in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof PayoutInstructionResponse
-   */
-  created_at?: string;
-  /**
-   * Timestamp of when the recipient was last updated in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof PayoutInstructionResponse
-   */
-  updated_at?: string;
-  /**
-   *
-   * @type {FvErrorModelV2}
-   * @memberof PayoutInstructionResponse
-   */
-  error?: FvErrorModelV2;
-}
-
-export const PayoutInstructionResponseStatusEnum = {
-  Created: 'CREATED',
-  Processing: 'PROCESSING',
-  Executed: 'EXECUTED',
-  Cancelled: 'CANCELLED',
-  Failed: 'FAILED',
-} as const;
-
-export type PayoutInstructionResponseStatusEnum =
-  (typeof PayoutInstructionResponseStatusEnum)[keyof typeof PayoutInstructionResponseStatusEnum];
-
-/**
- *
- * @export
- * @interface PayoutRecipient
- */
-export interface PayoutRecipient {
-  /**
-   * Merchant account name
-   * @type {string}
-   * @memberof PayoutRecipient
-   */
-  name?: string;
-  /**
-   * Merchant account ID assigned by Finverse
-   * @type {string}
-   * @memberof PayoutRecipient
-   */
-  account_id?: string;
-}
-/**
- *
- * @export
- * @interface PayoutSender
- */
-export interface PayoutSender {
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutSender
-   */
-  name?: string;
-}
-/**
- *
- * @export
  * @interface PayoutSnapshotDetails
  */
 export interface PayoutSnapshotDetails {
@@ -6409,46 +6267,6 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
-     * Cancel Payout Instruction by payout_instruction_id
-     * @param {string} payoutInstructionId payout instruction id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    cancelPayoutInstruction: async (
-      payoutInstructionId: string,
-      options: AxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'payoutInstructionId' is not null or undefined
-      assertParamExists('cancelPayoutInstruction', 'payoutInstructionId', payoutInstructionId);
-      const localVarPath = `/payout_instructions/{payoutInstructionId}/cancel`.replace(
-        `{${'payoutInstructionId'}}`,
-        encodeURIComponent(String(payoutInstructionId)),
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
      * CREATE Mandate
      * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
      * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
@@ -7120,46 +6938,6 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
-     * Get Payout Instruction details by payout_instruction_id
-     * @param {string} payoutInstructionId payout instruction id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getPayoutInstruction: async (
-      payoutInstructionId: string,
-      options: AxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'payoutInstructionId' is not null or undefined
-      assertParamExists('getPayoutInstruction', 'payoutInstructionId', payoutInstructionId);
-      const localVarPath = `/payout_instructions/{payoutInstructionId}`.replace(
-        `{${'payoutInstructionId'}}`,
-        encodeURIComponent(String(payoutInstructionId)),
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
      * Get a list of institutions
      * @param {string} [country] (Deprecated) The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
@@ -7404,19 +7182,6 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
-     * Cancel Payout Instruction by payout_instruction_id
-     * @param {string} payoutInstructionId payout instruction id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async cancelPayoutInstruction(
-      payoutInstructionId: string,
-      options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutInstructionResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.cancelPayoutInstruction(payoutInstructionId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-    },
-    /**
      * CREATE Mandate
      * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
      * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
@@ -7651,19 +7416,6 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
-     * Get Payout Instruction details by payout_instruction_id
-     * @param {string} payoutInstructionId payout instruction id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getPayoutInstruction(
-      payoutInstructionId: string,
-      options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutInstructionResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getPayoutInstruction(payoutInstructionId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-    },
-    /**
      * Get a list of institutions
      * @param {string} [country] (Deprecated) The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
@@ -7767,17 +7519,6 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
     ): AxiosPromise<GetMandateResponse> {
       return localVarFp
         .authorizeMandate(mandateId, authorizeMandateRequest, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * Cancel Payout Instruction by payout_instruction_id
-     * @param {string} payoutInstructionId payout instruction id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    cancelPayoutInstruction(payoutInstructionId: string, options?: any): AxiosPromise<PayoutInstructionResponse> {
-      return localVarFp
-        .cancelPayoutInstruction(payoutInstructionId, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -7969,15 +7710,6 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
       return localVarFp.getPaymentUser(paymentUserId, options).then((request) => request(axios, basePath));
     },
     /**
-     * Get Payout Instruction details by payout_instruction_id
-     * @param {string} payoutInstructionId payout instruction id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getPayoutInstruction(payoutInstructionId: string, options?: any): AxiosPromise<PayoutInstructionResponse> {
-      return localVarFp.getPayoutInstruction(payoutInstructionId, options).then((request) => request(axios, basePath));
-    },
-    /**
      * Get a list of institutions
      * @param {string} [country] (Deprecated) The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
@@ -8063,18 +7795,6 @@ export interface CustomerApiInterface {
     authorizeMandateRequest: AuthorizeMandateRequest,
     options?: AxiosRequestConfig,
   ): AxiosPromise<GetMandateResponse>;
-
-  /**
-   * Cancel Payout Instruction by payout_instruction_id
-   * @param {string} payoutInstructionId payout instruction id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  cancelPayoutInstruction(
-    payoutInstructionId: string,
-    options?: AxiosRequestConfig,
-  ): AxiosPromise<PayoutInstructionResponse>;
 
   /**
    * CREATE Mandate
@@ -8263,18 +7983,6 @@ export interface CustomerApiInterface {
   getPaymentUser(paymentUserId: string, options?: AxiosRequestConfig): AxiosPromise<PaymentUser>;
 
   /**
-   * Get Payout Instruction details by payout_instruction_id
-   * @param {string} payoutInstructionId payout instruction id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  getPayoutInstruction(
-    payoutInstructionId: string,
-    options?: AxiosRequestConfig,
-  ): AxiosPromise<PayoutInstructionResponse>;
-
-  /**
    * Get a list of institutions
    * @param {string} [country] (Deprecated) The country the institution belongs to
    * @param {Array<string>} [countries] The countries the institution belongs to
@@ -8357,19 +8065,6 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   ) {
     return CustomerApiFp(this.configuration)
       .authorizeMandate(mandateId, authorizeMandateRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Cancel Payout Instruction by payout_instruction_id
-   * @param {string} payoutInstructionId payout instruction id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public cancelPayoutInstruction(payoutInstructionId: string, options?: AxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .cancelPayoutInstruction(payoutInstructionId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -8604,19 +8299,6 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   }
 
   /**
-   * Get Payout Instruction details by payout_instruction_id
-   * @param {string} payoutInstructionId payout instruction id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public getPayoutInstruction(payoutInstructionId: string, options?: AxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .getPayoutInstruction(payoutInstructionId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
    * Get a list of institutions
    * @param {string} [country] (Deprecated) The country the institution belongs to
    * @param {Array<string>} [countries] The countries the institution belongs to
@@ -8709,6 +8391,43 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       const localVarPath = `/payment_links/{paymentLinkId}/cancel`.replace(
         `{${'paymentLinkId'}}`,
         encodeURIComponent(String(paymentLinkId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Cancel Payout by payout_id
+     * @param {string} payoutId payout id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    cancelPayout: async (payoutId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'payoutId' is not null or undefined
+      assertParamExists('cancelPayout', 'payoutId', payoutId);
+      const localVarPath = `/payouts/{payoutId}/cancel`.replace(
+        `{${'payoutId'}}`,
+        encodeURIComponent(String(payoutId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -9414,6 +9133,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Cancel Payout by payout_id
+     * @param {string} payoutId payout id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async cancelPayout(
+      payoutId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutSnapshotResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.cancelPayout(payoutId, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Submit manual payment confirmation
      * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
      * @param {*} [options] Override http request option.
@@ -9681,6 +9413,15 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       return localVarFp.cancelPaymentLink(paymentLinkId, options).then((request) => request(axios, basePath));
     },
     /**
+     * Cancel Payout by payout_id
+     * @param {string} payoutId payout id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    cancelPayout(payoutId: string, options?: any): AxiosPromise<PayoutSnapshotResponse> {
+      return localVarFp.cancelPayout(payoutId, options).then((request) => request(axios, basePath));
+    },
+    /**
      * Submit manual payment confirmation
      * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
      * @param {*} [options] Override http request option.
@@ -9912,6 +9653,15 @@ export interface DefaultApiInterface {
   cancelPaymentLink(paymentLinkId: string, options?: AxiosRequestConfig): AxiosPromise<PaymentLinkResponse>;
 
   /**
+   * Cancel Payout by payout_id
+   * @param {string} payoutId payout id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  cancelPayout(payoutId: string, options?: AxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse>;
+
+  /**
    * Submit manual payment confirmation
    * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
    * @param {*} [options] Override http request option.
@@ -10116,6 +9866,19 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public cancelPaymentLink(paymentLinkId: string, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .cancelPaymentLink(paymentLinkId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Cancel Payout by payout_id
+   * @param {string} payoutId payout id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public cancelPayout(payoutId: string, options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .cancelPayout(payoutId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
