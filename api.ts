@@ -8847,6 +8847,40 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Get payout by payout_id
+     * @param {string} payoutId payout id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPayoutById: async (payoutId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'payoutId' is not null or undefined
+      assertParamExists('getPayoutById', 'payoutId', payoutId);
+      const localVarPath = `/payouts/{payoutId}`.replace(`{${'payoutId'}}`, encodeURIComponent(String(payoutId)));
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get sender payment user for mandate
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9283,6 +9317,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Get payout by payout_id
+     * @param {string} payoutId payout id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getPayoutById(
+      payoutId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutSnapshotResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getPayoutById(payoutId, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Get sender payment user for mandate
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9537,6 +9584,15 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       return localVarFp.getPaymentLink(paymentLinkId, options).then((request) => request(axios, basePath));
     },
     /**
+     * Get payout by payout_id
+     * @param {string} payoutId payout id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPayoutById(payoutId: string, options?: any): AxiosPromise<PayoutSnapshotResponse> {
+      return localVarFp.getPayoutById(payoutId, options).then((request) => request(axios, basePath));
+    },
+    /**
      * Get sender payment user for mandate
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9765,6 +9821,15 @@ export interface DefaultApiInterface {
    * @memberof DefaultApiInterface
    */
   getPaymentLink(paymentLinkId: string, options?: AxiosRequestConfig): AxiosPromise<PaymentLinkResponse>;
+
+  /**
+   * Get payout by payout_id
+   * @param {string} payoutId payout id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  getPayoutById(payoutId: string, options?: AxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse>;
 
   /**
    * Get sender payment user for mandate
@@ -10021,6 +10086,19 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public getPaymentLink(paymentLinkId: string, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getPaymentLink(paymentLinkId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get payout by payout_id
+   * @param {string} payoutId payout id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public getPayoutById(payoutId: string, options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .getPayoutById(payoutId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
