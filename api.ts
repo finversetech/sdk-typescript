@@ -5412,12 +5412,6 @@ export interface PayoutSnapshotResponse {
    * @type {string}
    * @memberof PayoutSnapshotResponse
    */
-  transaction_reference_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutSnapshotResponse
-   */
   status?: string;
   /**
    *
@@ -5467,12 +5461,6 @@ export interface PayoutSnapshotResponse {
    * @memberof PayoutSnapshotResponse
    */
   currency?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutSnapshotResponse
-   */
-  description?: string;
   /**
    *
    * @type {PayoutSnapshotPaymentAccount}
@@ -9021,14 +9009,18 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     },
     /**
      * Create a scheduled payout
+     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     createScheduledPayout: async (
+      idempotencyKey: string,
       createScheduledPayoutRequest: CreateScheduledPayoutRequest,
       options: AxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
+      // verify required parameter 'idempotencyKey' is not null or undefined
+      assertParamExists('createScheduledPayout', 'idempotencyKey', idempotencyKey);
       // verify required parameter 'createScheduledPayoutRequest' is not null or undefined
       assertParamExists('createScheduledPayout', 'createScheduledPayoutRequest', createScheduledPayoutRequest);
       const localVarPath = `/payouts/scheduled`;
@@ -9046,6 +9038,10 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (idempotencyKey !== undefined && idempotencyKey !== null) {
+        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
+      }
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
 
@@ -9513,15 +9509,18 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     },
     /**
      * Create a scheduled payout
+     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async createScheduledPayout(
+      idempotencyKey: string,
       createScheduledPayoutRequest: CreateScheduledPayoutRequest,
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutSnapshotResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createScheduledPayout(
+        idempotencyKey,
         createScheduledPayoutRequest,
         options,
       );
@@ -9765,16 +9764,18 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     },
     /**
      * Create a scheduled payout
+     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     createScheduledPayout(
+      idempotencyKey: string,
       createScheduledPayoutRequest: CreateScheduledPayoutRequest,
       options?: any,
     ): AxiosPromise<PayoutSnapshotResponse> {
       return localVarFp
-        .createScheduledPayout(createScheduledPayoutRequest, options)
+        .createScheduledPayout(idempotencyKey, createScheduledPayoutRequest, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -9986,12 +9987,14 @@ export interface DefaultApiInterface {
 
   /**
    * Create a scheduled payout
+   * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
    * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
   createScheduledPayout(
+    idempotencyKey: string,
     createScheduledPayoutRequest: CreateScheduledPayoutRequest,
     options?: AxiosRequestConfig,
   ): AxiosPromise<PayoutSnapshotResponse>;
@@ -10217,17 +10220,19 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
 
   /**
    * Create a scheduled payout
+   * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
    * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
   public createScheduledPayout(
+    idempotencyKey: string,
     createScheduledPayoutRequest: CreateScheduledPayoutRequest,
     options?: AxiosRequestConfig,
   ) {
     return DefaultApiFp(this.configuration)
-      .createScheduledPayout(createScheduledPayoutRequest, options)
+      .createScheduledPayout(idempotencyKey, createScheduledPayoutRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
