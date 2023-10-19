@@ -5221,37 +5221,12 @@ export interface PayoutSnapshotDetails {
    * @memberof PayoutSnapshotDetails
    */
   mandate_id?: string;
-}
-/**
- *
- * @export
- * @interface PayoutSnapshotPaymentAccount
- */
-export interface PayoutSnapshotPaymentAccount {
   /**
    *
    * @type {string}
-   * @memberof PayoutSnapshotPaymentAccount
+   * @memberof PayoutSnapshotDetails
    */
-  payment_user_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutSnapshotPaymentAccount
-   */
-  payment_account_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutSnapshotPaymentAccount
-   */
-  name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutSnapshotPaymentAccount
-   */
-  institution_id?: string;
+  scheduled_date?: string;
 }
 /**
  *
@@ -5276,7 +5251,7 @@ export interface PayoutSnapshotResponse {
    * @type {string}
    * @memberof PayoutSnapshotResponse
    */
-  payout_type?: string;
+  type?: string;
   /**
    *
    * @type {string}
@@ -5294,19 +5269,13 @@ export interface PayoutSnapshotResponse {
    * @type {string}
    * @memberof PayoutSnapshotResponse
    */
-  scheduled_date?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutSnapshotResponse
-   */
   transaction_date?: string;
   /**
    *
    * @type {PayoutSnapshotDetails}
    * @memberof PayoutSnapshotResponse
    */
-  payout_details?: PayoutSnapshotDetails;
+  payment_details?: PayoutSnapshotDetails;
   /**
    *
    * @type {number}
@@ -5321,16 +5290,34 @@ export interface PayoutSnapshotResponse {
   currency?: string;
   /**
    *
-   * @type {PayoutSnapshotPaymentAccount}
+   * @type {MandateRecipient}
    * @memberof PayoutSnapshotResponse
    */
-  recipient?: PayoutSnapshotPaymentAccount;
+  sender?: MandateRecipient;
   /**
    *
-   * @type {PayoutSnapshotPaymentAccount}
+   * @type {MandateRecipientAccount}
    * @memberof PayoutSnapshotResponse
    */
-  sender?: PayoutSnapshotPaymentAccount;
+  sender_account?: MandateRecipientAccount;
+  /**
+   *
+   * @type {GetMandateSender}
+   * @memberof PayoutSnapshotResponse
+   */
+  recipient?: GetMandateSender;
+  /**
+   *
+   * @type {MandateSenderAccount}
+   * @memberof PayoutSnapshotResponse
+   */
+  recipient_account?: MandateSenderAccount;
+  /**
+   *
+   * @type {FvErrorModelV2}
+   * @memberof PayoutSnapshotResponse
+   */
+  error?: FvErrorModelV2;
 }
 /**
  *
