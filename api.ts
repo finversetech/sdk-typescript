@@ -4222,6 +4222,12 @@ export interface MandateSenderAccount {
    */
   user_id?: string;
   /**
+   *
+   * @type {string}
+   * @memberof MandateSenderAccount
+   */
+  bank_code?: string;
+  /**
    * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
    * @type {{ [key: string]: string; }}
    * @memberof MandateSenderAccount
@@ -5278,6 +5284,12 @@ export interface PayoutSnapshotResponse {
   payment_details?: PayoutSnapshotDetails;
   /**
    *
+   * @type {{ [key: string]: string; }}
+   * @memberof PayoutSnapshotResponse
+   */
+  metadata?: { [key: string]: string };
+  /**
+   *
    * @type {number}
    * @memberof PayoutSnapshotResponse
    */
@@ -5312,6 +5324,12 @@ export interface PayoutSnapshotResponse {
    * @memberof PayoutSnapshotResponse
    */
   recipient_account?: MandateSenderAccount;
+  /**
+   *
+   * @type {Array<Fee>}
+   * @memberof PayoutSnapshotResponse
+   */
+  fees?: Array<Fee>;
   /**
    *
    * @type {FvErrorModelV2}
