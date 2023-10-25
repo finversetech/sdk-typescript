@@ -5331,6 +5331,12 @@ export interface PayoutSnapshotResponse {
    */
   fees?: Array<Fee>;
   /**
+   * Whether this payout is live or not
+   * @type {boolean}
+   * @memberof PayoutSnapshotResponse
+   */
+  live: boolean;
+  /**
    *
    * @type {FvErrorModelV2}
    * @memberof PayoutSnapshotResponse
