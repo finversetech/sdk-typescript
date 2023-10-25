@@ -961,6 +961,12 @@ export interface CreateMandateResponse {
    * @type {string}
    * @memberof CreateMandateResponse
    */
+  created_at?: string;
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof CreateMandateResponse
+   */
   updated_at: string;
   /**
    * Finverse Mandate ID (ULID)
@@ -2230,6 +2236,12 @@ export type GetMandateAuthResponseSenderTypeEnum =
  * @interface GetMandateResponse
  */
 export interface GetMandateResponse {
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof GetMandateResponse
+   */
+  created_at?: string;
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
