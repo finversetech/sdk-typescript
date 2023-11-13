@@ -1293,6 +1293,12 @@ export interface CreatePaymentLinkRequest {
    */
   unique_reference_id: string;
   /**
+   *
+   * @type {PaymentSetupOptions}
+   * @memberof CreatePaymentLinkRequest
+   */
+  payment_setup_options?: PaymentSetupOptions;
+  /**
    * Additional attributes of the payment link in key:value format (e.g. payment_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
    * @type {{ [key: string]: string; }}
    * @memberof CreatePaymentLinkRequest
@@ -4803,6 +4809,12 @@ export interface PaymentLinkResponse {
    */
   unique_reference_id?: string;
   /**
+   *
+   * @type {PaymentSetupOptions}
+   * @memberof PaymentLinkResponse
+   */
+  payment_setup_options?: PaymentSetupOptions;
+  /**
    * Additional attributes of the payment link in key:value format (e.g. payment_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
    * @type {{ [key: string]: string; }}
    * @memberof PaymentLinkResponse
@@ -5120,6 +5132,28 @@ export const PaymentScheduleFrequencyEnum = {
 
 export type PaymentScheduleFrequencyEnum =
   (typeof PaymentScheduleFrequencyEnum)[keyof typeof PaymentScheduleFrequencyEnum];
+
+/**
+ *
+ * @export
+ * @interface PaymentSetupOptions
+ */
+export interface PaymentSetupOptions {
+  /**
+   * The type of future_payments that customer want to use. Possible values: AUTOPAY or CLICK_TO_PAY
+   * @type {string}
+   * @memberof PaymentSetupOptions
+   */
+  future_payments: PaymentSetupOptionsFuturePaymentsEnum;
+}
+
+export const PaymentSetupOptionsFuturePaymentsEnum = {
+  Autopay: 'AUTOPAY',
+  ClickToPay: 'CLICK_TO_PAY',
+} as const;
+
+export type PaymentSetupOptionsFuturePaymentsEnum =
+  (typeof PaymentSetupOptionsFuturePaymentsEnum)[keyof typeof PaymentSetupOptionsFuturePaymentsEnum];
 
 /**
  *
