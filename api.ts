@@ -1772,6 +1772,19 @@ export type FeePaidByEnum = (typeof FeePaidByEnum)[keyof typeof FeePaidByEnum];
 /**
  *
  * @export
+ * @interface FpsQrCodeResponse
+ */
+export interface FpsQrCodeResponse {
+  /**
+   * The FPS QR code in base64
+   * @type {string}
+   * @memberof FpsQrCodeResponse
+   */
+  qr_code: string;
+}
+/**
+ *
+ * @export
  * @interface FvErrorModel
  */
 export interface FvErrorModel {
@@ -5497,6 +5510,12 @@ export interface Principal {
    * @memberof Principal
    */
   unique_reference_id?: string;
+  /**
+   * The qrCode text to be used to generate the image
+   * @type {string}
+   * @memberof Principal
+   */
+  qr_code_text?: string;
 }
 /**
  *
@@ -8836,6 +8855,37 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Get the FPS QR code
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getFpsQrCode: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/payment_links/fps/qr_code`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get a customer-specific list of institutions for Finverse Link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9350,6 +9400,17 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Get the FPS QR code
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getFpsQrCode(
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FpsQrCodeResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getFpsQrCode(options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Get a customer-specific list of institutions for Finverse Link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9624,6 +9685,14 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         .then((request) => request(axios, basePath));
     },
     /**
+     * Get the FPS QR code
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getFpsQrCode(options?: any): AxiosPromise<FpsQrCodeResponse> {
+      return localVarFp.getFpsQrCode(options).then((request) => request(axios, basePath));
+    },
+    /**
      * Get a customer-specific list of institutions for Finverse Link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9861,6 +9930,14 @@ export interface DefaultApiInterface {
     createScheduledPayoutRequest: CreateScheduledPayoutRequest,
     options?: AxiosRequestConfig,
   ): AxiosPromise<PayoutSnapshotResponse>;
+
+  /**
+   * Get the FPS QR code
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  getFpsQrCode(options?: AxiosRequestConfig): AxiosPromise<FpsQrCodeResponse>;
 
   /**
    * Get a customer-specific list of institutions for Finverse Link
@@ -10118,6 +10195,18 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   ) {
     return DefaultApiFp(this.configuration)
       .createScheduledPayout(idempotencyKey, createScheduledPayoutRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get the FPS QR code
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public getFpsQrCode(options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .getFpsQrCode(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
