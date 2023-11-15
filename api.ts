@@ -5234,6 +5234,12 @@ export interface PaymentUser {
    * @memberof PaymentUser
    */
   user_type?: PaymentUserUserTypeEnum;
+  /**
+   * Whether the user has given consent for autopay
+   * @type {boolean}
+   * @memberof PaymentUser
+   */
+  autopay_consent: boolean;
 }
 
 export const PaymentUserUserTypeEnum = {
