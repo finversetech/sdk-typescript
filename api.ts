@@ -4887,6 +4887,12 @@ export interface PaymentLinkResponse {
    * @memberof PaymentLinkResponse
    */
   sender?: PaymentLinkSenderResponse;
+  /**
+   *
+   * @type {PaymentMethodResponse}
+   * @memberof PaymentLinkResponse
+   */
+  payment_method?: PaymentMethodResponse;
 }
 
 export const PaymentLinkResponseModeEnum = {
@@ -5005,6 +5011,61 @@ export const PaymentLinkTokenResponseTokenTypeEnum = {
 export type PaymentLinkTokenResponseTokenTypeEnum =
   (typeof PaymentLinkTokenResponseTokenTypeEnum)[keyof typeof PaymentLinkTokenResponseTokenTypeEnum];
 
+/**
+ *
+ * @export
+ * @interface PaymentMethodResponse
+ */
+export interface PaymentMethodResponse {
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodResponse
+   */
+  payment_method_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodResponse
+   */
+  customer_app_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodResponse
+   */
+  payment_user_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodResponse
+   */
+  currency?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodResponse
+   */
+  payment_method_type?: string;
+  /**
+   *
+   * @type {GetMandateResponse}
+   * @memberof PaymentMethodResponse
+   */
+  mandate?: GetMandateResponse;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodResponse
+   */
+  created_at?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodResponse
+   */
+  updated_at?: string;
+}
 /**
  *
  * @export
