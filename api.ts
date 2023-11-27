@@ -5028,24 +5028,6 @@ export interface PaymentMethodResponse {
    * @type {string}
    * @memberof PaymentMethodResponse
    */
-  customer_app_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodResponse
-   */
-  payment_user_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodResponse
-   */
-  currency?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodResponse
-   */
   payment_method_type?: string;
   /**
    *
@@ -5053,18 +5035,6 @@ export interface PaymentMethodResponse {
    * @memberof PaymentMethodResponse
    */
   mandate?: GetMandateResponse;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodResponse
-   */
-  created_at?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodResponse
-   */
-  updated_at?: string;
 }
 /**
  *
