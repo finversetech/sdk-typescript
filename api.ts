@@ -4871,12 +4871,6 @@ export interface PaymentLinkResponse {
   updated_at?: string;
   /**
    *
-   * @type {GetMandateResponse}
-   * @memberof PaymentLinkResponse
-   */
-  mandate?: GetMandateResponse;
-  /**
-   *
    * @type {PaymentResponse}
    * @memberof PaymentLinkResponse
    */
