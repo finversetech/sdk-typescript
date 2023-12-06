@@ -2426,11 +2426,17 @@ export interface GetPaymentUserResponse {
    */
   customer_app_id: string;
   /**
-   * This indicates the value that the user\'s pre-set selection should be. If this is a new user, the value will be set to true by default, else it will be the user\'s current autopay value.
+   * The user\'s current autopay value
    * @type {boolean}
    * @memberof GetPaymentUserResponse
    */
   autopay_consent: boolean;
+  /**
+   * This indicates the value that the user\'s pre-set selection should be. If this is a new user, the value will be set to true by default, else it will be the user\'s current autopay value.
+   * @type {boolean}
+   * @memberof GetPaymentUserResponse
+   */
+  autopay_prefill: boolean;
 }
 /**
  *
