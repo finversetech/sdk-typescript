@@ -5554,6 +5554,12 @@ export interface Principal {
    */
   unique_reference_id?: string;
   /**
+   *
+   * @type {string}
+   * @memberof Principal
+   */
+  payment_method_id?: string;
+  /**
    * The qrCode text to be used to generate the image
    * @type {string}
    * @memberof Principal
