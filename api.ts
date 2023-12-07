@@ -9068,6 +9068,37 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Get sender payment user in payment link flow
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getSenderPaymentUserPaymentLink: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/payment_link/fvlink/payment_user/sender`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -9268,6 +9299,50 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       // verify required parameter 'setAutopayConsentRequest' is not null or undefined
       assertParamExists('setAutopayConsent', 'setAutopayConsentRequest', setAutopayConsentRequest);
       const localVarPath = `/mandates/payment_user/autopay`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        setAutopayConsentRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Set autopay consent for payment user
+     * @param {SetAutopayConsentRequest} setAutopayConsentRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    setAutopayConsentPaymentLink: async (
+      setAutopayConsentRequest: SetAutopayConsentRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'setAutopayConsentRequest' is not null or undefined
+      assertParamExists('setAutopayConsentPaymentLink', 'setAutopayConsentRequest', setAutopayConsentRequest);
+      const localVarPath = `/payment_link/fvlink/payment_user/autopay`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -9508,6 +9583,17 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Get sender payment user in payment link flow
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getSenderPaymentUserPaymentLink(
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPaymentUserResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getSenderPaymentUserPaymentLink(options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -9605,6 +9691,22 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.setAutopayConsent(setAutopayConsentRequest, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
+     * Set autopay consent for payment user
+     * @param {SetAutopayConsentRequest} setAutopayConsentRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async setAutopayConsentPaymentLink(
+      setAutopayConsentRequest: SetAutopayConsentRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.setAutopayConsentPaymentLink(
+        setAutopayConsentRequest,
+        options,
+      );
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
   };
@@ -9776,6 +9878,14 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       return localVarFp.getSenderPaymentUser(options).then((request) => request(axios, basePath));
     },
     /**
+     * Get sender payment user in payment link flow
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getSenderPaymentUserPaymentLink(options?: any): AxiosPromise<GetPaymentUserResponse> {
+      return localVarFp.getSenderPaymentUserPaymentLink(options).then((request) => request(axios, basePath));
+    },
+    /**
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -9863,6 +9973,20 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     setAutopayConsent(setAutopayConsentRequest: SetAutopayConsentRequest, options?: any): AxiosPromise<void> {
       return localVarFp
         .setAutopayConsent(setAutopayConsentRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Set autopay consent for payment user
+     * @param {SetAutopayConsentRequest} setAutopayConsentRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    setAutopayConsentPaymentLink(
+      setAutopayConsentRequest: SetAutopayConsentRequest,
+      options?: any,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .setAutopayConsentPaymentLink(setAutopayConsentRequest, options)
         .then((request) => request(axios, basePath));
     },
   };
@@ -10023,6 +10147,14 @@ export interface DefaultApiInterface {
   getSenderPaymentUser(options?: AxiosRequestConfig): AxiosPromise<GetPaymentUserResponse>;
 
   /**
+   * Get sender payment user in payment link flow
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  getSenderPaymentUserPaymentLink(options?: AxiosRequestConfig): AxiosPromise<GetPaymentUserResponse>;
+
+  /**
    * List mandates
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
    * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -10092,6 +10224,18 @@ export interface DefaultApiInterface {
    * @memberof DefaultApiInterface
    */
   setAutopayConsent(
+    setAutopayConsentRequest: SetAutopayConsentRequest,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<void>;
+
+  /**
+   * Set autopay consent for payment user
+   * @param {SetAutopayConsentRequest} setAutopayConsentRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  setAutopayConsentPaymentLink(
     setAutopayConsentRequest: SetAutopayConsentRequest,
     options?: AxiosRequestConfig,
   ): AxiosPromise<void>;
@@ -10310,6 +10454,18 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   }
 
   /**
+   * Get sender payment user in payment link flow
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public getSenderPaymentUserPaymentLink(options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .getSenderPaymentUserPaymentLink(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
    * List mandates
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
    * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -10402,6 +10558,22 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public setAutopayConsent(setAutopayConsentRequest: SetAutopayConsentRequest, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .setAutopayConsent(setAutopayConsentRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Set autopay consent for payment user
+   * @param {SetAutopayConsentRequest} setAutopayConsentRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public setAutopayConsentPaymentLink(
+    setAutopayConsentRequest: SetAutopayConsentRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return DefaultApiFp(this.configuration)
+      .setAutopayConsentPaymentLink(setAutopayConsentRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
