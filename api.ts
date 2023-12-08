@@ -1261,7 +1261,7 @@ export interface CreatePaymentLinkRequest {
    * @type {number}
    * @memberof CreatePaymentLinkRequest
    */
-  amount: number;
+  amount?: number;
   /**
    *
    * @type {string}
@@ -1314,6 +1314,7 @@ export interface CreatePaymentLinkRequest {
 
 export const CreatePaymentLinkRequestModeEnum = {
   Payment: 'PAYMENT',
+  Setup: 'SETUP',
 } as const;
 
 export type CreatePaymentLinkRequestModeEnum =
