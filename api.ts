@@ -4199,6 +4199,12 @@ export interface MandateFvLinkResponse {
    * @memberof MandateFvLinkResponse
    */
   sender_account?: SenderAccountFvLinkResponse;
+  /**
+   *
+   * @type {FvErrorModelV2}
+   * @memberof MandateFvLinkResponse
+   */
+  error?: FvErrorModelV2;
 }
 /**
  *
