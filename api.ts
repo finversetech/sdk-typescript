@@ -4166,6 +4166,43 @@ export interface MandateDetails {
 /**
  *
  * @export
+ * @interface MandateDetailsForPaymentLink
+ */
+export interface MandateDetailsForPaymentLink {
+  /**
+   * YYYY-MM-DD, must be later than or the same as the date of creation. If unspecified, default to the date of creation.
+   * @type {string}
+   * @memberof MandateDetailsForPaymentLink
+   */
+  start_date?: string | null;
+  /**
+   * YYYY-MM-DD, must be later than the date of creation.
+   * @type {string}
+   * @memberof MandateDetailsForPaymentLink
+   */
+  end_date?: string | null;
+  /**
+   *
+   * @type {TransactionLimits}
+   * @memberof MandateDetailsForPaymentLink
+   */
+  transaction_limits?: TransactionLimits;
+  /**
+   * End-user facing description of the mandate (used in notifications, and in payments if no description is provided)
+   * @type {string}
+   * @memberof MandateDetailsForPaymentLink
+   */
+  description?: string;
+  /**
+   * A bank specific reference, what the end user may see
+   * @type {string}
+   * @memberof MandateDetailsForPaymentLink
+   */
+  mandate_bank_reference?: string;
+}
+/**
+ *
+ * @export
  * @interface MandateFvLinkResponse
  */
 export interface MandateFvLinkResponse {
@@ -5263,7 +5300,13 @@ export interface PaymentSetupOptions {
    * @type {string}
    * @memberof PaymentSetupOptions
    */
-  future_payments: PaymentSetupOptionsFuturePaymentsEnum;
+  future_payments?: PaymentSetupOptionsFuturePaymentsEnum;
+  /**
+   *
+   * @type {MandateDetailsForPaymentLink}
+   * @memberof PaymentSetupOptions
+   */
+  mandate_details?: MandateDetailsForPaymentLink;
 }
 
 export const PaymentSetupOptionsFuturePaymentsEnum = {
