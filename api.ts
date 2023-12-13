@@ -4193,12 +4193,6 @@ export interface MandateDetailsForPaymentLink {
    * @memberof MandateDetailsForPaymentLink
    */
   description?: string;
-  /**
-   * A bank specific reference, what the end user may see
-   * @type {string}
-   * @memberof MandateDetailsForPaymentLink
-   */
-  mandate_bank_reference?: string;
 }
 /**
  *
