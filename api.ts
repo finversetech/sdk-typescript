@@ -6332,7 +6332,7 @@ export interface TransactionLimits {
    * @type {number}
    * @memberof TransactionLimits
    */
-  max_transaction_amount?: number;
+  max_transaction_amount: number;
   /**
    * Reference calendar periods for the payment limits. Possible values (DAILY, WEEKLY, MONTHLY, QUARTERLY, YEARLY)
    * @type {string}
