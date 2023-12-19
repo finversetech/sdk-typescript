@@ -4635,7 +4635,13 @@ export interface PaymentDetails2 {
    * @type {string}
    * @memberof PaymentDetails2
    */
-  mandate_id: string;
+  mandate_id?: string;
+  /**
+   * ID of the payment method this pament is referring to.
+   * @type {string}
+   * @memberof PaymentDetails2
+   */
+  payment_method_id?: string;
   /**
    * Customer\'s ID for this transaction
    * @type {string}
