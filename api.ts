@@ -981,6 +981,12 @@ export interface CreateMandateResponse {
    */
   mandate_id: string;
   /**
+   * Finverse Payment Method ID (ULID)
+   * @type {string}
+   * @memberof CreateMandateResponse
+   */
+  payment_method_id?: string;
+  /**
    * Mandate status
    * @type {string}
    * @memberof CreateMandateResponse
@@ -2280,6 +2286,12 @@ export interface GetMandateResponse {
    * @memberof GetMandateResponse
    */
   mandate_id: string;
+  /**
+   * Finverse Payment Method ID (ULID)
+   * @type {string}
+   * @memberof GetMandateResponse
+   */
+  payment_method_id?: string;
   /**
    * Mandate Status
    * @type {string}
