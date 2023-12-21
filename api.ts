@@ -4870,13 +4870,13 @@ export interface PaymentLinkDetails {
    * @type {string}
    * @memberof PaymentLinkDetails
    */
-  description?: string;
+  description: string;
   /**
-   * For external invoice reference
+   * For external invoice/transaction reference
    * @type {string}
    * @memberof PaymentLinkDetails
    */
-  external_invoice_number?: string;
+  external_transaction_reference: string;
 }
 /**
  *
