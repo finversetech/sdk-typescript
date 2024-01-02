@@ -5202,7 +5202,7 @@ export interface PaymentResponse {
    * @type {number}
    * @memberof PaymentResponse
    */
-  amount?: number;
+  amount: number;
   /**
    * The currency code as defined in ISO 4217.
    * @type {string}
