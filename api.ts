@@ -1746,6 +1746,31 @@ export interface ErrorResponse {
 /**
  *
  * @export
+ * @interface FVCard
+ */
+export interface FVCard {
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof FVCard
+   */
+  created_at?: string;
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof FVCard
+   */
+  updated_at?: string;
+  /**
+   * Finverse Card ID (ULID)
+   * @type {string}
+   * @memberof FVCard
+   */
+  card_id?: string;
+}
+/**
+ *
+ * @export
  * @interface Fee
  */
 export interface Fee {
@@ -5153,6 +5178,12 @@ export interface PaymentMethodResponse {
    * @memberof PaymentMethodResponse
    */
   mandate?: GetMandateResponse;
+  /**
+   *
+   * @type {FVCard}
+   * @memberof PaymentMethodResponse
+   */
+  card?: FVCard;
 }
 /**
  *
