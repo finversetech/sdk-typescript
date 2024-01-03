@@ -1767,7 +1767,22 @@ export interface FVCard {
    * @memberof FVCard
    */
   card_id?: string;
+  /**
+   * Card Status
+   * @type {string}
+   * @memberof FVCard
+   */
+  status?: FVCardStatusEnum;
 }
+
+export const FVCardStatusEnum = {
+  Unknown: 'UNKNOWN',
+  Processing: 'PROCESSING',
+  Succeeded: 'SUCCEEDED',
+} as const;
+
+export type FVCardStatusEnum = (typeof FVCardStatusEnum)[keyof typeof FVCardStatusEnum];
+
 /**
  *
  * @export
