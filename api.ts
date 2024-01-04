@@ -1762,12 +1762,6 @@ export interface FVCard {
    */
   updated_at?: string;
   /**
-   * Finverse Card ID (ULID)
-   * @type {string}
-   * @memberof FVCard
-   */
-  card_id?: string;
-  /**
    * Card Status
    * @type {string}
    * @memberof FVCard
