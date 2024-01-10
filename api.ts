@@ -1345,12 +1345,6 @@ export interface CreatePaymentRequest {
    */
   currency: string;
   /**
-   * Indicates whether this is a mandate-based payment or one-off direct payment to an account. Possible values - MANDATE, SINGLE
-   * @type {string}
-   * @memberof CreatePaymentRequest
-   */
-  type: CreatePaymentRequestTypeEnum;
-  /**
    *
    * @type {PaymentDetails2}
    * @memberof CreatePaymentRequest
@@ -1363,15 +1357,6 @@ export interface CreatePaymentRequest {
    */
   metadata?: { [key: string]: string };
 }
-
-export const CreatePaymentRequestTypeEnum = {
-  Mandate: 'MANDATE',
-  Single: 'SINGLE',
-} as const;
-
-export type CreatePaymentRequestTypeEnum =
-  (typeof CreatePaymentRequestTypeEnum)[keyof typeof CreatePaymentRequestTypeEnum];
-
 /**
  *
  * @export
@@ -5295,6 +5280,7 @@ export interface PaymentResponse {
 export const PaymentResponseTypeEnum = {
   Mandate: 'MANDATE',
   Single: 'SINGLE',
+  Card: 'CARD',
 } as const;
 
 export type PaymentResponseTypeEnum = (typeof PaymentResponseTypeEnum)[keyof typeof PaymentResponseTypeEnum];
@@ -9374,7 +9360,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {'MANDATE' | 'SINGLE'} [paymentType] The type of payment
+     * @param {'MANDATE' | 'SINGLE' | 'CARD'} [paymentType] The type of payment
      * @param {string} [mandateId] The mandate the payment belongs to
      * @param {string} [currency] The currency the payment is made in
      * @param {number} [offset] default is 0
@@ -9391,7 +9377,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       senderType?: 'INDIVIDUAL' | 'BUSINESS',
       userId?: string,
       institutionId?: string,
-      paymentType?: 'MANDATE' | 'SINGLE',
+      paymentType?: 'MANDATE' | 'SINGLE' | 'CARD',
       mandateId?: string,
       currency?: string,
       offset?: number,
@@ -9779,7 +9765,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {'MANDATE' | 'SINGLE'} [paymentType] The type of payment
+     * @param {'MANDATE' | 'SINGLE' | 'CARD'} [paymentType] The type of payment
      * @param {string} [mandateId] The mandate the payment belongs to
      * @param {string} [currency] The currency the payment is made in
      * @param {number} [offset] default is 0
@@ -9796,7 +9782,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       senderType?: 'INDIVIDUAL' | 'BUSINESS',
       userId?: string,
       institutionId?: string,
-      paymentType?: 'MANDATE' | 'SINGLE',
+      paymentType?: 'MANDATE' | 'SINGLE' | 'CARD',
       mandateId?: string,
       currency?: string,
       offset?: number,
@@ -10046,7 +10032,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {'MANDATE' | 'SINGLE'} [paymentType] The type of payment
+     * @param {'MANDATE' | 'SINGLE' | 'CARD'} [paymentType] The type of payment
      * @param {string} [mandateId] The mandate the payment belongs to
      * @param {string} [currency] The currency the payment is made in
      * @param {number} [offset] default is 0
@@ -10063,7 +10049,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       senderType?: 'INDIVIDUAL' | 'BUSINESS',
       userId?: string,
       institutionId?: string,
-      paymentType?: 'MANDATE' | 'SINGLE',
+      paymentType?: 'MANDATE' | 'SINGLE' | 'CARD',
       mandateId?: string,
       currency?: string,
       offset?: number,
@@ -10299,7 +10285,7 @@ export interface DefaultApiInterface {
    * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
    * @param {string} [userId] The user_id the mandate was setup for
    * @param {string} [institutionId] The institution the mandate was executed against
-   * @param {'MANDATE' | 'SINGLE'} [paymentType] The type of payment
+   * @param {'MANDATE' | 'SINGLE' | 'CARD'} [paymentType] The type of payment
    * @param {string} [mandateId] The mandate the payment belongs to
    * @param {string} [currency] The currency the payment is made in
    * @param {number} [offset] default is 0
@@ -10317,7 +10303,7 @@ export interface DefaultApiInterface {
     senderType?: 'INDIVIDUAL' | 'BUSINESS',
     userId?: string,
     institutionId?: string,
-    paymentType?: 'MANDATE' | 'SINGLE',
+    paymentType?: 'MANDATE' | 'SINGLE' | 'CARD',
     mandateId?: string,
     currency?: string,
     offset?: number,
@@ -10602,7 +10588,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
    * @param {string} [userId] The user_id the mandate was setup for
    * @param {string} [institutionId] The institution the mandate was executed against
-   * @param {'MANDATE' | 'SINGLE'} [paymentType] The type of payment
+   * @param {'MANDATE' | 'SINGLE' | 'CARD'} [paymentType] The type of payment
    * @param {string} [mandateId] The mandate the payment belongs to
    * @param {string} [currency] The currency the payment is made in
    * @param {number} [offset] default is 0
@@ -10620,7 +10606,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
     senderType?: 'INDIVIDUAL' | 'BUSINESS',
     userId?: string,
     institutionId?: string,
-    paymentType?: 'MANDATE' | 'SINGLE',
+    paymentType?: 'MANDATE' | 'SINGLE' | 'CARD',
     mandateId?: string,
     currency?: string,
     offset?: number,
