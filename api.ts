@@ -797,6 +797,25 @@ export interface CardDetails {
 /**
  *
  * @export
+ * @interface CardFvLinkDetails
+ */
+export interface CardFvLinkDetails {
+  /**
+   *
+   * @type {string}
+   * @memberof CardFvLinkDetails
+   */
+  brand?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CardFvLinkDetails
+   */
+  last4?: string;
+}
+/**
+ *
+ * @export
  * @interface CardFvLinkResponse
  */
 export interface CardFvLinkResponse {
@@ -808,16 +827,10 @@ export interface CardFvLinkResponse {
   status?: CardFvLinkResponseStatusEnum;
   /**
    *
-   * @type {string}
+   * @type {CardFvLinkDetails}
    * @memberof CardFvLinkResponse
    */
-  brand?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CardFvLinkResponse
-   */
-  last4?: string;
+  card_details?: CardFvLinkDetails;
 }
 
 export const CardFvLinkResponseStatusEnum = {
@@ -1788,17 +1801,11 @@ export interface FVCard {
    */
   status?: FVCardStatusEnum;
   /**
-   * The credit card brand
-   * @type {string}
+   *
+   * @type {FVCardDetails}
    * @memberof FVCard
    */
-  brand?: string;
-  /**
-   * Last 4 digits of the credit card number
-   * @type {string}
-   * @memberof FVCard
-   */
-  last4?: string;
+  card_details?: FVCardDetails;
 }
 
 export const FVCardStatusEnum = {
@@ -1809,6 +1816,25 @@ export const FVCardStatusEnum = {
 
 export type FVCardStatusEnum = (typeof FVCardStatusEnum)[keyof typeof FVCardStatusEnum];
 
+/**
+ *
+ * @export
+ * @interface FVCardDetails
+ */
+export interface FVCardDetails {
+  /**
+   * The credit card brand
+   * @type {string}
+   * @memberof FVCardDetails
+   */
+  brand?: string;
+  /**
+   * Last 4 digits of the credit card number
+   * @type {string}
+   * @memberof FVCardDetails
+   */
+  last4?: string;
+}
 /**
  *
  * @export
