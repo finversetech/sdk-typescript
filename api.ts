@@ -797,6 +797,41 @@ export interface CardDetails {
 /**
  *
  * @export
+ * @interface CardFvLinkResponse
+ */
+export interface CardFvLinkResponse {
+  /**
+   *
+   * @type {string}
+   * @memberof CardFvLinkResponse
+   */
+  status?: CardFvLinkResponseStatusEnum;
+  /**
+   *
+   * @type {string}
+   * @memberof CardFvLinkResponse
+   */
+  brand?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CardFvLinkResponse
+   */
+  last4?: string;
+}
+
+export const CardFvLinkResponseStatusEnum = {
+  Unknown: 'UNKNOWN',
+  Processing: 'PROCESSING',
+  Succeeded: 'SUCCEEDED',
+} as const;
+
+export type CardFvLinkResponseStatusEnum =
+  (typeof CardFvLinkResponseStatusEnum)[keyof typeof CardFvLinkResponseStatusEnum];
+
+/**
+ *
+ * @export
  * @interface CardTotal
  */
 export interface CardTotal {
@@ -5159,6 +5194,12 @@ export interface PaymentMethodFvLinkResponse {
    * @memberof PaymentMethodFvLinkResponse
    */
   mandate?: MandateFvLinkResponse;
+  /**
+   *
+   * @type {CardFvLinkResponse}
+   * @memberof PaymentMethodFvLinkResponse
+   */
+  card?: CardFvLinkResponse;
 }
 /**
  *
