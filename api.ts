@@ -1752,6 +1752,18 @@ export interface FVCard {
    * @memberof FVCard
    */
   status?: FVCardStatusEnum;
+  /**
+   * The credit card brand
+   * @type {string}
+   * @memberof FVCard
+   */
+  brand?: string;
+  /**
+   * Last 4 digits of the credit card number
+   * @type {string}
+   * @memberof FVCard
+   */
+  last4?: string;
 }
 
 export const FVCardStatusEnum = {
