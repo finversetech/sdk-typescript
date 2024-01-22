@@ -1393,6 +1393,12 @@ export interface CreatePaymentRequest {
    */
   currency: string;
   /**
+   * ID of the payment method this pament is referring to.
+   * @type {string}
+   * @memberof CreatePaymentRequest
+   */
+  payment_method_id?: string;
+  /**
    *
    * @type {PaymentDetails2}
    * @memberof CreatePaymentRequest
@@ -4741,12 +4747,6 @@ export interface PaymentDetails2 {
    */
   mandate_id?: string;
   /**
-   * ID of the payment method this pament is referring to.
-   * @type {string}
-   * @memberof PaymentDetails2
-   */
-  payment_method_id?: string;
-  /**
    * Customer\'s ID for this transaction
    * @type {string}
    * @memberof PaymentDetails2
@@ -5300,6 +5300,12 @@ export interface PaymentResponse {
    * @memberof PaymentResponse
    */
   status?: PaymentResponseStatusEnum;
+  /**
+   * ID of the payment method this pament is referring to.
+   * @type {string}
+   * @memberof PaymentResponse
+   */
+  payment_method_id?: string;
   /**
    *
    * @type {PaymentDetails2}
