@@ -831,6 +831,12 @@ export interface CardFvLinkResponse {
    * @memberof CardFvLinkResponse
    */
   card_details?: CardFvLinkDetails;
+  /**
+   *
+   * @type {CardRecipient}
+   * @memberof CardFvLinkResponse
+   */
+  recipient?: CardRecipient;
 }
 
 export const CardFvLinkResponseStatusEnum = {
@@ -842,6 +848,19 @@ export const CardFvLinkResponseStatusEnum = {
 export type CardFvLinkResponseStatusEnum =
   (typeof CardFvLinkResponseStatusEnum)[keyof typeof CardFvLinkResponseStatusEnum];
 
+/**
+ *
+ * @export
+ * @interface CardRecipient
+ */
+export interface CardRecipient {
+  /**
+   * Merchant account name
+   * @type {string}
+   * @memberof CardRecipient
+   */
+  name?: string;
+}
 /**
  *
  * @export
