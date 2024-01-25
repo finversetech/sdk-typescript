@@ -4766,11 +4766,17 @@ export interface PaymentDetails2 {
    */
   mandate_id?: string;
   /**
-   * Customer\'s ID for this transaction
+   * Deprecated: Customer\'s ID for this transaction
    * @type {string}
    * @memberof PaymentDetails2
    */
   transaction_reference_id?: string;
+  /**
+   * Customer reference for this transaction
+   * @type {string}
+   * @memberof PaymentDetails2
+   */
+  external_transaction_reference?: string;
 }
 /**
  *
