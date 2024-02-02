@@ -1383,6 +1383,12 @@ export interface CreatePaymentLinkRequest {
    * @memberof CreatePaymentLinkRequest
    */
   metadata?: { [key: string]: string };
+  /**
+   *
+   * @type {IntegrationMetadataRequest}
+   * @memberof CreatePaymentLinkRequest
+   */
+  integration_metadata?: IntegrationMetadataRequest;
 }
 
 export const CreatePaymentLinkRequestModeEnum = {
@@ -3228,6 +3234,60 @@ export interface InstitutionShort {
    */
   portal_name?: string;
 }
+/**
+ *
+ * @export
+ * @interface IntegrationMetadataRequest
+ */
+export interface IntegrationMetadataRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof IntegrationMetadataRequest
+   */
+  integration_id: IntegrationMetadataRequestIntegrationIdEnum;
+  /**
+   *
+   * @type {RapidstorMetadataRequest}
+   * @memberof IntegrationMetadataRequest
+   */
+  rapidstor_metadata?: RapidstorMetadataRequest;
+}
+
+export const IntegrationMetadataRequestIntegrationIdEnum = {
+  Rapidstor: 'RAPIDSTOR',
+} as const;
+
+export type IntegrationMetadataRequestIntegrationIdEnum =
+  (typeof IntegrationMetadataRequestIntegrationIdEnum)[keyof typeof IntegrationMetadataRequestIntegrationIdEnum];
+
+/**
+ *
+ * @export
+ * @interface IntegrationMetadataResponse
+ */
+export interface IntegrationMetadataResponse {
+  /**
+   *
+   * @type {string}
+   * @memberof IntegrationMetadataResponse
+   */
+  integration_id?: IntegrationMetadataResponseIntegrationIdEnum;
+  /**
+   *
+   * @type {RapidstorMetadataResponse}
+   * @memberof IntegrationMetadataResponse
+   */
+  rapidstor_metadata?: RapidstorMetadataResponse;
+}
+
+export const IntegrationMetadataResponseIntegrationIdEnum = {
+  Rapidstor: 'RAPIDSTOR',
+} as const;
+
+export type IntegrationMetadataResponseIntegrationIdEnum =
+  (typeof IntegrationMetadataResponseIntegrationIdEnum)[keyof typeof IntegrationMetadataResponseIntegrationIdEnum];
+
 /**
  *
  * @export
@@ -5103,6 +5163,12 @@ export interface PaymentLinkResponse {
    * @memberof PaymentLinkResponse
    */
   payment_method?: PaymentMethodResponse;
+  /**
+   *
+   * @type {IntegrationMetadataResponse}
+   * @memberof PaymentLinkResponse
+   */
+  integration_metadata?: IntegrationMetadataResponse;
 }
 
 export const PaymentLinkResponseModeEnum = {
@@ -5531,6 +5597,12 @@ export interface PaymentUser {
    * @memberof PaymentUser
    */
   autopay_consent: boolean;
+  /**
+   *
+   * @type {IntegrationMetadataResponse}
+   * @memberof PaymentUser
+   */
+  integration_metadata?: IntegrationMetadataResponse;
 }
 
 export const PaymentUserUserTypeEnum = {
@@ -5856,6 +5928,62 @@ export interface ProductStatus {
    * @memberof ProductStatus
    */
   last_successful_update?: string | null;
+}
+/**
+ *
+ * @export
+ * @interface RapidstorMetadataRequest
+ */
+export interface RapidstorMetadataRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof RapidstorMetadataRequest
+   */
+  corp_code: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RapidstorMetadataRequest
+   */
+  s_location_code: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RapidstorMetadataRequest
+   */
+  tenant_id: string;
+}
+/**
+ *
+ * @export
+ * @interface RapidstorMetadataResponse
+ */
+export interface RapidstorMetadataResponse {
+  /**
+   *
+   * @type {string}
+   * @memberof RapidstorMetadataResponse
+   */
+  corp_code?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RapidstorMetadataResponse
+   */
+  s_location_code?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RapidstorMetadataResponse
+   */
+  tenant_id?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof RapidstorMetadataResponse
+   */
+  iAnnivDays?: number;
 }
 /**
  *
