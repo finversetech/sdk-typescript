@@ -5983,7 +5983,7 @@ export interface RapidstorMetadataResponse {
    * @type {number}
    * @memberof RapidstorMetadataResponse
    */
-  iAnnivDays?: number;
+  i_anniv_days?: number;
 }
 /**
  *
