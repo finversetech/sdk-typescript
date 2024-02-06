@@ -5984,6 +5984,12 @@ export interface RapidstorMetadataResponse {
    * @memberof RapidstorMetadataResponse
    */
   i_anniv_days?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof RapidstorMetadataResponse
+   */
+  tenant_default_currency?: string;
 }
 /**
  *
