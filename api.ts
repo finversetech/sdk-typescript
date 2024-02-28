@@ -5307,6 +5307,12 @@ export interface PaymentMethodFvLinkResponse {
   payment_method_type?: string;
   /**
    *
+   * @type {string}
+   * @memberof PaymentMethodFvLinkResponse
+   */
+  recipient_entity_name?: string;
+  /**
+   *
    * @type {MandateFvLinkResponse}
    * @memberof PaymentMethodFvLinkResponse
    */
