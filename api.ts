@@ -944,6 +944,19 @@ export interface CategoryPredictions {
 /**
  *
  * @export
+ * @interface ChangePaymentMethodFvLinkResponse
+ */
+export interface ChangePaymentMethodFvLinkResponse {
+  /**
+   *
+   * @type {string}
+   * @memberof ChangePaymentMethodFvLinkResponse
+   */
+  redirect_url?: string;
+}
+/**
+ *
+ * @export
  * @interface CompositeStatementLink
  */
 export interface CompositeStatementLink {
@@ -8998,6 +9011,37 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Initiate change payment method from payment link front-end
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    changePaymentMethodPaymentLink: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/payment_link/fvlink/payment_method/change`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Submit manual payment confirmation
      * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
      * @param {*} [options] Override http request option.
@@ -9786,6 +9830,17 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Initiate change payment method from payment link front-end
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async changePaymentMethodPaymentLink(
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ChangePaymentMethodFvLinkResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.changePaymentMethodPaymentLink(options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Submit manual payment confirmation
      * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
      * @param {*} [options] Override http request option.
@@ -10097,6 +10152,14 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       return localVarFp.cancelPayout(payoutId, options).then((request) => request(axios, basePath));
     },
     /**
+     * Initiate change payment method from payment link front-end
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    changePaymentMethodPaymentLink(options?: any): AxiosPromise<ChangePaymentMethodFvLinkResponse> {
+      return localVarFp.changePaymentMethodPaymentLink(options).then((request) => request(axios, basePath));
+    },
+    /**
      * Submit manual payment confirmation
      * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
      * @param {*} [options] Override http request option.
@@ -10362,6 +10425,14 @@ export interface DefaultApiInterface {
   cancelPayout(payoutId: string, options?: AxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse>;
 
   /**
+   * Initiate change payment method from payment link front-end
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  changePaymentMethodPaymentLink(options?: AxiosRequestConfig): AxiosPromise<ChangePaymentMethodFvLinkResponse>;
+
+  /**
    * Submit manual payment confirmation
    * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
    * @param {*} [options] Override http request option.
@@ -10604,6 +10675,18 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public cancelPayout(payoutId: string, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .cancelPayout(payoutId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Initiate change payment method from payment link front-end
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public changePaymentMethodPaymentLink(options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .changePaymentMethodPaymentLink(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
