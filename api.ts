@@ -5603,6 +5603,12 @@ export interface PaymentUser {
    * @type {string}
    * @memberof PaymentUser
    */
+  next_bill_update?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentUser
+   */
   user_id?: string;
   /**
    *
@@ -5972,6 +5978,12 @@ export interface RapidstorMetadataRequest {
    * @memberof RapidstorMetadataRequest
    */
   tenant_id: string;
+  /**
+   *
+   * @type {number}
+   * @memberof RapidstorMetadataRequest
+   */
+  i_anniv_days?: number;
 }
 /**
  *
