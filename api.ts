@@ -5603,7 +5603,7 @@ export interface PaymentUser {
    * @type {string}
    * @memberof PaymentUser
    */
-  next_bill_update?: string;
+  next_bill_update?: string | null;
   /**
    *
    * @type {string}
