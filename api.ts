@@ -3806,6 +3806,25 @@ export interface ListPaymentAccountsResponse {
 /**
  *
  * @export
+ * @interface ListPaymentMethodsResponse
+ */
+export interface ListPaymentMethodsResponse {
+  /**
+   *
+   * @type {Array<PaymentMethodResponse>}
+   * @memberof ListPaymentMethodsResponse
+   */
+  payment_methods?: Array<PaymentMethodResponse>;
+  /**
+   *
+   * @type {PaymentUser}
+   * @memberof ListPaymentMethodsResponse
+   */
+  sender?: PaymentUser;
+}
+/**
+ *
+ * @export
  * @interface ListPaymentsResponse
  */
 export interface ListPaymentsResponse {
@@ -9659,6 +9678,43 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * List Payment Methods for a User
+     * @param {string} paymentUserId Payment User Id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPaymentMethods: async (paymentUserId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'paymentUserId' is not null or undefined
+      assertParamExists('listPaymentMethods', 'paymentUserId', paymentUserId);
+      const localVarPath = `/payment_users/{paymentUserId}/payment_methods`.replace(
+        `{${'paymentUserId'}}`,
+        encodeURIComponent(String(paymentUserId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * List Payments
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -10075,6 +10131,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * List Payment Methods for a User
+     * @param {string} paymentUserId Payment User Id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listPaymentMethods(
+      paymentUserId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPaymentMethodsResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listPaymentMethods(paymentUserId, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * List Payments
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -10350,6 +10419,15 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         .then((request) => request(axios, basePath));
     },
     /**
+     * List Payment Methods for a User
+     * @param {string} paymentUserId Payment User Id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPaymentMethods(paymentUserId: string, options?: any): AxiosPromise<ListPaymentMethodsResponse> {
+      return localVarFp.listPaymentMethods(paymentUserId, options).then((request) => request(axios, basePath));
+    },
+    /**
      * List Payments
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -10609,6 +10687,15 @@ export interface DefaultApiInterface {
     limit?: number,
     options?: AxiosRequestConfig,
   ): AxiosPromise<ListMandatesResponse>;
+
+  /**
+   * List Payment Methods for a User
+   * @param {string} paymentUserId Payment User Id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  listPaymentMethods(paymentUserId: string, options?: AxiosRequestConfig): AxiosPromise<ListPaymentMethodsResponse>;
 
   /**
    * List Payments
@@ -10922,6 +11009,19 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   ) {
     return DefaultApiFp(this.configuration)
       .listMandates(dateFrom, dateTo, statuses, senderType, userId, institutionId, offset, limit, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * List Payment Methods for a User
+   * @param {string} paymentUserId Payment User Id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public listPaymentMethods(paymentUserId: string, options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .listPaymentMethods(paymentUserId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
