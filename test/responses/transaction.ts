@@ -20,7 +20,6 @@ export function getTransactions(): ListTransactionsResponse {
         is_pending: false,
         posted_date: '2020-12-01',
         transaction_id: '01FRSAGN9VNWZXD7FY6A180XC2',
-        transfer_details: null,
         updated_at: '2022-01-07T03:49:32.620Z',
       },
       {
@@ -35,7 +34,6 @@ export function getTransactions(): ListTransactionsResponse {
         is_pending: false,
         posted_date: '2020-11-22',
         transaction_id: '01FRSAGNAA2CPE5HFN9A91QMTJ',
-        transfer_details: null,
         updated_at: '2022-01-07T03:49:32.620Z',
       },
       {
@@ -50,7 +48,6 @@ export function getTransactions(): ListTransactionsResponse {
         is_pending: false,
         posted_date: '2020-11-21',
         transaction_id: '01FRSAGN9SHA1ZVBW406VNZGAR',
-        transfer_details: null,
         updated_at: '2022-01-07T03:49:32.620Z',
       },
       {
@@ -65,7 +62,6 @@ export function getTransactions(): ListTransactionsResponse {
         is_pending: false,
         posted_date: '2020-11-17',
         transaction_id: '01FRSAGN9Q0VC5671A12FX5R9B',
-        transfer_details: null,
         updated_at: '2022-01-07T03:49:32.620Z',
       },
       {
@@ -80,7 +76,6 @@ export function getTransactions(): ListTransactionsResponse {
         is_pending: false,
         posted_date: '2020-11-16',
         transaction_id: '01FRSAGNA86MWAAQS07F6DN8M5',
-        transfer_details: null,
         updated_at: '2022-01-07T03:49:32.620Z',
       },
       {
@@ -95,7 +90,6 @@ export function getTransactions(): ListTransactionsResponse {
         is_pending: false,
         posted_date: '2020-11-13',
         transaction_id: '01FRSAGN9NTCAJ0TRMK3CSGACK',
-        transfer_details: null,
         updated_at: '2022-01-07T03:49:32.620Z',
       },
       {
@@ -110,7 +104,6 @@ export function getTransactions(): ListTransactionsResponse {
         is_pending: false,
         posted_date: '2020-11-11',
         transaction_id: '01FRSAGN9KPMZ8KPTGV56QDQPM',
-        transfer_details: null,
         updated_at: '2022-01-07T03:49:32.620Z',
       },
       {
@@ -125,7 +118,6 @@ export function getTransactions(): ListTransactionsResponse {
         is_pending: false,
         posted_date: '2020-11-11',
         transaction_id: '01FRSAGN9G7D6CWB73BYK8EEH5',
-        transfer_details: null,
         updated_at: '2022-01-07T03:49:32.620Z',
       },
       {
@@ -140,7 +132,6 @@ export function getTransactions(): ListTransactionsResponse {
         is_pending: false,
         posted_date: '2020-11-09',
         transaction_id: '01FRSAGNA66XXHBX7S5Z8H1CWY',
-        transfer_details: null,
         updated_at: '2022-01-07T03:49:32.620Z',
       },
       {
@@ -155,7 +146,6 @@ export function getTransactions(): ListTransactionsResponse {
         is_pending: false,
         posted_date: '2020-11-07',
         transaction_id: '01FRSAGNAGRCA45QZEP330Y4N4',
-        transfer_details: null,
         updated_at: '2022-01-07T03:49:32.620Z',
       },
       {
@@ -170,7 +160,6 @@ export function getTransactions(): ListTransactionsResponse {
         is_pending: false,
         posted_date: '2020-11-07',
         transaction_id: '01FRSAGNAEFRNDCXBHB379SR68',
-        transfer_details: null,
         updated_at: '2022-01-07T03:49:32.620Z',
       },
       {
@@ -185,7 +174,6 @@ export function getTransactions(): ListTransactionsResponse {
         is_pending: false,
         posted_date: '2020-11-07',
         transaction_id: '01FRSAGNA4PND73E5NQZ7XNE6G',
-        transfer_details: null,
         updated_at: '2022-01-07T03:49:32.620Z',
       },
       {
@@ -200,7 +188,6 @@ export function getTransactions(): ListTransactionsResponse {
         is_pending: false,
         posted_date: '2020-11-07',
         transaction_id: '01FRSAGNA100YS9ZF10HX7RMD4',
-        transfer_details: null,
         updated_at: '2022-01-07T03:49:32.620Z',
       },
       {
@@ -215,7 +202,6 @@ export function getTransactions(): ListTransactionsResponse {
         is_pending: false,
         posted_date: '2020-11-07',
         transaction_id: '01FRSAGN9ZVNRWYWP139R9QFH4',
-        transfer_details: null,
         updated_at: '2022-01-07T03:49:32.620Z',
       },
       {
@@ -230,7 +216,6 @@ export function getTransactions(): ListTransactionsResponse {
         is_pending: false,
         posted_date: '2020-11-02',
         transaction_id: '01FRSAGNACT0ZFEG182SJH2EJM',
-        transfer_details: null,
         updated_at: '2022-01-07T03:49:32.620Z',
       },
       {
@@ -245,7 +230,6 @@ export function getTransactions(): ListTransactionsResponse {
         is_pending: false,
         posted_date: '2020-11-01',
         transaction_id: '01FRSAGN9XQ51HJH4X5ACTSKQS',
-        transfer_details: null,
         updated_at: '2022-01-07T03:49:32.620Z',
       },
       {
@@ -260,7 +244,6 @@ export function getTransactions(): ListTransactionsResponse {
         is_pending: false,
         posted_date: '2020-09-10',
         transaction_id: '01FRSAGVHKTJP9C21ZRES2S889',
-        transfer_details: null,
         updated_at: '2022-01-07T03:50:05.921Z',
       },
       {
@@ -275,7 +258,6 @@ export function getTransactions(): ListTransactionsResponse {
         is_pending: false,
         posted_date: '2020-08-24',
         transaction_id: '01FRSAGVHJCG2BXKKJ3EF184DK',
-        transfer_details: null,
         updated_at: '2022-01-07T03:50:05.921Z',
       },
     ],
