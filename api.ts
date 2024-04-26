@@ -1397,6 +1397,12 @@ export interface CreatePaymentLinkRequest {
    */
   metadata?: { [key: string]: string };
   /**
+   * Key-Value metadata to store on payments created on this Payment Link
+   * @type {{ [key: string]: string; }}
+   * @memberof CreatePaymentLinkRequest
+   */
+  payment_metadata?: { [key: string]: string };
+  /**
    *
    * @type {IntegrationMetadataRequest}
    * @memberof CreatePaymentLinkRequest
@@ -4525,11 +4531,17 @@ export interface MandateSenderAccount {
    */
   account_id?: string;
   /**
-   * Accountholder name of the sender\'s account
+   * Tokenized accountholder name of the sender\'s account
    * @type {string}
    * @memberof MandateSenderAccount
    */
   accountholder_name?: string;
+  /**
+   * Accountholder name of the sender\'s account in plain text
+   * @type {string}
+   * @memberof MandateSenderAccount
+   */
+  accountholder_name_plaintext?: string | null;
   /**
    *
    * @type {RecipientAccountNumber}
@@ -5148,6 +5160,12 @@ export interface PaymentLinkResponse {
    */
   metadata?: { [key: string]: string };
   /**
+   * Key-Value metadata to store on payments created on this Payment Link
+   * @type {{ [key: string]: string; }}
+   * @memberof PaymentLinkResponse
+   */
+  payment_metadata?: { [key: string]: string };
+  /**
    * The URL for payment link
    * @type {string}
    * @memberof PaymentLinkResponse
@@ -5159,6 +5177,12 @@ export interface PaymentLinkResponse {
    * @memberof PaymentLinkResponse
    */
   status?: PaymentLinkResponseStatusEnum;
+  /**
+   * The session status of payment link
+   * @type {string}
+   * @memberof PaymentLinkResponse
+   */
+  session_status?: PaymentLinkResponseSessionStatusEnum;
   /**
    * Timestamp of when the payment link was or will expired in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
@@ -5217,6 +5241,15 @@ export const PaymentLinkResponseStatusEnum = {
 
 export type PaymentLinkResponseStatusEnum =
   (typeof PaymentLinkResponseStatusEnum)[keyof typeof PaymentLinkResponseStatusEnum];
+export const PaymentLinkResponseSessionStatusEnum = {
+  Open: 'OPEN',
+  Processing: 'PROCESSING',
+  Complete: 'COMPLETE',
+  Failed: 'FAILED',
+} as const;
+
+export type PaymentLinkResponseSessionStatusEnum =
+  (typeof PaymentLinkResponseSessionStatusEnum)[keyof typeof PaymentLinkResponseSessionStatusEnum];
 
 /**
  *
@@ -5489,12 +5522,19 @@ export interface PaymentResponse {
    * @memberof PaymentResponse
    */
   error?: FvErrorModelV2;
+  /**
+   *
+   * @type {PaymentSnapshotPaymentMethod}
+   * @memberof PaymentResponse
+   */
+  payment_method?: PaymentSnapshotPaymentMethod;
 }
 
 export const PaymentResponseTypeEnum = {
   Mandate: 'MANDATE',
   Single: 'SINGLE',
   Card: 'CARD',
+  Manual: 'MANUAL',
 } as const;
 
 export type PaymentResponseTypeEnum = (typeof PaymentResponseTypeEnum)[keyof typeof PaymentResponseTypeEnum];
@@ -5559,6 +5599,12 @@ export interface PaymentSetupOptions {
    * @memberof PaymentSetupOptions
    */
   mandate_details?: MandateDetailsForPaymentLink;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof PaymentSetupOptions
+   */
+  payment_method_types?: Array<PaymentSetupOptionsPaymentMethodTypesEnum>;
 }
 
 export const PaymentSetupOptionsFuturePaymentsEnum = {
@@ -5568,7 +5614,42 @@ export const PaymentSetupOptionsFuturePaymentsEnum = {
 
 export type PaymentSetupOptionsFuturePaymentsEnum =
   (typeof PaymentSetupOptionsFuturePaymentsEnum)[keyof typeof PaymentSetupOptionsFuturePaymentsEnum];
+export const PaymentSetupOptionsPaymentMethodTypesEnum = {
+  Mandate: 'MANDATE',
+  Single: 'SINGLE',
+  Card: 'CARD',
+  Manual: 'MANUAL',
+} as const;
 
+export type PaymentSetupOptionsPaymentMethodTypesEnum =
+  (typeof PaymentSetupOptionsPaymentMethodTypesEnum)[keyof typeof PaymentSetupOptionsPaymentMethodTypesEnum];
+
+/**
+ *
+ * @export
+ * @interface PaymentSnapshotPaymentMethod
+ */
+export interface PaymentSnapshotPaymentMethod {
+  /**
+   *
+   * @type {PaymentSnapshotPaymentMethodCard}
+   * @memberof PaymentSnapshotPaymentMethod
+   */
+  card?: PaymentSnapshotPaymentMethodCard;
+}
+/**
+ *
+ * @export
+ * @interface PaymentSnapshotPaymentMethodCard
+ */
+export interface PaymentSnapshotPaymentMethodCard {
+  /**
+   *
+   * @type {FVCardDetails}
+   * @memberof PaymentSnapshotPaymentMethodCard
+   */
+  card_details?: FVCardDetails;
+}
 /**
  *
  * @export
@@ -6059,6 +6140,12 @@ export interface RecipientAccountNumber {
    * @memberof RecipientAccountNumber
    */
   number: string;
+  /**
+   * Account number value
+   * @type {string}
+   * @memberof RecipientAccountNumber
+   */
+  number_plaintext?: string | null;
 }
 
 export const RecipientAccountNumberTypeEnum = {
@@ -6617,11 +6704,11 @@ export interface Transaction {
    */
   amount?: CurrencyAmount;
   /**
-   * (Deprecated)
+   * Transaction Details
    * @type {object}
    * @memberof Transaction
    */
-  transfer_details?: object;
+  transaction_details?: object;
   /**
    *
    * @type {string}
@@ -6640,6 +6727,18 @@ export interface Transaction {
    * @memberof Transaction
    */
   categories?: Array<string>;
+  /**
+   * Optional field indicating when the transaction happened
+   * @type {string}
+   * @memberof Transaction
+   */
+  transaction_time?: string | null;
+  /**
+   * Transaction reference provided by the bank
+   * @type {string}
+   * @memberof Transaction
+   */
+  bank_reference?: string;
   /**
    *
    * @type {Array<CategoryPredictions>}
@@ -9593,6 +9692,91 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * List mandates details
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'>} [statuses] The mandate statuses to filter for, comma separated
+     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+     * @param {string} [userId] The user_id the mandate was setup for
+     * @param {string} [institutionId] The institution the mandate was executed against
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listDetokenizedMandates: async (
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<
+        'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'
+      >,
+      senderType?: 'INDIVIDUAL' | 'BUSINESS',
+      userId?: string,
+      institutionId?: string,
+      offset?: number,
+      limit?: number,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/mandates/details`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (dateFrom !== undefined) {
+        localVarQueryParameter['date_from'] =
+          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substr(0, 10) : dateFrom;
+      }
+
+      if (dateTo !== undefined) {
+        localVarQueryParameter['date_to'] =
+          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substr(0, 10) : dateTo;
+      }
+
+      if (statuses) {
+        localVarQueryParameter['statuses'] = statuses.join(COLLECTION_FORMATS.csv);
+      }
+
+      if (senderType !== undefined) {
+        localVarQueryParameter['sender_type'] = senderType;
+      }
+
+      if (userId !== undefined) {
+        localVarQueryParameter['user_id'] = userId;
+      }
+
+      if (institutionId !== undefined) {
+        localVarQueryParameter['institution_id'] = institutionId;
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter['offset'] = offset;
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter['limit'] = limit;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -9722,7 +9906,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {'MANDATE' | 'SINGLE' | 'CARD'} [paymentType] The type of payment
+     * @param {'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'} [paymentType] The type of payment
      * @param {string} [mandateId] The mandate the payment belongs to
      * @param {string} [currency] The currency the payment is made in
      * @param {number} [offset] default is 0
@@ -9739,7 +9923,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       senderType?: 'INDIVIDUAL' | 'BUSINESS',
       userId?: string,
       institutionId?: string,
-      paymentType?: 'MANDATE' | 'SINGLE' | 'CARD',
+      paymentType?: 'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL',
       mandateId?: string,
       currency?: string,
       offset?: number,
@@ -10092,6 +10276,45 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * List mandates details
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'>} [statuses] The mandate statuses to filter for, comma separated
+     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+     * @param {string} [userId] The user_id the mandate was setup for
+     * @param {string} [institutionId] The institution the mandate was executed against
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listDetokenizedMandates(
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<
+        'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'
+      >,
+      senderType?: 'INDIVIDUAL' | 'BUSINESS',
+      userId?: string,
+      institutionId?: string,
+      offset?: number,
+      limit?: number,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListMandatesResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listDetokenizedMandates(
+        dateFrom,
+        dateTo,
+        statuses,
+        senderType,
+        userId,
+        institutionId,
+        offset,
+        limit,
+        options,
+      );
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -10151,7 +10374,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {'MANDATE' | 'SINGLE' | 'CARD'} [paymentType] The type of payment
+     * @param {'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'} [paymentType] The type of payment
      * @param {string} [mandateId] The mandate the payment belongs to
      * @param {string} [currency] The currency the payment is made in
      * @param {number} [offset] default is 0
@@ -10168,7 +10391,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       senderType?: 'INDIVIDUAL' | 'BUSINESS',
       userId?: string,
       institutionId?: string,
-      paymentType?: 'MANDATE' | 'SINGLE' | 'CARD',
+      paymentType?: 'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL',
       mandateId?: string,
       currency?: string,
       offset?: number,
@@ -10389,6 +10612,36 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       return localVarFp.getSenderPaymentUser(options).then((request) => request(axios, basePath));
     },
     /**
+     * List mandates details
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'>} [statuses] The mandate statuses to filter for, comma separated
+     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+     * @param {string} [userId] The user_id the mandate was setup for
+     * @param {string} [institutionId] The institution the mandate was executed against
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listDetokenizedMandates(
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<
+        'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'
+      >,
+      senderType?: 'INDIVIDUAL' | 'BUSINESS',
+      userId?: string,
+      institutionId?: string,
+      offset?: number,
+      limit?: number,
+      options?: any,
+    ): AxiosPromise<ListMandatesResponse> {
+      return localVarFp
+        .listDetokenizedMandates(dateFrom, dateTo, statuses, senderType, userId, institutionId, offset, limit, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -10435,7 +10688,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {'MANDATE' | 'SINGLE' | 'CARD'} [paymentType] The type of payment
+     * @param {'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'} [paymentType] The type of payment
      * @param {string} [mandateId] The mandate the payment belongs to
      * @param {string} [currency] The currency the payment is made in
      * @param {number} [offset] default is 0
@@ -10452,7 +10705,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       senderType?: 'INDIVIDUAL' | 'BUSINESS',
       userId?: string,
       institutionId?: string,
-      paymentType?: 'MANDATE' | 'SINGLE' | 'CARD',
+      paymentType?: 'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL',
       mandateId?: string,
       currency?: string,
       offset?: number,
@@ -10661,6 +10914,34 @@ export interface DefaultApiInterface {
   getSenderPaymentUser(options?: AxiosRequestConfig): AxiosPromise<GetPaymentUserResponse>;
 
   /**
+   * List mandates details
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'>} [statuses] The mandate statuses to filter for, comma separated
+   * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+   * @param {string} [userId] The user_id the mandate was setup for
+   * @param {string} [institutionId] The institution the mandate was executed against
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  listDetokenizedMandates(
+    dateFrom?: string,
+    dateTo?: string,
+    statuses?: Array<
+      'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'
+    >,
+    senderType?: 'INDIVIDUAL' | 'BUSINESS',
+    userId?: string,
+    institutionId?: string,
+    offset?: number,
+    limit?: number,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<ListMandatesResponse>;
+
+  /**
    * List mandates
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
    * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -10705,7 +10986,7 @@ export interface DefaultApiInterface {
    * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
    * @param {string} [userId] The user_id the mandate was setup for
    * @param {string} [institutionId] The institution the mandate was executed against
-   * @param {'MANDATE' | 'SINGLE' | 'CARD'} [paymentType] The type of payment
+   * @param {'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'} [paymentType] The type of payment
    * @param {string} [mandateId] The mandate the payment belongs to
    * @param {string} [currency] The currency the payment is made in
    * @param {number} [offset] default is 0
@@ -10723,7 +11004,7 @@ export interface DefaultApiInterface {
     senderType?: 'INDIVIDUAL' | 'BUSINESS',
     userId?: string,
     institutionId?: string,
-    paymentType?: 'MANDATE' | 'SINGLE' | 'CARD',
+    paymentType?: 'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL',
     mandateId?: string,
     currency?: string,
     offset?: number,
@@ -10981,6 +11262,38 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   }
 
   /**
+   * List mandates details
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'>} [statuses] The mandate statuses to filter for, comma separated
+   * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+   * @param {string} [userId] The user_id the mandate was setup for
+   * @param {string} [institutionId] The institution the mandate was executed against
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public listDetokenizedMandates(
+    dateFrom?: string,
+    dateTo?: string,
+    statuses?: Array<
+      'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'
+    >,
+    senderType?: 'INDIVIDUAL' | 'BUSINESS',
+    userId?: string,
+    institutionId?: string,
+    offset?: number,
+    limit?: number,
+    options?: AxiosRequestConfig,
+  ) {
+    return DefaultApiFp(this.configuration)
+      .listDetokenizedMandates(dateFrom, dateTo, statuses, senderType, userId, institutionId, offset, limit, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
    * List mandates
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
    * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -11033,7 +11346,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
    * @param {string} [userId] The user_id the mandate was setup for
    * @param {string} [institutionId] The institution the mandate was executed against
-   * @param {'MANDATE' | 'SINGLE' | 'CARD'} [paymentType] The type of payment
+   * @param {'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'} [paymentType] The type of payment
    * @param {string} [mandateId] The mandate the payment belongs to
    * @param {string} [currency] The currency the payment is made in
    * @param {number} [offset] default is 0
@@ -11051,7 +11364,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
     senderType?: 'INDIVIDUAL' | 'BUSINESS',
     userId?: string,
     institutionId?: string,
-    paymentType?: 'MANDATE' | 'SINGLE' | 'CARD',
+    paymentType?: 'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL',
     mandateId?: string,
     currency?: string,
     offset?: number,
