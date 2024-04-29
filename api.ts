@@ -6738,7 +6738,7 @@ export interface Transaction {
    * @type {string}
    * @memberof Transaction
    */
-  bank_reference?: string;
+  transaction_reference?: string;
   /**
    *
    * @type {Array<CategoryPredictions>}
