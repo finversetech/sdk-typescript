@@ -6017,6 +6017,24 @@ export interface Principal {
    */
   payment_method_id?: string;
   /**
+   *
+   * @type {string}
+   * @memberof Principal
+   */
+  tpp_name?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Principal
+   */
+  retry_url?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Principal
+   */
+  onboarding_flow?: string;
+  /**
    * The qrCode text to be used to generate the image
    * @type {string}
    * @memberof Principal
