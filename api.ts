@@ -6255,6 +6255,19 @@ export interface RefreshData {
 /**
  *
  * @export
+ * @interface RefreshPaymentAttemptResponse
+ */
+export interface RefreshPaymentAttemptResponse {
+  /**
+   *
+   * @type {string}
+   * @memberof RefreshPaymentAttemptResponse
+   */
+  redirect_url?: string;
+}
+/**
+ *
+ * @export
  * @interface RefreshRequest
  */
 export interface RefreshRequest {
@@ -10002,6 +10015,37 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Refresh payment attempt from payment link front-end
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    refreshPaymentAttempt: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/payment_link/fvlink/payment_attempt/refresh`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Set autopay consent for payment user
      * @param {SetAutopayConsentRequest} setAutopayConsentRequest
      * @param {*} [options] Override http request option.
@@ -10415,6 +10459,17 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Refresh payment attempt from payment link front-end
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async refreshPaymentAttempt(
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RefreshPaymentAttemptResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.refreshPaymentAttempt(options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Set autopay consent for payment user
      * @param {SetAutopayConsentRequest} setAutopayConsentRequest
      * @param {*} [options] Override http request option.
@@ -10730,6 +10785,14 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         .then((request) => request(axios, basePath));
     },
     /**
+     * Refresh payment attempt from payment link front-end
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    refreshPaymentAttempt(options?: any): AxiosPromise<RefreshPaymentAttemptResponse> {
+      return localVarFp.refreshPaymentAttempt(options).then((request) => request(axios, basePath));
+    },
+    /**
      * Set autopay consent for payment user
      * @param {SetAutopayConsentRequest} setAutopayConsentRequest
      * @param {*} [options] Override http request option.
@@ -11011,6 +11074,14 @@ export interface DefaultApiInterface {
     limit?: number,
     options?: AxiosRequestConfig,
   ): AxiosPromise<ListPaymentsResponse>;
+
+  /**
+   * Refresh payment attempt from payment link front-end
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  refreshPaymentAttempt(options?: AxiosRequestConfig): AxiosPromise<RefreshPaymentAttemptResponse>;
 
   /**
    * Set autopay consent for payment user
@@ -11386,6 +11457,18 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
         limit,
         options,
       )
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Refresh payment attempt from payment link front-end
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public refreshPaymentAttempt(options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .refreshPaymentAttempt(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
