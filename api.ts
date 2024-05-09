@@ -3823,10 +3823,10 @@ export interface ListPaymentMethodsResponse {
   payment_methods?: Array<PaymentMethodResponse>;
   /**
    *
-   * @type {PaymentUser}
+   * @type {PaymentUserWithoutEmail}
    * @memberof ListPaymentMethodsResponse
    */
-  sender?: PaymentUser;
+  sender?: PaymentUserWithoutEmail;
 }
 /**
  *
@@ -5736,6 +5736,94 @@ export const PaymentUserUserTypeEnum = {
 } as const;
 
 export type PaymentUserUserTypeEnum = (typeof PaymentUserUserTypeEnum)[keyof typeof PaymentUserUserTypeEnum];
+
+/**
+ *
+ * @export
+ * @interface PaymentUserWithoutEmail
+ */
+export interface PaymentUserWithoutEmail {
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentUserWithoutEmail
+   */
+  created_at?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentUserWithoutEmail
+   */
+  email?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentUserWithoutEmail
+   */
+  external_user_id?: string;
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof PaymentUserWithoutEmail
+   */
+  metadata?: { [key: string]: string };
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentUserWithoutEmail
+   */
+  name?: string;
+  /**
+   *
+   * @type {Array<SenderDetail>}
+   * @memberof PaymentUserWithoutEmail
+   */
+  user_details?: Array<SenderDetail>;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentUserWithoutEmail
+   */
+  updated_at?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentUserWithoutEmail
+   */
+  next_bill_update?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentUserWithoutEmail
+   */
+  user_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentUserWithoutEmail
+   */
+  user_type?: PaymentUserWithoutEmailUserTypeEnum;
+  /**
+   * Whether the user has given consent for autopay
+   * @type {boolean}
+   * @memberof PaymentUserWithoutEmail
+   */
+  autopay_consent: boolean;
+  /**
+   *
+   * @type {IntegrationMetadataResponse}
+   * @memberof PaymentUserWithoutEmail
+   */
+  integration_metadata?: IntegrationMetadataResponse;
+}
+
+export const PaymentUserWithoutEmailUserTypeEnum = {
+  Individual: 'INDIVIDUAL',
+  Business: 'BUSINESS',
+} as const;
+
+export type PaymentUserWithoutEmailUserTypeEnum =
+  (typeof PaymentUserWithoutEmailUserTypeEnum)[keyof typeof PaymentUserWithoutEmailUserTypeEnum];
 
 /**
  *
