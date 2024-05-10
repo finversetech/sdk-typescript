@@ -4567,6 +4567,12 @@ export interface MandateSenderAccount {
    */
   institution_id?: string;
   /**
+   * Institution Name for the sender’s institution.
+   * @type {string}
+   * @memberof MandateSenderAccount
+   */
+  institution_name?: string;
+  /**
    * A unique identifier generated after creating sender (Finverse Payment User ID)
    * @type {string}
    * @memberof MandateSenderAccount
@@ -4750,6 +4756,12 @@ export interface PaymentAccountDetails {
    * @memberof PaymentAccountDetails
    */
   institution_id?: string;
+  /**
+   * Institution Name for the sender’s institution.
+   * @type {string}
+   * @memberof PaymentAccountDetails
+   */
+  institution_name?: string;
   /**
    * A unique identifier generated after creating user (Finverse Payment User ID)
    * @type {string}
@@ -6305,6 +6317,12 @@ export interface RecipientAccountResponse {
    */
   institution_id?: string;
   /**
+   * Institution Name for the sender’s institution.
+   * @type {string}
+   * @memberof RecipientAccountResponse
+   */
+  institution_name?: string;
+  /**
    * 3-digit code associated with bank
    * @type {string}
    * @memberof RecipientAccountResponse
@@ -6421,6 +6439,12 @@ export interface SenderAccountFvLinkResponse {
    * @memberof SenderAccountFvLinkResponse
    */
   institution_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof SenderAccountFvLinkResponse
+   */
+  institution_name?: string;
 }
 /**
  *
