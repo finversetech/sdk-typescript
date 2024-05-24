@@ -6140,6 +6140,12 @@ export interface Principal {
    * @memberof Principal
    */
   qr_code_text?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Principal
+   */
+  manual_payment_provider?: string;
 }
 /**
  *
