@@ -4619,11 +4619,11 @@ export interface MandateSenderAccountRequest {
  */
 export interface ManualPaymentConfirmationRequest {
   /**
-   *
+   * Required if manual payment provider is HK_FPS. Not required for SG_PAYNOW
    * @type {string}
    * @memberof ManualPaymentConfirmationRequest
    */
-  accountholder_name: string;
+  accountholder_name?: string;
 }
 /**
  *
