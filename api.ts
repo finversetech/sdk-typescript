@@ -4893,6 +4893,25 @@ export interface PaymentDetails2 {
    * @memberof PaymentDetails2
    */
   external_transaction_reference?: string;
+  /**
+   *
+   * @type {PaymentDetailsReferences}
+   * @memberof PaymentDetails2
+   */
+  references?: PaymentDetailsReferences;
+}
+/**
+ *
+ * @export
+ * @interface PaymentDetailsReferences
+ */
+export interface PaymentDetailsReferences {
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentDetailsReferences
+   */
+  finverse_transaction_reference?: string;
 }
 /**
  *
