@@ -1497,6 +1497,18 @@ export interface CreatePaymentUserRequest {
    * @memberof CreatePaymentUserRequest
    */
   metadata?: { [key: string]: string };
+  /**
+   *
+   * @type {boolean}
+   * @memberof CreatePaymentUserRequest
+   */
+  autopay_consent?: boolean;
+  /**
+   *
+   * @type {IntegrationMetadataRequest}
+   * @memberof CreatePaymentUserRequest
+   */
+  integration_metadata?: IntegrationMetadataRequest;
 }
 
 export const CreatePaymentUserRequestUserTypeEnum = {
