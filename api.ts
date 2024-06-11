@@ -1421,6 +1421,144 @@ export type CreatePaymentLinkRequestModeEnum =
 /**
  *
  * @export
+ * @interface CreatePaymentMethodRequest
+ */
+export interface CreatePaymentMethodRequest {
+  /**
+   *
+   * @type {CreatePaymentMethodRequestCard}
+   * @memberof CreatePaymentMethodRequest
+   */
+  card: CreatePaymentMethodRequestCard;
+  /**
+   *
+   * @type {CreatePaymentMethodRequestIntegrationMetadata}
+   * @memberof CreatePaymentMethodRequest
+   */
+  integration_metadata: CreatePaymentMethodRequestIntegrationMetadata;
+  /**
+   *
+   * @type {string}
+   * @memberof CreatePaymentMethodRequest
+   */
+  payment_method_type: CreatePaymentMethodRequestPaymentMethodTypeEnum;
+}
+
+export const CreatePaymentMethodRequestPaymentMethodTypeEnum = {
+  Card: 'CARD',
+} as const;
+
+export type CreatePaymentMethodRequestPaymentMethodTypeEnum =
+  (typeof CreatePaymentMethodRequestPaymentMethodTypeEnum)[keyof typeof CreatePaymentMethodRequestPaymentMethodTypeEnum];
+
+/**
+ *
+ * @export
+ * @interface CreatePaymentMethodRequestCard
+ */
+export interface CreatePaymentMethodRequestCard {
+  /**
+   *
+   * @type {CreatePaymentMethodRequestCardCardDetails}
+   * @memberof CreatePaymentMethodRequestCard
+   */
+  card_details: CreatePaymentMethodRequestCardCardDetails;
+  /**
+   *
+   * @type {string}
+   * @memberof CreatePaymentMethodRequestCard
+   */
+  status: CreatePaymentMethodRequestCardStatusEnum;
+}
+
+export const CreatePaymentMethodRequestCardStatusEnum = {
+  Succeeded: 'SUCCEEDED',
+} as const;
+
+export type CreatePaymentMethodRequestCardStatusEnum =
+  (typeof CreatePaymentMethodRequestCardStatusEnum)[keyof typeof CreatePaymentMethodRequestCardStatusEnum];
+
+/**
+ *
+ * @export
+ * @interface CreatePaymentMethodRequestCardCardDetails
+ */
+export interface CreatePaymentMethodRequestCardCardDetails {
+  /**
+   *
+   * @type {string}
+   * @memberof CreatePaymentMethodRequestCardCardDetails
+   */
+  brand: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CreatePaymentMethodRequestCardCardDetails
+   */
+  last4: string;
+}
+/**
+ *
+ * @export
+ * @interface CreatePaymentMethodRequestIntegrationMetadata
+ */
+export interface CreatePaymentMethodRequestIntegrationMetadata {
+  /**
+   *
+   * @type {string}
+   * @memberof CreatePaymentMethodRequestIntegrationMetadata
+   */
+  integration_id: CreatePaymentMethodRequestIntegrationMetadataIntegrationIdEnum;
+  /**
+   *
+   * @type {CreatePaymentMethodRequestIntegrationMetadataStripeMetadata}
+   * @memberof CreatePaymentMethodRequestIntegrationMetadata
+   */
+  stripe_metadata: CreatePaymentMethodRequestIntegrationMetadataStripeMetadata;
+}
+
+export const CreatePaymentMethodRequestIntegrationMetadataIntegrationIdEnum = {
+  Stripe: 'STRIPE',
+} as const;
+
+export type CreatePaymentMethodRequestIntegrationMetadataIntegrationIdEnum =
+  (typeof CreatePaymentMethodRequestIntegrationMetadataIntegrationIdEnum)[keyof typeof CreatePaymentMethodRequestIntegrationMetadataIntegrationIdEnum];
+
+/**
+ *
+ * @export
+ * @interface CreatePaymentMethodRequestIntegrationMetadataStripeMetadata
+ */
+export interface CreatePaymentMethodRequestIntegrationMetadataStripeMetadata {
+  /**
+   *
+   * @type {CreatePaymentMethodRequestIntegrationMetadataStripeMetadataCustomer}
+   * @memberof CreatePaymentMethodRequestIntegrationMetadataStripeMetadata
+   */
+  customer: CreatePaymentMethodRequestIntegrationMetadataStripeMetadataCustomer;
+  /**
+   *
+   * @type {CreatePaymentMethodRequestIntegrationMetadataStripeMetadataCustomer}
+   * @memberof CreatePaymentMethodRequestIntegrationMetadataStripeMetadata
+   */
+  payment_method: CreatePaymentMethodRequestIntegrationMetadataStripeMetadataCustomer;
+}
+/**
+ *
+ * @export
+ * @interface CreatePaymentMethodRequestIntegrationMetadataStripeMetadataCustomer
+ */
+export interface CreatePaymentMethodRequestIntegrationMetadataStripeMetadataCustomer {
+  /**
+   *
+   * @type {string}
+   * @memberof CreatePaymentMethodRequestIntegrationMetadataStripeMetadataCustomer
+   */
+  id: string;
+}
+/**
+ *
+ * @export
  * @interface CreatePaymentRequest
  */
 export interface CreatePaymentRequest {
@@ -9619,6 +9757,57 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Create a Payment Method for a user
+     * @param {string} paymentUserId Payment User ID
+     * @param {CreatePaymentMethodRequest} createPaymentMethodRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentMethod: async (
+      paymentUserId: string,
+      createPaymentMethodRequest: CreatePaymentMethodRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'paymentUserId' is not null or undefined
+      assertParamExists('createPaymentMethod', 'paymentUserId', paymentUserId);
+      // verify required parameter 'createPaymentMethodRequest' is not null or undefined
+      assertParamExists('createPaymentMethod', 'createPaymentMethodRequest', createPaymentMethodRequest);
+      const localVarPath = `/payment_users/{paymentUserId}/payment_methods`.replace(
+        `{${'paymentUserId'}}`,
+        encodeURIComponent(String(paymentUserId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        createPaymentMethodRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Create a scheduled payout
      * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
@@ -10392,6 +10581,25 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Create a Payment Method for a user
+     * @param {string} paymentUserId Payment User ID
+     * @param {CreatePaymentMethodRequest} createPaymentMethodRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createPaymentMethod(
+      paymentUserId: string,
+      createPaymentMethodRequest: CreatePaymentMethodRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentMethodResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentMethod(
+        paymentUserId,
+        createPaymentMethodRequest,
+        options,
+      );
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Create a scheduled payout
      * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
@@ -10762,6 +10970,22 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         .then((request) => request(axios, basePath));
     },
     /**
+     * Create a Payment Method for a user
+     * @param {string} paymentUserId Payment User ID
+     * @param {CreatePaymentMethodRequest} createPaymentMethodRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentMethod(
+      paymentUserId: string,
+      createPaymentMethodRequest: CreatePaymentMethodRequest,
+      options?: any,
+    ): AxiosPromise<PaymentMethodResponse> {
+      return localVarFp
+        .createPaymentMethod(paymentUserId, createPaymentMethodRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Create a scheduled payout
      * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
@@ -11072,6 +11296,20 @@ export interface DefaultApiInterface {
     createPaymentLinkMandateRequest: CreatePaymentLinkMandateRequest,
     options?: AxiosRequestConfig,
   ): AxiosPromise<CreatePaymentLinkMandateResponse>;
+
+  /**
+   * Create a Payment Method for a user
+   * @param {string} paymentUserId Payment User ID
+   * @param {CreatePaymentMethodRequest} createPaymentMethodRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  createPaymentMethod(
+    paymentUserId: string,
+    createPaymentMethodRequest: CreatePaymentMethodRequest,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<PaymentMethodResponse>;
 
   /**
    * Create a scheduled payout
@@ -11398,6 +11636,24 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   ) {
     return DefaultApiFp(this.configuration)
       .createPaymentLinkMandate(createPaymentLinkMandateRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Create a Payment Method for a user
+   * @param {string} paymentUserId Payment User ID
+   * @param {CreatePaymentMethodRequest} createPaymentMethodRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public createPaymentMethod(
+    paymentUserId: string,
+    createPaymentMethodRequest: CreatePaymentMethodRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return DefaultApiFp(this.configuration)
+      .createPaymentMethod(paymentUserId, createPaymentMethodRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
