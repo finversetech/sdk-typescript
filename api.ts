@@ -1432,10 +1432,10 @@ export interface CreatePaymentMethodRequest {
   card: CreatePaymentMethodRequestCard;
   /**
    *
-   * @type {CreatePaymentMethodRequestIntegrationMetadata}
+   * @type {PaymentMethodIntegrationMetadata}
    * @memberof CreatePaymentMethodRequest
    */
-  integration_metadata: CreatePaymentMethodRequestIntegrationMetadata;
+  integration_metadata: PaymentMethodIntegrationMetadata;
   /**
    *
    * @type {string}
@@ -1508,65 +1508,6 @@ export interface CreatePaymentMethodRequestCardCardDetails {
    * @memberof CreatePaymentMethodRequestCardCardDetails
    */
   last4: string;
-}
-/**
- *
- * @export
- * @interface CreatePaymentMethodRequestIntegrationMetadata
- */
-export interface CreatePaymentMethodRequestIntegrationMetadata {
-  /**
-   *
-   * @type {string}
-   * @memberof CreatePaymentMethodRequestIntegrationMetadata
-   */
-  integration_id: CreatePaymentMethodRequestIntegrationMetadataIntegrationIdEnum;
-  /**
-   *
-   * @type {CreatePaymentMethodRequestIntegrationMetadataStripeMetadata}
-   * @memberof CreatePaymentMethodRequestIntegrationMetadata
-   */
-  stripe_metadata: CreatePaymentMethodRequestIntegrationMetadataStripeMetadata;
-}
-
-export const CreatePaymentMethodRequestIntegrationMetadataIntegrationIdEnum = {
-  Stripe: 'STRIPE',
-} as const;
-
-export type CreatePaymentMethodRequestIntegrationMetadataIntegrationIdEnum =
-  (typeof CreatePaymentMethodRequestIntegrationMetadataIntegrationIdEnum)[keyof typeof CreatePaymentMethodRequestIntegrationMetadataIntegrationIdEnum];
-
-/**
- *
- * @export
- * @interface CreatePaymentMethodRequestIntegrationMetadataStripeMetadata
- */
-export interface CreatePaymentMethodRequestIntegrationMetadataStripeMetadata {
-  /**
-   *
-   * @type {CreatePaymentMethodRequestIntegrationMetadataStripeMetadataCustomer}
-   * @memberof CreatePaymentMethodRequestIntegrationMetadataStripeMetadata
-   */
-  customer: CreatePaymentMethodRequestIntegrationMetadataStripeMetadataCustomer;
-  /**
-   *
-   * @type {CreatePaymentMethodRequestIntegrationMetadataStripeMetadataCustomer}
-   * @memberof CreatePaymentMethodRequestIntegrationMetadataStripeMetadata
-   */
-  payment_method: CreatePaymentMethodRequestIntegrationMetadataStripeMetadataCustomer;
-}
-/**
- *
- * @export
- * @interface CreatePaymentMethodRequestIntegrationMetadataStripeMetadataCustomer
- */
-export interface CreatePaymentMethodRequestIntegrationMetadataStripeMetadataCustomer {
-  /**
-   *
-   * @type {string}
-   * @memberof CreatePaymentMethodRequestIntegrationMetadataStripeMetadataCustomer
-   */
-  id: string;
 }
 /**
  *
@@ -5579,6 +5520,65 @@ export interface PaymentMethodFvLinkResponse {
 /**
  *
  * @export
+ * @interface PaymentMethodIntegrationMetadata
+ */
+export interface PaymentMethodIntegrationMetadata {
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadata
+   */
+  integration_id: PaymentMethodIntegrationMetadataIntegrationIdEnum;
+  /**
+   *
+   * @type {PaymentMethodIntegrationMetadataStripeMetadata}
+   * @memberof PaymentMethodIntegrationMetadata
+   */
+  stripe_metadata: PaymentMethodIntegrationMetadataStripeMetadata;
+}
+
+export const PaymentMethodIntegrationMetadataIntegrationIdEnum = {
+  Stripe: 'STRIPE',
+} as const;
+
+export type PaymentMethodIntegrationMetadataIntegrationIdEnum =
+  (typeof PaymentMethodIntegrationMetadataIntegrationIdEnum)[keyof typeof PaymentMethodIntegrationMetadataIntegrationIdEnum];
+
+/**
+ *
+ * @export
+ * @interface PaymentMethodIntegrationMetadataStripeMetadata
+ */
+export interface PaymentMethodIntegrationMetadataStripeMetadata {
+  /**
+   *
+   * @type {PaymentMethodIntegrationMetadataStripeMetadataCustomer}
+   * @memberof PaymentMethodIntegrationMetadataStripeMetadata
+   */
+  customer: PaymentMethodIntegrationMetadataStripeMetadataCustomer;
+  /**
+   *
+   * @type {PaymentMethodIntegrationMetadataStripeMetadataCustomer}
+   * @memberof PaymentMethodIntegrationMetadataStripeMetadata
+   */
+  payment_method: PaymentMethodIntegrationMetadataStripeMetadataCustomer;
+}
+/**
+ *
+ * @export
+ * @interface PaymentMethodIntegrationMetadataStripeMetadataCustomer
+ */
+export interface PaymentMethodIntegrationMetadataStripeMetadataCustomer {
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataStripeMetadataCustomer
+   */
+  id: string;
+}
+/**
+ *
+ * @export
  * @interface PaymentMethodResponse
  */
 export interface PaymentMethodResponse {
@@ -5606,6 +5606,12 @@ export interface PaymentMethodResponse {
    * @memberof PaymentMethodResponse
    */
   card?: FVCard;
+  /**
+   *
+   * @type {PaymentMethodIntegrationMetadata}
+   * @memberof PaymentMethodResponse
+   */
+  integration_metadata?: PaymentMethodIntegrationMetadata;
 }
 /**
  *
