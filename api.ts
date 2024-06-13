@@ -1448,6 +1448,12 @@ export interface CreatePaymentMethodRequest {
    * @memberof CreatePaymentMethodRequest
    */
   recipient_account_id: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CreatePaymentMethodRequest
+   */
+  currency: string;
 }
 
 export const CreatePaymentMethodRequestPaymentMethodTypeEnum = {
