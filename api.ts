@@ -4890,6 +4890,12 @@ export interface PaymentAccountDetails {
    */
   currencies?: Array<string>;
   /**
+   * The business units the payment account belongs to
+   * @type {Array<string>}
+   * @memberof PaymentAccountDetails
+   */
+  business_units?: Array<string>;
+  /**
    * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
    * @type {{ [key: string]: string; }}
    * @memberof PaymentAccountDetails
