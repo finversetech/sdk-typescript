@@ -5804,6 +5804,12 @@ export interface PaymentSetupOptions {
    * @memberof PaymentSetupOptions
    */
   payment_method_types?: Array<PaymentSetupOptionsPaymentMethodTypesEnum>;
+  /**
+   *
+   * @type {RecipientAccountFilters}
+   * @memberof PaymentSetupOptions
+   */
+  recipient_account_filters?: RecipientAccountFilters;
 }
 
 export const PaymentSetupOptionsFuturePaymentsEnum = {
@@ -6432,6 +6438,19 @@ export interface RapidstorMetadataResponse {
    * @memberof RapidstorMetadataResponse
    */
   tenant_default_currency?: string;
+}
+/**
+ *
+ * @export
+ * @interface RecipientAccountFilters
+ */
+export interface RecipientAccountFilters {
+  /**
+   *
+   * @type {string}
+   * @memberof RecipientAccountFilters
+   */
+  business_unit: string;
 }
 /**
  *
