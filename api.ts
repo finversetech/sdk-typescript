@@ -6401,6 +6401,12 @@ export interface RapidstorMetadataRequest {
    * @memberof RapidstorMetadataRequest
    */
   i_anniv_days?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof RapidstorMetadataRequest
+   */
+  account_token?: string;
 }
 /**
  *
@@ -6438,6 +6444,12 @@ export interface RapidstorMetadataResponse {
    * @memberof RapidstorMetadataResponse
    */
   tenant_default_currency?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RapidstorMetadataResponse
+   */
+  account_token?: string;
 }
 /**
  *
