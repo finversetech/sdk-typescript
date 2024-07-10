@@ -1442,18 +1442,6 @@ export interface CreatePaymentMethodRequest {
    * @memberof CreatePaymentMethodRequest
    */
   payment_method_type: CreatePaymentMethodRequestPaymentMethodTypeEnum;
-  /**
-   *
-   * @type {string}
-   * @memberof CreatePaymentMethodRequest
-   */
-  recipient_account_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreatePaymentMethodRequest
-   */
-  currency: string;
 }
 
 export const CreatePaymentMethodRequestPaymentMethodTypeEnum = {
@@ -1475,6 +1463,12 @@ export interface CreatePaymentMethodRequestCard {
    * @memberof CreatePaymentMethodRequestCard
    */
   card_details: CreatePaymentMethodRequestCardCardDetails;
+  /**
+   *
+   * @type {MandateRecipientRequest}
+   * @memberof CreatePaymentMethodRequestCard
+   */
+  recipient_account: MandateRecipientRequest;
   /**
    *
    * @type {string}
@@ -1508,6 +1502,12 @@ export interface CreatePaymentMethodRequestCardCardDetails {
    * @memberof CreatePaymentMethodRequestCardCardDetails
    */
   last4: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CreatePaymentMethodRequestCardCardDetails
+   */
+  currency: string;
 }
 /**
  *
