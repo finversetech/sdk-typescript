@@ -995,6 +995,64 @@ export interface ConfirmPaymentResponse {
 /**
  *
  * @export
+ * @interface CreateCardRequest
+ */
+export interface CreateCardRequest {
+  /**
+   *
+   * @type {CreateCardRequestCardDetails}
+   * @memberof CreateCardRequest
+   */
+  card_details: CreateCardRequestCardDetails;
+  /**
+   *
+   * @type {MandateRecipientRequest}
+   * @memberof CreateCardRequest
+   */
+  recipient_account: MandateRecipientRequest;
+  /**
+   *
+   * @type {string}
+   * @memberof CreateCardRequest
+   */
+  status: CreateCardRequestStatusEnum;
+}
+
+export const CreateCardRequestStatusEnum = {
+  Succeeded: 'SUCCEEDED',
+} as const;
+
+export type CreateCardRequestStatusEnum =
+  (typeof CreateCardRequestStatusEnum)[keyof typeof CreateCardRequestStatusEnum];
+
+/**
+ *
+ * @export
+ * @interface CreateCardRequestCardDetails
+ */
+export interface CreateCardRequestCardDetails {
+  /**
+   *
+   * @type {string}
+   * @memberof CreateCardRequestCardDetails
+   */
+  brand: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CreateCardRequestCardDetails
+   */
+  last4: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CreateCardRequestCardDetails
+   */
+  currency: string;
+}
+/**
+ *
+ * @export
  * @interface CreateFpsTokenResponse
  */
 export interface CreateFpsTokenResponse {
@@ -1025,10 +1083,10 @@ export interface CreateMandateRequest {
   sender: CreateMandateSender;
   /**
    *
-   * @type {MandateDetails}
+   * @type {MandateDetailsRequest}
    * @memberof CreateMandateRequest
    */
-  mandate_details: MandateDetails;
+  mandate_details: MandateDetailsRequest;
   /**
    * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
    * @type {{ [key: string]: string; }}
@@ -1098,10 +1156,10 @@ export interface CreateMandateResponse {
   sender_account?: MandateSenderAccount;
   /**
    *
-   * @type {MandateDetails}
+   * @type {MandateDetailsResponse}
    * @memberof CreateMandateResponse
    */
-  mandate_details: MandateDetails;
+  mandate_details: MandateDetailsResponse;
   /**
    *
    * @type {Array<Fee>}
@@ -1195,10 +1253,10 @@ export interface CreateMandateWithSenderAccountRequest {
   sender_account: MandateSenderAccountRequest;
   /**
    *
-   * @type {MandateDetails}
+   * @type {MandateDetailsRequest}
    * @memberof CreateMandateWithSenderAccountRequest
    */
-  mandate_details: MandateDetails;
+  mandate_details: MandateDetailsRequest;
   /**
    * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
    * @type {{ [key: string]: string; }}
@@ -1426,10 +1484,10 @@ export type CreatePaymentLinkRequestModeEnum =
 export interface CreatePaymentMethodRequest {
   /**
    *
-   * @type {CreatePaymentMethodRequestCard}
+   * @type {CreateCardRequest}
    * @memberof CreatePaymentMethodRequest
    */
-  card: CreatePaymentMethodRequestCard;
+  card: CreateCardRequest;
   /**
    *
    * @type {PaymentMethodIntegrationMetadata}
@@ -1451,64 +1509,6 @@ export const CreatePaymentMethodRequestPaymentMethodTypeEnum = {
 export type CreatePaymentMethodRequestPaymentMethodTypeEnum =
   (typeof CreatePaymentMethodRequestPaymentMethodTypeEnum)[keyof typeof CreatePaymentMethodRequestPaymentMethodTypeEnum];
 
-/**
- *
- * @export
- * @interface CreatePaymentMethodRequestCard
- */
-export interface CreatePaymentMethodRequestCard {
-  /**
-   *
-   * @type {CreatePaymentMethodRequestCardCardDetails}
-   * @memberof CreatePaymentMethodRequestCard
-   */
-  card_details: CreatePaymentMethodRequestCardCardDetails;
-  /**
-   *
-   * @type {MandateRecipientRequest}
-   * @memberof CreatePaymentMethodRequestCard
-   */
-  recipient_account: MandateRecipientRequest;
-  /**
-   *
-   * @type {string}
-   * @memberof CreatePaymentMethodRequestCard
-   */
-  status: CreatePaymentMethodRequestCardStatusEnum;
-}
-
-export const CreatePaymentMethodRequestCardStatusEnum = {
-  Succeeded: 'SUCCEEDED',
-} as const;
-
-export type CreatePaymentMethodRequestCardStatusEnum =
-  (typeof CreatePaymentMethodRequestCardStatusEnum)[keyof typeof CreatePaymentMethodRequestCardStatusEnum];
-
-/**
- *
- * @export
- * @interface CreatePaymentMethodRequestCardCardDetails
- */
-export interface CreatePaymentMethodRequestCardCardDetails {
-  /**
-   *
-   * @type {string}
-   * @memberof CreatePaymentMethodRequestCardCardDetails
-   */
-  brand: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreatePaymentMethodRequestCardCardDetails
-   */
-  last4: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreatePaymentMethodRequestCardCardDetails
-   */
-  currency: string;
-}
 /**
  *
  * @export
@@ -2478,10 +2478,10 @@ export interface GetMandateAuthResponse {
   error?: FvErrorModelV2;
   /**
    *
-   * @type {MandateDetails}
+   * @type {MandateDetailsResponse}
    * @memberof GetMandateAuthResponse
    */
-  mandate_details?: MandateDetails;
+  mandate_details?: MandateDetailsResponse;
   /**
    *
    * @type {MandateRecipient}
@@ -2569,10 +2569,10 @@ export interface GetMandateResponse {
   sender_account?: MandateSenderAccount;
   /**
    *
-   * @type {MandateDetails}
+   * @type {MandateDetailsResponse}
    * @memberof GetMandateResponse
    */
-  mandate_details: MandateDetails;
+  mandate_details: MandateDetailsResponse;
   /**
    *
    * @type {Array<Fee>}
@@ -4447,55 +4447,6 @@ export type MandateAuthLinkCustomizationsUiModeEnum =
 /**
  *
  * @export
- * @interface MandateDetails
- */
-export interface MandateDetails {
-  /**
-   * ISO currency code
-   * @type {string}
-   * @memberof MandateDetails
-   */
-  currency: string;
-  /**
-   * YYYY-MM-DD, must be later than or the same as the date of creation. If unspecified, default to the date of creation.
-   * @type {string}
-   * @memberof MandateDetails
-   */
-  start_date?: string | null;
-  /**
-   * YYYY-MM-DD, must be later than the date of creation.
-   * @type {string}
-   * @memberof MandateDetails
-   */
-  end_date?: string | null;
-  /**
-   *
-   * @type {PaymentSchedule}
-   * @memberof MandateDetails
-   */
-  payment_schedule?: PaymentSchedule;
-  /**
-   *
-   * @type {TransactionLimits}
-   * @memberof MandateDetails
-   */
-  transaction_limits?: TransactionLimits;
-  /**
-   * End-user facing description of the mandate (used in notifications, and in payments if no description is provided)
-   * @type {string}
-   * @memberof MandateDetails
-   */
-  description?: string;
-  /**
-   * A bank specific reference, what the end user may see
-   * @type {string}
-   * @memberof MandateDetails
-   */
-  mandate_bank_reference?: string;
-}
-/**
- *
- * @export
  * @interface MandateDetailsForPaymentLink
  */
 export interface MandateDetailsForPaymentLink {
@@ -4523,6 +4474,104 @@ export interface MandateDetailsForPaymentLink {
    * @memberof MandateDetailsForPaymentLink
    */
   description?: string;
+}
+/**
+ *
+ * @export
+ * @interface MandateDetailsRequest
+ */
+export interface MandateDetailsRequest {
+  /**
+   * ISO currency code
+   * @type {string}
+   * @memberof MandateDetailsRequest
+   */
+  currency: string;
+  /**
+   * YYYY-MM-DD, must be later than or the same as the date of creation. If unspecified, default to the date of creation.
+   * @type {string}
+   * @memberof MandateDetailsRequest
+   */
+  start_date?: string | null;
+  /**
+   * YYYY-MM-DD, must be later than the date of creation.
+   * @type {string}
+   * @memberof MandateDetailsRequest
+   */
+  end_date?: string | null;
+  /**
+   *
+   * @type {PaymentSchedule}
+   * @memberof MandateDetailsRequest
+   */
+  payment_schedule?: PaymentSchedule;
+  /**
+   *
+   * @type {TransactionLimits}
+   * @memberof MandateDetailsRequest
+   */
+  transaction_limits?: TransactionLimits;
+  /**
+   * End-user facing description of the mandate (used in notifications, and in payments if no description is provided)
+   * @type {string}
+   * @memberof MandateDetailsRequest
+   */
+  description?: string;
+  /**
+   * A bank specific reference, what the end user may see
+   * @type {string}
+   * @memberof MandateDetailsRequest
+   */
+  mandate_bank_reference?: string;
+}
+/**
+ *
+ * @export
+ * @interface MandateDetailsResponse
+ */
+export interface MandateDetailsResponse {
+  /**
+   * ISO currency code
+   * @type {string}
+   * @memberof MandateDetailsResponse
+   */
+  currency: string;
+  /**
+   * YYYY-MM-DD, must be later than or the same as the date of creation. If unspecified, default to the date of creation.
+   * @type {string}
+   * @memberof MandateDetailsResponse
+   */
+  start_date?: string | null;
+  /**
+   * YYYY-MM-DD, must be later than the date of creation.
+   * @type {string}
+   * @memberof MandateDetailsResponse
+   */
+  end_date?: string | null;
+  /**
+   *
+   * @type {PaymentSchedule}
+   * @memberof MandateDetailsResponse
+   */
+  payment_schedule?: PaymentSchedule;
+  /**
+   *
+   * @type {TransactionLimits}
+   * @memberof MandateDetailsResponse
+   */
+  transaction_limits?: TransactionLimits;
+  /**
+   * End-user facing description of the mandate (used in notifications, and in payments if no description is provided)
+   * @type {string}
+   * @memberof MandateDetailsResponse
+   */
+  description?: string;
+  /**
+   * A bank specific reference, what the end user may see
+   * @type {string}
+   * @memberof MandateDetailsResponse
+   */
+  mandate_bank_reference?: string;
 }
 /**
  *
