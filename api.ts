@@ -1097,6 +1097,51 @@ export interface CreateMandateRequest {
 /**
  *
  * @export
+ * @interface CreateMandateRequestWithDdaReference
+ */
+export interface CreateMandateRequestWithDdaReference {
+  /**
+   *
+   * @type {MandateRecipientRequest}
+   * @memberof CreateMandateRequestWithDdaReference
+   */
+  recipient_account: MandateRecipientRequest;
+  /**
+   *
+   * @type {MandateSenderAccountRequest}
+   * @memberof CreateMandateRequestWithDdaReference
+   */
+  sender_account: MandateSenderAccountRequest;
+  /**
+   *
+   * @type {MandateDetailsRequestWithDdaReference}
+   * @memberof CreateMandateRequestWithDdaReference
+   */
+  mandate_details: MandateDetailsRequestWithDdaReference;
+  /**
+   * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * @type {{ [key: string]: string; }}
+   * @memberof CreateMandateRequestWithDdaReference
+   */
+  metadata?: { [key: string]: string };
+  /**
+   * The mandate status
+   * @type {string}
+   * @memberof CreateMandateRequestWithDdaReference
+   */
+  status: CreateMandateRequestWithDdaReferenceStatusEnum;
+}
+
+export const CreateMandateRequestWithDdaReferenceStatusEnum = {
+  Succeeded: 'SUCCEEDED',
+} as const;
+
+export type CreateMandateRequestWithDdaReferenceStatusEnum =
+  (typeof CreateMandateRequestWithDdaReferenceStatusEnum)[keyof typeof CreateMandateRequestWithDdaReferenceStatusEnum];
+
+/**
+ *
+ * @export
  * @interface CreateMandateResponse
  */
 export interface CreateMandateResponse {
@@ -1487,13 +1532,19 @@ export interface CreatePaymentMethodRequest {
    * @type {CreateCardRequest}
    * @memberof CreatePaymentMethodRequest
    */
-  card: CreateCardRequest;
+  card?: CreateCardRequest;
+  /**
+   *
+   * @type {CreateMandateRequestWithDdaReference}
+   * @memberof CreatePaymentMethodRequest
+   */
+  mandate?: CreateMandateRequestWithDdaReference;
   /**
    *
    * @type {PaymentMethodIntegrationMetadata}
    * @memberof CreatePaymentMethodRequest
    */
-  integration_metadata: PaymentMethodIntegrationMetadata;
+  integration_metadata?: PaymentMethodIntegrationMetadata;
   /**
    *
    * @type {string}
@@ -1504,6 +1555,7 @@ export interface CreatePaymentMethodRequest {
 
 export const CreatePaymentMethodRequestPaymentMethodTypeEnum = {
   Card: 'CARD',
+  Mandate: 'MANDATE',
 } as const;
 
 export type CreatePaymentMethodRequestPaymentMethodTypeEnum =
@@ -4527,9 +4579,58 @@ export interface MandateDetailsRequest {
 /**
  *
  * @export
+ * @interface MandateDetailsRequestWithDdaReference
+ */
+export interface MandateDetailsRequestWithDdaReference {
+  /**
+   * The direct debit authorization reference
+   * @type {string}
+   * @memberof MandateDetailsRequestWithDdaReference
+   */
+  dda_reference?: string;
+  /**
+   * ISO currency code
+   * @type {string}
+   * @memberof MandateDetailsRequestWithDdaReference
+   */
+  currency: string;
+  /**
+   * YYYY-MM-DD, must be later than or the same as the date of creation. If unspecified, default to the date of creation.
+   * @type {string}
+   * @memberof MandateDetailsRequestWithDdaReference
+   */
+  start_date?: string | null;
+  /**
+   * YYYY-MM-DD, must be later than the date of creation.
+   * @type {string}
+   * @memberof MandateDetailsRequestWithDdaReference
+   */
+  end_date?: string | null;
+  /**
+   *
+   * @type {TransactionLimits}
+   * @memberof MandateDetailsRequestWithDdaReference
+   */
+  transaction_limits?: TransactionLimits;
+  /**
+   * End-user facing description of the mandate (used in notifications, and in payments if no description is provided)
+   * @type {string}
+   * @memberof MandateDetailsRequestWithDdaReference
+   */
+  description: string;
+}
+/**
+ *
+ * @export
  * @interface MandateDetailsResponse
  */
 export interface MandateDetailsResponse {
+  /**
+   * The direct debit authorization reference, if empty this will be omitted from response
+   * @type {string}
+   * @memberof MandateDetailsResponse
+   */
+  dda_reference?: string;
   /**
    * ISO currency code
    * @type {string}
