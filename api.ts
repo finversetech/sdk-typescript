@@ -801,17 +801,29 @@ export interface CardDetails {
  */
 export interface CardFvLinkDetails {
   /**
-   *
+   * The credit card brand
    * @type {string}
    * @memberof CardFvLinkDetails
    */
   brand?: string;
   /**
-   *
+   * Last 4 digits of the credit card number
    * @type {string}
    * @memberof CardFvLinkDetails
    */
   last4?: string;
+  /**
+   * The credit card expiry month
+   * @type {number}
+   * @memberof CardFvLinkDetails
+   */
+  expiry_month?: number;
+  /**
+   * The credit card expiry year
+   * @type {number}
+   * @memberof CardFvLinkDetails
+   */
+  expiry_year?: number;
 }
 /**
  *
@@ -2039,6 +2051,18 @@ export interface FVCardDetails {
    * @memberof FVCardDetails
    */
   last4?: string;
+  /**
+   * The credit card expiry month
+   * @type {number}
+   * @memberof FVCardDetails
+   */
+  expiry_month?: number;
+  /**
+   * The credit card expiry year
+   * @type {number}
+   * @memberof FVCardDetails
+   */
+  expiry_year?: number;
 }
 /**
  *
