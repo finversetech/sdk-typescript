@@ -7333,6 +7333,27 @@ export type TransactionLimitsPeriodEnum =
 /**
  *
  * @export
+ * @interface UpdateTestPaymentStatusRequest
+ */
+export interface UpdateTestPaymentStatusRequest {
+  /**
+   * The payment status
+   * @type {string}
+   * @memberof UpdateTestPaymentStatusRequest
+   */
+  status?: UpdateTestPaymentStatusRequestStatusEnum;
+}
+
+export const UpdateTestPaymentStatusRequestStatusEnum = {
+  Executed: 'EXECUTED',
+} as const;
+
+export type UpdateTestPaymentStatusRequestStatusEnum =
+  (typeof UpdateTestPaymentStatusRequestStatusEnum)[keyof typeof UpdateTestPaymentStatusRequestStatusEnum];
+
+/**
+ *
+ * @export
  * @interface UserButton
  */
 export interface UserButton {
@@ -8380,6 +8401,53 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
         options: localVarRequestOptions,
       };
     },
+    /**
+     * Update the status of a test manual payment
+     * @param {string} paymentId The test payment ID
+     * @param {UpdateTestPaymentStatusRequest} paymentStatus Request body for updating the test manual payment status
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateTestPaymentStatus: async (
+      paymentId: string,
+      paymentStatus: UpdateTestPaymentStatusRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'paymentId' is not null or undefined
+      assertParamExists('updateTestPaymentStatus', 'paymentId', paymentId);
+      // verify required parameter 'paymentStatus' is not null or undefined
+      assertParamExists('updateTestPaymentStatus', 'paymentStatus', paymentStatus);
+      const localVarPath = `/testing/payments/{paymentId}/status`.replace(
+        `{${'paymentId'}}`,
+        encodeURIComponent(String(paymentId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(paymentStatus, localVarRequestOptions, configuration);
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
   };
 };
 
@@ -8723,6 +8791,25 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       );
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
+    /**
+     * Update the status of a test manual payment
+     * @param {string} paymentId The test payment ID
+     * @param {UpdateTestPaymentStatusRequest} paymentStatus Request body for updating the test manual payment status
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updateTestPaymentStatus(
+      paymentId: string,
+      paymentStatus: UpdateTestPaymentStatusRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.updateTestPaymentStatus(
+        paymentId,
+        paymentStatus,
+        options,
+      );
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
   };
 };
 
@@ -9001,6 +9088,22 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
         .submitAuthChecklist(submitAuthChecklistRequest, options)
         .then((request) => request(axios, basePath));
     },
+    /**
+     * Update the status of a test manual payment
+     * @param {string} paymentId The test payment ID
+     * @param {UpdateTestPaymentStatusRequest} paymentStatus Request body for updating the test manual payment status
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateTestPaymentStatus(
+      paymentId: string,
+      paymentStatus: UpdateTestPaymentStatusRequest,
+      options?: any,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .updateTestPaymentStatus(paymentId, paymentStatus, options)
+        .then((request) => request(axios, basePath));
+    },
   };
 };
 
@@ -9269,6 +9372,20 @@ export interface CustomerApiInterface {
     submitAuthChecklistRequest: SubmitAuthChecklistRequest,
     options?: AxiosRequestConfig,
   ): AxiosPromise<SubmitAuthChecklistResponse>;
+
+  /**
+   * Update the status of a test manual payment
+   * @param {string} paymentId The test payment ID
+   * @param {UpdateTestPaymentStatusRequest} paymentStatus Request body for updating the test manual payment status
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  updateTestPaymentStatus(
+    paymentId: string,
+    paymentStatus: UpdateTestPaymentStatusRequest,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<void>;
 }
 
 /**
@@ -9597,6 +9714,24 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public submitAuthChecklist(submitAuthChecklistRequest: SubmitAuthChecklistRequest, options?: AxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .submitAuthChecklist(submitAuthChecklistRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Update the status of a test manual payment
+   * @param {string} paymentId The test payment ID
+   * @param {UpdateTestPaymentStatusRequest} paymentStatus Request body for updating the test manual payment status
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public updateTestPaymentStatus(
+    paymentId: string,
+    paymentStatus: UpdateTestPaymentStatusRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return CustomerApiFp(this.configuration)
+      .updateTestPaymentStatus(paymentId, paymentStatus, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
