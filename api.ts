@@ -3777,7 +3777,7 @@ export interface LinkTokenRequest {
    * @type {string}
    * @memberof LinkTokenRequest
    */
-  language?: string;
+  language?: LinkTokenRequestLanguageEnum;
   /**
    *
    * @type {string}
@@ -3860,6 +3860,14 @@ export const LinkTokenRequestUiModeEnum = {
 } as const;
 
 export type LinkTokenRequestUiModeEnum = (typeof LinkTokenRequestUiModeEnum)[keyof typeof LinkTokenRequestUiModeEnum];
+export const LinkTokenRequestLanguageEnum = {
+  En: 'en',
+  Vi: 'vi',
+  Zh: 'zh',
+} as const;
+
+export type LinkTokenRequestLanguageEnum =
+  (typeof LinkTokenRequestLanguageEnum)[keyof typeof LinkTokenRequestLanguageEnum];
 export const LinkTokenRequestAutomaticDataRefreshEnum = {
   On: 'ON',
   Off: 'OFF',
@@ -4477,7 +4485,7 @@ export interface MandateAuthLinkCustomizations {
    * @type {string}
    * @memberof MandateAuthLinkCustomizations
    */
-  language?: string;
+  language?: MandateAuthLinkCustomizationsLanguageEnum;
   /**
    * Space separated list of the tags of the institutions to view.
    * @type {string}
@@ -4510,6 +4518,14 @@ export interface MandateAuthLinkCustomizations {
   user_type?: Array<string>;
 }
 
+export const MandateAuthLinkCustomizationsLanguageEnum = {
+  En: 'en',
+  Vi: 'vi',
+  Zh: 'zh',
+} as const;
+
+export type MandateAuthLinkCustomizationsLanguageEnum =
+  (typeof MandateAuthLinkCustomizationsLanguageEnum)[keyof typeof MandateAuthLinkCustomizationsLanguageEnum];
 export const MandateAuthLinkCustomizationsUiModeEnum = {
   Iframe: 'iframe',
   Redirect: 'redirect',
@@ -5369,7 +5385,7 @@ export interface PaymentLinkCustomizations {
    * @type {string}
    * @memberof PaymentLinkCustomizations
    */
-  language?: string;
+  language?: PaymentLinkCustomizationsLanguageEnum;
   /**
    * The UI mode link is intended to be used in - \"iframe\", \"auto_redirect\", \"redirect\" or \"standalone\"
    * @type {string}
@@ -5384,6 +5400,14 @@ export interface PaymentLinkCustomizations {
   redirect_uri?: string;
 }
 
+export const PaymentLinkCustomizationsLanguageEnum = {
+  En: 'en',
+  Vi: 'vi',
+  Zh: 'zh',
+} as const;
+
+export type PaymentLinkCustomizationsLanguageEnum =
+  (typeof PaymentLinkCustomizationsLanguageEnum)[keyof typeof PaymentLinkCustomizationsLanguageEnum];
 export const PaymentLinkCustomizationsUiModeEnum = {
   Iframe: 'iframe',
   Redirect: 'redirect',
@@ -6773,6 +6797,75 @@ export interface RefreshData {
    * @memberof RefreshData
    */
   refresh_allowed: boolean;
+}
+/**
+ *
+ * @export
+ * @interface RefreshLoginIdentityLinkCustomizations
+ */
+export interface RefreshLoginIdentityLinkCustomizations {
+  /**
+   * ISO639-1 language code. Language to display when user open the link, default to English (en) if not specified
+   * @type {string}
+   * @memberof RefreshLoginIdentityLinkCustomizations
+   */
+  language?: RefreshLoginIdentityLinkCustomizationsLanguageEnum;
+  /**
+   *
+   * @type {string}
+   * @memberof RefreshLoginIdentityLinkCustomizations
+   */
+  ui_mode?: RefreshLoginIdentityLinkCustomizationsUiModeEnum;
+  /**
+   * Required if ui_mode is redirect or auto_redirect
+   * @type {string}
+   * @memberof RefreshLoginIdentityLinkCustomizations
+   */
+  redirect_uri?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RefreshLoginIdentityLinkCustomizations
+   */
+  state?: string;
+}
+
+export const RefreshLoginIdentityLinkCustomizationsLanguageEnum = {
+  En: 'en',
+  Vi: 'vi',
+  Zh: 'zh',
+} as const;
+
+export type RefreshLoginIdentityLinkCustomizationsLanguageEnum =
+  (typeof RefreshLoginIdentityLinkCustomizationsLanguageEnum)[keyof typeof RefreshLoginIdentityLinkCustomizationsLanguageEnum];
+export const RefreshLoginIdentityLinkCustomizationsUiModeEnum = {
+  Iframe: 'iframe',
+  Redirect: 'redirect',
+  AutoRedirect: 'auto_redirect',
+  Standalone: 'standalone',
+} as const;
+
+export type RefreshLoginIdentityLinkCustomizationsUiModeEnum =
+  (typeof RefreshLoginIdentityLinkCustomizationsUiModeEnum)[keyof typeof RefreshLoginIdentityLinkCustomizationsUiModeEnum];
+
+/**
+ *
+ * @export
+ * @interface RefreshLoginIdentityRequest
+ */
+export interface RefreshLoginIdentityRequest {
+  /**
+   * Indicate whether the user is present in this flow. If the user is not present, only institutions that do not require 2fa can be refreshed
+   * @type {boolean}
+   * @memberof RefreshLoginIdentityRequest
+   */
+  user_present?: boolean;
+  /**
+   *
+   * @type {RefreshLoginIdentityLinkCustomizations}
+   * @memberof RefreshLoginIdentityRequest
+   */
+  link_customizations?: RefreshLoginIdentityLinkCustomizations;
 }
 /**
  *
@@ -13786,10 +13879,14 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
     },
     /**
      * Create a refresh job for a login identity
+     * @param {RefreshLoginIdentityRequest} [refreshLoginIdentityReq]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    refreshLoginIdentity: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    refreshLoginIdentity: async (
+      refreshLoginIdentityReq?: RefreshLoginIdentityRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
       const localVarPath = `/login_identity/refresh`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -13806,9 +13903,16 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        refreshLoginIdentityReq,
+        localVarRequestOptions,
+        configuration,
+      );
 
       return {
         url: toPathString(localVarUrlObj),
@@ -14033,13 +14137,15 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
     },
     /**
      * Create a refresh job for a login identity
+     * @param {RefreshLoginIdentityRequest} [refreshLoginIdentityReq]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async refreshLoginIdentity(
+      refreshLoginIdentityReq?: RefreshLoginIdentityRequest,
       options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.refreshLoginIdentity(options);
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LinkTokenResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.refreshLoginIdentity(refreshLoginIdentityReq, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
   };
@@ -14212,11 +14318,17 @@ export const LoginIdentityApiFactory = function (
     },
     /**
      * Create a refresh job for a login identity
+     * @param {RefreshLoginIdentityRequest} [refreshLoginIdentityReq]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    refreshLoginIdentity(options?: any): AxiosPromise<void> {
-      return localVarFp.refreshLoginIdentity(options).then((request) => request(axios, basePath));
+    refreshLoginIdentity(
+      refreshLoginIdentityReq?: RefreshLoginIdentityRequest,
+      options?: any,
+    ): AxiosPromise<LinkTokenResponse> {
+      return localVarFp
+        .refreshLoginIdentity(refreshLoginIdentityReq, options)
+        .then((request) => request(axios, basePath));
     },
   };
 };
@@ -14383,11 +14495,15 @@ export interface LoginIdentityApiInterface {
 
   /**
    * Create a refresh job for a login identity
+   * @param {RefreshLoginIdentityRequest} [refreshLoginIdentityReq]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LoginIdentityApiInterface
    */
-  refreshLoginIdentity(options?: AxiosRequestConfig): AxiosPromise<void>;
+  refreshLoginIdentity(
+    refreshLoginIdentityReq?: RefreshLoginIdentityRequest,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<LinkTokenResponse>;
 }
 
 /**
@@ -14605,13 +14721,14 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
 
   /**
    * Create a refresh job for a login identity
+   * @param {RefreshLoginIdentityRequest} [refreshLoginIdentityReq]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LoginIdentityApi
    */
-  public refreshLoginIdentity(options?: AxiosRequestConfig) {
+  public refreshLoginIdentity(refreshLoginIdentityReq?: RefreshLoginIdentityRequest, options?: AxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
-      .refreshLoginIdentity(options)
+      .refreshLoginIdentity(refreshLoginIdentityReq, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
