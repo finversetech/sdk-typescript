@@ -4974,6 +4974,43 @@ export interface NonSensitiveLinkStatusResponse {
    * @memberof NonSensitiveLinkStatusResponse
    */
   redirect_uri?: string;
+  /**
+   *
+   * @type {NonSensitiveLinkStatusSuccessModel}
+   * @memberof NonSensitiveLinkStatusResponse
+   */
+  success?: NonSensitiveLinkStatusSuccessModel;
+  /**
+   *
+   * @type {ErrBodyModelV2}
+   * @memberof NonSensitiveLinkStatusResponse
+   */
+  error?: ErrBodyModelV2;
+}
+/**
+ *
+ * @export
+ * @interface NonSensitiveLinkStatusSuccessModel
+ */
+export interface NonSensitiveLinkStatusSuccessModel {
+  /**
+   *
+   * @type {string}
+   * @memberof NonSensitiveLinkStatusSuccessModel
+   */
+  code?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof NonSensitiveLinkStatusSuccessModel
+   */
+  state?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof NonSensitiveLinkStatusSuccessModel
+   */
+  login_identity_id?: string;
 }
 /**
  *
