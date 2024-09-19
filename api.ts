@@ -4995,10 +4995,10 @@ export interface NonSensitiveLinkStatusResponse {
   success?: NonSensitiveLinkStatusSuccessModel;
   /**
    *
-   * @type {ErrBodyModelV2}
+   * @type {FvErrorModelV2}
    * @memberof NonSensitiveLinkStatusResponse
    */
-  error?: ErrBodyModelV2;
+  error?: FvErrorModelV2;
 }
 /**
  *
