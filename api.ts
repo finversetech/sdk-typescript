@@ -1884,6 +1884,19 @@ export interface DeleteLoginIdentityResponse {
 /**
  *
  * @export
+ * @interface DownloadBalanceStatementResponse
+ */
+export interface DownloadBalanceStatementResponse {
+  /**
+   * Signed URL to download the CSV from
+   * @type {string}
+   * @memberof DownloadBalanceStatementResponse
+   */
+  download_url: string;
+}
+/**
+ *
+ * @export
  * @interface EncryptedPayload
  */
 export interface EncryptedPayload {
@@ -10354,6 +10367,37 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Download the balance statement for the ledger (CSV)
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    downloadBalanceStatement: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/ledger/statement`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get the FPS QR code
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -11113,6 +11157,17 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Download the balance statement for the ledger (CSV)
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async downloadBalanceStatement(
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DownloadBalanceStatementResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.downloadBalanceStatement(options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Get the FPS QR code
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -11496,6 +11551,14 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         .then((request) => request(axios, basePath));
     },
     /**
+     * Download the balance statement for the ledger (CSV)
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    downloadBalanceStatement(options?: any): AxiosPromise<DownloadBalanceStatementResponse> {
+      return localVarFp.downloadBalanceStatement(options).then((request) => request(axios, basePath));
+    },
+    /**
      * Get the FPS QR code
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -11818,6 +11881,14 @@ export interface DefaultApiInterface {
     createScheduledPayoutRequest: CreateScheduledPayoutRequest,
     options?: AxiosRequestConfig,
   ): AxiosPromise<PayoutSnapshotResponse>;
+
+  /**
+   * Download the balance statement for the ledger (CSV)
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  downloadBalanceStatement(options?: AxiosRequestConfig): AxiosPromise<DownloadBalanceStatementResponse>;
 
   /**
    * Get the FPS QR code
@@ -12166,6 +12237,18 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   ) {
     return DefaultApiFp(this.configuration)
       .createScheduledPayout(idempotencyKey, createScheduledPayoutRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Download the balance statement for the ledger (CSV)
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public downloadBalanceStatement(options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .downloadBalanceStatement(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
