@@ -1100,7 +1100,7 @@ export interface CreateMandateRequest {
    */
   mandate_details: MandateDetailsRequest;
   /**
-   * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   *
    * @type {{ [key: string]: string; }}
    * @memberof CreateMandateRequest
    */
@@ -1131,7 +1131,7 @@ export interface CreateMandateRequestWithDdaReference {
    */
   mandate_details: MandateDetailsRequestWithDdaReference;
   /**
-   * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   *
    * @type {{ [key: string]: string; }}
    * @memberof CreateMandateRequestWithDdaReference
    */
@@ -1224,7 +1224,7 @@ export interface CreateMandateResponse {
    */
   fees?: Array<Fee>;
   /**
-   * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
    * @type {{ [key: string]: string; }}
    * @memberof CreateMandateResponse
    */
@@ -1315,7 +1315,7 @@ export interface CreateMandateWithSenderAccountRequest {
    */
   mandate_details: MandateDetailsRequest;
   /**
-   * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   *
    * @type {{ [key: string]: string; }}
    * @memberof CreateMandateWithSenderAccountRequest
    */
@@ -1364,7 +1364,7 @@ export interface CreatePaymentAccountRequest {
    */
   user_id: string;
   /**
-   * Additional attributes of the payment in key:value format (e.g. payment_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   *
    * @type {{ [key: string]: string; }}
    * @memberof CreatePaymentAccountRequest
    */
@@ -1506,13 +1506,13 @@ export interface CreatePaymentLinkRequest {
    */
   payment_setup_options?: PaymentSetupOptions;
   /**
-   * Additional attributes of the payment link in key:value format (e.g. payment_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   *
    * @type {{ [key: string]: string; }}
    * @memberof CreatePaymentLinkRequest
    */
   metadata?: { [key: string]: string };
   /**
-   * Key-Value metadata to store on payments created on this Payment Link
+   *
    * @type {{ [key: string]: string; }}
    * @memberof CreatePaymentLinkRequest
    */
@@ -1604,7 +1604,7 @@ export interface CreatePaymentRequest {
    */
   payment_details: PaymentDetails2;
   /**
-   * Additional attributes of the payment in key:value format (e.g. payment_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   *
    * @type {{ [key: string]: string; }}
    * @memberof CreatePaymentRequest
    */
@@ -1750,7 +1750,7 @@ export interface CreateScheduledPayoutRequest {
    */
   recipient_account: MandateRecipientRequest;
   /**
-   * Additional attributes of the payout instruction in key:value format (e.g. payout_instruction_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   *
    * @type {{ [key: string]: string; }}
    * @memberof CreateScheduledPayoutRequest
    */
@@ -2675,7 +2675,7 @@ export interface GetMandateResponse {
    */
   error?: FvErrorModelV2;
   /**
-   * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
    * @type {{ [key: string]: string; }}
    * @memberof GetMandateResponse
    */
@@ -4891,7 +4891,7 @@ export interface MandateSenderAccount {
    */
   bank_code?: string;
   /**
-   * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
    * @type {{ [key: string]: string; }}
    * @memberof MandateSenderAccount
    */
@@ -5136,7 +5136,7 @@ export interface PaymentAccountDetails {
    */
   business_units?: Array<string>;
   /**
-   * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
    * @type {{ [key: string]: string; }}
    * @memberof PaymentAccountDetails
    */
@@ -5542,7 +5542,7 @@ export interface PaymentLinkResponse {
    */
   payment_setup_options?: PaymentSetupOptions;
   /**
-   * Additional attributes of the payment link in key:value format (e.g. payment_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * Additional attributes of the payment link in key:value format (e.g. payment_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
    * @type {{ [key: string]: string; }}
    * @memberof PaymentLinkResponse
    */
@@ -5958,7 +5958,7 @@ export interface PaymentResponse {
    */
   created_at?: string;
   /**
-   * Additional attributes of the payment in key:value format (e.g. payment_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 500 characters respectively.
+   * Additional attributes of the payment in key:value format (e.g. payment_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
    * @type {{ [key: string]: string; }}
    * @memberof PaymentResponse
    */
