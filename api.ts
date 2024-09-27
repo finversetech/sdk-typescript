@@ -6946,6 +6946,49 @@ export interface RefreshRequest {
 /**
  *
  * @export
+ * @interface RefreshTokenResponse
+ */
+export interface RefreshTokenResponse {
+  /**
+   *
+   * @type {string}
+   * @memberof RefreshTokenResponse
+   */
+  access_token: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RefreshTokenResponse
+   */
+  token_type: string;
+  /**
+   * seconds
+   * @type {number}
+   * @memberof RefreshTokenResponse
+   */
+  expires_in: number;
+  /**
+   *
+   * @type {string}
+   * @memberof RefreshTokenResponse
+   */
+  issued_at: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RefreshTokenResponse
+   */
+  link_url: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RefreshTokenResponse
+   */
+  login_identity_id: string;
+}
+/**
+ *
+ * @export
  * @interface RelinkRequest
  */
 export interface RelinkRequest {
@@ -14264,7 +14307,7 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
     async refreshLoginIdentity(
       refreshLoginIdentityReq?: RefreshLoginIdentityRequest,
       options?: AxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LinkTokenResponse>> {
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RefreshTokenResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.refreshLoginIdentity(refreshLoginIdentityReq, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
@@ -14445,7 +14488,7 @@ export const LoginIdentityApiFactory = function (
     refreshLoginIdentity(
       refreshLoginIdentityReq?: RefreshLoginIdentityRequest,
       options?: any,
-    ): AxiosPromise<LinkTokenResponse> {
+    ): AxiosPromise<RefreshTokenResponse> {
       return localVarFp
         .refreshLoginIdentity(refreshLoginIdentityReq, options)
         .then((request) => request(axios, basePath));
@@ -14623,7 +14666,7 @@ export interface LoginIdentityApiInterface {
   refreshLoginIdentity(
     refreshLoginIdentityReq?: RefreshLoginIdentityRequest,
     options?: AxiosRequestConfig,
-  ): AxiosPromise<LinkTokenResponse>;
+  ): AxiosPromise<RefreshTokenResponse>;
 }
 
 /**
