@@ -10411,10 +10411,18 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     },
     /**
      * Download the balance statement for the ledger (CSV)
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<string>} [currencies] The currencies to filter for
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    downloadBalanceStatement: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    downloadBalanceStatement: async (
+      dateFrom?: string,
+      dateTo?: string,
+      currencies?: Array<string>,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
       const localVarPath = `/ledger/statement`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -10430,6 +10438,20 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (dateFrom !== undefined) {
+        localVarQueryParameter['date_from'] =
+          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substr(0, 10) : dateFrom;
+      }
+
+      if (dateTo !== undefined) {
+        localVarQueryParameter['date_to'] =
+          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substr(0, 10) : dateTo;
+      }
+
+      if (currencies) {
+        localVarQueryParameter['currencies'] = currencies.join(COLLECTION_FORMATS.csv);
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -11201,13 +11223,24 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     },
     /**
      * Download the balance statement for the ledger (CSV)
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<string>} [currencies] The currencies to filter for
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async downloadBalanceStatement(
+      dateFrom?: string,
+      dateTo?: string,
+      currencies?: Array<string>,
       options?: AxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DownloadBalanceStatementResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.downloadBalanceStatement(options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.downloadBalanceStatement(
+        dateFrom,
+        dateTo,
+        currencies,
+        options,
+      );
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
@@ -11595,11 +11628,21 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     },
     /**
      * Download the balance statement for the ledger (CSV)
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<string>} [currencies] The currencies to filter for
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    downloadBalanceStatement(options?: any): AxiosPromise<DownloadBalanceStatementResponse> {
-      return localVarFp.downloadBalanceStatement(options).then((request) => request(axios, basePath));
+    downloadBalanceStatement(
+      dateFrom?: string,
+      dateTo?: string,
+      currencies?: Array<string>,
+      options?: any,
+    ): AxiosPromise<DownloadBalanceStatementResponse> {
+      return localVarFp
+        .downloadBalanceStatement(dateFrom, dateTo, currencies, options)
+        .then((request) => request(axios, basePath));
     },
     /**
      * Get the FPS QR code
@@ -11927,11 +11970,19 @@ export interface DefaultApiInterface {
 
   /**
    * Download the balance statement for the ledger (CSV)
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<string>} [currencies] The currencies to filter for
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  downloadBalanceStatement(options?: AxiosRequestConfig): AxiosPromise<DownloadBalanceStatementResponse>;
+  downloadBalanceStatement(
+    dateFrom?: string,
+    dateTo?: string,
+    currencies?: Array<string>,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<DownloadBalanceStatementResponse>;
 
   /**
    * Get the FPS QR code
@@ -12285,13 +12336,21 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
 
   /**
    * Download the balance statement for the ledger (CSV)
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<string>} [currencies] The currencies to filter for
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public downloadBalanceStatement(options?: AxiosRequestConfig) {
+  public downloadBalanceStatement(
+    dateFrom?: string,
+    dateTo?: string,
+    currencies?: Array<string>,
+    options?: AxiosRequestConfig,
+  ) {
     return DefaultApiFp(this.configuration)
-      .downloadBalanceStatement(options)
+      .downloadBalanceStatement(dateFrom, dateTo, currencies, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
