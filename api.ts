@@ -4943,7 +4943,27 @@ export interface ManualPaymentConfirmationResponse {
    * @memberof ManualPaymentConfirmationResponse
    */
   payment_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ManualPaymentConfirmationResponse
+   */
+  status?: ManualPaymentConfirmationResponseStatusEnum;
 }
+
+export const ManualPaymentConfirmationResponseStatusEnum = {
+  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
+  Authorizing: 'AUTHORIZING',
+  Processing: 'PROCESSING',
+  Submitted: 'SUBMITTED',
+  Executed: 'EXECUTED',
+  Failed: 'FAILED',
+  Revoked: 'REVOKED',
+} as const;
+
+export type ManualPaymentConfirmationResponseStatusEnum =
+  (typeof ManualPaymentConfirmationResponseStatusEnum)[keyof typeof ManualPaymentConfirmationResponseStatusEnum];
+
 /**
  *
  * @export
