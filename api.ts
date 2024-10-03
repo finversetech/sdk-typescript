@@ -5808,7 +5808,13 @@ export interface PaymentMethodIntegrationMetadata {
    * @type {PaymentMethodIntegrationMetadataStripeMetadata}
    * @memberof PaymentMethodIntegrationMetadata
    */
-  stripe_metadata: PaymentMethodIntegrationMetadataStripeMetadata;
+  stripe_metadata?: PaymentMethodIntegrationMetadataStripeMetadata;
+  /**
+   *
+   * @type {PaymentMethodIntegrationMetadataCybersourceMetadata}
+   * @memberof PaymentMethodIntegrationMetadata
+   */
+  cybersource_metadata?: PaymentMethodIntegrationMetadataCybersourceMetadata;
 }
 
 export const PaymentMethodIntegrationMetadataIntegrationIdEnum = {
@@ -5818,6 +5824,19 @@ export const PaymentMethodIntegrationMetadataIntegrationIdEnum = {
 export type PaymentMethodIntegrationMetadataIntegrationIdEnum =
   (typeof PaymentMethodIntegrationMetadataIntegrationIdEnum)[keyof typeof PaymentMethodIntegrationMetadataIntegrationIdEnum];
 
+/**
+ *
+ * @export
+ * @interface PaymentMethodIntegrationMetadataCybersourceMetadata
+ */
+export interface PaymentMethodIntegrationMetadataCybersourceMetadata {
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataCybersourceMetadata
+   */
+  payment_token: string;
+}
 /**
  *
  * @export
