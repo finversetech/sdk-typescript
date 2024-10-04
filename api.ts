@@ -5819,6 +5819,7 @@ export interface PaymentMethodIntegrationMetadata {
 
 export const PaymentMethodIntegrationMetadataIntegrationIdEnum = {
   Stripe: 'STRIPE',
+  Cybersource: 'CYBERSOURCE',
 } as const;
 
 export type PaymentMethodIntegrationMetadataIntegrationIdEnum =
