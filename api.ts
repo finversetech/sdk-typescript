@@ -7559,6 +7559,58 @@ export type TransactionLimitsPeriodEnum =
 /**
  *
  * @export
+ * @interface UpdatePaymentUserRequest
+ */
+export interface UpdatePaymentUserRequest {
+  /**
+   *
+   * @type {boolean}
+   * @memberof UpdatePaymentUserRequest
+   */
+  autopay_consent?: boolean | null;
+  /**
+   *
+   * @type {string}
+   * @memberof UpdatePaymentUserRequest
+   */
+  email?: string | null;
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof UpdatePaymentUserRequest
+   */
+  metadata?: { [key: string]: string } | null;
+  /**
+   *
+   * @type {string}
+   * @memberof UpdatePaymentUserRequest
+   */
+  name?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof UpdatePaymentUserRequest
+   */
+  next_bill_update?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof UpdatePaymentUserRequest
+   */
+  user_type?: UpdatePaymentUserRequestUserTypeEnum;
+}
+
+export const UpdatePaymentUserRequestUserTypeEnum = {
+  Individual: 'INDIVIDUAL',
+  Business: 'BUSINESS',
+} as const;
+
+export type UpdatePaymentUserRequestUserTypeEnum =
+  (typeof UpdatePaymentUserRequestUserTypeEnum)[keyof typeof UpdatePaymentUserRequestUserTypeEnum];
+
+/**
+ *
+ * @export
  * @interface UpdateTestPaymentStatusRequest
  */
 export interface UpdateTestPaymentStatusRequest {
@@ -11082,6 +11134,57 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         options: localVarRequestOptions,
       };
     },
+    /**
+     * Update a payment user
+     * @param {string} paymentUserId
+     * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updatePaymentUser: async (
+      paymentUserId: string,
+      updatePaymentUserRequest: UpdatePaymentUserRequest,
+      options: AxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'paymentUserId' is not null or undefined
+      assertParamExists('updatePaymentUser', 'paymentUserId', paymentUserId);
+      // verify required parameter 'updatePaymentUserRequest' is not null or undefined
+      assertParamExists('updatePaymentUser', 'updatePaymentUserRequest', updatePaymentUserRequest);
+      const localVarPath = `/payment_users/{paymentUserId}`.replace(
+        `{${'paymentUserId'}}`,
+        encodeURIComponent(String(paymentUserId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        updatePaymentUserRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
   };
 };
 
@@ -11516,6 +11619,25 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs = await localVarAxiosParamCreator.setAutopayConsent(setAutopayConsentRequest, options);
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
+    /**
+     * Update a payment user
+     * @param {string} paymentUserId
+     * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updatePaymentUser(
+      paymentUserId: string,
+      updatePaymentUserRequest: UpdatePaymentUserRequest,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentUser>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.updatePaymentUser(
+        paymentUserId,
+        updatePaymentUserRequest,
+        options,
+      );
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
   };
 };
 
@@ -11871,6 +11993,22 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         .setAutopayConsent(setAutopayConsentRequest, options)
         .then((request) => request(axios, basePath));
     },
+    /**
+     * Update a payment user
+     * @param {string} paymentUserId
+     * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updatePaymentUser(
+      paymentUserId: string,
+      updatePaymentUserRequest: UpdatePaymentUserRequest,
+      options?: any,
+    ): AxiosPromise<PaymentUser> {
+      return localVarFp
+        .updatePaymentUser(paymentUserId, updatePaymentUserRequest, options)
+        .then((request) => request(axios, basePath));
+    },
   };
 };
 
@@ -12192,6 +12330,20 @@ export interface DefaultApiInterface {
     setAutopayConsentRequest: SetAutopayConsentRequest,
     options?: AxiosRequestConfig,
   ): AxiosPromise<void>;
+
+  /**
+   * Update a payment user
+   * @param {string} paymentUserId
+   * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  updatePaymentUser(
+    paymentUserId: string,
+    updatePaymentUserRequest: UpdatePaymentUserRequest,
+    options?: AxiosRequestConfig,
+  ): AxiosPromise<PaymentUser>;
 }
 
 /**
@@ -12618,6 +12770,24 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public setAutopayConsent(setAutopayConsentRequest: SetAutopayConsentRequest, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .setAutopayConsent(setAutopayConsentRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Update a payment user
+   * @param {string} paymentUserId
+   * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public updatePaymentUser(
+    paymentUserId: string,
+    updatePaymentUserRequest: UpdatePaymentUserRequest,
+    options?: AxiosRequestConfig,
+  ) {
+    return DefaultApiFp(this.configuration)
+      .updatePaymentUser(paymentUserId, updatePaymentUserRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
