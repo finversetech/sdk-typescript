@@ -849,6 +849,12 @@ export interface CardFvLinkResponse {
    * @memberof CardFvLinkResponse
    */
   recipient?: CardRecipient;
+  /**
+   *
+   * @type {FvErrorModelV2}
+   * @memberof CardFvLinkResponse
+   */
+  error?: FvErrorModelV2;
 }
 
 export const CardFvLinkResponseStatusEnum = {
@@ -2030,6 +2036,12 @@ export interface FVCard {
    * @memberof FVCard
    */
   status?: FVCardStatusEnum;
+  /**
+   *
+   * @type {FvErrorModelV2}
+   * @memberof FVCard
+   */
+  error?: FvErrorModelV2;
   /**
    *
    * @type {FVCardDetails}
