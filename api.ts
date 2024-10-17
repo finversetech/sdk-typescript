@@ -851,10 +851,10 @@ export interface CardFvLinkResponse {
   recipient?: CardRecipient;
   /**
    *
-   * @type {FvErrorModelV2}
+   * @type {FvEmbeddedErrorModel}
    * @memberof CardFvLinkResponse
    */
-  error?: FvErrorModelV2;
+  error?: FvEmbeddedErrorModel;
 }
 
 export const CardFvLinkResponseStatusEnum = {
@@ -1237,10 +1237,10 @@ export interface CreateMandateResponse {
   metadata?: { [key: string]: string };
   /**
    *
-   * @type {FvErrorModelV2}
+   * @type {FvEmbeddedErrorModel}
    * @memberof CreateMandateResponse
    */
-  error?: FvErrorModelV2;
+  error?: FvEmbeddedErrorModel;
 }
 
 export const CreateMandateResponseStatusEnum = {
@@ -2038,10 +2038,10 @@ export interface FVCard {
   status?: FVCardStatusEnum;
   /**
    *
-   * @type {FvErrorModelV2}
+   * @type {FvEmbeddedErrorModel}
    * @memberof FVCard
    */
-  error?: FvErrorModelV2;
+  error?: FvEmbeddedErrorModel;
   /**
    *
    * @type {FVCardDetails}
@@ -2141,6 +2141,46 @@ export interface FpsQrCodeResponse {
    */
   qr_code: string;
 }
+/**
+ *
+ * @export
+ * @interface FvEmbeddedErrorModel
+ */
+export interface FvEmbeddedErrorModel {
+  /**
+   * The error type
+   * @type {string}
+   * @memberof FvEmbeddedErrorModel
+   */
+  type: FvEmbeddedErrorModelTypeEnum;
+  /**
+   *
+   * @type {string}
+   * @memberof FvEmbeddedErrorModel
+   */
+  error_code: string;
+  /**
+   *
+   * @type {string}
+   * @memberof FvEmbeddedErrorModel
+   */
+  message: string;
+  /**
+   *
+   * @type {string}
+   * @memberof FvEmbeddedErrorModel
+   */
+  details: string;
+}
+
+export const FvEmbeddedErrorModelTypeEnum = {
+  LinkError: 'LINK_ERROR',
+  ApiError: 'API_ERROR',
+} as const;
+
+export type FvEmbeddedErrorModelTypeEnum =
+  (typeof FvEmbeddedErrorModelTypeEnum)[keyof typeof FvEmbeddedErrorModelTypeEnum];
+
 /**
  *
  * @export
@@ -2573,10 +2613,10 @@ export interface GetMandateAuthResponse {
   last_update: string;
   /**
    *
-   * @type {FvErrorModelV2}
+   * @type {FvEmbeddedErrorModel}
    * @memberof GetMandateAuthResponse
    */
-  error?: FvErrorModelV2;
+  error?: FvEmbeddedErrorModel;
   /**
    *
    * @type {MandateDetailsResponse}
@@ -2682,10 +2722,10 @@ export interface GetMandateResponse {
   fees?: Array<Fee>;
   /**
    *
-   * @type {FvErrorModelV2}
+   * @type {FvEmbeddedErrorModel}
    * @memberof GetMandateResponse
    */
-  error?: FvErrorModelV2;
+  error?: FvEmbeddedErrorModel;
   /**
    * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
    * @type {{ [key: string]: string; }}
@@ -4777,10 +4817,10 @@ export interface MandateFvLinkResponse {
   sender_account?: SenderAccountFvLinkResponse;
   /**
    *
-   * @type {FvErrorModelV2}
+   * @type {FvEmbeddedErrorModel}
    * @memberof MandateFvLinkResponse
    */
-  error?: FvErrorModelV2;
+  error?: FvEmbeddedErrorModel;
 }
 /**
  *
@@ -6017,10 +6057,10 @@ export interface PaymentResponse {
   metadata?: { [key: string]: string };
   /**
    *
-   * @type {FvErrorModelV2}
+   * @type {FvEmbeddedErrorModel}
    * @memberof PaymentResponse
    */
-  error?: FvErrorModelV2;
+  error?: FvEmbeddedErrorModel;
   /**
    *
    * @type {PaymentSnapshotPaymentMethod}
@@ -6490,10 +6530,10 @@ export interface PayoutSnapshotResponse {
   live: boolean;
   /**
    *
-   * @type {FvErrorModelV2}
+   * @type {FvEmbeddedErrorModel}
    * @memberof PayoutSnapshotResponse
    */
-  error?: FvErrorModelV2;
+  error?: FvEmbeddedErrorModel;
 }
 /**
  *
