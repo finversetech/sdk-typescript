@@ -5337,6 +5337,45 @@ export interface PaymentDetailsReferences {
 /**
  *
  * @export
+ * @interface PaymentFvLinkResponse
+ */
+export interface PaymentFvLinkResponse {
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentFvLinkResponse
+   */
+  payment_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentFvLinkResponse
+   */
+  status?: PaymentFvLinkResponseStatusEnum;
+  /**
+   *
+   * @type {FvEmbeddedErrorModel}
+   * @memberof PaymentFvLinkResponse
+   */
+  error?: FvEmbeddedErrorModel;
+}
+
+export const PaymentFvLinkResponseStatusEnum = {
+  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
+  Authorizing: 'AUTHORIZING',
+  Processing: 'PROCESSING',
+  Submitted: 'SUBMITTED',
+  Executed: 'EXECUTED',
+  Failed: 'FAILED',
+  Revoked: 'REVOKED',
+} as const;
+
+export type PaymentFvLinkResponseStatusEnum =
+  (typeof PaymentFvLinkResponseStatusEnum)[keyof typeof PaymentFvLinkResponseStatusEnum];
+
+/**
+ *
+ * @export
  * @interface PaymentInfo
  */
 export interface PaymentInfo {
@@ -10737,6 +10776,37 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Get payment (if exists) on the payment link for front-end
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPaymentPaymentLink: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/payment_link/fvlink/payment`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get payout by payout_id
      * @param {string} payoutId payout id
      * @param {*} [options] Override http request option.
@@ -11485,6 +11555,17 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Get payment (if exists) on the payment link for front-end
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getPaymentPaymentLink(
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentFvLinkResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentPaymentLink(options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Get payout by payout_id
      * @param {string} payoutId payout id
      * @param {*} [options] Override http request option.
@@ -11892,6 +11973,14 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       return localVarFp.getPaymentMethodPaymentLink(options).then((request) => request(axios, basePath));
     },
     /**
+     * Get payment (if exists) on the payment link for front-end
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPaymentPaymentLink(options?: any): AxiosPromise<PaymentFvLinkResponse> {
+      return localVarFp.getPaymentPaymentLink(options).then((request) => request(axios, basePath));
+    },
+    /**
      * Get payout by payout_id
      * @param {string} payoutId payout id
      * @param {*} [options] Override http request option.
@@ -12246,6 +12335,14 @@ export interface DefaultApiInterface {
    * @memberof DefaultApiInterface
    */
   getPaymentMethodPaymentLink(options?: AxiosRequestConfig): AxiosPromise<PaymentMethodFvLinkResponse>;
+
+  /**
+   * Get payment (if exists) on the payment link for front-end
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  getPaymentPaymentLink(options?: AxiosRequestConfig): AxiosPromise<PaymentFvLinkResponse>;
 
   /**
    * Get payout by payout_id
@@ -12644,6 +12741,18 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public getPaymentMethodPaymentLink(options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getPaymentMethodPaymentLink(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get payment (if exists) on the payment link for front-end
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public getPaymentPaymentLink(options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .getPaymentPaymentLink(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
