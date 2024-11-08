@@ -6017,6 +6017,18 @@ export interface PaymentResponse {
    */
   amount: number;
   /**
+   * Surcharge amount in minor
+   * @type {number}
+   * @memberof PaymentResponse
+   */
+  surcharge_amount: number;
+  /**
+   * Amount with all fees and surcharges applied in minor
+   * @type {number}
+   * @memberof PaymentResponse
+   */
+  amount_total_with_surcharge: number;
+  /**
    * The currency code as defined in ISO 4217.
    * @type {string}
    * @memberof PaymentResponse
