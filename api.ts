@@ -10788,6 +10788,43 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Get a payment method
+     * @param {string} paymentMethodId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPaymentMethod: async (paymentMethodId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'paymentMethodId' is not null or undefined
+      assertParamExists('getPaymentMethod', 'paymentMethodId', paymentMethodId);
+      const localVarPath = `/payment_methods/{paymentMethodId}`.replace(
+        `{${'paymentMethodId'}}`,
+        encodeURIComponent(String(paymentMethodId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get payment method in payment link flow
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -11598,6 +11635,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Get a payment method
+     * @param {string} paymentMethodId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getPaymentMethod(
+      paymentMethodId: string,
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentMethodResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentMethod(paymentMethodId, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Get payment method in payment link flow
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -12027,6 +12077,15 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       return localVarFp.getPaymentLink(paymentLinkId, options).then((request) => request(axios, basePath));
     },
     /**
+     * Get a payment method
+     * @param {string} paymentMethodId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPaymentMethod(paymentMethodId: string, options?: any): AxiosPromise<PaymentMethodResponse> {
+      return localVarFp.getPaymentMethod(paymentMethodId, options).then((request) => request(axios, basePath));
+    },
+    /**
      * Get payment method in payment link flow
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -12397,6 +12456,15 @@ export interface DefaultApiInterface {
    * @memberof DefaultApiInterface
    */
   getPaymentLink(paymentLinkId: string, options?: AxiosRequestConfig): AxiosPromise<PaymentLinkResponse>;
+
+  /**
+   * Get a payment method
+   * @param {string} paymentMethodId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  getPaymentMethod(paymentMethodId: string, options?: AxiosRequestConfig): AxiosPromise<PaymentMethodResponse>;
 
   /**
    * Get payment method in payment link flow
@@ -12811,6 +12879,19 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public getPaymentLink(paymentLinkId: string, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getPaymentLink(paymentLinkId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get a payment method
+   * @param {string} paymentMethodId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public getPaymentMethod(paymentMethodId: string, options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .getPaymentMethod(paymentMethodId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
