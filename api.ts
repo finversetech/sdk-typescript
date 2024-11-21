@@ -535,6 +535,34 @@ export interface AuthorizeMandateRequest {
 /**
  *
  * @export
+ * @interface AutopayEnrollmentConfiguration
+ */
+export interface AutopayEnrollmentConfiguration {
+  /**
+   * Indicate whether the autopay enrollment screen should be prompted to the end user
+   * @type {boolean}
+   * @memberof AutopayEnrollmentConfiguration
+   */
+  display_enrollment_screen: boolean;
+  /**
+   * Indicate what value should be prefilled on the autopay enrollment screen
+   * @type {string}
+   * @memberof AutopayEnrollmentConfiguration
+   */
+  enrollment_prefill_value: AutopayEnrollmentConfigurationEnrollmentPrefillValueEnum;
+}
+
+export const AutopayEnrollmentConfigurationEnrollmentPrefillValueEnum = {
+  Yes: 'YES',
+  No: 'NO',
+} as const;
+
+export type AutopayEnrollmentConfigurationEnrollmentPrefillValueEnum =
+  (typeof AutopayEnrollmentConfigurationEnrollmentPrefillValueEnum)[keyof typeof AutopayEnrollmentConfigurationEnrollmentPrefillValueEnum];
+
+/**
+ *
+ * @export
  * @interface BadRequestModel
  */
 export interface BadRequestModel {
@@ -6201,6 +6229,12 @@ export interface PaymentSetupOptions {
    * @memberof PaymentSetupOptions
    */
   recipient_account_filters?: RecipientAccountFilters;
+  /**
+   *
+   * @type {AutopayEnrollmentConfiguration}
+   * @memberof PaymentSetupOptions
+   */
+  autopay_enrollment_configurations?: AutopayEnrollmentConfiguration;
 }
 
 export const PaymentSetupOptionsFuturePaymentsEnum = {
