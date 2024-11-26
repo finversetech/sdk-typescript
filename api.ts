@@ -6234,7 +6234,7 @@ export interface PaymentSetupOptions {
    * @type {AutopayEnrollmentConfiguration}
    * @memberof PaymentSetupOptions
    */
-  autopay_enrollment_configurations?: AutopayEnrollmentConfiguration;
+  autopay_enrollment_configuration?: AutopayEnrollmentConfiguration;
 }
 
 export const PaymentSetupOptionsFuturePaymentsEnum = {
