@@ -2076,6 +2076,12 @@ export interface FVCard {
    * @memberof FVCard
    */
   card_details?: FVCardDetails;
+  /**
+   *
+   * @type {MandateRecipientAccount}
+   * @memberof FVCard
+   */
+  recipient_account?: MandateRecipientAccount;
 }
 
 export const FVCardStatusEnum = {
