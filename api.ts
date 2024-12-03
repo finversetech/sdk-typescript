@@ -1095,6 +1095,18 @@ export interface CreateCardRequestCardDetails {
    * @memberof CreateCardRequestCardDetails
    */
   currency: string;
+  /**
+   *
+   * @type {number}
+   * @memberof CreateCardRequestCardDetails
+   */
+  expiry_month?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof CreateCardRequestCardDetails
+   */
+  expiry_year?: number;
 }
 /**
  *
