@@ -6849,7 +6849,7 @@ export interface RapidstorMetadataRequest {
    * @type {string}
    * @memberof RapidstorMetadataRequest
    */
-  account_token?: string;
+  account_token: string;
 }
 /**
  *
