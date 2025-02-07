@@ -5379,6 +5379,12 @@ export interface PaymentDetailsReferences {
    * @memberof PaymentDetailsReferences
    */
   finverse_transaction_reference?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentDetailsReferences
+   */
+  dda_reference?: string;
 }
 /**
  *
