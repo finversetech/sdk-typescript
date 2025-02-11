@@ -1031,12 +1031,6 @@ export interface ConfirmPaymentResponse {
    * @memberof ConfirmPaymentResponse
    */
   success: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof ConfirmPaymentResponse
-   */
-  skip_autopay_consent: boolean;
 }
 /**
  *
