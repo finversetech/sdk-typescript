@@ -11334,9 +11334,11 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'} [paymentType] The type of payment
+     * @param {'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'} [paymentType] Deprecated - The type of payment
+     * @param {Array<'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'>} [paymentTypes]
      * @param {string} [mandateId] The mandate the payment belongs to
-     * @param {string} [currency] The currency the payment is made in
+     * @param {string} [currency] Deprecated - The currency the payment is made in
+     * @param {Array<string>} [currencies]
      * @param {number} [offset] default is 0
      * @param {number} [limit] default is 500, max is 1000
      * @param {*} [options] Override http request option.
@@ -11352,8 +11354,10 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       userId?: string,
       institutionId?: string,
       paymentType?: 'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL',
+      paymentTypes?: Array<'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'>,
       mandateId?: string,
       currency?: string,
+      currencies?: Array<string>,
       offset?: number,
       limit?: number,
       options: AxiosRequestConfig = {},
@@ -11404,12 +11408,20 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         localVarQueryParameter['payment_type'] = paymentType;
       }
 
+      if (paymentTypes) {
+        localVarQueryParameter['payment_types'] = paymentTypes.join(COLLECTION_FORMATS.csv);
+      }
+
       if (mandateId !== undefined) {
         localVarQueryParameter['mandate_id'] = mandateId;
       }
 
       if (currency !== undefined) {
         localVarQueryParameter['currency'] = currency;
+      }
+
+      if (currencies) {
+        localVarQueryParameter['currencies'] = currencies.join(COLLECTION_FORMATS.csv);
       }
 
       if (offset !== undefined) {
@@ -11960,9 +11972,11 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'} [paymentType] The type of payment
+     * @param {'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'} [paymentType] Deprecated - The type of payment
+     * @param {Array<'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'>} [paymentTypes]
      * @param {string} [mandateId] The mandate the payment belongs to
-     * @param {string} [currency] The currency the payment is made in
+     * @param {string} [currency] Deprecated - The currency the payment is made in
+     * @param {Array<string>} [currencies]
      * @param {number} [offset] default is 0
      * @param {number} [limit] default is 500, max is 1000
      * @param {*} [options] Override http request option.
@@ -11978,8 +11992,10 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       userId?: string,
       institutionId?: string,
       paymentType?: 'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL',
+      paymentTypes?: Array<'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'>,
       mandateId?: string,
       currency?: string,
+      currencies?: Array<string>,
       offset?: number,
       limit?: number,
       options?: AxiosRequestConfig,
@@ -11992,8 +12008,10 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         userId,
         institutionId,
         paymentType,
+        paymentTypes,
         mandateId,
         currency,
+        currencies,
         offset,
         limit,
         options,
@@ -12363,9 +12381,11 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'} [paymentType] The type of payment
+     * @param {'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'} [paymentType] Deprecated - The type of payment
+     * @param {Array<'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'>} [paymentTypes]
      * @param {string} [mandateId] The mandate the payment belongs to
-     * @param {string} [currency] The currency the payment is made in
+     * @param {string} [currency] Deprecated - The currency the payment is made in
+     * @param {Array<string>} [currencies]
      * @param {number} [offset] default is 0
      * @param {number} [limit] default is 500, max is 1000
      * @param {*} [options] Override http request option.
@@ -12381,8 +12401,10 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       userId?: string,
       institutionId?: string,
       paymentType?: 'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL',
+      paymentTypes?: Array<'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'>,
       mandateId?: string,
       currency?: string,
+      currencies?: Array<string>,
       offset?: number,
       limit?: number,
       options?: any,
@@ -12396,8 +12418,10 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
           userId,
           institutionId,
           paymentType,
+          paymentTypes,
           mandateId,
           currency,
+          currencies,
           offset,
           limit,
           options,
@@ -12740,9 +12764,11 @@ export interface DefaultApiInterface {
    * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
    * @param {string} [userId] The user_id the mandate was setup for
    * @param {string} [institutionId] The institution the mandate was executed against
-   * @param {'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'} [paymentType] The type of payment
+   * @param {'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'} [paymentType] Deprecated - The type of payment
+   * @param {Array<'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'>} [paymentTypes]
    * @param {string} [mandateId] The mandate the payment belongs to
-   * @param {string} [currency] The currency the payment is made in
+   * @param {string} [currency] Deprecated - The currency the payment is made in
+   * @param {Array<string>} [currencies]
    * @param {number} [offset] default is 0
    * @param {number} [limit] default is 500, max is 1000
    * @param {*} [options] Override http request option.
@@ -12759,8 +12785,10 @@ export interface DefaultApiInterface {
     userId?: string,
     institutionId?: string,
     paymentType?: 'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL',
+    paymentTypes?: Array<'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'>,
     mandateId?: string,
     currency?: string,
+    currencies?: Array<string>,
     offset?: number,
     limit?: number,
     options?: AxiosRequestConfig,
@@ -13197,9 +13225,11 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
    * @param {string} [userId] The user_id the mandate was setup for
    * @param {string} [institutionId] The institution the mandate was executed against
-   * @param {'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'} [paymentType] The type of payment
+   * @param {'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'} [paymentType] Deprecated - The type of payment
+   * @param {Array<'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'>} [paymentTypes]
    * @param {string} [mandateId] The mandate the payment belongs to
-   * @param {string} [currency] The currency the payment is made in
+   * @param {string} [currency] Deprecated - The currency the payment is made in
+   * @param {Array<string>} [currencies]
    * @param {number} [offset] default is 0
    * @param {number} [limit] default is 500, max is 1000
    * @param {*} [options] Override http request option.
@@ -13216,8 +13246,10 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
     userId?: string,
     institutionId?: string,
     paymentType?: 'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL',
+    paymentTypes?: Array<'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'>,
     mandateId?: string,
     currency?: string,
+    currencies?: Array<string>,
     offset?: number,
     limit?: number,
     options?: AxiosRequestConfig,
@@ -13231,8 +13263,10 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
         userId,
         institutionId,
         paymentType,
+        paymentTypes,
         mandateId,
         currency,
+        currencies,
         offset,
         limit,
         options,
