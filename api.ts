@@ -10329,7 +10329,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
-     * cancel payment on payment link
+     * cancel payment on payment link (Deprecated, should use unlink instead)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -11517,6 +11517,37 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Unlink payment on payment link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    unlinkPaymentPaymentLink: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/payment_link/fvlink/payment/unlink`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Update a payment user
      * @param {string} paymentUserId
      * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
@@ -11591,7 +11622,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
-     * cancel payment on payment link
+     * cancel payment on payment link (Deprecated, should use unlink instead)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -12043,6 +12074,17 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
+     * Unlink payment on payment link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async unlinkPaymentPaymentLink(
+      options?: AxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.unlinkPaymentPaymentLink(options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
+    /**
      * Update a payment user
      * @param {string} paymentUserId
      * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
@@ -12081,7 +12123,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       return localVarFp.cancelPaymentLink(paymentLinkId, options).then((request) => request(axios, basePath));
     },
     /**
-     * cancel payment on payment link
+     * cancel payment on payment link (Deprecated, should use unlink instead)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -12448,6 +12490,14 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         .then((request) => request(axios, basePath));
     },
     /**
+     * Unlink payment on payment link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    unlinkPaymentPaymentLink(options?: any): AxiosPromise<void> {
+      return localVarFp.unlinkPaymentPaymentLink(options).then((request) => request(axios, basePath));
+    },
+    /**
      * Update a payment user
      * @param {string} paymentUserId
      * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
@@ -12482,7 +12532,7 @@ export interface DefaultApiInterface {
   cancelPaymentLink(paymentLinkId: string, options?: AxiosRequestConfig): AxiosPromise<PaymentLinkResponse>;
 
   /**
-   * cancel payment on payment link
+   * cancel payment on payment link (Deprecated, should use unlink instead)
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
@@ -12815,6 +12865,14 @@ export interface DefaultApiInterface {
   ): AxiosPromise<void>;
 
   /**
+   * Unlink payment on payment link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  unlinkPaymentPaymentLink(options?: AxiosRequestConfig): AxiosPromise<void>;
+
+  /**
    * Update a payment user
    * @param {string} paymentUserId
    * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
@@ -12850,7 +12908,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   }
 
   /**
-   * cancel payment on payment link
+   * cancel payment on payment link (Deprecated, should use unlink instead)
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApi
@@ -13296,6 +13354,18 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public setAutopayConsent(setAutopayConsentRequest: SetAutopayConsentRequest, options?: AxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .setAutopayConsent(setAutopayConsentRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Unlink payment on payment link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public unlinkPaymentPaymentLink(options?: AxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .unlinkPaymentPaymentLink(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
