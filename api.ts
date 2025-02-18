@@ -2128,6 +2128,18 @@ export interface FVCardDetails {
    * @memberof FVCardDetails
    */
   expiry_year?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof FVCardDetails
+   */
+  processor_entity_name?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof FVCardDetails
+   */
+  collection_entity_name?: string;
 }
 /**
  *
@@ -4818,6 +4830,18 @@ export interface MandateDetailsResponse {
    * @memberof MandateDetailsResponse
    */
   mandate_bank_reference?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof MandateDetailsResponse
+   */
+  processor_entity_name?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof MandateDetailsResponse
+   */
+  collection_entity_name?: string;
 }
 /**
  *
@@ -5360,6 +5384,18 @@ export interface PaymentDetails2 {
    * @memberof PaymentDetails2
    */
   references?: PaymentDetailsReferences;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentDetails2
+   */
+  processor_entity_name?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentDetails2
+   */
+  collection_entity_name?: string;
 }
 /**
  *
