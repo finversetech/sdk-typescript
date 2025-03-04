@@ -1,6 +1,6 @@
 import { ListAccountsResponse } from '../../api';
 
-export function getAccounts(): ListAccountsResponse {
+export function getAccounts() {
   return {
     accounts: [
       {
@@ -23,6 +23,7 @@ export function getAccounts(): ListAccountsResponse {
           value: 70013.12,
         },
         updated_at: '2021-06-08T02:09:42.000Z',
+        metadata: {},
       },
       {
         account_currency: 'HKD',
@@ -44,6 +45,7 @@ export function getAccounts(): ListAccountsResponse {
           value: -1833.22,
         },
         updated_at: '2021-06-08T02:09:42.000Z',
+        metadata: {},
       },
       {
         account_currency: 'USD',
@@ -65,6 +67,7 @@ export function getAccounts(): ListAccountsResponse {
           value: 15001.116,
         },
         updated_at: '2021-06-08T02:09:42.000Z',
+        metadata: {},
       },
       {
         account_currency: 'BTC',
@@ -86,6 +89,7 @@ export function getAccounts(): ListAccountsResponse {
           value: 106468292.05,
         },
         updated_at: '2021-06-08T02:09:42.000Z',
+        metadata: {},
       },
     ],
     institution: {
