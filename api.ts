@@ -182,6 +182,12 @@ export interface Account {
    * @memberof Account
    */
   account_type?: AccountType;
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof Account
+   */
+  metadata: { [key: string]: string };
 }
 /**
  *
@@ -852,6 +858,12 @@ export interface CardFvLinkDetails {
    * @memberof CardFvLinkDetails
    */
   expiry_year?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof CardFvLinkDetails
+   */
+  collection_entity_name?: string;
 }
 /**
  *
@@ -3499,6 +3511,7 @@ export const InstitutionProductsSupportedEnum = {
   Statements: 'STATEMENTS',
   AccountNumbers: 'ACCOUNT_NUMBERS',
   Identity: 'IDENTITY',
+  AutoDebitSetup: 'AUTO_DEBIT_SETUP',
 } as const;
 
 export type InstitutionProductsSupportedEnum =
@@ -3967,6 +3980,12 @@ export interface LinkTokenRequest {
    * @memberof LinkTokenRequest
    */
   institution_status?: string;
+  /**
+   *
+   * @type {LinkTokenUserConfigs}
+   * @memberof LinkTokenRequest
+   */
+  user_configs?: LinkTokenUserConfigs;
 }
 
 export const LinkTokenRequestUiModeEnum = {
@@ -4030,6 +4049,19 @@ export interface LinkTokenResponse {
    * @memberof LinkTokenResponse
    */
   link_url: string;
+}
+/**
+ *
+ * @export
+ * @interface LinkTokenUserConfigs
+ */
+export interface LinkTokenUserConfigs {
+  /**
+   * Account Number to use for ADA setup
+   * @type {string}
+   * @memberof LinkTokenUserConfigs
+   */
+  ada_account_number?: string;
 }
 /**
  *
@@ -4846,6 +4878,19 @@ export interface MandateDetailsResponse {
 /**
  *
  * @export
+ * @interface MandateFvLinkDetails
+ */
+export interface MandateFvLinkDetails {
+  /**
+   *
+   * @type {string}
+   * @memberof MandateFvLinkDetails
+   */
+  collection_entity_name?: string;
+}
+/**
+ *
+ * @export
  * @interface MandateFvLinkResponse
  */
 export interface MandateFvLinkResponse {
@@ -4885,6 +4930,12 @@ export interface MandateFvLinkResponse {
    * @memberof MandateFvLinkResponse
    */
   error?: FvEmbeddedErrorModel;
+  /**
+   *
+   * @type {MandateFvLinkDetails}
+   * @memberof MandateFvLinkResponse
+   */
+  mandate_details?: MandateFvLinkDetails;
 }
 /**
  *
@@ -5419,6 +5470,19 @@ export interface PaymentDetailsReferences {
 /**
  *
  * @export
+ * @interface PaymentFvLinkDetails
+ */
+export interface PaymentFvLinkDetails {
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentFvLinkDetails
+   */
+  collection_entity_name?: string;
+}
+/**
+ *
+ * @export
  * @interface PaymentFvLinkResponse
  */
 export interface PaymentFvLinkResponse {
@@ -5434,6 +5498,12 @@ export interface PaymentFvLinkResponse {
    * @memberof PaymentFvLinkResponse
    */
   status?: PaymentFvLinkResponseStatusEnum;
+  /**
+   *
+   * @type {PaymentFvLinkDetails}
+   * @memberof PaymentFvLinkResponse
+   */
+  payment_details?: PaymentFvLinkDetails;
   /**
    *
    * @type {FvEmbeddedErrorModel}
