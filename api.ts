@@ -5466,6 +5466,12 @@ export interface PaymentDetailsReferences {
    * @memberof PaymentDetailsReferences
    */
   dda_reference?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentDetailsReferences
+   */
+  bank_transaction_reference?: string;
 }
 /**
  *
