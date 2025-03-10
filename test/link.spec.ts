@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { config, grantType } from './config';
 import { Configuration } from '..';
-import { CustomerApi, LinkApi } from '../api';
+import { CustomerApi, LinkApi, TokenGrantTypeEnum } from '../api';
 import { linkToken } from './responses/linkToken';
 import { customerToken } from './responses/customerToken';
 import { loginIdentityToken } from './responses/loginIdentityToken';
@@ -59,7 +59,7 @@ describe('Link', function () {
     // Make Request
     const configuration = new Configuration({ basePath: config.apiHost, accessToken: customerToken.access_token });
     const got = await new LinkApi(configuration).token(
-      grantType.AUTHORIZATION_CODE,
+      TokenGrantTypeEnum.AuthorizationCode,
       'obtainAfterLink',
       config.clientId,
       config.redirectURI,
