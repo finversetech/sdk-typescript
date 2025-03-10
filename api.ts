@@ -12,8 +12,9 @@
  * Do not edit the class manually.
  */
 
-import { Configuration } from './configuration';
-import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import type { Configuration } from './configuration';
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
+import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import {
@@ -28,8 +29,9 @@ import {
   toPathString,
   createRequestFunction,
 } from './common';
+import type { RequestArgs } from './base';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
+import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
 /**
  *
@@ -511,8 +513,8 @@ export interface AuthChecklistOptions {
 }
 
 export const AuthChecklistOptionsNameEnum = {
-  CredentialsLogin: 'INSTITUTION_CREDENTIALS_LOGIN',
-  OauthLogin: 'INSTITUTION_OAUTH_LOGIN',
+  InstitutionCredentialsLogin: 'INSTITUTION_CREDENTIALS_LOGIN',
+  InstitutionOauthLogin: 'INSTITUTION_OAUTH_LOGIN',
 } as const;
 
 export type AuthChecklistOptionsNameEnum =
@@ -7809,7 +7811,7 @@ export interface TransactionLimits {
    * @type {string}
    * @memberof TransactionLimits
    */
-  period?: TransactionLimitsPeriodEnum;
+  period?: TransactionLimitsPeriodEnum | null;
 }
 
 export const TransactionLimitsPeriodEnum = {
@@ -7829,6 +7831,8 @@ export type TransactionLimitsPeriodEnum =
  * @interface UpdatePaymentRequest
  */
 export interface UpdatePaymentRequest {
+  [key: string]: any;
+
   /**
    *
    * @type {{ [key: string]: string; }}
@@ -7842,6 +7846,8 @@ export interface UpdatePaymentRequest {
  * @interface UpdatePaymentUserRequest
  */
 export interface UpdatePaymentUserRequest {
+  [key: string]: any;
+
   /**
    *
    * @type {boolean}
@@ -7877,7 +7883,7 @@ export interface UpdatePaymentUserRequest {
    * @type {string}
    * @memberof UpdatePaymentUserRequest
    */
-  user_type?: UpdatePaymentUserRequestUserTypeEnum;
+  user_type?: UpdatePaymentUserRequestUserTypeEnum | null;
 }
 
 export const UpdatePaymentUserRequestUserTypeEnum = {
@@ -8032,7 +8038,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
     authorizeMandate: async (
       mandateId: string,
       authorizeMandateRequest: AuthorizeMandateRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'mandateId' is not null or undefined
       assertParamExists('authorizeMandate', 'mandateId', mandateId);
@@ -8083,7 +8089,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
     createMandate: async (
       createMandateRequest: CreateMandateRequest,
       idempotencyKey?: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'createMandateRequest' is not null or undefined
       assertParamExists('createMandate', 'createMandateRequest', createMandateRequest);
@@ -8103,12 +8109,11 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
-      if (idempotencyKey !== undefined && idempotencyKey !== null) {
-        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
-      }
-
       localVarHeaderParameter['Content-Type'] = 'application/json';
 
+      if (idempotencyKey != null) {
+        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
+      }
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -8129,7 +8134,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
     createPayment: async (
       createPaymentRequest: CreatePaymentRequest,
       idempotencyKey?: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'createPaymentRequest' is not null or undefined
       assertParamExists('createPayment', 'createPaymentRequest', createPaymentRequest);
@@ -8149,12 +8154,11 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
-      if (idempotencyKey !== undefined && idempotencyKey !== null) {
-        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
-      }
-
       localVarHeaderParameter['Content-Type'] = 'application/json';
 
+      if (idempotencyKey != null) {
+        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
+      }
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -8173,7 +8177,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      */
     createPaymentAccount: async (
       createPaymentAccountRequest: CreatePaymentAccountRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'createPaymentAccountRequest' is not null or undefined
       assertParamExists('createPaymentAccount', 'createPaymentAccountRequest', createPaymentAccountRequest);
@@ -8217,7 +8221,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      */
     createPaymentInstruction: async (
       paymentInstruction: CustomerPaymentInstruction,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'paymentInstruction' is not null or undefined
       assertParamExists('createPaymentInstruction', 'paymentInstruction', paymentInstruction);
@@ -8257,7 +8261,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      */
     createPaymentUser: async (
       createPaymentUserRequest: CreatePaymentUserRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'createPaymentUserRequest' is not null or undefined
       assertParamExists('createPaymentUser', 'createPaymentUserRequest', createPaymentUserRequest);
@@ -8299,7 +8303,10 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    deletePaymentAccount: async (paymentAccountId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    deletePaymentAccount: async (
+      paymentAccountId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
       // verify required parameter 'paymentAccountId' is not null or undefined
       assertParamExists('deletePaymentAccount', 'paymentAccountId', paymentAccountId);
       const localVarPath = `/payment_accounts/{paymentAccountId}`.replace(
@@ -8338,7 +8345,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      */
     generateLinkToken: async (
       linkTokenRequest: LinkTokenRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'linkTokenRequest' is not null or undefined
       assertParamExists('generateLinkToken', 'linkTokenRequest', linkTokenRequest);
@@ -8376,7 +8383,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getInstitution: async (institutionId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getInstitution: async (institutionId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'institutionId' is not null or undefined
       assertParamExists('getInstitution', 'institutionId', institutionId);
       const localVarPath = `/institutions/{institutionId}`.replace(
@@ -8409,13 +8416,13 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
     },
     /**
      * Get line items for display
-     * @param {'MANDATE' | 'MANUAL'} paymentType The payment type
+     * @param {GetLineItemsForDisplayPaymentTypeEnum} paymentType The payment type
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getLineItemsForDisplay: async (
-      paymentType: 'MANDATE' | 'MANUAL',
-      options: AxiosRequestConfig = {},
+      paymentType: GetLineItemsForDisplayPaymentTypeEnum,
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'paymentType' is not null or undefined
       assertParamExists('getLineItemsForDisplay', 'paymentType', paymentType);
@@ -8453,7 +8460,10 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getLoginIdentityById: async (loginIdentityId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getLoginIdentityById: async (
+      loginIdentityId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
       // verify required parameter 'loginIdentityId' is not null or undefined
       assertParamExists('getLoginIdentityById', 'loginIdentityId', loginIdentityId);
       const localVarPath = `/login_identity/{loginIdentityId}`.replace(
@@ -8492,7 +8502,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      */
     getLoginIdentityHistory: async (
       loginIdentityId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'loginIdentityId' is not null or undefined
       assertParamExists('getLoginIdentityHistory', 'loginIdentityId', loginIdentityId);
@@ -8530,7 +8540,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getMandate: async (mandateId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getMandate: async (mandateId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'mandateId' is not null or undefined
       assertParamExists('getMandate', 'mandateId', mandateId);
       const localVarPath = `/mandates/{mandateId}`.replace(`{${'mandateId'}}`, encodeURIComponent(String(mandateId)));
@@ -8563,7 +8573,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getMandateAuth: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getMandateAuth: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/mandates/auth`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -8597,7 +8607,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      */
     getMandateAuthLink: async (
       getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'getMandateAuthLinkRequest' is not null or undefined
       assertParamExists('getMandateAuthLink', 'getMandateAuthLinkRequest', getMandateAuthLinkRequest);
@@ -8639,7 +8649,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPayment: async (paymentId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getPayment: async (paymentId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'paymentId' is not null or undefined
       assertParamExists('getPayment', 'paymentId', paymentId);
       const localVarPath = `/payments/{paymentId}`.replace(`{${'paymentId'}}`, encodeURIComponent(String(paymentId)));
@@ -8675,7 +8685,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      */
     getPaymentInstruction: async (
       paymentInstructionId: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'paymentInstructionId' is not null or undefined
       assertParamExists('getPaymentInstruction', 'paymentInstructionId', paymentInstructionId);
@@ -8713,7 +8723,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPaymentUser: async (paymentUserId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getPaymentUser: async (paymentUserId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'paymentUserId' is not null or undefined
       assertParamExists('getPaymentUser', 'paymentUserId', paymentUserId);
       const localVarPath = `/payment_users/{paymentUserId}`.replace(
@@ -8749,7 +8759,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      * @param {string} [country] (Deprecated) The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
      * @param {string} [productsSupported] The products that this institution supports
-     * @param {'BANK' | 'WALLET' | 'TEST'} [institutionType] The type of institution
+     * @param {ListInstitutionsInstitutionTypeEnum} [institutionType] The type of institution
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -8757,8 +8767,8 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       country?: string,
       countries?: Array<string>,
       productsSupported?: string,
-      institutionType?: 'BANK' | 'WALLET' | 'TEST',
-      options: AxiosRequestConfig = {},
+      institutionType?: ListInstitutionsInstitutionTypeEnum,
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/institutions`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -8807,7 +8817,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    listPaymentAccounts: async (paymentUserId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    listPaymentAccounts: async (paymentUserId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'paymentUserId' is not null or undefined
       assertParamExists('listPaymentAccounts', 'paymentUserId', paymentUserId);
       const localVarPath = `/payment_users/{paymentUserId}/payment_accounts`.replace(
@@ -8844,7 +8854,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    refreshToken: async (refreshRequest: RefreshRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    refreshToken: async (refreshRequest: RefreshRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'refreshRequest' is not null or undefined
       assertParamExists('refreshToken', 'refreshRequest', refreshRequest);
       const localVarPath = `/auth/token/refresh`;
@@ -8883,7 +8893,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      */
     setMandateInstitution: async (
       updateRequest: SetMandateInstitutionRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'updateRequest' is not null or undefined
       assertParamExists('setMandateInstitution', 'updateRequest', updateRequest);
@@ -8923,7 +8933,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      */
     submitAuthChecklist: async (
       submitAuthChecklistRequest: SubmitAuthChecklistRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'submitAuthChecklistRequest' is not null or undefined
       assertParamExists('submitAuthChecklist', 'submitAuthChecklistRequest', submitAuthChecklistRequest);
@@ -8969,7 +8979,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
     updatePayment: async (
       paymentId: string,
       updatePaymentRequest: UpdatePaymentRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'paymentId' is not null or undefined
       assertParamExists('updatePayment', 'paymentId', paymentId);
@@ -9013,7 +9023,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
     updateTestPaymentStatus: async (
       paymentId: string,
       paymentStatus: UpdateTestPaymentStatusRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'paymentId' is not null or undefined
       assertParamExists('updateTestPaymentStatus', 'paymentId', paymentId);
@@ -9070,14 +9080,23 @@ export const CustomerApiFp = function (configuration?: Configuration) {
     async authorizeMandate(
       mandateId: string,
       authorizeMandateRequest: AuthorizeMandateRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.authorizeMandate(
         mandateId,
         authorizeMandateRequest,
         options,
       );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.authorizeMandate']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * CREATE Mandate
@@ -9089,14 +9108,23 @@ export const CustomerApiFp = function (configuration?: Configuration) {
     async createMandate(
       createMandateRequest: CreateMandateRequest,
       idempotencyKey?: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateMandateResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createMandate(
         createMandateRequest,
         idempotencyKey,
         options,
       );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.createMandate']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Create new Payment
@@ -9108,14 +9136,23 @@ export const CustomerApiFp = function (configuration?: Configuration) {
     async createPayment(
       createPaymentRequest: CreatePaymentRequest,
       idempotencyKey?: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createPayment(
         createPaymentRequest,
         idempotencyKey,
         options,
       );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.createPayment']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * create payment account
@@ -9125,13 +9162,22 @@ export const CustomerApiFp = function (configuration?: Configuration) {
      */
     async createPaymentAccount(
       createPaymentAccountRequest: CreatePaymentAccountRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentAccountDetails>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentAccount(
         createPaymentAccountRequest,
         options,
       );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.createPaymentAccount']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Create a new payment instruction to be used when linking to perform new payment
@@ -9141,10 +9187,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
      */
     async createPaymentInstruction(
       paymentInstruction: CustomerPaymentInstruction,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePaymentInstructionResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentInstruction(paymentInstruction, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.createPaymentInstruction']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Create a payment user
@@ -9154,10 +9209,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
      */
     async createPaymentUser(
       createPaymentUserRequest: CreatePaymentUserRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentUser>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentUser(createPaymentUserRequest, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.createPaymentUser']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * delete payment account
@@ -9167,10 +9231,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
      */
     async deletePaymentAccount(
       paymentAccountId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.deletePaymentAccount(paymentAccountId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.deletePaymentAccount']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * generate a link token that can be used to create link
@@ -9180,10 +9253,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
      */
     async generateLinkToken(
       linkTokenRequest: LinkTokenRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LinkTokenResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.generateLinkToken(linkTokenRequest, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.generateLinkToken']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get a specific institution by institutionId
@@ -9193,23 +9275,41 @@ export const CustomerApiFp = function (configuration?: Configuration) {
      */
     async getInstitution(
       institutionId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Institution>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getInstitution(institutionId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.getInstitution']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get line items for display
-     * @param {'MANDATE' | 'MANUAL'} paymentType The payment type
+     * @param {GetLineItemsForDisplayPaymentTypeEnum} paymentType The payment type
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getLineItemsForDisplay(
-      paymentType: 'MANDATE' | 'MANUAL',
-      options?: AxiosRequestConfig,
+      paymentType: GetLineItemsForDisplayPaymentTypeEnum,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetLineItemsForDisplayResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getLineItemsForDisplay(paymentType, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.getLineItemsForDisplay']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get a specific loginIdentity
@@ -9219,10 +9319,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
      */
     async getLoginIdentityById(
       loginIdentityId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetLoginIdentityByIdResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getLoginIdentityById(loginIdentityId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.getLoginIdentityById']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get a history of events for a specific loginIdentity
@@ -9232,10 +9341,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
      */
     async getLoginIdentityHistory(
       loginIdentityId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetLoginIdentityHistoryResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getLoginIdentityHistory(loginIdentityId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.getLoginIdentityHistory']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get Mandate details by mandate_id
@@ -9245,10 +9363,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
      */
     async getMandate(
       mandateId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getMandate(mandateId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.getMandate']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get Mandate Authorization by mandate id
@@ -9256,10 +9383,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getMandateAuth(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateAuthResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getMandateAuth(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.getMandateAuth']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get link to launch FV Link UI in mandate authorization mode
@@ -9269,10 +9405,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
      */
     async getMandateAuthLink(
       getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateAuthLinkResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getMandateAuthLink(getMandateAuthLinkRequest, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.getMandateAuthLink']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get Payment details by payment_id
@@ -9282,10 +9427,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
      */
     async getPayment(
       paymentId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getPayment(paymentId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.getPayment']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get payment instructions by payment_instruction_id
@@ -9295,10 +9449,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
      */
     async getPaymentInstruction(
       paymentInstructionId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPaymentInstructionsResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentInstruction(paymentInstructionId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.getPaymentInstruction']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get a payment user
@@ -9308,17 +9471,26 @@ export const CustomerApiFp = function (configuration?: Configuration) {
      */
     async getPaymentUser(
       paymentUserId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentUser>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentUser(paymentUserId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.getPaymentUser']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get a list of institutions
      * @param {string} [country] (Deprecated) The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
      * @param {string} [productsSupported] The products that this institution supports
-     * @param {'BANK' | 'WALLET' | 'TEST'} [institutionType] The type of institution
+     * @param {ListInstitutionsInstitutionTypeEnum} [institutionType] The type of institution
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -9326,8 +9498,8 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       country?: string,
       countries?: Array<string>,
       productsSupported?: string,
-      institutionType?: 'BANK' | 'WALLET' | 'TEST',
-      options?: AxiosRequestConfig,
+      institutionType?: ListInstitutionsInstitutionTypeEnum,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Institution>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.listInstitutions(
         country,
@@ -9336,7 +9508,16 @@ export const CustomerApiFp = function (configuration?: Configuration) {
         institutionType,
         options,
       );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.listInstitutions']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get payment account by user id
@@ -9346,10 +9527,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
      */
     async listPaymentAccounts(
       paymentUserId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPaymentAccountsResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.listPaymentAccounts(paymentUserId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.listPaymentAccounts']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Refresh an access token
@@ -9359,10 +9549,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
      */
     async refreshToken(
       refreshRequest: RefreshRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AccessTokenResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.refreshToken(refreshRequest, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.refreshToken']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Update InstitutionID and SenderType for Mandate
@@ -9372,10 +9571,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
      */
     async setMandateInstitution(
       updateRequest: SetMandateInstitutionRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SetMandateInstitutionResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.setMandateInstitution(updateRequest, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.setMandateInstitution']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Submit authorization checklist items
@@ -9385,13 +9593,22 @@ export const CustomerApiFp = function (configuration?: Configuration) {
      */
     async submitAuthChecklist(
       submitAuthChecklistRequest: SubmitAuthChecklistRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SubmitAuthChecklistResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.submitAuthChecklist(
         submitAuthChecklistRequest,
         options,
       );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.submitAuthChecklist']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Update payment
@@ -9403,10 +9620,19 @@ export const CustomerApiFp = function (configuration?: Configuration) {
     async updatePayment(
       paymentId: string,
       updatePaymentRequest: UpdatePaymentRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.updatePayment(paymentId, updatePaymentRequest, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.updatePayment']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Update the status of a test manual payment
@@ -9418,14 +9644,23 @@ export const CustomerApiFp = function (configuration?: Configuration) {
     async updateTestPaymentStatus(
       paymentId: string,
       paymentStatus: UpdateTestPaymentStatusRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.updateTestPaymentStatus(
         paymentId,
         paymentStatus,
         options,
       );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.updateTestPaymentStatus']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
   };
 };
@@ -9447,7 +9682,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
     authorizeMandate(
       mandateId: string,
       authorizeMandateRequest: AuthorizeMandateRequest,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<GetMandateResponse> {
       return localVarFp
         .authorizeMandate(mandateId, authorizeMandateRequest, options)
@@ -9463,7 +9698,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
     createMandate(
       createMandateRequest: CreateMandateRequest,
       idempotencyKey?: string,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<CreateMandateResponse> {
       return localVarFp
         .createMandate(createMandateRequest, idempotencyKey, options)
@@ -9479,7 +9714,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
     createPayment(
       createPaymentRequest: CreatePaymentRequest,
       idempotencyKey?: string,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<PaymentResponse> {
       return localVarFp
         .createPayment(createPaymentRequest, idempotencyKey, options)
@@ -9493,7 +9728,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      */
     createPaymentAccount(
       createPaymentAccountRequest: CreatePaymentAccountRequest,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<PaymentAccountDetails> {
       return localVarFp
         .createPaymentAccount(createPaymentAccountRequest, options)
@@ -9507,7 +9742,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      */
     createPaymentInstruction(
       paymentInstruction: CustomerPaymentInstruction,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<CreatePaymentInstructionResponse> {
       return localVarFp
         .createPaymentInstruction(paymentInstruction, options)
@@ -9519,7 +9754,10 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createPaymentUser(createPaymentUserRequest: CreatePaymentUserRequest, options?: any): AxiosPromise<PaymentUser> {
+    createPaymentUser(
+      createPaymentUserRequest: CreatePaymentUserRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PaymentUser> {
       return localVarFp
         .createPaymentUser(createPaymentUserRequest, options)
         .then((request) => request(axios, basePath));
@@ -9530,7 +9768,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    deletePaymentAccount(paymentAccountId: string, options?: any): AxiosPromise<void> {
+    deletePaymentAccount(paymentAccountId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
       return localVarFp.deletePaymentAccount(paymentAccountId, options).then((request) => request(axios, basePath));
     },
     /**
@@ -9539,7 +9777,10 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    generateLinkToken(linkTokenRequest: LinkTokenRequest, options?: any): AxiosPromise<LinkTokenResponse> {
+    generateLinkToken(
+      linkTokenRequest: LinkTokenRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<LinkTokenResponse> {
       return localVarFp.generateLinkToken(linkTokenRequest, options).then((request) => request(axios, basePath));
     },
     /**
@@ -9548,18 +9789,18 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getInstitution(institutionId: string, options?: any): AxiosPromise<Institution> {
+    getInstitution(institutionId: string, options?: RawAxiosRequestConfig): AxiosPromise<Institution> {
       return localVarFp.getInstitution(institutionId, options).then((request) => request(axios, basePath));
     },
     /**
      * Get line items for display
-     * @param {'MANDATE' | 'MANUAL'} paymentType The payment type
+     * @param {GetLineItemsForDisplayPaymentTypeEnum} paymentType The payment type
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getLineItemsForDisplay(
-      paymentType: 'MANDATE' | 'MANUAL',
-      options?: any,
+      paymentType: GetLineItemsForDisplayPaymentTypeEnum,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<GetLineItemsForDisplayResponse> {
       return localVarFp.getLineItemsForDisplay(paymentType, options).then((request) => request(axios, basePath));
     },
@@ -9569,7 +9810,10 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getLoginIdentityById(loginIdentityId: string, options?: any): AxiosPromise<GetLoginIdentityByIdResponse> {
+    getLoginIdentityById(
+      loginIdentityId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<GetLoginIdentityByIdResponse> {
       return localVarFp.getLoginIdentityById(loginIdentityId, options).then((request) => request(axios, basePath));
     },
     /**
@@ -9578,7 +9822,10 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getLoginIdentityHistory(loginIdentityId: string, options?: any): AxiosPromise<GetLoginIdentityHistoryResponse> {
+    getLoginIdentityHistory(
+      loginIdentityId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<GetLoginIdentityHistoryResponse> {
       return localVarFp.getLoginIdentityHistory(loginIdentityId, options).then((request) => request(axios, basePath));
     },
     /**
@@ -9587,7 +9834,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getMandate(mandateId: string, options?: any): AxiosPromise<GetMandateResponse> {
+    getMandate(mandateId: string, options?: RawAxiosRequestConfig): AxiosPromise<GetMandateResponse> {
       return localVarFp.getMandate(mandateId, options).then((request) => request(axios, basePath));
     },
     /**
@@ -9595,7 +9842,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getMandateAuth(options?: any): AxiosPromise<GetMandateAuthResponse> {
+    getMandateAuth(options?: RawAxiosRequestConfig): AxiosPromise<GetMandateAuthResponse> {
       return localVarFp.getMandateAuth(options).then((request) => request(axios, basePath));
     },
     /**
@@ -9606,7 +9853,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      */
     getMandateAuthLink(
       getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<GetMandateAuthLinkResponse> {
       return localVarFp
         .getMandateAuthLink(getMandateAuthLinkRequest, options)
@@ -9618,7 +9865,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPayment(paymentId: string, options?: any): AxiosPromise<PaymentResponse> {
+    getPayment(paymentId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentResponse> {
       return localVarFp.getPayment(paymentId, options).then((request) => request(axios, basePath));
     },
     /**
@@ -9627,7 +9874,10 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPaymentInstruction(paymentInstructionId: string, options?: any): AxiosPromise<GetPaymentInstructionsResponse> {
+    getPaymentInstruction(
+      paymentInstructionId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<GetPaymentInstructionsResponse> {
       return localVarFp
         .getPaymentInstruction(paymentInstructionId, options)
         .then((request) => request(axios, basePath));
@@ -9638,7 +9888,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPaymentUser(paymentUserId: string, options?: any): AxiosPromise<PaymentUser> {
+    getPaymentUser(paymentUserId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentUser> {
       return localVarFp.getPaymentUser(paymentUserId, options).then((request) => request(axios, basePath));
     },
     /**
@@ -9646,7 +9896,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      * @param {string} [country] (Deprecated) The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
      * @param {string} [productsSupported] The products that this institution supports
-     * @param {'BANK' | 'WALLET' | 'TEST'} [institutionType] The type of institution
+     * @param {ListInstitutionsInstitutionTypeEnum} [institutionType] The type of institution
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -9654,8 +9904,8 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
       country?: string,
       countries?: Array<string>,
       productsSupported?: string,
-      institutionType?: 'BANK' | 'WALLET' | 'TEST',
-      options?: any,
+      institutionType?: ListInstitutionsInstitutionTypeEnum,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<Array<Institution>> {
       return localVarFp
         .listInstitutions(country, countries, productsSupported, institutionType, options)
@@ -9667,7 +9917,10 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    listPaymentAccounts(paymentUserId: string, options?: any): AxiosPromise<ListPaymentAccountsResponse> {
+    listPaymentAccounts(
+      paymentUserId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ListPaymentAccountsResponse> {
       return localVarFp.listPaymentAccounts(paymentUserId, options).then((request) => request(axios, basePath));
     },
     /**
@@ -9676,7 +9929,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    refreshToken(refreshRequest: RefreshRequest, options?: any): AxiosPromise<AccessTokenResponse> {
+    refreshToken(refreshRequest: RefreshRequest, options?: RawAxiosRequestConfig): AxiosPromise<AccessTokenResponse> {
       return localVarFp.refreshToken(refreshRequest, options).then((request) => request(axios, basePath));
     },
     /**
@@ -9687,7 +9940,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      */
     setMandateInstitution(
       updateRequest: SetMandateInstitutionRequest,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<SetMandateInstitutionResponse> {
       return localVarFp.setMandateInstitution(updateRequest, options).then((request) => request(axios, basePath));
     },
@@ -9699,7 +9952,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      */
     submitAuthChecklist(
       submitAuthChecklistRequest: SubmitAuthChecklistRequest,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<SubmitAuthChecklistResponse> {
       return localVarFp
         .submitAuthChecklist(submitAuthChecklistRequest, options)
@@ -9715,7 +9968,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
     updatePayment(
       paymentId: string,
       updatePaymentRequest: UpdatePaymentRequest,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<PaymentResponse> {
       return localVarFp
         .updatePayment(paymentId, updatePaymentRequest, options)
@@ -9731,7 +9984,7 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
     updateTestPaymentStatus(
       paymentId: string,
       paymentStatus: UpdateTestPaymentStatusRequest,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<void> {
       return localVarFp
         .updateTestPaymentStatus(paymentId, paymentStatus, options)
@@ -9757,7 +10010,7 @@ export interface CustomerApiInterface {
   authorizeMandate(
     mandateId: string,
     authorizeMandateRequest: AuthorizeMandateRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<GetMandateResponse>;
 
   /**
@@ -9771,7 +10024,7 @@ export interface CustomerApiInterface {
   createMandate(
     createMandateRequest: CreateMandateRequest,
     idempotencyKey?: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<CreateMandateResponse>;
 
   /**
@@ -9785,7 +10038,7 @@ export interface CustomerApiInterface {
   createPayment(
     createPaymentRequest: CreatePaymentRequest,
     idempotencyKey?: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<PaymentResponse>;
 
   /**
@@ -9797,7 +10050,7 @@ export interface CustomerApiInterface {
    */
   createPaymentAccount(
     createPaymentAccountRequest: CreatePaymentAccountRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<PaymentAccountDetails>;
 
   /**
@@ -9809,7 +10062,7 @@ export interface CustomerApiInterface {
    */
   createPaymentInstruction(
     paymentInstruction: CustomerPaymentInstruction,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<CreatePaymentInstructionResponse>;
 
   /**
@@ -9821,7 +10074,7 @@ export interface CustomerApiInterface {
    */
   createPaymentUser(
     createPaymentUserRequest: CreatePaymentUserRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<PaymentUser>;
 
   /**
@@ -9831,7 +10084,7 @@ export interface CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
-  deletePaymentAccount(paymentAccountId: string, options?: AxiosRequestConfig): AxiosPromise<void>;
+  deletePaymentAccount(paymentAccountId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
   /**
    * generate a link token that can be used to create link
@@ -9840,7 +10093,10 @@ export interface CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
-  generateLinkToken(linkTokenRequest: LinkTokenRequest, options?: AxiosRequestConfig): AxiosPromise<LinkTokenResponse>;
+  generateLinkToken(
+    linkTokenRequest: LinkTokenRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<LinkTokenResponse>;
 
   /**
    * Get a specific institution by institutionId
@@ -9849,18 +10105,18 @@ export interface CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
-  getInstitution(institutionId: string, options?: AxiosRequestConfig): AxiosPromise<Institution>;
+  getInstitution(institutionId: string, options?: RawAxiosRequestConfig): AxiosPromise<Institution>;
 
   /**
    * Get line items for display
-   * @param {'MANDATE' | 'MANUAL'} paymentType The payment type
+   * @param {GetLineItemsForDisplayPaymentTypeEnum} paymentType The payment type
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
   getLineItemsForDisplay(
-    paymentType: 'MANDATE' | 'MANUAL',
-    options?: AxiosRequestConfig,
+    paymentType: GetLineItemsForDisplayPaymentTypeEnum,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<GetLineItemsForDisplayResponse>;
 
   /**
@@ -9872,7 +10128,7 @@ export interface CustomerApiInterface {
    */
   getLoginIdentityById(
     loginIdentityId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<GetLoginIdentityByIdResponse>;
 
   /**
@@ -9884,7 +10140,7 @@ export interface CustomerApiInterface {
    */
   getLoginIdentityHistory(
     loginIdentityId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<GetLoginIdentityHistoryResponse>;
 
   /**
@@ -9894,7 +10150,7 @@ export interface CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
-  getMandate(mandateId: string, options?: AxiosRequestConfig): AxiosPromise<GetMandateResponse>;
+  getMandate(mandateId: string, options?: RawAxiosRequestConfig): AxiosPromise<GetMandateResponse>;
 
   /**
    * Get Mandate Authorization by mandate id
@@ -9902,7 +10158,7 @@ export interface CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
-  getMandateAuth(options?: AxiosRequestConfig): AxiosPromise<GetMandateAuthResponse>;
+  getMandateAuth(options?: RawAxiosRequestConfig): AxiosPromise<GetMandateAuthResponse>;
 
   /**
    * Get link to launch FV Link UI in mandate authorization mode
@@ -9913,7 +10169,7 @@ export interface CustomerApiInterface {
    */
   getMandateAuthLink(
     getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<GetMandateAuthLinkResponse>;
 
   /**
@@ -9923,7 +10179,7 @@ export interface CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
-  getPayment(paymentId: string, options?: AxiosRequestConfig): AxiosPromise<PaymentResponse>;
+  getPayment(paymentId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentResponse>;
 
   /**
    * Get payment instructions by payment_instruction_id
@@ -9934,7 +10190,7 @@ export interface CustomerApiInterface {
    */
   getPaymentInstruction(
     paymentInstructionId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<GetPaymentInstructionsResponse>;
 
   /**
@@ -9944,14 +10200,14 @@ export interface CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
-  getPaymentUser(paymentUserId: string, options?: AxiosRequestConfig): AxiosPromise<PaymentUser>;
+  getPaymentUser(paymentUserId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentUser>;
 
   /**
    * Get a list of institutions
    * @param {string} [country] (Deprecated) The country the institution belongs to
    * @param {Array<string>} [countries] The countries the institution belongs to
    * @param {string} [productsSupported] The products that this institution supports
-   * @param {'BANK' | 'WALLET' | 'TEST'} [institutionType] The type of institution
+   * @param {ListInstitutionsInstitutionTypeEnum} [institutionType] The type of institution
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
@@ -9960,8 +10216,8 @@ export interface CustomerApiInterface {
     country?: string,
     countries?: Array<string>,
     productsSupported?: string,
-    institutionType?: 'BANK' | 'WALLET' | 'TEST',
-    options?: AxiosRequestConfig,
+    institutionType?: ListInstitutionsInstitutionTypeEnum,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<Array<Institution>>;
 
   /**
@@ -9971,7 +10227,10 @@ export interface CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
-  listPaymentAccounts(paymentUserId: string, options?: AxiosRequestConfig): AxiosPromise<ListPaymentAccountsResponse>;
+  listPaymentAccounts(
+    paymentUserId: string,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<ListPaymentAccountsResponse>;
 
   /**
    * Refresh an access token
@@ -9980,7 +10239,7 @@ export interface CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
-  refreshToken(refreshRequest: RefreshRequest, options?: AxiosRequestConfig): AxiosPromise<AccessTokenResponse>;
+  refreshToken(refreshRequest: RefreshRequest, options?: RawAxiosRequestConfig): AxiosPromise<AccessTokenResponse>;
 
   /**
    * Update InstitutionID and SenderType for Mandate
@@ -9991,7 +10250,7 @@ export interface CustomerApiInterface {
    */
   setMandateInstitution(
     updateRequest: SetMandateInstitutionRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<SetMandateInstitutionResponse>;
 
   /**
@@ -10003,7 +10262,7 @@ export interface CustomerApiInterface {
    */
   submitAuthChecklist(
     submitAuthChecklistRequest: SubmitAuthChecklistRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<SubmitAuthChecklistResponse>;
 
   /**
@@ -10017,7 +10276,7 @@ export interface CustomerApiInterface {
   updatePayment(
     paymentId: string,
     updatePaymentRequest: UpdatePaymentRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<PaymentResponse>;
 
   /**
@@ -10031,7 +10290,7 @@ export interface CustomerApiInterface {
   updateTestPaymentStatus(
     paymentId: string,
     paymentStatus: UpdateTestPaymentStatusRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<void>;
 }
 
@@ -10053,7 +10312,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public authorizeMandate(
     mandateId: string,
     authorizeMandateRequest: AuthorizeMandateRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return CustomerApiFp(this.configuration)
       .authorizeMandate(mandateId, authorizeMandateRequest, options)
@@ -10071,7 +10330,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public createMandate(
     createMandateRequest: CreateMandateRequest,
     idempotencyKey?: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return CustomerApiFp(this.configuration)
       .createMandate(createMandateRequest, idempotencyKey, options)
@@ -10089,7 +10348,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public createPayment(
     createPaymentRequest: CreatePaymentRequest,
     idempotencyKey?: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return CustomerApiFp(this.configuration)
       .createPayment(createPaymentRequest, idempotencyKey, options)
@@ -10103,7 +10362,10 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public createPaymentAccount(createPaymentAccountRequest: CreatePaymentAccountRequest, options?: AxiosRequestConfig) {
+  public createPaymentAccount(
+    createPaymentAccountRequest: CreatePaymentAccountRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
     return CustomerApiFp(this.configuration)
       .createPaymentAccount(createPaymentAccountRequest, options)
       .then((request) => request(this.axios, this.basePath));
@@ -10116,7 +10378,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public createPaymentInstruction(paymentInstruction: CustomerPaymentInstruction, options?: AxiosRequestConfig) {
+  public createPaymentInstruction(paymentInstruction: CustomerPaymentInstruction, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .createPaymentInstruction(paymentInstruction, options)
       .then((request) => request(this.axios, this.basePath));
@@ -10129,7 +10391,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public createPaymentUser(createPaymentUserRequest: CreatePaymentUserRequest, options?: AxiosRequestConfig) {
+  public createPaymentUser(createPaymentUserRequest: CreatePaymentUserRequest, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .createPaymentUser(createPaymentUserRequest, options)
       .then((request) => request(this.axios, this.basePath));
@@ -10142,7 +10404,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public deletePaymentAccount(paymentAccountId: string, options?: AxiosRequestConfig) {
+  public deletePaymentAccount(paymentAccountId: string, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .deletePaymentAccount(paymentAccountId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -10155,7 +10417,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public generateLinkToken(linkTokenRequest: LinkTokenRequest, options?: AxiosRequestConfig) {
+  public generateLinkToken(linkTokenRequest: LinkTokenRequest, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .generateLinkToken(linkTokenRequest, options)
       .then((request) => request(this.axios, this.basePath));
@@ -10168,7 +10430,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public getInstitution(institutionId: string, options?: AxiosRequestConfig) {
+  public getInstitution(institutionId: string, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getInstitution(institutionId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -10176,12 +10438,12 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
 
   /**
    * Get line items for display
-   * @param {'MANDATE' | 'MANUAL'} paymentType The payment type
+   * @param {GetLineItemsForDisplayPaymentTypeEnum} paymentType The payment type
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public getLineItemsForDisplay(paymentType: 'MANDATE' | 'MANUAL', options?: AxiosRequestConfig) {
+  public getLineItemsForDisplay(paymentType: GetLineItemsForDisplayPaymentTypeEnum, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getLineItemsForDisplay(paymentType, options)
       .then((request) => request(this.axios, this.basePath));
@@ -10194,7 +10456,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public getLoginIdentityById(loginIdentityId: string, options?: AxiosRequestConfig) {
+  public getLoginIdentityById(loginIdentityId: string, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getLoginIdentityById(loginIdentityId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -10207,7 +10469,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public getLoginIdentityHistory(loginIdentityId: string, options?: AxiosRequestConfig) {
+  public getLoginIdentityHistory(loginIdentityId: string, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getLoginIdentityHistory(loginIdentityId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -10220,7 +10482,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public getMandate(mandateId: string, options?: AxiosRequestConfig) {
+  public getMandate(mandateId: string, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getMandate(mandateId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -10232,7 +10494,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public getMandateAuth(options?: AxiosRequestConfig) {
+  public getMandateAuth(options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getMandateAuth(options)
       .then((request) => request(this.axios, this.basePath));
@@ -10245,7 +10507,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public getMandateAuthLink(getMandateAuthLinkRequest: GetMandateAuthLinkRequest, options?: AxiosRequestConfig) {
+  public getMandateAuthLink(getMandateAuthLinkRequest: GetMandateAuthLinkRequest, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getMandateAuthLink(getMandateAuthLinkRequest, options)
       .then((request) => request(this.axios, this.basePath));
@@ -10258,7 +10520,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public getPayment(paymentId: string, options?: AxiosRequestConfig) {
+  public getPayment(paymentId: string, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getPayment(paymentId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -10271,7 +10533,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public getPaymentInstruction(paymentInstructionId: string, options?: AxiosRequestConfig) {
+  public getPaymentInstruction(paymentInstructionId: string, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getPaymentInstruction(paymentInstructionId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -10284,7 +10546,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public getPaymentUser(paymentUserId: string, options?: AxiosRequestConfig) {
+  public getPaymentUser(paymentUserId: string, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getPaymentUser(paymentUserId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -10295,7 +10557,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @param {string} [country] (Deprecated) The country the institution belongs to
    * @param {Array<string>} [countries] The countries the institution belongs to
    * @param {string} [productsSupported] The products that this institution supports
-   * @param {'BANK' | 'WALLET' | 'TEST'} [institutionType] The type of institution
+   * @param {ListInstitutionsInstitutionTypeEnum} [institutionType] The type of institution
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApi
@@ -10304,8 +10566,8 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
     country?: string,
     countries?: Array<string>,
     productsSupported?: string,
-    institutionType?: 'BANK' | 'WALLET' | 'TEST',
-    options?: AxiosRequestConfig,
+    institutionType?: ListInstitutionsInstitutionTypeEnum,
+    options?: RawAxiosRequestConfig,
   ) {
     return CustomerApiFp(this.configuration)
       .listInstitutions(country, countries, productsSupported, institutionType, options)
@@ -10319,7 +10581,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public listPaymentAccounts(paymentUserId: string, options?: AxiosRequestConfig) {
+  public listPaymentAccounts(paymentUserId: string, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .listPaymentAccounts(paymentUserId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -10332,7 +10594,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public refreshToken(refreshRequest: RefreshRequest, options?: AxiosRequestConfig) {
+  public refreshToken(refreshRequest: RefreshRequest, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .refreshToken(refreshRequest, options)
       .then((request) => request(this.axios, this.basePath));
@@ -10345,7 +10607,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public setMandateInstitution(updateRequest: SetMandateInstitutionRequest, options?: AxiosRequestConfig) {
+  public setMandateInstitution(updateRequest: SetMandateInstitutionRequest, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .setMandateInstitution(updateRequest, options)
       .then((request) => request(this.axios, this.basePath));
@@ -10358,7 +10620,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public submitAuthChecklist(submitAuthChecklistRequest: SubmitAuthChecklistRequest, options?: AxiosRequestConfig) {
+  public submitAuthChecklist(submitAuthChecklistRequest: SubmitAuthChecklistRequest, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .submitAuthChecklist(submitAuthChecklistRequest, options)
       .then((request) => request(this.axios, this.basePath));
@@ -10372,7 +10634,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public updatePayment(paymentId: string, updatePaymentRequest: UpdatePaymentRequest, options?: AxiosRequestConfig) {
+  public updatePayment(paymentId: string, updatePaymentRequest: UpdatePaymentRequest, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .updatePayment(paymentId, updatePaymentRequest, options)
       .then((request) => request(this.axios, this.basePath));
@@ -10389,13 +10651,33 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public updateTestPaymentStatus(
     paymentId: string,
     paymentStatus: UpdateTestPaymentStatusRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return CustomerApiFp(this.configuration)
       .updateTestPaymentStatus(paymentId, paymentStatus, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
+
+/**
+ * @export
+ */
+export const GetLineItemsForDisplayPaymentTypeEnum = {
+  Mandate: 'MANDATE',
+  Manual: 'MANUAL',
+} as const;
+export type GetLineItemsForDisplayPaymentTypeEnum =
+  (typeof GetLineItemsForDisplayPaymentTypeEnum)[keyof typeof GetLineItemsForDisplayPaymentTypeEnum];
+/**
+ * @export
+ */
+export const ListInstitutionsInstitutionTypeEnum = {
+  Bank: 'BANK',
+  Wallet: 'WALLET',
+  Test: 'TEST',
+} as const;
+export type ListInstitutionsInstitutionTypeEnum =
+  (typeof ListInstitutionsInstitutionTypeEnum)[keyof typeof ListInstitutionsInstitutionTypeEnum];
 
 /**
  * DefaultApi - axios parameter creator
@@ -10409,7 +10691,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    cancelPaymentLink: async (paymentLinkId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    cancelPaymentLink: async (paymentLinkId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'paymentLinkId' is not null or undefined
       assertParamExists('cancelPaymentLink', 'paymentLinkId', paymentLinkId);
       const localVarPath = `/payment_links/{paymentLinkId}/cancel`.replace(
@@ -10446,7 +10728,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    cancelPayout: async (payoutId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    cancelPayout: async (payoutId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'payoutId' is not null or undefined
       assertParamExists('cancelPayout', 'payoutId', payoutId);
       const localVarPath = `/payouts/{payoutId}/cancel`.replace(
@@ -10482,7 +10764,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    changePaymentMethodPaymentLink: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    changePaymentMethodPaymentLink: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/payment_link/fvlink/payment_method/change`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -10516,7 +10798,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      */
     confirmManualPayment: async (
       manualPaymentIdentifiers: ManualPaymentConfirmationRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'manualPaymentIdentifiers' is not null or undefined
       assertParamExists('confirmManualPayment', 'manualPaymentIdentifiers', manualPaymentIdentifiers);
@@ -10557,7 +10839,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    confirmPayment: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    confirmPayment: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/payment_links/confirm`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -10588,7 +10870,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createFpsToken: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    createFpsToken: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/payment_links/fps/token`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -10624,7 +10906,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     createMandateForExistingSender: async (
       idempotencyKey: string,
       createMandateRequest: CreateMandateWithSenderAccountRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'idempotencyKey' is not null or undefined
       assertParamExists('createMandateForExistingSender', 'idempotencyKey', idempotencyKey);
@@ -10646,12 +10928,11 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
-      if (idempotencyKey !== undefined && idempotencyKey !== null) {
-        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
-      }
-
       localVarHeaderParameter['Content-Type'] = 'application/json';
 
+      if (idempotencyKey != null) {
+        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
+      }
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -10670,7 +10951,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      */
     createPaymentLink: async (
       createPaymentLinkRequest: CreatePaymentLinkRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'createPaymentLinkRequest' is not null or undefined
       assertParamExists('createPaymentLink', 'createPaymentLinkRequest', createPaymentLinkRequest);
@@ -10711,7 +10992,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createPaymentLinkCardPayment: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    createPaymentLinkCardPayment: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/payment_links/card`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -10745,7 +11026,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      */
     createPaymentLinkMandate: async (
       createPaymentLinkMandateRequest: CreatePaymentLinkMandateRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'createPaymentLinkMandateRequest' is not null or undefined
       assertParamExists('createPaymentLinkMandate', 'createPaymentLinkMandateRequest', createPaymentLinkMandateRequest);
@@ -10791,7 +11072,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     createPaymentMethod: async (
       paymentUserId: string,
       createPaymentMethodRequest: CreatePaymentMethodRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'paymentUserId' is not null or undefined
       assertParamExists('createPaymentMethod', 'paymentUserId', paymentUserId);
@@ -10842,7 +11123,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     createScheduledPayout: async (
       idempotencyKey: string,
       createScheduledPayoutRequest: CreateScheduledPayoutRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'idempotencyKey' is not null or undefined
       assertParamExists('createScheduledPayout', 'idempotencyKey', idempotencyKey);
@@ -10864,12 +11145,11 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
-      if (idempotencyKey !== undefined && idempotencyKey !== null) {
-        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
-      }
-
       localVarHeaderParameter['Content-Type'] = 'application/json';
 
+      if (idempotencyKey != null) {
+        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
+      }
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -10896,7 +11176,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       dateFrom?: string,
       dateTo?: string,
       currencies?: Array<string>,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/ledger/statement`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -10916,12 +11196,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
       if (dateFrom !== undefined) {
         localVarQueryParameter['date_from'] =
-          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substr(0, 10) : dateFrom;
+          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substring(0, 10) : dateFrom;
       }
 
       if (dateTo !== undefined) {
         localVarQueryParameter['date_to'] =
-          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substr(0, 10) : dateTo;
+          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substring(0, 10) : dateTo;
       }
 
       if (currencies) {
@@ -10942,7 +11222,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getFpsQrCode: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getFpsQrCode: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/payment_links/fps/qr_code`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -10973,7 +11253,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getInstitutionsForCustomer: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getInstitutionsForCustomer: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/institutions/customer`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -11005,7 +11285,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPaymentLink: async (paymentLinkId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getPaymentLink: async (paymentLinkId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'paymentLinkId' is not null or undefined
       assertParamExists('getPaymentLink', 'paymentLinkId', paymentLinkId);
       const localVarPath = `/payment_links/{paymentLinkId}`.replace(
@@ -11042,7 +11322,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPaymentMethod: async (paymentMethodId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getPaymentMethod: async (paymentMethodId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'paymentMethodId' is not null or undefined
       assertParamExists('getPaymentMethod', 'paymentMethodId', paymentMethodId);
       const localVarPath = `/payment_methods/{paymentMethodId}`.replace(
@@ -11078,7 +11358,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPaymentMethodPaymentLink: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getPaymentMethodPaymentLink: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/payment_link/fvlink/payment_method`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -11109,7 +11389,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPaymentPaymentLink: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getPaymentPaymentLink: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/payment_link/fvlink/payment`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -11141,7 +11421,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPayoutById: async (payoutId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getPayoutById: async (payoutId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'payoutId' is not null or undefined
       assertParamExists('getPayoutById', 'payoutId', payoutId);
       const localVarPath = `/payouts/{payoutId}`.replace(`{${'payoutId'}}`, encodeURIComponent(String(payoutId)));
@@ -11174,7 +11454,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getSenderPaymentUser: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getSenderPaymentUser: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/payment_link/fvlink/payment_user/sender`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -11204,8 +11484,8 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * List mandates details
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'>} [statuses] The mandate statuses to filter for, comma separated
-     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+     * @param {Array<ListDetokenizedMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
+     * @param {ListDetokenizedMandatesSenderTypeEnum} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
      * @param {number} [offset] default is 0
@@ -11216,15 +11496,13 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     listDetokenizedMandates: async (
       dateFrom?: string,
       dateTo?: string,
-      statuses?: Array<
-        'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'
-      >,
-      senderType?: 'INDIVIDUAL' | 'BUSINESS',
+      statuses?: Array<ListDetokenizedMandatesStatusesEnum>,
+      senderType?: ListDetokenizedMandatesSenderTypeEnum,
       userId?: string,
       institutionId?: string,
       offset?: number,
       limit?: number,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/mandates/details`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -11244,12 +11522,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
       if (dateFrom !== undefined) {
         localVarQueryParameter['date_from'] =
-          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substr(0, 10) : dateFrom;
+          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substring(0, 10) : dateFrom;
       }
 
       if (dateTo !== undefined) {
         localVarQueryParameter['date_to'] =
-          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substr(0, 10) : dateTo;
+          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substring(0, 10) : dateTo;
       }
 
       if (statuses) {
@@ -11289,8 +11567,8 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'>} [statuses] The mandate statuses to filter for, comma separated
-     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+     * @param {Array<ListMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
+     * @param {ListMandatesSenderTypeEnum} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
      * @param {number} [offset] default is 0
@@ -11301,15 +11579,13 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     listMandates: async (
       dateFrom?: string,
       dateTo?: string,
-      statuses?: Array<
-        'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'
-      >,
-      senderType?: 'INDIVIDUAL' | 'BUSINESS',
+      statuses?: Array<ListMandatesStatusesEnum>,
+      senderType?: ListMandatesSenderTypeEnum,
       userId?: string,
       institutionId?: string,
       offset?: number,
       limit?: number,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/mandates`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -11329,12 +11605,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
       if (dateFrom !== undefined) {
         localVarQueryParameter['date_from'] =
-          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substr(0, 10) : dateFrom;
+          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substring(0, 10) : dateFrom;
       }
 
       if (dateTo !== undefined) {
         localVarQueryParameter['date_to'] =
-          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substr(0, 10) : dateTo;
+          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substring(0, 10) : dateTo;
       }
 
       if (statuses) {
@@ -11376,7 +11652,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    listPaymentMethods: async (paymentUserId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    listPaymentMethods: async (paymentUserId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'paymentUserId' is not null or undefined
       assertParamExists('listPaymentMethods', 'paymentUserId', paymentUserId);
       const localVarPath = `/payment_users/{paymentUserId}/payment_methods`.replace(
@@ -11411,12 +11687,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * List Payments
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'>} [statuses] The payment statuses to filter for, comma separated
-     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+     * @param {Array<ListPaymentsStatusesEnum>} [statuses] The payment statuses to filter for, comma separated
+     * @param {ListPaymentsSenderTypeEnum} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'} [paymentType] Deprecated - The type of payment
-     * @param {Array<'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'>} [paymentTypes]
+     * @param {ListPaymentsPaymentTypeEnum} [paymentType] Deprecated - The type of payment
+     * @param {Array<ListPaymentsPaymentTypesEnum>} [paymentTypes]
      * @param {string} [mandateId] The mandate the payment belongs to
      * @param {string} [currency] Deprecated - The currency the payment is made in
      * @param {Array<string>} [currencies]
@@ -11428,20 +11704,18 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     listPayments: async (
       dateFrom?: string,
       dateTo?: string,
-      statuses?: Array<
-        'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'
-      >,
-      senderType?: 'INDIVIDUAL' | 'BUSINESS',
+      statuses?: Array<ListPaymentsStatusesEnum>,
+      senderType?: ListPaymentsSenderTypeEnum,
       userId?: string,
       institutionId?: string,
-      paymentType?: 'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL',
-      paymentTypes?: Array<'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'>,
+      paymentType?: ListPaymentsPaymentTypeEnum,
+      paymentTypes?: Array<ListPaymentsPaymentTypesEnum>,
       mandateId?: string,
       currency?: string,
       currencies?: Array<string>,
       offset?: number,
       limit?: number,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/payments`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -11461,12 +11735,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
       if (dateFrom !== undefined) {
         localVarQueryParameter['date_from'] =
-          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substr(0, 10) : dateFrom;
+          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substring(0, 10) : dateFrom;
       }
 
       if (dateTo !== undefined) {
         localVarQueryParameter['date_to'] =
-          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substr(0, 10) : dateTo;
+          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substring(0, 10) : dateTo;
       }
 
       if (statuses) {
@@ -11527,7 +11801,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    refreshPaymentAttempt: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    refreshPaymentAttempt: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/payment_link/fvlink/payment_attempt/refresh`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -11561,7 +11835,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      */
     setAutopayConsent: async (
       setAutopayConsentRequest: SetAutopayConsentRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'setAutopayConsentRequest' is not null or undefined
       assertParamExists('setAutopayConsent', 'setAutopayConsentRequest', setAutopayConsentRequest);
@@ -11602,7 +11876,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    unlinkPaymentPaymentLink: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    unlinkPaymentPaymentLink: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/payment_link/fvlink/payment/unlink`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -11638,7 +11912,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     updatePaymentUser: async (
       paymentUserId: string,
       updatePaymentUserRequest: UpdatePaymentUserRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'paymentUserId' is not null or undefined
       assertParamExists('updatePaymentUser', 'paymentUserId', paymentUserId);
@@ -11697,10 +11971,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async cancelPaymentLink(
       paymentLinkId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentLinkResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.cancelPaymentLink(paymentLinkId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.cancelPaymentLink']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Cancel Payout by payout_id
@@ -11710,10 +11993,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async cancelPayout(
       payoutId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutSnapshotResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.cancelPayout(payoutId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.cancelPayout']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Initiate change payment method from payment link front-end
@@ -11721,10 +12013,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async changePaymentMethodPaymentLink(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ChangePaymentMethodFvLinkResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.changePaymentMethodPaymentLink(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.changePaymentMethodPaymentLink']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Submit manual payment confirmation
@@ -11734,10 +12035,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async confirmManualPayment(
       manualPaymentIdentifiers: ManualPaymentConfirmationRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManualPaymentConfirmationResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.confirmManualPayment(manualPaymentIdentifiers, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.confirmManualPayment']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Confirm a payment against a payment Link
@@ -11745,10 +12055,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async confirmPayment(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConfirmPaymentResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.confirmPayment(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.confirmPayment']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Create token for fps flow
@@ -11756,10 +12075,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async createFpsToken(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateFpsTokenResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createFpsToken(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.createFpsToken']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Create mandate for an existing sender account
@@ -11771,14 +12099,23 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async createMandateForExistingSender(
       idempotencyKey: string,
       createMandateRequest: CreateMandateWithSenderAccountRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateMandateResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createMandateForExistingSender(
         idempotencyKey,
         createMandateRequest,
         options,
       );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.createMandateForExistingSender']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Create payment link
@@ -11788,10 +12125,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async createPaymentLink(
       createPaymentLinkRequest: CreatePaymentLinkRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentLinkResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentLink(createPaymentLinkRequest, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.createPaymentLink']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Initiate Card Payment for a Payment Link
@@ -11799,10 +12145,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async createPaymentLinkCardPayment(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePaymentLinkCardPaymentResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentLinkCardPayment(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.createPaymentLinkCardPayment']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * CREATE Mandate for payment link
@@ -11812,13 +12167,22 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async createPaymentLinkMandate(
       createPaymentLinkMandateRequest: CreatePaymentLinkMandateRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePaymentLinkMandateResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentLinkMandate(
         createPaymentLinkMandateRequest,
         options,
       );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.createPaymentLinkMandate']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Create a Payment Method for a user
@@ -11830,14 +12194,23 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async createPaymentMethod(
       paymentUserId: string,
       createPaymentMethodRequest: CreatePaymentMethodRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentMethodResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentMethod(
         paymentUserId,
         createPaymentMethodRequest,
         options,
       );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.createPaymentMethod']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Create a scheduled payout
@@ -11849,14 +12222,23 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async createScheduledPayout(
       idempotencyKey: string,
       createScheduledPayoutRequest: CreateScheduledPayoutRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutSnapshotResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createScheduledPayout(
         idempotencyKey,
         createScheduledPayoutRequest,
         options,
       );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.createScheduledPayout']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Download the balance statement for the ledger (CSV)
@@ -11870,7 +12252,7 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       dateFrom?: string,
       dateTo?: string,
       currencies?: Array<string>,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DownloadBalanceStatementResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.downloadBalanceStatement(
         dateFrom,
@@ -11878,7 +12260,16 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         currencies,
         options,
       );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.downloadBalanceStatement']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get the FPS QR code
@@ -11886,10 +12277,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getFpsQrCode(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FpsQrCodeResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getFpsQrCode(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.getFpsQrCode']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get a customer-specific list of institutions for Finverse Link
@@ -11897,10 +12297,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getInstitutionsForCustomer(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Institution>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getInstitutionsForCustomer(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.getInstitutionsForCustomer']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get payment link
@@ -11910,10 +12319,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async getPaymentLink(
       paymentLinkId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentLinkResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentLink(paymentLinkId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.getPaymentLink']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get a payment method
@@ -11923,10 +12341,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async getPaymentMethod(
       paymentMethodId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentMethodResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentMethod(paymentMethodId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.getPaymentMethod']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get payment method in payment link flow
@@ -11934,10 +12361,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getPaymentMethodPaymentLink(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentMethodFvLinkResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentMethodPaymentLink(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.getPaymentMethodPaymentLink']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get payment (if exists) on the payment link for front-end
@@ -11945,10 +12381,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getPaymentPaymentLink(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentFvLinkResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentPaymentLink(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.getPaymentPaymentLink']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get payout by payout_id
@@ -11958,10 +12403,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async getPayoutById(
       payoutId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutSnapshotResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getPayoutById(payoutId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.getPayoutById']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get sender payment user in payment link flow
@@ -11969,17 +12423,26 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getSenderPaymentUser(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPaymentUserResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getSenderPaymentUser(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.getSenderPaymentUser']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * List mandates details
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'>} [statuses] The mandate statuses to filter for, comma separated
-     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+     * @param {Array<ListDetokenizedMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
+     * @param {ListDetokenizedMandatesSenderTypeEnum} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
      * @param {number} [offset] default is 0
@@ -11990,15 +12453,13 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async listDetokenizedMandates(
       dateFrom?: string,
       dateTo?: string,
-      statuses?: Array<
-        'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'
-      >,
-      senderType?: 'INDIVIDUAL' | 'BUSINESS',
+      statuses?: Array<ListDetokenizedMandatesStatusesEnum>,
+      senderType?: ListDetokenizedMandatesSenderTypeEnum,
       userId?: string,
       institutionId?: string,
       offset?: number,
       limit?: number,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListMandatesResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.listDetokenizedMandates(
         dateFrom,
@@ -12011,14 +12472,23 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         limit,
         options,
       );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.listDetokenizedMandates']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'>} [statuses] The mandate statuses to filter for, comma separated
-     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+     * @param {Array<ListMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
+     * @param {ListMandatesSenderTypeEnum} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
      * @param {number} [offset] default is 0
@@ -12029,15 +12499,13 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async listMandates(
       dateFrom?: string,
       dateTo?: string,
-      statuses?: Array<
-        'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'
-      >,
-      senderType?: 'INDIVIDUAL' | 'BUSINESS',
+      statuses?: Array<ListMandatesStatusesEnum>,
+      senderType?: ListMandatesSenderTypeEnum,
       userId?: string,
       institutionId?: string,
       offset?: number,
       limit?: number,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListMandatesResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.listMandates(
         dateFrom,
@@ -12050,7 +12518,16 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         limit,
         options,
       );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.listMandates']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * List Payment Methods for a User
@@ -12060,21 +12537,30 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async listPaymentMethods(
       paymentUserId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPaymentMethodsResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.listPaymentMethods(paymentUserId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.listPaymentMethods']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * List Payments
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'>} [statuses] The payment statuses to filter for, comma separated
-     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+     * @param {Array<ListPaymentsStatusesEnum>} [statuses] The payment statuses to filter for, comma separated
+     * @param {ListPaymentsSenderTypeEnum} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'} [paymentType] Deprecated - The type of payment
-     * @param {Array<'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'>} [paymentTypes]
+     * @param {ListPaymentsPaymentTypeEnum} [paymentType] Deprecated - The type of payment
+     * @param {Array<ListPaymentsPaymentTypesEnum>} [paymentTypes]
      * @param {string} [mandateId] The mandate the payment belongs to
      * @param {string} [currency] Deprecated - The currency the payment is made in
      * @param {Array<string>} [currencies]
@@ -12086,20 +12572,18 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async listPayments(
       dateFrom?: string,
       dateTo?: string,
-      statuses?: Array<
-        'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'
-      >,
-      senderType?: 'INDIVIDUAL' | 'BUSINESS',
+      statuses?: Array<ListPaymentsStatusesEnum>,
+      senderType?: ListPaymentsSenderTypeEnum,
       userId?: string,
       institutionId?: string,
-      paymentType?: 'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL',
-      paymentTypes?: Array<'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'>,
+      paymentType?: ListPaymentsPaymentTypeEnum,
+      paymentTypes?: Array<ListPaymentsPaymentTypesEnum>,
       mandateId?: string,
       currency?: string,
       currencies?: Array<string>,
       offset?: number,
       limit?: number,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPaymentsResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.listPayments(
         dateFrom,
@@ -12117,7 +12601,16 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         limit,
         options,
       );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.listPayments']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Refresh payment attempt from payment link front-end
@@ -12125,10 +12618,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async refreshPaymentAttempt(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RefreshPaymentAttemptResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.refreshPaymentAttempt(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.refreshPaymentAttempt']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Set autopay consent for payment user
@@ -12138,10 +12640,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      */
     async setAutopayConsent(
       setAutopayConsentRequest: SetAutopayConsentRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.setAutopayConsent(setAutopayConsentRequest, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.setAutopayConsent']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Unlink payment on payment link
@@ -12149,10 +12660,19 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async unlinkPaymentPaymentLink(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.unlinkPaymentPaymentLink(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.unlinkPaymentPaymentLink']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Update a payment user
@@ -12164,14 +12684,23 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     async updatePaymentUser(
       paymentUserId: string,
       updatePaymentUserRequest: UpdatePaymentUserRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentUser>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.updatePaymentUser(
         paymentUserId,
         updatePaymentUserRequest,
         options,
       );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.updatePaymentUser']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
   };
 };
@@ -12189,7 +12718,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    cancelPaymentLink(paymentLinkId: string, options?: any): AxiosPromise<PaymentLinkResponse> {
+    cancelPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentLinkResponse> {
       return localVarFp.cancelPaymentLink(paymentLinkId, options).then((request) => request(axios, basePath));
     },
     /**
@@ -12198,7 +12727,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    cancelPayout(payoutId: string, options?: any): AxiosPromise<PayoutSnapshotResponse> {
+    cancelPayout(payoutId: string, options?: RawAxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse> {
       return localVarFp.cancelPayout(payoutId, options).then((request) => request(axios, basePath));
     },
     /**
@@ -12206,7 +12735,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    changePaymentMethodPaymentLink(options?: any): AxiosPromise<ChangePaymentMethodFvLinkResponse> {
+    changePaymentMethodPaymentLink(options?: RawAxiosRequestConfig): AxiosPromise<ChangePaymentMethodFvLinkResponse> {
       return localVarFp.changePaymentMethodPaymentLink(options).then((request) => request(axios, basePath));
     },
     /**
@@ -12217,7 +12746,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      */
     confirmManualPayment(
       manualPaymentIdentifiers: ManualPaymentConfirmationRequest,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<ManualPaymentConfirmationResponse> {
       return localVarFp
         .confirmManualPayment(manualPaymentIdentifiers, options)
@@ -12228,7 +12757,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    confirmPayment(options?: any): AxiosPromise<ConfirmPaymentResponse> {
+    confirmPayment(options?: RawAxiosRequestConfig): AxiosPromise<ConfirmPaymentResponse> {
       return localVarFp.confirmPayment(options).then((request) => request(axios, basePath));
     },
     /**
@@ -12236,7 +12765,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createFpsToken(options?: any): AxiosPromise<CreateFpsTokenResponse> {
+    createFpsToken(options?: RawAxiosRequestConfig): AxiosPromise<CreateFpsTokenResponse> {
       return localVarFp.createFpsToken(options).then((request) => request(axios, basePath));
     },
     /**
@@ -12249,7 +12778,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     createMandateForExistingSender(
       idempotencyKey: string,
       createMandateRequest: CreateMandateWithSenderAccountRequest,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<CreateMandateResponse> {
       return localVarFp
         .createMandateForExistingSender(idempotencyKey, createMandateRequest, options)
@@ -12263,7 +12792,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      */
     createPaymentLink(
       createPaymentLinkRequest: CreatePaymentLinkRequest,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<PaymentLinkResponse> {
       return localVarFp
         .createPaymentLink(createPaymentLinkRequest, options)
@@ -12274,7 +12803,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createPaymentLinkCardPayment(options?: any): AxiosPromise<CreatePaymentLinkCardPaymentResponse> {
+    createPaymentLinkCardPayment(options?: RawAxiosRequestConfig): AxiosPromise<CreatePaymentLinkCardPaymentResponse> {
       return localVarFp.createPaymentLinkCardPayment(options).then((request) => request(axios, basePath));
     },
     /**
@@ -12285,7 +12814,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      */
     createPaymentLinkMandate(
       createPaymentLinkMandateRequest: CreatePaymentLinkMandateRequest,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<CreatePaymentLinkMandateResponse> {
       return localVarFp
         .createPaymentLinkMandate(createPaymentLinkMandateRequest, options)
@@ -12301,7 +12830,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     createPaymentMethod(
       paymentUserId: string,
       createPaymentMethodRequest: CreatePaymentMethodRequest,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<PaymentMethodResponse> {
       return localVarFp
         .createPaymentMethod(paymentUserId, createPaymentMethodRequest, options)
@@ -12317,7 +12846,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     createScheduledPayout(
       idempotencyKey: string,
       createScheduledPayoutRequest: CreateScheduledPayoutRequest,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<PayoutSnapshotResponse> {
       return localVarFp
         .createScheduledPayout(idempotencyKey, createScheduledPayoutRequest, options)
@@ -12335,7 +12864,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       dateFrom?: string,
       dateTo?: string,
       currencies?: Array<string>,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<DownloadBalanceStatementResponse> {
       return localVarFp
         .downloadBalanceStatement(dateFrom, dateTo, currencies, options)
@@ -12346,7 +12875,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getFpsQrCode(options?: any): AxiosPromise<FpsQrCodeResponse> {
+    getFpsQrCode(options?: RawAxiosRequestConfig): AxiosPromise<FpsQrCodeResponse> {
       return localVarFp.getFpsQrCode(options).then((request) => request(axios, basePath));
     },
     /**
@@ -12354,7 +12883,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getInstitutionsForCustomer(options?: any): AxiosPromise<Array<Institution>> {
+    getInstitutionsForCustomer(options?: RawAxiosRequestConfig): AxiosPromise<Array<Institution>> {
       return localVarFp.getInstitutionsForCustomer(options).then((request) => request(axios, basePath));
     },
     /**
@@ -12363,7 +12892,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPaymentLink(paymentLinkId: string, options?: any): AxiosPromise<PaymentLinkResponse> {
+    getPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentLinkResponse> {
       return localVarFp.getPaymentLink(paymentLinkId, options).then((request) => request(axios, basePath));
     },
     /**
@@ -12372,7 +12901,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPaymentMethod(paymentMethodId: string, options?: any): AxiosPromise<PaymentMethodResponse> {
+    getPaymentMethod(paymentMethodId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentMethodResponse> {
       return localVarFp.getPaymentMethod(paymentMethodId, options).then((request) => request(axios, basePath));
     },
     /**
@@ -12380,7 +12909,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPaymentMethodPaymentLink(options?: any): AxiosPromise<PaymentMethodFvLinkResponse> {
+    getPaymentMethodPaymentLink(options?: RawAxiosRequestConfig): AxiosPromise<PaymentMethodFvLinkResponse> {
       return localVarFp.getPaymentMethodPaymentLink(options).then((request) => request(axios, basePath));
     },
     /**
@@ -12388,7 +12917,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPaymentPaymentLink(options?: any): AxiosPromise<PaymentFvLinkResponse> {
+    getPaymentPaymentLink(options?: RawAxiosRequestConfig): AxiosPromise<PaymentFvLinkResponse> {
       return localVarFp.getPaymentPaymentLink(options).then((request) => request(axios, basePath));
     },
     /**
@@ -12397,7 +12926,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPayoutById(payoutId: string, options?: any): AxiosPromise<PayoutSnapshotResponse> {
+    getPayoutById(payoutId: string, options?: RawAxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse> {
       return localVarFp.getPayoutById(payoutId, options).then((request) => request(axios, basePath));
     },
     /**
@@ -12405,15 +12934,15 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getSenderPaymentUser(options?: any): AxiosPromise<GetPaymentUserResponse> {
+    getSenderPaymentUser(options?: RawAxiosRequestConfig): AxiosPromise<GetPaymentUserResponse> {
       return localVarFp.getSenderPaymentUser(options).then((request) => request(axios, basePath));
     },
     /**
      * List mandates details
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'>} [statuses] The mandate statuses to filter for, comma separated
-     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+     * @param {Array<ListDetokenizedMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
+     * @param {ListDetokenizedMandatesSenderTypeEnum} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
      * @param {number} [offset] default is 0
@@ -12424,15 +12953,13 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     listDetokenizedMandates(
       dateFrom?: string,
       dateTo?: string,
-      statuses?: Array<
-        'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'
-      >,
-      senderType?: 'INDIVIDUAL' | 'BUSINESS',
+      statuses?: Array<ListDetokenizedMandatesStatusesEnum>,
+      senderType?: ListDetokenizedMandatesSenderTypeEnum,
       userId?: string,
       institutionId?: string,
       offset?: number,
       limit?: number,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<ListMandatesResponse> {
       return localVarFp
         .listDetokenizedMandates(dateFrom, dateTo, statuses, senderType, userId, institutionId, offset, limit, options)
@@ -12442,8 +12969,8 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'>} [statuses] The mandate statuses to filter for, comma separated
-     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+     * @param {Array<ListMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
+     * @param {ListMandatesSenderTypeEnum} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
      * @param {number} [offset] default is 0
@@ -12454,15 +12981,13 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     listMandates(
       dateFrom?: string,
       dateTo?: string,
-      statuses?: Array<
-        'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'
-      >,
-      senderType?: 'INDIVIDUAL' | 'BUSINESS',
+      statuses?: Array<ListMandatesStatusesEnum>,
+      senderType?: ListMandatesSenderTypeEnum,
       userId?: string,
       institutionId?: string,
       offset?: number,
       limit?: number,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<ListMandatesResponse> {
       return localVarFp
         .listMandates(dateFrom, dateTo, statuses, senderType, userId, institutionId, offset, limit, options)
@@ -12474,19 +12999,22 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    listPaymentMethods(paymentUserId: string, options?: any): AxiosPromise<ListPaymentMethodsResponse> {
+    listPaymentMethods(
+      paymentUserId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ListPaymentMethodsResponse> {
       return localVarFp.listPaymentMethods(paymentUserId, options).then((request) => request(axios, basePath));
     },
     /**
      * List Payments
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'>} [statuses] The payment statuses to filter for, comma separated
-     * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+     * @param {Array<ListPaymentsStatusesEnum>} [statuses] The payment statuses to filter for, comma separated
+     * @param {ListPaymentsSenderTypeEnum} [senderType] The sender type of the mandate
      * @param {string} [userId] The user_id the mandate was setup for
      * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'} [paymentType] Deprecated - The type of payment
-     * @param {Array<'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'>} [paymentTypes]
+     * @param {ListPaymentsPaymentTypeEnum} [paymentType] Deprecated - The type of payment
+     * @param {Array<ListPaymentsPaymentTypesEnum>} [paymentTypes]
      * @param {string} [mandateId] The mandate the payment belongs to
      * @param {string} [currency] Deprecated - The currency the payment is made in
      * @param {Array<string>} [currencies]
@@ -12498,20 +13026,18 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     listPayments(
       dateFrom?: string,
       dateTo?: string,
-      statuses?: Array<
-        'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'
-      >,
-      senderType?: 'INDIVIDUAL' | 'BUSINESS',
+      statuses?: Array<ListPaymentsStatusesEnum>,
+      senderType?: ListPaymentsSenderTypeEnum,
       userId?: string,
       institutionId?: string,
-      paymentType?: 'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL',
-      paymentTypes?: Array<'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'>,
+      paymentType?: ListPaymentsPaymentTypeEnum,
+      paymentTypes?: Array<ListPaymentsPaymentTypesEnum>,
       mandateId?: string,
       currency?: string,
       currencies?: Array<string>,
       offset?: number,
       limit?: number,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<ListPaymentsResponse> {
       return localVarFp
         .listPayments(
@@ -12537,7 +13063,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    refreshPaymentAttempt(options?: any): AxiosPromise<RefreshPaymentAttemptResponse> {
+    refreshPaymentAttempt(options?: RawAxiosRequestConfig): AxiosPromise<RefreshPaymentAttemptResponse> {
       return localVarFp.refreshPaymentAttempt(options).then((request) => request(axios, basePath));
     },
     /**
@@ -12546,7 +13072,10 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    setAutopayConsent(setAutopayConsentRequest: SetAutopayConsentRequest, options?: any): AxiosPromise<void> {
+    setAutopayConsent(
+      setAutopayConsentRequest: SetAutopayConsentRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
       return localVarFp
         .setAutopayConsent(setAutopayConsentRequest, options)
         .then((request) => request(axios, basePath));
@@ -12556,7 +13085,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    unlinkPaymentPaymentLink(options?: any): AxiosPromise<void> {
+    unlinkPaymentPaymentLink(options?: RawAxiosRequestConfig): AxiosPromise<void> {
       return localVarFp.unlinkPaymentPaymentLink(options).then((request) => request(axios, basePath));
     },
     /**
@@ -12569,7 +13098,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     updatePaymentUser(
       paymentUserId: string,
       updatePaymentUserRequest: UpdatePaymentUserRequest,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<PaymentUser> {
       return localVarFp
         .updatePaymentUser(paymentUserId, updatePaymentUserRequest, options)
@@ -12591,7 +13120,7 @@ export interface DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  cancelPaymentLink(paymentLinkId: string, options?: AxiosRequestConfig): AxiosPromise<PaymentLinkResponse>;
+  cancelPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentLinkResponse>;
 
   /**
    * Cancel Payout by payout_id
@@ -12600,7 +13129,7 @@ export interface DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  cancelPayout(payoutId: string, options?: AxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse>;
+  cancelPayout(payoutId: string, options?: RawAxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse>;
 
   /**
    * Initiate change payment method from payment link front-end
@@ -12608,7 +13137,7 @@ export interface DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  changePaymentMethodPaymentLink(options?: AxiosRequestConfig): AxiosPromise<ChangePaymentMethodFvLinkResponse>;
+  changePaymentMethodPaymentLink(options?: RawAxiosRequestConfig): AxiosPromise<ChangePaymentMethodFvLinkResponse>;
 
   /**
    * Submit manual payment confirmation
@@ -12619,7 +13148,7 @@ export interface DefaultApiInterface {
    */
   confirmManualPayment(
     manualPaymentIdentifiers: ManualPaymentConfirmationRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<ManualPaymentConfirmationResponse>;
 
   /**
@@ -12628,7 +13157,7 @@ export interface DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  confirmPayment(options?: AxiosRequestConfig): AxiosPromise<ConfirmPaymentResponse>;
+  confirmPayment(options?: RawAxiosRequestConfig): AxiosPromise<ConfirmPaymentResponse>;
 
   /**
    * Create token for fps flow
@@ -12636,7 +13165,7 @@ export interface DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  createFpsToken(options?: AxiosRequestConfig): AxiosPromise<CreateFpsTokenResponse>;
+  createFpsToken(options?: RawAxiosRequestConfig): AxiosPromise<CreateFpsTokenResponse>;
 
   /**
    * Create mandate for an existing sender account
@@ -12649,7 +13178,7 @@ export interface DefaultApiInterface {
   createMandateForExistingSender(
     idempotencyKey: string,
     createMandateRequest: CreateMandateWithSenderAccountRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<CreateMandateResponse>;
 
   /**
@@ -12661,7 +13190,7 @@ export interface DefaultApiInterface {
    */
   createPaymentLink(
     createPaymentLinkRequest: CreatePaymentLinkRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<PaymentLinkResponse>;
 
   /**
@@ -12670,7 +13199,7 @@ export interface DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  createPaymentLinkCardPayment(options?: AxiosRequestConfig): AxiosPromise<CreatePaymentLinkCardPaymentResponse>;
+  createPaymentLinkCardPayment(options?: RawAxiosRequestConfig): AxiosPromise<CreatePaymentLinkCardPaymentResponse>;
 
   /**
    * CREATE Mandate for payment link
@@ -12681,7 +13210,7 @@ export interface DefaultApiInterface {
    */
   createPaymentLinkMandate(
     createPaymentLinkMandateRequest: CreatePaymentLinkMandateRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<CreatePaymentLinkMandateResponse>;
 
   /**
@@ -12695,7 +13224,7 @@ export interface DefaultApiInterface {
   createPaymentMethod(
     paymentUserId: string,
     createPaymentMethodRequest: CreatePaymentMethodRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<PaymentMethodResponse>;
 
   /**
@@ -12709,7 +13238,7 @@ export interface DefaultApiInterface {
   createScheduledPayout(
     idempotencyKey: string,
     createScheduledPayoutRequest: CreateScheduledPayoutRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<PayoutSnapshotResponse>;
 
   /**
@@ -12725,7 +13254,7 @@ export interface DefaultApiInterface {
     dateFrom?: string,
     dateTo?: string,
     currencies?: Array<string>,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<DownloadBalanceStatementResponse>;
 
   /**
@@ -12734,7 +13263,7 @@ export interface DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  getFpsQrCode(options?: AxiosRequestConfig): AxiosPromise<FpsQrCodeResponse>;
+  getFpsQrCode(options?: RawAxiosRequestConfig): AxiosPromise<FpsQrCodeResponse>;
 
   /**
    * Get a customer-specific list of institutions for Finverse Link
@@ -12742,7 +13271,7 @@ export interface DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  getInstitutionsForCustomer(options?: AxiosRequestConfig): AxiosPromise<Array<Institution>>;
+  getInstitutionsForCustomer(options?: RawAxiosRequestConfig): AxiosPromise<Array<Institution>>;
 
   /**
    * Get payment link
@@ -12751,7 +13280,7 @@ export interface DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  getPaymentLink(paymentLinkId: string, options?: AxiosRequestConfig): AxiosPromise<PaymentLinkResponse>;
+  getPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentLinkResponse>;
 
   /**
    * Get a payment method
@@ -12760,7 +13289,7 @@ export interface DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  getPaymentMethod(paymentMethodId: string, options?: AxiosRequestConfig): AxiosPromise<PaymentMethodResponse>;
+  getPaymentMethod(paymentMethodId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentMethodResponse>;
 
   /**
    * Get payment method in payment link flow
@@ -12768,7 +13297,7 @@ export interface DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  getPaymentMethodPaymentLink(options?: AxiosRequestConfig): AxiosPromise<PaymentMethodFvLinkResponse>;
+  getPaymentMethodPaymentLink(options?: RawAxiosRequestConfig): AxiosPromise<PaymentMethodFvLinkResponse>;
 
   /**
    * Get payment (if exists) on the payment link for front-end
@@ -12776,7 +13305,7 @@ export interface DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  getPaymentPaymentLink(options?: AxiosRequestConfig): AxiosPromise<PaymentFvLinkResponse>;
+  getPaymentPaymentLink(options?: RawAxiosRequestConfig): AxiosPromise<PaymentFvLinkResponse>;
 
   /**
    * Get payout by payout_id
@@ -12785,7 +13314,7 @@ export interface DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  getPayoutById(payoutId: string, options?: AxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse>;
+  getPayoutById(payoutId: string, options?: RawAxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse>;
 
   /**
    * Get sender payment user in payment link flow
@@ -12793,14 +13322,14 @@ export interface DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  getSenderPaymentUser(options?: AxiosRequestConfig): AxiosPromise<GetPaymentUserResponse>;
+  getSenderPaymentUser(options?: RawAxiosRequestConfig): AxiosPromise<GetPaymentUserResponse>;
 
   /**
    * List mandates details
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
    * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'>} [statuses] The mandate statuses to filter for, comma separated
-   * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+   * @param {Array<ListDetokenizedMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
+   * @param {ListDetokenizedMandatesSenderTypeEnum} [senderType] The sender type of the mandate
    * @param {string} [userId] The user_id the mandate was setup for
    * @param {string} [institutionId] The institution the mandate was executed against
    * @param {number} [offset] default is 0
@@ -12812,23 +13341,21 @@ export interface DefaultApiInterface {
   listDetokenizedMandates(
     dateFrom?: string,
     dateTo?: string,
-    statuses?: Array<
-      'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'
-    >,
-    senderType?: 'INDIVIDUAL' | 'BUSINESS',
+    statuses?: Array<ListDetokenizedMandatesStatusesEnum>,
+    senderType?: ListDetokenizedMandatesSenderTypeEnum,
     userId?: string,
     institutionId?: string,
     offset?: number,
     limit?: number,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<ListMandatesResponse>;
 
   /**
    * List mandates
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
    * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'>} [statuses] The mandate statuses to filter for, comma separated
-   * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+   * @param {Array<ListMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
+   * @param {ListMandatesSenderTypeEnum} [senderType] The sender type of the mandate
    * @param {string} [userId] The user_id the mandate was setup for
    * @param {string} [institutionId] The institution the mandate was executed against
    * @param {number} [offset] default is 0
@@ -12840,15 +13367,13 @@ export interface DefaultApiInterface {
   listMandates(
     dateFrom?: string,
     dateTo?: string,
-    statuses?: Array<
-      'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'
-    >,
-    senderType?: 'INDIVIDUAL' | 'BUSINESS',
+    statuses?: Array<ListMandatesStatusesEnum>,
+    senderType?: ListMandatesSenderTypeEnum,
     userId?: string,
     institutionId?: string,
     offset?: number,
     limit?: number,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<ListMandatesResponse>;
 
   /**
@@ -12858,18 +13383,18 @@ export interface DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  listPaymentMethods(paymentUserId: string, options?: AxiosRequestConfig): AxiosPromise<ListPaymentMethodsResponse>;
+  listPaymentMethods(paymentUserId: string, options?: RawAxiosRequestConfig): AxiosPromise<ListPaymentMethodsResponse>;
 
   /**
    * List Payments
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
    * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'>} [statuses] The payment statuses to filter for, comma separated
-   * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+   * @param {Array<ListPaymentsStatusesEnum>} [statuses] The payment statuses to filter for, comma separated
+   * @param {ListPaymentsSenderTypeEnum} [senderType] The sender type of the mandate
    * @param {string} [userId] The user_id the mandate was setup for
    * @param {string} [institutionId] The institution the mandate was executed against
-   * @param {'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'} [paymentType] Deprecated - The type of payment
-   * @param {Array<'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'>} [paymentTypes]
+   * @param {ListPaymentsPaymentTypeEnum} [paymentType] Deprecated - The type of payment
+   * @param {Array<ListPaymentsPaymentTypesEnum>} [paymentTypes]
    * @param {string} [mandateId] The mandate the payment belongs to
    * @param {string} [currency] Deprecated - The currency the payment is made in
    * @param {Array<string>} [currencies]
@@ -12882,20 +13407,18 @@ export interface DefaultApiInterface {
   listPayments(
     dateFrom?: string,
     dateTo?: string,
-    statuses?: Array<
-      'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'
-    >,
-    senderType?: 'INDIVIDUAL' | 'BUSINESS',
+    statuses?: Array<ListPaymentsStatusesEnum>,
+    senderType?: ListPaymentsSenderTypeEnum,
     userId?: string,
     institutionId?: string,
-    paymentType?: 'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL',
-    paymentTypes?: Array<'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'>,
+    paymentType?: ListPaymentsPaymentTypeEnum,
+    paymentTypes?: Array<ListPaymentsPaymentTypesEnum>,
     mandateId?: string,
     currency?: string,
     currencies?: Array<string>,
     offset?: number,
     limit?: number,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<ListPaymentsResponse>;
 
   /**
@@ -12904,7 +13427,7 @@ export interface DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  refreshPaymentAttempt(options?: AxiosRequestConfig): AxiosPromise<RefreshPaymentAttemptResponse>;
+  refreshPaymentAttempt(options?: RawAxiosRequestConfig): AxiosPromise<RefreshPaymentAttemptResponse>;
 
   /**
    * Set autopay consent for payment user
@@ -12915,7 +13438,7 @@ export interface DefaultApiInterface {
    */
   setAutopayConsent(
     setAutopayConsentRequest: SetAutopayConsentRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<void>;
 
   /**
@@ -12924,7 +13447,7 @@ export interface DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  unlinkPaymentPaymentLink(options?: AxiosRequestConfig): AxiosPromise<void>;
+  unlinkPaymentPaymentLink(options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
   /**
    * Update a payment user
@@ -12937,7 +13460,7 @@ export interface DefaultApiInterface {
   updatePaymentUser(
     paymentUserId: string,
     updatePaymentUserRequest: UpdatePaymentUserRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<PaymentUser>;
 }
 
@@ -12955,7 +13478,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public cancelPaymentLink(paymentLinkId: string, options?: AxiosRequestConfig) {
+  public cancelPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .cancelPaymentLink(paymentLinkId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -12968,7 +13491,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public cancelPayout(payoutId: string, options?: AxiosRequestConfig) {
+  public cancelPayout(payoutId: string, options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .cancelPayout(payoutId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -12980,7 +13503,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public changePaymentMethodPaymentLink(options?: AxiosRequestConfig) {
+  public changePaymentMethodPaymentLink(options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .changePaymentMethodPaymentLink(options)
       .then((request) => request(this.axios, this.basePath));
@@ -12995,7 +13518,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    */
   public confirmManualPayment(
     manualPaymentIdentifiers: ManualPaymentConfirmationRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return DefaultApiFp(this.configuration)
       .confirmManualPayment(manualPaymentIdentifiers, options)
@@ -13008,7 +13531,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public confirmPayment(options?: AxiosRequestConfig) {
+  public confirmPayment(options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .confirmPayment(options)
       .then((request) => request(this.axios, this.basePath));
@@ -13020,7 +13543,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public createFpsToken(options?: AxiosRequestConfig) {
+  public createFpsToken(options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .createFpsToken(options)
       .then((request) => request(this.axios, this.basePath));
@@ -13037,7 +13560,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public createMandateForExistingSender(
     idempotencyKey: string,
     createMandateRequest: CreateMandateWithSenderAccountRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return DefaultApiFp(this.configuration)
       .createMandateForExistingSender(idempotencyKey, createMandateRequest, options)
@@ -13051,7 +13574,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public createPaymentLink(createPaymentLinkRequest: CreatePaymentLinkRequest, options?: AxiosRequestConfig) {
+  public createPaymentLink(createPaymentLinkRequest: CreatePaymentLinkRequest, options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .createPaymentLink(createPaymentLinkRequest, options)
       .then((request) => request(this.axios, this.basePath));
@@ -13063,7 +13586,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public createPaymentLinkCardPayment(options?: AxiosRequestConfig) {
+  public createPaymentLinkCardPayment(options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .createPaymentLinkCardPayment(options)
       .then((request) => request(this.axios, this.basePath));
@@ -13078,7 +13601,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    */
   public createPaymentLinkMandate(
     createPaymentLinkMandateRequest: CreatePaymentLinkMandateRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return DefaultApiFp(this.configuration)
       .createPaymentLinkMandate(createPaymentLinkMandateRequest, options)
@@ -13096,7 +13619,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public createPaymentMethod(
     paymentUserId: string,
     createPaymentMethodRequest: CreatePaymentMethodRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return DefaultApiFp(this.configuration)
       .createPaymentMethod(paymentUserId, createPaymentMethodRequest, options)
@@ -13114,7 +13637,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public createScheduledPayout(
     idempotencyKey: string,
     createScheduledPayoutRequest: CreateScheduledPayoutRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return DefaultApiFp(this.configuration)
       .createScheduledPayout(idempotencyKey, createScheduledPayoutRequest, options)
@@ -13134,7 +13657,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
     dateFrom?: string,
     dateTo?: string,
     currencies?: Array<string>,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return DefaultApiFp(this.configuration)
       .downloadBalanceStatement(dateFrom, dateTo, currencies, options)
@@ -13147,7 +13670,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getFpsQrCode(options?: AxiosRequestConfig) {
+  public getFpsQrCode(options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getFpsQrCode(options)
       .then((request) => request(this.axios, this.basePath));
@@ -13159,7 +13682,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getInstitutionsForCustomer(options?: AxiosRequestConfig) {
+  public getInstitutionsForCustomer(options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getInstitutionsForCustomer(options)
       .then((request) => request(this.axios, this.basePath));
@@ -13172,7 +13695,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getPaymentLink(paymentLinkId: string, options?: AxiosRequestConfig) {
+  public getPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getPaymentLink(paymentLinkId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -13185,7 +13708,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getPaymentMethod(paymentMethodId: string, options?: AxiosRequestConfig) {
+  public getPaymentMethod(paymentMethodId: string, options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getPaymentMethod(paymentMethodId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -13197,7 +13720,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getPaymentMethodPaymentLink(options?: AxiosRequestConfig) {
+  public getPaymentMethodPaymentLink(options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getPaymentMethodPaymentLink(options)
       .then((request) => request(this.axios, this.basePath));
@@ -13209,7 +13732,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getPaymentPaymentLink(options?: AxiosRequestConfig) {
+  public getPaymentPaymentLink(options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getPaymentPaymentLink(options)
       .then((request) => request(this.axios, this.basePath));
@@ -13222,7 +13745,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getPayoutById(payoutId: string, options?: AxiosRequestConfig) {
+  public getPayoutById(payoutId: string, options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getPayoutById(payoutId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -13234,7 +13757,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public getSenderPaymentUser(options?: AxiosRequestConfig) {
+  public getSenderPaymentUser(options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getSenderPaymentUser(options)
       .then((request) => request(this.axios, this.basePath));
@@ -13244,8 +13767,8 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * List mandates details
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
    * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'>} [statuses] The mandate statuses to filter for, comma separated
-   * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+   * @param {Array<ListDetokenizedMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
+   * @param {ListDetokenizedMandatesSenderTypeEnum} [senderType] The sender type of the mandate
    * @param {string} [userId] The user_id the mandate was setup for
    * @param {string} [institutionId] The institution the mandate was executed against
    * @param {number} [offset] default is 0
@@ -13257,15 +13780,13 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public listDetokenizedMandates(
     dateFrom?: string,
     dateTo?: string,
-    statuses?: Array<
-      'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'
-    >,
-    senderType?: 'INDIVIDUAL' | 'BUSINESS',
+    statuses?: Array<ListDetokenizedMandatesStatusesEnum>,
+    senderType?: ListDetokenizedMandatesSenderTypeEnum,
     userId?: string,
     institutionId?: string,
     offset?: number,
     limit?: number,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return DefaultApiFp(this.configuration)
       .listDetokenizedMandates(dateFrom, dateTo, statuses, senderType, userId, institutionId, offset, limit, options)
@@ -13276,8 +13797,8 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * List mandates
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
    * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'>} [statuses] The mandate statuses to filter for, comma separated
-   * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+   * @param {Array<ListMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
+   * @param {ListMandatesSenderTypeEnum} [senderType] The sender type of the mandate
    * @param {string} [userId] The user_id the mandate was setup for
    * @param {string} [institutionId] The institution the mandate was executed against
    * @param {number} [offset] default is 0
@@ -13289,15 +13810,13 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public listMandates(
     dateFrom?: string,
     dateTo?: string,
-    statuses?: Array<
-      'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'SUCCEEDED' | 'FAILED' | 'REVOKED'
-    >,
-    senderType?: 'INDIVIDUAL' | 'BUSINESS',
+    statuses?: Array<ListMandatesStatusesEnum>,
+    senderType?: ListMandatesSenderTypeEnum,
     userId?: string,
     institutionId?: string,
     offset?: number,
     limit?: number,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return DefaultApiFp(this.configuration)
       .listMandates(dateFrom, dateTo, statuses, senderType, userId, institutionId, offset, limit, options)
@@ -13311,7 +13830,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public listPaymentMethods(paymentUserId: string, options?: AxiosRequestConfig) {
+  public listPaymentMethods(paymentUserId: string, options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .listPaymentMethods(paymentUserId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -13321,12 +13840,12 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * List Payments
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
    * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {Array<'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'>} [statuses] The payment statuses to filter for, comma separated
-   * @param {'INDIVIDUAL' | 'BUSINESS'} [senderType] The sender type of the mandate
+   * @param {Array<ListPaymentsStatusesEnum>} [statuses] The payment statuses to filter for, comma separated
+   * @param {ListPaymentsSenderTypeEnum} [senderType] The sender type of the mandate
    * @param {string} [userId] The user_id the mandate was setup for
    * @param {string} [institutionId] The institution the mandate was executed against
-   * @param {'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'} [paymentType] Deprecated - The type of payment
-   * @param {Array<'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'>} [paymentTypes]
+   * @param {ListPaymentsPaymentTypeEnum} [paymentType] Deprecated - The type of payment
+   * @param {Array<ListPaymentsPaymentTypesEnum>} [paymentTypes]
    * @param {string} [mandateId] The mandate the payment belongs to
    * @param {string} [currency] Deprecated - The currency the payment is made in
    * @param {Array<string>} [currencies]
@@ -13339,20 +13858,18 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public listPayments(
     dateFrom?: string,
     dateTo?: string,
-    statuses?: Array<
-      'AUTHORIZATION_REQUIRED' | 'AUTHORIZING' | 'PROCESSING' | 'SUBMITTED' | 'EXECUTED' | 'FAILED' | 'REVOKED'
-    >,
-    senderType?: 'INDIVIDUAL' | 'BUSINESS',
+    statuses?: Array<ListPaymentsStatusesEnum>,
+    senderType?: ListPaymentsSenderTypeEnum,
     userId?: string,
     institutionId?: string,
-    paymentType?: 'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL',
-    paymentTypes?: Array<'MANDATE' | 'SINGLE' | 'CARD' | 'MANUAL'>,
+    paymentType?: ListPaymentsPaymentTypeEnum,
+    paymentTypes?: Array<ListPaymentsPaymentTypesEnum>,
     mandateId?: string,
     currency?: string,
     currencies?: Array<string>,
     offset?: number,
     limit?: number,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return DefaultApiFp(this.configuration)
       .listPayments(
@@ -13380,7 +13897,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public refreshPaymentAttempt(options?: AxiosRequestConfig) {
+  public refreshPaymentAttempt(options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .refreshPaymentAttempt(options)
       .then((request) => request(this.axios, this.basePath));
@@ -13393,7 +13910,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public setAutopayConsent(setAutopayConsentRequest: SetAutopayConsentRequest, options?: AxiosRequestConfig) {
+  public setAutopayConsent(setAutopayConsentRequest: SetAutopayConsentRequest, options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .setAutopayConsent(setAutopayConsentRequest, options)
       .then((request) => request(this.axios, this.basePath));
@@ -13405,7 +13922,7 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public unlinkPaymentPaymentLink(options?: AxiosRequestConfig) {
+  public unlinkPaymentPaymentLink(options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .unlinkPaymentPaymentLink(options)
       .then((request) => request(this.axios, this.basePath));
@@ -13422,13 +13939,101 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public updatePaymentUser(
     paymentUserId: string,
     updatePaymentUserRequest: UpdatePaymentUserRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return DefaultApiFp(this.configuration)
       .updatePaymentUser(paymentUserId, updatePaymentUserRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
+
+/**
+ * @export
+ */
+export const ListDetokenizedMandatesStatusesEnum = {
+  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
+  Authorizing: 'AUTHORIZING',
+  Processing: 'PROCESSING',
+  Submitted: 'SUBMITTED',
+  Succeeded: 'SUCCEEDED',
+  Failed: 'FAILED',
+  Revoked: 'REVOKED',
+} as const;
+export type ListDetokenizedMandatesStatusesEnum =
+  (typeof ListDetokenizedMandatesStatusesEnum)[keyof typeof ListDetokenizedMandatesStatusesEnum];
+/**
+ * @export
+ */
+export const ListDetokenizedMandatesSenderTypeEnum = {
+  Individual: 'INDIVIDUAL',
+  Business: 'BUSINESS',
+} as const;
+export type ListDetokenizedMandatesSenderTypeEnum =
+  (typeof ListDetokenizedMandatesSenderTypeEnum)[keyof typeof ListDetokenizedMandatesSenderTypeEnum];
+/**
+ * @export
+ */
+export const ListMandatesStatusesEnum = {
+  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
+  Authorizing: 'AUTHORIZING',
+  Processing: 'PROCESSING',
+  Submitted: 'SUBMITTED',
+  Succeeded: 'SUCCEEDED',
+  Failed: 'FAILED',
+  Revoked: 'REVOKED',
+} as const;
+export type ListMandatesStatusesEnum = (typeof ListMandatesStatusesEnum)[keyof typeof ListMandatesStatusesEnum];
+/**
+ * @export
+ */
+export const ListMandatesSenderTypeEnum = {
+  Individual: 'INDIVIDUAL',
+  Business: 'BUSINESS',
+} as const;
+export type ListMandatesSenderTypeEnum = (typeof ListMandatesSenderTypeEnum)[keyof typeof ListMandatesSenderTypeEnum];
+/**
+ * @export
+ */
+export const ListPaymentsStatusesEnum = {
+  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
+  Authorizing: 'AUTHORIZING',
+  Processing: 'PROCESSING',
+  Submitted: 'SUBMITTED',
+  Executed: 'EXECUTED',
+  Failed: 'FAILED',
+  Revoked: 'REVOKED',
+} as const;
+export type ListPaymentsStatusesEnum = (typeof ListPaymentsStatusesEnum)[keyof typeof ListPaymentsStatusesEnum];
+/**
+ * @export
+ */
+export const ListPaymentsSenderTypeEnum = {
+  Individual: 'INDIVIDUAL',
+  Business: 'BUSINESS',
+} as const;
+export type ListPaymentsSenderTypeEnum = (typeof ListPaymentsSenderTypeEnum)[keyof typeof ListPaymentsSenderTypeEnum];
+/**
+ * @export
+ */
+export const ListPaymentsPaymentTypeEnum = {
+  Mandate: 'MANDATE',
+  Single: 'SINGLE',
+  Card: 'CARD',
+  Manual: 'MANUAL',
+} as const;
+export type ListPaymentsPaymentTypeEnum =
+  (typeof ListPaymentsPaymentTypeEnum)[keyof typeof ListPaymentsPaymentTypeEnum];
+/**
+ * @export
+ */
+export const ListPaymentsPaymentTypesEnum = {
+  Mandate: 'MANDATE',
+  Single: 'SINGLE',
+  Card: 'CARD',
+  Manual: 'MANUAL',
+} as const;
+export type ListPaymentsPaymentTypesEnum =
+  (typeof ListPaymentsPaymentTypesEnum)[keyof typeof ListPaymentsPaymentTypesEnum];
 
 /**
  * LinkApi - axios parameter creator
@@ -13442,7 +14047,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createLink: async (apiLinkRequest: ApiLinkRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    createLink: async (apiLinkRequest: ApiLinkRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'apiLinkRequest' is not null or undefined
       assertParamExists('createLink', 'apiLinkRequest', apiLinkRequest);
       const localVarPath = `/link`;
@@ -13479,7 +14084,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createLinkWoauth: async (linkRequest: LinkRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    createLinkWoauth: async (linkRequest: LinkRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'linkRequest' is not null or undefined
       assertParamExists('createLinkWoauth', 'linkRequest', linkRequest);
       const localVarPath = `/link/woauth`;
@@ -13520,7 +14125,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
     linkAction: async (
       loginIdentityId: string,
       actionRequest: ActionRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'loginIdentityId' is not null or undefined
       assertParamExists('linkAction', 'loginIdentityId', loginIdentityId);
@@ -13563,7 +14168,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    linkStatus: async (loginIdentityId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    linkStatus: async (loginIdentityId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'loginIdentityId' is not null or undefined
       assertParamExists('linkStatus', 'loginIdentityId', loginIdentityId);
       const localVarPath = `/link/status/{loginIdentityId}`.replace(
@@ -13600,7 +14205,10 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    linkStatusNonSensitive: async (loginIdentityId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    linkStatusNonSensitive: async (
+      loginIdentityId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
       // verify required parameter 'loginIdentityId' is not null or undefined
       assertParamExists('linkStatusNonSensitive', 'loginIdentityId', loginIdentityId);
       const localVarPath = `/link/fvlink/status/{loginIdentityId}`.replace(
@@ -13636,7 +14244,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
      * @param {string} [country] (Deprecated) The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
      * @param {string} [productsSupported] The products that this institution supports
-     * @param {'BANK' | 'WALLET' | 'TEST'} [institutionType] The type of institution
+     * @param {ListInstitutionsInstitutionTypeEnum} [institutionType] The type of institution
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -13644,8 +14252,8 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
       country?: string,
       countries?: Array<string>,
       productsSupported?: string,
-      institutionType?: 'BANK' | 'WALLET' | 'TEST',
-      options: AxiosRequestConfig = {},
+      institutionType?: ListInstitutionsInstitutionTypeEnum,
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/institutions`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -13694,7 +14302,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    relink: async (relinkRequest: RelinkRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    relink: async (relinkRequest: RelinkRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'relinkRequest' is not null or undefined
       assertParamExists('relink', 'relinkRequest', relinkRequest);
       const localVarPath = `/link/relink`;
@@ -13735,7 +14343,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
     relinkV2: async (
       loginIdentityId: string,
       apiRelinkRequest: ApiRelinkRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'loginIdentityId' is not null or undefined
       assertParamExists('relinkV2', 'loginIdentityId', loginIdentityId);
@@ -13774,7 +14382,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
     },
     /**
      * Exchange authorization code for token
-     * @param {string} grantType
+     * @param {TokenGrantTypeEnum} grantType
      * @param {string} code
      * @param {string} clientId
      * @param {string} redirectUri
@@ -13782,11 +14390,11 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
      * @throws {RequiredError}
      */
     token: async (
-      grantType: string,
+      grantType: TokenGrantTypeEnum,
       code: string,
       clientId: string,
       redirectUri: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'grantType' is not null or undefined
       assertParamExists('token', 'grantType', grantType);
@@ -13859,10 +14467,19 @@ export const LinkApiFp = function (configuration?: Configuration) {
      */
     async createLink(
       apiLinkRequest: ApiLinkRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetLoginIdentityByIdResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createLink(apiLinkRequest, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LinkApi.createLink']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Creates a new link
@@ -13872,10 +14489,19 @@ export const LinkApiFp = function (configuration?: Configuration) {
      */
     async createLinkWoauth(
       linkRequest: LinkRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LinkResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createLinkWoauth(linkRequest, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LinkApi.createLinkWoauth']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Post the user action value
@@ -13887,10 +14513,19 @@ export const LinkApiFp = function (configuration?: Configuration) {
     async linkAction(
       loginIdentityId: string,
       actionRequest: ActionRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetLoginIdentityByIdResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.linkAction(loginIdentityId, actionRequest, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LinkApi.linkAction']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Check the status of a given loginIdentity
@@ -13900,10 +14535,19 @@ export const LinkApiFp = function (configuration?: Configuration) {
      */
     async linkStatus(
       loginIdentityId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LinkStatusResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.linkStatus(loginIdentityId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LinkApi.linkStatus']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Check the status of a given login identity via FVLink
@@ -13913,17 +14557,26 @@ export const LinkApiFp = function (configuration?: Configuration) {
      */
     async linkStatusNonSensitive(
       loginIdentityId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<NonSensitiveLinkStatusResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.linkStatusNonSensitive(loginIdentityId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LinkApi.linkStatusNonSensitive']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get a list of institutions
      * @param {string} [country] (Deprecated) The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
      * @param {string} [productsSupported] The products that this institution supports
-     * @param {'BANK' | 'WALLET' | 'TEST'} [institutionType] The type of institution
+     * @param {ListInstitutionsInstitutionTypeEnum} [institutionType] The type of institution
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -13931,8 +14584,8 @@ export const LinkApiFp = function (configuration?: Configuration) {
       country?: string,
       countries?: Array<string>,
       productsSupported?: string,
-      institutionType?: 'BANK' | 'WALLET' | 'TEST',
-      options?: AxiosRequestConfig,
+      institutionType?: ListInstitutionsInstitutionTypeEnum,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Institution>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.listInstitutions(
         country,
@@ -13941,7 +14594,16 @@ export const LinkApiFp = function (configuration?: Configuration) {
         institutionType,
         options,
       );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LinkApi.listInstitutions']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Update an existing link
@@ -13951,10 +14613,18 @@ export const LinkApiFp = function (configuration?: Configuration) {
      */
     async relink(
       relinkRequest: RelinkRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LinkResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.relink(relinkRequest, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath = operationServerMap['LinkApi.relink']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Create a new link using an existing LIID
@@ -13966,14 +14636,23 @@ export const LinkApiFp = function (configuration?: Configuration) {
     async relinkV2(
       loginIdentityId: string,
       apiRelinkRequest: ApiRelinkRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetLoginIdentityByIdResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.relinkV2(loginIdentityId, apiRelinkRequest, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LinkApi.relinkV2']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Exchange authorization code for token
-     * @param {string} grantType
+     * @param {TokenGrantTypeEnum} grantType
      * @param {string} code
      * @param {string} clientId
      * @param {string} redirectUri
@@ -13981,14 +14660,22 @@ export const LinkApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async token(
-      grantType: string,
+      grantType: TokenGrantTypeEnum,
       code: string,
       clientId: string,
       redirectUri: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AccessTokenResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.token(grantType, code, clientId, redirectUri, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath = operationServerMap['LinkApi.token']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
   };
 };
@@ -14006,7 +14693,10 @@ export const LinkApiFactory = function (configuration?: Configuration, basePath?
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createLink(apiLinkRequest: ApiLinkRequest, options?: any): AxiosPromise<GetLoginIdentityByIdResponse> {
+    createLink(
+      apiLinkRequest: ApiLinkRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<GetLoginIdentityByIdResponse> {
       return localVarFp.createLink(apiLinkRequest, options).then((request) => request(axios, basePath));
     },
     /**
@@ -14015,7 +14705,7 @@ export const LinkApiFactory = function (configuration?: Configuration, basePath?
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createLinkWoauth(linkRequest: LinkRequest, options?: any): AxiosPromise<LinkResponse> {
+    createLinkWoauth(linkRequest: LinkRequest, options?: RawAxiosRequestConfig): AxiosPromise<LinkResponse> {
       return localVarFp.createLinkWoauth(linkRequest, options).then((request) => request(axios, basePath));
     },
     /**
@@ -14028,7 +14718,7 @@ export const LinkApiFactory = function (configuration?: Configuration, basePath?
     linkAction(
       loginIdentityId: string,
       actionRequest: ActionRequest,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<GetLoginIdentityByIdResponse> {
       return localVarFp.linkAction(loginIdentityId, actionRequest, options).then((request) => request(axios, basePath));
     },
@@ -14038,7 +14728,7 @@ export const LinkApiFactory = function (configuration?: Configuration, basePath?
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    linkStatus(loginIdentityId: string, options?: any): AxiosPromise<LinkStatusResponse> {
+    linkStatus(loginIdentityId: string, options?: RawAxiosRequestConfig): AxiosPromise<LinkStatusResponse> {
       return localVarFp.linkStatus(loginIdentityId, options).then((request) => request(axios, basePath));
     },
     /**
@@ -14047,7 +14737,10 @@ export const LinkApiFactory = function (configuration?: Configuration, basePath?
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    linkStatusNonSensitive(loginIdentityId: string, options?: any): AxiosPromise<NonSensitiveLinkStatusResponse> {
+    linkStatusNonSensitive(
+      loginIdentityId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<NonSensitiveLinkStatusResponse> {
       return localVarFp.linkStatusNonSensitive(loginIdentityId, options).then((request) => request(axios, basePath));
     },
     /**
@@ -14055,7 +14748,7 @@ export const LinkApiFactory = function (configuration?: Configuration, basePath?
      * @param {string} [country] (Deprecated) The country the institution belongs to
      * @param {Array<string>} [countries] The countries the institution belongs to
      * @param {string} [productsSupported] The products that this institution supports
-     * @param {'BANK' | 'WALLET' | 'TEST'} [institutionType] The type of institution
+     * @param {ListInstitutionsInstitutionTypeEnum} [institutionType] The type of institution
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -14063,8 +14756,8 @@ export const LinkApiFactory = function (configuration?: Configuration, basePath?
       country?: string,
       countries?: Array<string>,
       productsSupported?: string,
-      institutionType?: 'BANK' | 'WALLET' | 'TEST',
-      options?: any,
+      institutionType?: ListInstitutionsInstitutionTypeEnum,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<Array<Institution>> {
       return localVarFp
         .listInstitutions(country, countries, productsSupported, institutionType, options)
@@ -14076,7 +14769,7 @@ export const LinkApiFactory = function (configuration?: Configuration, basePath?
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    relink(relinkRequest: RelinkRequest, options?: any): AxiosPromise<LinkResponse> {
+    relink(relinkRequest: RelinkRequest, options?: RawAxiosRequestConfig): AxiosPromise<LinkResponse> {
       return localVarFp.relink(relinkRequest, options).then((request) => request(axios, basePath));
     },
     /**
@@ -14089,7 +14782,7 @@ export const LinkApiFactory = function (configuration?: Configuration, basePath?
     relinkV2(
       loginIdentityId: string,
       apiRelinkRequest: ApiRelinkRequest,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<GetLoginIdentityByIdResponse> {
       return localVarFp
         .relinkV2(loginIdentityId, apiRelinkRequest, options)
@@ -14097,7 +14790,7 @@ export const LinkApiFactory = function (configuration?: Configuration, basePath?
     },
     /**
      * Exchange authorization code for token
-     * @param {string} grantType
+     * @param {TokenGrantTypeEnum} grantType
      * @param {string} code
      * @param {string} clientId
      * @param {string} redirectUri
@@ -14105,11 +14798,11 @@ export const LinkApiFactory = function (configuration?: Configuration, basePath?
      * @throws {RequiredError}
      */
     token(
-      grantType: string,
+      grantType: TokenGrantTypeEnum,
       code: string,
       clientId: string,
       redirectUri: string,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<AccessTokenResponse> {
       return localVarFp
         .token(grantType, code, clientId, redirectUri, options)
@@ -14131,7 +14824,10 @@ export interface LinkApiInterface {
    * @throws {RequiredError}
    * @memberof LinkApiInterface
    */
-  createLink(apiLinkRequest: ApiLinkRequest, options?: AxiosRequestConfig): AxiosPromise<GetLoginIdentityByIdResponse>;
+  createLink(
+    apiLinkRequest: ApiLinkRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<GetLoginIdentityByIdResponse>;
 
   /**
    * Creates a new link
@@ -14140,7 +14836,7 @@ export interface LinkApiInterface {
    * @throws {RequiredError}
    * @memberof LinkApiInterface
    */
-  createLinkWoauth(linkRequest: LinkRequest, options?: AxiosRequestConfig): AxiosPromise<LinkResponse>;
+  createLinkWoauth(linkRequest: LinkRequest, options?: RawAxiosRequestConfig): AxiosPromise<LinkResponse>;
 
   /**
    * Post the user action value
@@ -14153,7 +14849,7 @@ export interface LinkApiInterface {
   linkAction(
     loginIdentityId: string,
     actionRequest: ActionRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<GetLoginIdentityByIdResponse>;
 
   /**
@@ -14163,7 +14859,7 @@ export interface LinkApiInterface {
    * @throws {RequiredError}
    * @memberof LinkApiInterface
    */
-  linkStatus(loginIdentityId: string, options?: AxiosRequestConfig): AxiosPromise<LinkStatusResponse>;
+  linkStatus(loginIdentityId: string, options?: RawAxiosRequestConfig): AxiosPromise<LinkStatusResponse>;
 
   /**
    * Check the status of a given login identity via FVLink
@@ -14174,7 +14870,7 @@ export interface LinkApiInterface {
    */
   linkStatusNonSensitive(
     loginIdentityId: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<NonSensitiveLinkStatusResponse>;
 
   /**
@@ -14182,7 +14878,7 @@ export interface LinkApiInterface {
    * @param {string} [country] (Deprecated) The country the institution belongs to
    * @param {Array<string>} [countries] The countries the institution belongs to
    * @param {string} [productsSupported] The products that this institution supports
-   * @param {'BANK' | 'WALLET' | 'TEST'} [institutionType] The type of institution
+   * @param {ListInstitutionsInstitutionTypeEnum} [institutionType] The type of institution
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LinkApiInterface
@@ -14191,8 +14887,8 @@ export interface LinkApiInterface {
     country?: string,
     countries?: Array<string>,
     productsSupported?: string,
-    institutionType?: 'BANK' | 'WALLET' | 'TEST',
-    options?: AxiosRequestConfig,
+    institutionType?: ListInstitutionsInstitutionTypeEnum,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<Array<Institution>>;
 
   /**
@@ -14202,7 +14898,7 @@ export interface LinkApiInterface {
    * @throws {RequiredError}
    * @memberof LinkApiInterface
    */
-  relink(relinkRequest: RelinkRequest, options?: AxiosRequestConfig): AxiosPromise<LinkResponse>;
+  relink(relinkRequest: RelinkRequest, options?: RawAxiosRequestConfig): AxiosPromise<LinkResponse>;
 
   /**
    * Create a new link using an existing LIID
@@ -14215,12 +14911,12 @@ export interface LinkApiInterface {
   relinkV2(
     loginIdentityId: string,
     apiRelinkRequest: ApiRelinkRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<GetLoginIdentityByIdResponse>;
 
   /**
    * Exchange authorization code for token
-   * @param {string} grantType
+   * @param {TokenGrantTypeEnum} grantType
    * @param {string} code
    * @param {string} clientId
    * @param {string} redirectUri
@@ -14229,11 +14925,11 @@ export interface LinkApiInterface {
    * @memberof LinkApiInterface
    */
   token(
-    grantType: string,
+    grantType: TokenGrantTypeEnum,
     code: string,
     clientId: string,
     redirectUri: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<AccessTokenResponse>;
 }
 
@@ -14251,7 +14947,7 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
    * @throws {RequiredError}
    * @memberof LinkApi
    */
-  public createLink(apiLinkRequest: ApiLinkRequest, options?: AxiosRequestConfig) {
+  public createLink(apiLinkRequest: ApiLinkRequest, options?: RawAxiosRequestConfig) {
     return LinkApiFp(this.configuration)
       .createLink(apiLinkRequest, options)
       .then((request) => request(this.axios, this.basePath));
@@ -14264,7 +14960,7 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
    * @throws {RequiredError}
    * @memberof LinkApi
    */
-  public createLinkWoauth(linkRequest: LinkRequest, options?: AxiosRequestConfig) {
+  public createLinkWoauth(linkRequest: LinkRequest, options?: RawAxiosRequestConfig) {
     return LinkApiFp(this.configuration)
       .createLinkWoauth(linkRequest, options)
       .then((request) => request(this.axios, this.basePath));
@@ -14278,7 +14974,7 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
    * @throws {RequiredError}
    * @memberof LinkApi
    */
-  public linkAction(loginIdentityId: string, actionRequest: ActionRequest, options?: AxiosRequestConfig) {
+  public linkAction(loginIdentityId: string, actionRequest: ActionRequest, options?: RawAxiosRequestConfig) {
     return LinkApiFp(this.configuration)
       .linkAction(loginIdentityId, actionRequest, options)
       .then((request) => request(this.axios, this.basePath));
@@ -14291,7 +14987,7 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
    * @throws {RequiredError}
    * @memberof LinkApi
    */
-  public linkStatus(loginIdentityId: string, options?: AxiosRequestConfig) {
+  public linkStatus(loginIdentityId: string, options?: RawAxiosRequestConfig) {
     return LinkApiFp(this.configuration)
       .linkStatus(loginIdentityId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -14304,7 +15000,7 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
    * @throws {RequiredError}
    * @memberof LinkApi
    */
-  public linkStatusNonSensitive(loginIdentityId: string, options?: AxiosRequestConfig) {
+  public linkStatusNonSensitive(loginIdentityId: string, options?: RawAxiosRequestConfig) {
     return LinkApiFp(this.configuration)
       .linkStatusNonSensitive(loginIdentityId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -14315,7 +15011,7 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
    * @param {string} [country] (Deprecated) The country the institution belongs to
    * @param {Array<string>} [countries] The countries the institution belongs to
    * @param {string} [productsSupported] The products that this institution supports
-   * @param {'BANK' | 'WALLET' | 'TEST'} [institutionType] The type of institution
+   * @param {ListInstitutionsInstitutionTypeEnum} [institutionType] The type of institution
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LinkApi
@@ -14324,8 +15020,8 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
     country?: string,
     countries?: Array<string>,
     productsSupported?: string,
-    institutionType?: 'BANK' | 'WALLET' | 'TEST',
-    options?: AxiosRequestConfig,
+    institutionType?: ListInstitutionsInstitutionTypeEnum,
+    options?: RawAxiosRequestConfig,
   ) {
     return LinkApiFp(this.configuration)
       .listInstitutions(country, countries, productsSupported, institutionType, options)
@@ -14339,7 +15035,7 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
    * @throws {RequiredError}
    * @memberof LinkApi
    */
-  public relink(relinkRequest: RelinkRequest, options?: AxiosRequestConfig) {
+  public relink(relinkRequest: RelinkRequest, options?: RawAxiosRequestConfig) {
     return LinkApiFp(this.configuration)
       .relink(relinkRequest, options)
       .then((request) => request(this.axios, this.basePath));
@@ -14353,7 +15049,7 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
    * @throws {RequiredError}
    * @memberof LinkApi
    */
-  public relinkV2(loginIdentityId: string, apiRelinkRequest: ApiRelinkRequest, options?: AxiosRequestConfig) {
+  public relinkV2(loginIdentityId: string, apiRelinkRequest: ApiRelinkRequest, options?: RawAxiosRequestConfig) {
     return LinkApiFp(this.configuration)
       .relinkV2(loginIdentityId, apiRelinkRequest, options)
       .then((request) => request(this.axios, this.basePath));
@@ -14361,7 +15057,7 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
 
   /**
    * Exchange authorization code for token
-   * @param {string} grantType
+   * @param {TokenGrantTypeEnum} grantType
    * @param {string} code
    * @param {string} clientId
    * @param {string} redirectUri
@@ -14369,12 +15065,36 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
    * @throws {RequiredError}
    * @memberof LinkApi
    */
-  public token(grantType: string, code: string, clientId: string, redirectUri: string, options?: AxiosRequestConfig) {
+  public token(
+    grantType: TokenGrantTypeEnum,
+    code: string,
+    clientId: string,
+    redirectUri: string,
+    options?: RawAxiosRequestConfig,
+  ) {
     return LinkApiFp(this.configuration)
       .token(grantType, code, clientId, redirectUri, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
+
+/**
+ * @export
+ */
+export const ListInstitutionsInstitutionTypeEnum = {
+  Bank: 'BANK',
+  Wallet: 'WALLET',
+  Test: 'TEST',
+} as const;
+export type ListInstitutionsInstitutionTypeEnum =
+  (typeof ListInstitutionsInstitutionTypeEnum)[keyof typeof ListInstitutionsInstitutionTypeEnum];
+/**
+ * @export
+ */
+export const TokenGrantTypeEnum = {
+  AuthorizationCode: 'authorization_code',
+} as const;
+export type TokenGrantTypeEnum = (typeof TokenGrantTypeEnum)[keyof typeof TokenGrantTypeEnum];
 
 /**
  * LoginIdentityApi - axios parameter creator
@@ -14387,7 +15107,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    deleteLoginIdentity: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    deleteLoginIdentity: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/login_identity`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -14421,7 +15141,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
      */
     generateLinkToken: async (
       linkTokenRequest: LinkTokenRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'linkTokenRequest' is not null or undefined
       assertParamExists('generateLinkToken', 'linkTokenRequest', linkTokenRequest);
@@ -14459,7 +15179,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getAccount: async (accountId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getAccount: async (accountId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'accountId' is not null or undefined
       assertParamExists('getAccount', 'accountId', accountId);
       const localVarPath = `/accounts/{accountId}`.replace(`{${'accountId'}}`, encodeURIComponent(String(accountId)));
@@ -14493,7 +15213,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getAccountNumber: async (accountId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getAccountNumber: async (accountId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'accountId' is not null or undefined
       assertParamExists('getAccountNumber', 'accountId', accountId);
       const localVarPath = `/account_numbers/{accountId}`.replace(
@@ -14527,14 +15247,14 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
     /**
      * Get the balance history for a specific account
      * @param {string} accountId The account id
-     * @param {'INSTITUTION' | 'COMPUTED'} [source] The source will determine what type of balance history will be returned
+     * @param {GetBalanceHistorySourceEnum} [source] The source will determine what type of balance history will be returned
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getBalanceHistory: async (
       accountId: string,
-      source?: 'INSTITUTION' | 'COMPUTED',
-      options: AxiosRequestConfig = {},
+      source?: GetBalanceHistorySourceEnum,
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'accountId' is not null or undefined
       assertParamExists('getBalanceHistory', 'accountId', accountId);
@@ -14576,7 +15296,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getCompositeStatement: async (redirect?: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getCompositeStatement: async (redirect?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/composite_statement`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -14611,7 +15331,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getIdentity: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getIdentity: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/identity`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -14642,7 +15362,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getIncomeEstimateByLoginIdentityId: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getIncomeEstimateByLoginIdentityId: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/income`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -14673,7 +15393,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getLoginIdentity: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getLoginIdentity: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/login_identity`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -14709,7 +15429,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
     getStatement: async (
       statementId: string,
       redirect?: boolean,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'statementId' is not null or undefined
       assertParamExists('getStatement', 'statementId', statementId);
@@ -14750,7 +15470,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getStatements: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getStatements: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/statements`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -14781,7 +15501,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    listAccounts: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    listAccounts: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/accounts`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -14812,7 +15532,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    listCardDetails: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    listCardDetails: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/card_details`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -14852,7 +15572,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       offset?: number,
       limit?: number,
       enrichments?: boolean,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'accountId' is not null or undefined
       assertParamExists('listTransactionsByAccountId', 'accountId', accountId);
@@ -14908,7 +15628,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       offset?: number,
       limit?: number,
       enrichments?: boolean,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/transactions`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -14955,7 +15675,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
      */
     refreshLoginIdentity: async (
       refreshLoginIdentityReq?: RefreshLoginIdentityRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/login_identity/refresh`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -15005,10 +15725,19 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async deleteLoginIdentity(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DeleteLoginIdentityResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.deleteLoginIdentity(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LoginIdentityApi.deleteLoginIdentity']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * generate a link token that can be used to create link
@@ -15018,10 +15747,19 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
      */
     async generateLinkToken(
       linkTokenRequest: LinkTokenRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LinkTokenResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.generateLinkToken(linkTokenRequest, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LoginIdentityApi.generateLinkToken']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get a specific account\'s information
@@ -15031,10 +15769,19 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
      */
     async getAccount(
       accountId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetAccountResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getAccount(accountId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LoginIdentityApi.getAccount']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get the account number for a specific account
@@ -15044,25 +15791,43 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
      */
     async getAccountNumber(
       accountId: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetAccountNumberResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getAccountNumber(accountId, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LoginIdentityApi.getAccountNumber']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get the balance history for a specific account
      * @param {string} accountId The account id
-     * @param {'INSTITUTION' | 'COMPUTED'} [source] The source will determine what type of balance history will be returned
+     * @param {GetBalanceHistorySourceEnum} [source] The source will determine what type of balance history will be returned
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getBalanceHistory(
       accountId: string,
-      source?: 'INSTITUTION' | 'COMPUTED',
-      options?: AxiosRequestConfig,
+      source?: GetBalanceHistorySourceEnum,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetBalanceHistoryResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getBalanceHistory(accountId, source, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LoginIdentityApi.getBalanceHistory']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Download composite statement
@@ -15072,10 +15837,19 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
      */
     async getCompositeStatement(
       redirect?: boolean,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CompositeStatementLink>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getCompositeStatement(redirect, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LoginIdentityApi.getCompositeStatement']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * \\[BETA] Get a list of identity data for a given login identity
@@ -15083,10 +15857,19 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getIdentity(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetIdentityResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getIdentity(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LoginIdentityApi.getIdentity']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get income figures for a login identity
@@ -15094,10 +15877,19 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getIncomeEstimateByLoginIdentityId(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<IncomeResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getIncomeEstimateByLoginIdentityId(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LoginIdentityApi.getIncomeEstimateByLoginIdentityId']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get a specific loginIdentity
@@ -15105,10 +15897,19 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getLoginIdentity(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetLoginIdentityByIdResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getLoginIdentity(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LoginIdentityApi.getLoginIdentity']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Download statement
@@ -15120,10 +15921,19 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
     async getStatement(
       statementId: string,
       redirect?: boolean,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetStatementLinkResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getStatement(statementId, redirect, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LoginIdentityApi.getStatement']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get list of available statements
@@ -15131,10 +15941,19 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getStatements(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetStatementsResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getStatements(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LoginIdentityApi.getStatements']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get a list of accounts for a login identity
@@ -15142,10 +15961,19 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async listAccounts(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListAccountsResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.listAccounts(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LoginIdentityApi.listAccounts']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get a list of card details for a login identity
@@ -15153,10 +15981,19 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async listCardDetails(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListCardsDetailsResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.listCardDetails(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LoginIdentityApi.listCardDetails']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get a list of transactions for a particular account. The transactions are returned in sorted order, with the most recent one appearing first.
@@ -15172,7 +16009,7 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
       offset?: number,
       limit?: number,
       enrichments?: boolean,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListTransactionsResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.listTransactionsByAccountId(
         accountId,
@@ -15181,7 +16018,16 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
         enrichments,
         options,
       );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LoginIdentityApi.listTransactionsByAccountId']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Get a list of transactions for a login identity. The transactions are returned in sorted order, with the most recent one appearing first.
@@ -15195,7 +16041,7 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
       offset?: number,
       limit?: number,
       enrichments?: boolean,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListTransactionsResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.listTransactionsByLoginIdentityId(
         offset,
@@ -15203,7 +16049,16 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
         enrichments,
         options,
       );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LoginIdentityApi.listTransactionsByLoginIdentityId']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * Create a refresh job for a login identity
@@ -15213,10 +16068,19 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
      */
     async refreshLoginIdentity(
       refreshLoginIdentityReq?: RefreshLoginIdentityRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RefreshTokenResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.refreshLoginIdentity(refreshLoginIdentityReq, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LoginIdentityApi.refreshLoginIdentity']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
   };
 };
@@ -15237,7 +16101,7 @@ export const LoginIdentityApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    deleteLoginIdentity(options?: any): AxiosPromise<DeleteLoginIdentityResponse> {
+    deleteLoginIdentity(options?: RawAxiosRequestConfig): AxiosPromise<DeleteLoginIdentityResponse> {
       return localVarFp.deleteLoginIdentity(options).then((request) => request(axios, basePath));
     },
     /**
@@ -15246,7 +16110,10 @@ export const LoginIdentityApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    generateLinkToken(linkTokenRequest: LinkTokenRequest, options?: any): AxiosPromise<LinkTokenResponse> {
+    generateLinkToken(
+      linkTokenRequest: LinkTokenRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<LinkTokenResponse> {
       return localVarFp.generateLinkToken(linkTokenRequest, options).then((request) => request(axios, basePath));
     },
     /**
@@ -15255,7 +16122,7 @@ export const LoginIdentityApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getAccount(accountId: string, options?: any): AxiosPromise<GetAccountResponse> {
+    getAccount(accountId: string, options?: RawAxiosRequestConfig): AxiosPromise<GetAccountResponse> {
       return localVarFp.getAccount(accountId, options).then((request) => request(axios, basePath));
     },
     /**
@@ -15264,20 +16131,20 @@ export const LoginIdentityApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getAccountNumber(accountId: string, options?: any): AxiosPromise<GetAccountNumberResponse> {
+    getAccountNumber(accountId: string, options?: RawAxiosRequestConfig): AxiosPromise<GetAccountNumberResponse> {
       return localVarFp.getAccountNumber(accountId, options).then((request) => request(axios, basePath));
     },
     /**
      * Get the balance history for a specific account
      * @param {string} accountId The account id
-     * @param {'INSTITUTION' | 'COMPUTED'} [source] The source will determine what type of balance history will be returned
+     * @param {GetBalanceHistorySourceEnum} [source] The source will determine what type of balance history will be returned
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     getBalanceHistory(
       accountId: string,
-      source?: 'INSTITUTION' | 'COMPUTED',
-      options?: any,
+      source?: GetBalanceHistorySourceEnum,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<GetBalanceHistoryResponse> {
       return localVarFp.getBalanceHistory(accountId, source, options).then((request) => request(axios, basePath));
     },
@@ -15287,7 +16154,7 @@ export const LoginIdentityApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getCompositeStatement(redirect?: boolean, options?: any): AxiosPromise<CompositeStatementLink> {
+    getCompositeStatement(redirect?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<CompositeStatementLink> {
       return localVarFp.getCompositeStatement(redirect, options).then((request) => request(axios, basePath));
     },
     /**
@@ -15295,7 +16162,7 @@ export const LoginIdentityApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getIdentity(options?: any): AxiosPromise<GetIdentityResponse> {
+    getIdentity(options?: RawAxiosRequestConfig): AxiosPromise<GetIdentityResponse> {
       return localVarFp.getIdentity(options).then((request) => request(axios, basePath));
     },
     /**
@@ -15303,7 +16170,7 @@ export const LoginIdentityApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getIncomeEstimateByLoginIdentityId(options?: any): AxiosPromise<IncomeResponse> {
+    getIncomeEstimateByLoginIdentityId(options?: RawAxiosRequestConfig): AxiosPromise<IncomeResponse> {
       return localVarFp.getIncomeEstimateByLoginIdentityId(options).then((request) => request(axios, basePath));
     },
     /**
@@ -15311,7 +16178,7 @@ export const LoginIdentityApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getLoginIdentity(options?: any): AxiosPromise<GetLoginIdentityByIdResponse> {
+    getLoginIdentity(options?: RawAxiosRequestConfig): AxiosPromise<GetLoginIdentityByIdResponse> {
       return localVarFp.getLoginIdentity(options).then((request) => request(axios, basePath));
     },
     /**
@@ -15321,7 +16188,11 @@ export const LoginIdentityApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getStatement(statementId: string, redirect?: boolean, options?: any): AxiosPromise<GetStatementLinkResponse> {
+    getStatement(
+      statementId: string,
+      redirect?: boolean,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<GetStatementLinkResponse> {
       return localVarFp.getStatement(statementId, redirect, options).then((request) => request(axios, basePath));
     },
     /**
@@ -15329,7 +16200,7 @@ export const LoginIdentityApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getStatements(options?: any): AxiosPromise<GetStatementsResponse> {
+    getStatements(options?: RawAxiosRequestConfig): AxiosPromise<GetStatementsResponse> {
       return localVarFp.getStatements(options).then((request) => request(axios, basePath));
     },
     /**
@@ -15337,7 +16208,7 @@ export const LoginIdentityApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    listAccounts(options?: any): AxiosPromise<ListAccountsResponse> {
+    listAccounts(options?: RawAxiosRequestConfig): AxiosPromise<ListAccountsResponse> {
       return localVarFp.listAccounts(options).then((request) => request(axios, basePath));
     },
     /**
@@ -15345,7 +16216,7 @@ export const LoginIdentityApiFactory = function (
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    listCardDetails(options?: any): AxiosPromise<ListCardsDetailsResponse> {
+    listCardDetails(options?: RawAxiosRequestConfig): AxiosPromise<ListCardsDetailsResponse> {
       return localVarFp.listCardDetails(options).then((request) => request(axios, basePath));
     },
     /**
@@ -15362,7 +16233,7 @@ export const LoginIdentityApiFactory = function (
       offset?: number,
       limit?: number,
       enrichments?: boolean,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<ListTransactionsResponse> {
       return localVarFp
         .listTransactionsByAccountId(accountId, offset, limit, enrichments, options)
@@ -15380,7 +16251,7 @@ export const LoginIdentityApiFactory = function (
       offset?: number,
       limit?: number,
       enrichments?: boolean,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<ListTransactionsResponse> {
       return localVarFp
         .listTransactionsByLoginIdentityId(offset, limit, enrichments, options)
@@ -15394,7 +16265,7 @@ export const LoginIdentityApiFactory = function (
      */
     refreshLoginIdentity(
       refreshLoginIdentityReq?: RefreshLoginIdentityRequest,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<RefreshTokenResponse> {
       return localVarFp
         .refreshLoginIdentity(refreshLoginIdentityReq, options)
@@ -15415,7 +16286,7 @@ export interface LoginIdentityApiInterface {
    * @throws {RequiredError}
    * @memberof LoginIdentityApiInterface
    */
-  deleteLoginIdentity(options?: AxiosRequestConfig): AxiosPromise<DeleteLoginIdentityResponse>;
+  deleteLoginIdentity(options?: RawAxiosRequestConfig): AxiosPromise<DeleteLoginIdentityResponse>;
 
   /**
    * generate a link token that can be used to create link
@@ -15424,7 +16295,10 @@ export interface LoginIdentityApiInterface {
    * @throws {RequiredError}
    * @memberof LoginIdentityApiInterface
    */
-  generateLinkToken(linkTokenRequest: LinkTokenRequest, options?: AxiosRequestConfig): AxiosPromise<LinkTokenResponse>;
+  generateLinkToken(
+    linkTokenRequest: LinkTokenRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<LinkTokenResponse>;
 
   /**
    * Get a specific account\'s information
@@ -15433,7 +16307,7 @@ export interface LoginIdentityApiInterface {
    * @throws {RequiredError}
    * @memberof LoginIdentityApiInterface
    */
-  getAccount(accountId: string, options?: AxiosRequestConfig): AxiosPromise<GetAccountResponse>;
+  getAccount(accountId: string, options?: RawAxiosRequestConfig): AxiosPromise<GetAccountResponse>;
 
   /**
    * Get the account number for a specific account
@@ -15442,20 +16316,20 @@ export interface LoginIdentityApiInterface {
    * @throws {RequiredError}
    * @memberof LoginIdentityApiInterface
    */
-  getAccountNumber(accountId: string, options?: AxiosRequestConfig): AxiosPromise<GetAccountNumberResponse>;
+  getAccountNumber(accountId: string, options?: RawAxiosRequestConfig): AxiosPromise<GetAccountNumberResponse>;
 
   /**
    * Get the balance history for a specific account
    * @param {string} accountId The account id
-   * @param {'INSTITUTION' | 'COMPUTED'} [source] The source will determine what type of balance history will be returned
+   * @param {GetBalanceHistorySourceEnum} [source] The source will determine what type of balance history will be returned
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LoginIdentityApiInterface
    */
   getBalanceHistory(
     accountId: string,
-    source?: 'INSTITUTION' | 'COMPUTED',
-    options?: AxiosRequestConfig,
+    source?: GetBalanceHistorySourceEnum,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<GetBalanceHistoryResponse>;
 
   /**
@@ -15465,7 +16339,7 @@ export interface LoginIdentityApiInterface {
    * @throws {RequiredError}
    * @memberof LoginIdentityApiInterface
    */
-  getCompositeStatement(redirect?: boolean, options?: AxiosRequestConfig): AxiosPromise<CompositeStatementLink>;
+  getCompositeStatement(redirect?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<CompositeStatementLink>;
 
   /**
    * \\[BETA] Get a list of identity data for a given login identity
@@ -15473,7 +16347,7 @@ export interface LoginIdentityApiInterface {
    * @throws {RequiredError}
    * @memberof LoginIdentityApiInterface
    */
-  getIdentity(options?: AxiosRequestConfig): AxiosPromise<GetIdentityResponse>;
+  getIdentity(options?: RawAxiosRequestConfig): AxiosPromise<GetIdentityResponse>;
 
   /**
    * Get income figures for a login identity
@@ -15481,7 +16355,7 @@ export interface LoginIdentityApiInterface {
    * @throws {RequiredError}
    * @memberof LoginIdentityApiInterface
    */
-  getIncomeEstimateByLoginIdentityId(options?: AxiosRequestConfig): AxiosPromise<IncomeResponse>;
+  getIncomeEstimateByLoginIdentityId(options?: RawAxiosRequestConfig): AxiosPromise<IncomeResponse>;
 
   /**
    * Get a specific loginIdentity
@@ -15489,7 +16363,7 @@ export interface LoginIdentityApiInterface {
    * @throws {RequiredError}
    * @memberof LoginIdentityApiInterface
    */
-  getLoginIdentity(options?: AxiosRequestConfig): AxiosPromise<GetLoginIdentityByIdResponse>;
+  getLoginIdentity(options?: RawAxiosRequestConfig): AxiosPromise<GetLoginIdentityByIdResponse>;
 
   /**
    * Download statement
@@ -15502,7 +16376,7 @@ export interface LoginIdentityApiInterface {
   getStatement(
     statementId: string,
     redirect?: boolean,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<GetStatementLinkResponse>;
 
   /**
@@ -15511,7 +16385,7 @@ export interface LoginIdentityApiInterface {
    * @throws {RequiredError}
    * @memberof LoginIdentityApiInterface
    */
-  getStatements(options?: AxiosRequestConfig): AxiosPromise<GetStatementsResponse>;
+  getStatements(options?: RawAxiosRequestConfig): AxiosPromise<GetStatementsResponse>;
 
   /**
    * Get a list of accounts for a login identity
@@ -15519,7 +16393,7 @@ export interface LoginIdentityApiInterface {
    * @throws {RequiredError}
    * @memberof LoginIdentityApiInterface
    */
-  listAccounts(options?: AxiosRequestConfig): AxiosPromise<ListAccountsResponse>;
+  listAccounts(options?: RawAxiosRequestConfig): AxiosPromise<ListAccountsResponse>;
 
   /**
    * Get a list of card details for a login identity
@@ -15527,7 +16401,7 @@ export interface LoginIdentityApiInterface {
    * @throws {RequiredError}
    * @memberof LoginIdentityApiInterface
    */
-  listCardDetails(options?: AxiosRequestConfig): AxiosPromise<ListCardsDetailsResponse>;
+  listCardDetails(options?: RawAxiosRequestConfig): AxiosPromise<ListCardsDetailsResponse>;
 
   /**
    * Get a list of transactions for a particular account. The transactions are returned in sorted order, with the most recent one appearing first.
@@ -15544,7 +16418,7 @@ export interface LoginIdentityApiInterface {
     offset?: number,
     limit?: number,
     enrichments?: boolean,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<ListTransactionsResponse>;
 
   /**
@@ -15560,7 +16434,7 @@ export interface LoginIdentityApiInterface {
     offset?: number,
     limit?: number,
     enrichments?: boolean,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<ListTransactionsResponse>;
 
   /**
@@ -15572,7 +16446,7 @@ export interface LoginIdentityApiInterface {
    */
   refreshLoginIdentity(
     refreshLoginIdentityReq?: RefreshLoginIdentityRequest,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<RefreshTokenResponse>;
 }
 
@@ -15589,7 +16463,7 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @throws {RequiredError}
    * @memberof LoginIdentityApi
    */
-  public deleteLoginIdentity(options?: AxiosRequestConfig) {
+  public deleteLoginIdentity(options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .deleteLoginIdentity(options)
       .then((request) => request(this.axios, this.basePath));
@@ -15602,7 +16476,7 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @throws {RequiredError}
    * @memberof LoginIdentityApi
    */
-  public generateLinkToken(linkTokenRequest: LinkTokenRequest, options?: AxiosRequestConfig) {
+  public generateLinkToken(linkTokenRequest: LinkTokenRequest, options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .generateLinkToken(linkTokenRequest, options)
       .then((request) => request(this.axios, this.basePath));
@@ -15615,7 +16489,7 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @throws {RequiredError}
    * @memberof LoginIdentityApi
    */
-  public getAccount(accountId: string, options?: AxiosRequestConfig) {
+  public getAccount(accountId: string, options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .getAccount(accountId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -15628,7 +16502,7 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @throws {RequiredError}
    * @memberof LoginIdentityApi
    */
-  public getAccountNumber(accountId: string, options?: AxiosRequestConfig) {
+  public getAccountNumber(accountId: string, options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .getAccountNumber(accountId, options)
       .then((request) => request(this.axios, this.basePath));
@@ -15637,12 +16511,12 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
   /**
    * Get the balance history for a specific account
    * @param {string} accountId The account id
-   * @param {'INSTITUTION' | 'COMPUTED'} [source] The source will determine what type of balance history will be returned
+   * @param {GetBalanceHistorySourceEnum} [source] The source will determine what type of balance history will be returned
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof LoginIdentityApi
    */
-  public getBalanceHistory(accountId: string, source?: 'INSTITUTION' | 'COMPUTED', options?: AxiosRequestConfig) {
+  public getBalanceHistory(accountId: string, source?: GetBalanceHistorySourceEnum, options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .getBalanceHistory(accountId, source, options)
       .then((request) => request(this.axios, this.basePath));
@@ -15655,7 +16529,7 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @throws {RequiredError}
    * @memberof LoginIdentityApi
    */
-  public getCompositeStatement(redirect?: boolean, options?: AxiosRequestConfig) {
+  public getCompositeStatement(redirect?: boolean, options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .getCompositeStatement(redirect, options)
       .then((request) => request(this.axios, this.basePath));
@@ -15667,7 +16541,7 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @throws {RequiredError}
    * @memberof LoginIdentityApi
    */
-  public getIdentity(options?: AxiosRequestConfig) {
+  public getIdentity(options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .getIdentity(options)
       .then((request) => request(this.axios, this.basePath));
@@ -15679,7 +16553,7 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @throws {RequiredError}
    * @memberof LoginIdentityApi
    */
-  public getIncomeEstimateByLoginIdentityId(options?: AxiosRequestConfig) {
+  public getIncomeEstimateByLoginIdentityId(options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .getIncomeEstimateByLoginIdentityId(options)
       .then((request) => request(this.axios, this.basePath));
@@ -15691,7 +16565,7 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @throws {RequiredError}
    * @memberof LoginIdentityApi
    */
-  public getLoginIdentity(options?: AxiosRequestConfig) {
+  public getLoginIdentity(options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .getLoginIdentity(options)
       .then((request) => request(this.axios, this.basePath));
@@ -15705,7 +16579,7 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @throws {RequiredError}
    * @memberof LoginIdentityApi
    */
-  public getStatement(statementId: string, redirect?: boolean, options?: AxiosRequestConfig) {
+  public getStatement(statementId: string, redirect?: boolean, options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .getStatement(statementId, redirect, options)
       .then((request) => request(this.axios, this.basePath));
@@ -15717,7 +16591,7 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @throws {RequiredError}
    * @memberof LoginIdentityApi
    */
-  public getStatements(options?: AxiosRequestConfig) {
+  public getStatements(options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .getStatements(options)
       .then((request) => request(this.axios, this.basePath));
@@ -15729,7 +16603,7 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @throws {RequiredError}
    * @memberof LoginIdentityApi
    */
-  public listAccounts(options?: AxiosRequestConfig) {
+  public listAccounts(options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .listAccounts(options)
       .then((request) => request(this.axios, this.basePath));
@@ -15741,7 +16615,7 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @throws {RequiredError}
    * @memberof LoginIdentityApi
    */
-  public listCardDetails(options?: AxiosRequestConfig) {
+  public listCardDetails(options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .listCardDetails(options)
       .then((request) => request(this.axios, this.basePath));
@@ -15762,7 +16636,7 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
     offset?: number,
     limit?: number,
     enrichments?: boolean,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return LoginIdentityApiFp(this.configuration)
       .listTransactionsByAccountId(accountId, offset, limit, enrichments, options)
@@ -15782,7 +16656,7 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
     offset?: number,
     limit?: number,
     enrichments?: boolean,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return LoginIdentityApiFp(this.configuration)
       .listTransactionsByLoginIdentityId(offset, limit, enrichments, options)
@@ -15796,12 +16670,22 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @throws {RequiredError}
    * @memberof LoginIdentityApi
    */
-  public refreshLoginIdentity(refreshLoginIdentityReq?: RefreshLoginIdentityRequest, options?: AxiosRequestConfig) {
+  public refreshLoginIdentity(refreshLoginIdentityReq?: RefreshLoginIdentityRequest, options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .refreshLoginIdentity(refreshLoginIdentityReq, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
+
+/**
+ * @export
+ */
+export const GetBalanceHistorySourceEnum = {
+  Institution: 'INSTITUTION',
+  Computed: 'COMPUTED',
+} as const;
+export type GetBalanceHistorySourceEnum =
+  (typeof GetBalanceHistorySourceEnum)[keyof typeof GetBalanceHistorySourceEnum];
 
 /**
  * PublicApi - axios parameter creator
@@ -15825,7 +16709,7 @@ export const PublicApiAxiosParamCreator = function (configuration?: Configuratio
       error?: string,
       errorDescription?: string,
       errorDetails?: string,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'state' is not null or undefined
       assertParamExists('authCallback', 'state', state);
@@ -15840,10 +16724,6 @@ export const PublicApiAxiosParamCreator = function (configuration?: Configuratio
       const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', ['test'], configuration);
 
       if (state !== undefined) {
         localVarQueryParameter['state'] = state;
@@ -15882,7 +16762,7 @@ export const PublicApiAxiosParamCreator = function (configuration?: Configuratio
      */
     generateCustomerAccessToken: async (
       tokenRequest?: TokenRequest,
-      options: AxiosRequestConfig = {},
+      options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/auth/customer/token`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -15895,10 +16775,6 @@ export const PublicApiAxiosParamCreator = function (configuration?: Configuratio
       const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', ['test'], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
 
@@ -15917,7 +16793,7 @@ export const PublicApiAxiosParamCreator = function (configuration?: Configuratio
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getCredSubmitJwks: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getCredSubmitJwks: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/jwks`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -15929,10 +16805,6 @@ export const PublicApiAxiosParamCreator = function (configuration?: Configuratio
       const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', ['test'], configuration);
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -15948,7 +16820,7 @@ export const PublicApiAxiosParamCreator = function (configuration?: Configuratio
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPaymentsJwks: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getPaymentsJwks: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/payments/jwks`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -15960,10 +16832,6 @@ export const PublicApiAxiosParamCreator = function (configuration?: Configuratio
       const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', ['test'], configuration);
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -16000,7 +16868,7 @@ export const PublicApiFp = function (configuration?: Configuration) {
       error?: string,
       errorDescription?: string,
       errorDetails?: string,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RedirectUriResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.authCallback(
         state,
@@ -16010,7 +16878,16 @@ export const PublicApiFp = function (configuration?: Configuration) {
         errorDetails,
         options,
       );
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PublicApi.authCallback']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * generate an access_token
@@ -16020,10 +16897,19 @@ export const PublicApiFp = function (configuration?: Configuration) {
      */
     async generateCustomerAccessToken(
       tokenRequest?: TokenRequest,
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokenResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.generateCustomerAccessToken(tokenRequest, options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PublicApi.generateCustomerAccessToken']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * get jwks
@@ -16031,10 +16917,19 @@ export const PublicApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getCredSubmitJwks(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getCredSubmitJwks(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PublicApi.getCredSubmitJwks']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
      * get payment jwks
@@ -16042,10 +16937,19 @@ export const PublicApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getPaymentsJwks(
-      options?: AxiosRequestConfig,
+      options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetJWKSResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentsJwks(options);
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PublicApi.getPaymentsJwks']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
     },
   };
 };
@@ -16073,7 +16977,7 @@ export const PublicApiFactory = function (configuration?: Configuration, basePat
       error?: string,
       errorDescription?: string,
       errorDetails?: string,
-      options?: any,
+      options?: RawAxiosRequestConfig,
     ): AxiosPromise<RedirectUriResponse> {
       return localVarFp
         .authCallback(state, code, error, errorDescription, errorDetails, options)
@@ -16085,7 +16989,10 @@ export const PublicApiFactory = function (configuration?: Configuration, basePat
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    generateCustomerAccessToken(tokenRequest?: TokenRequest, options?: any): AxiosPromise<TokenResponse> {
+    generateCustomerAccessToken(
+      tokenRequest?: TokenRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<TokenResponse> {
       return localVarFp.generateCustomerAccessToken(tokenRequest, options).then((request) => request(axios, basePath));
     },
     /**
@@ -16093,7 +17000,7 @@ export const PublicApiFactory = function (configuration?: Configuration, basePat
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getCredSubmitJwks(options?: any): AxiosPromise<void> {
+    getCredSubmitJwks(options?: RawAxiosRequestConfig): AxiosPromise<void> {
       return localVarFp.getCredSubmitJwks(options).then((request) => request(axios, basePath));
     },
     /**
@@ -16101,7 +17008,7 @@ export const PublicApiFactory = function (configuration?: Configuration, basePat
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getPaymentsJwks(options?: any): AxiosPromise<GetJWKSResponse> {
+    getPaymentsJwks(options?: RawAxiosRequestConfig): AxiosPromise<GetJWKSResponse> {
       return localVarFp.getPaymentsJwks(options).then((request) => request(axios, basePath));
     },
   };
@@ -16130,7 +17037,7 @@ export interface PublicApiInterface {
     error?: string,
     errorDescription?: string,
     errorDetails?: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ): AxiosPromise<RedirectUriResponse>;
 
   /**
@@ -16140,7 +17047,10 @@ export interface PublicApiInterface {
    * @throws {RequiredError}
    * @memberof PublicApiInterface
    */
-  generateCustomerAccessToken(tokenRequest?: TokenRequest, options?: AxiosRequestConfig): AxiosPromise<TokenResponse>;
+  generateCustomerAccessToken(
+    tokenRequest?: TokenRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<TokenResponse>;
 
   /**
    * get jwks
@@ -16148,7 +17058,7 @@ export interface PublicApiInterface {
    * @throws {RequiredError}
    * @memberof PublicApiInterface
    */
-  getCredSubmitJwks(options?: AxiosRequestConfig): AxiosPromise<void>;
+  getCredSubmitJwks(options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
   /**
    * get payment jwks
@@ -16156,7 +17066,7 @@ export interface PublicApiInterface {
    * @throws {RequiredError}
    * @memberof PublicApiInterface
    */
-  getPaymentsJwks(options?: AxiosRequestConfig): AxiosPromise<GetJWKSResponse>;
+  getPaymentsJwks(options?: RawAxiosRequestConfig): AxiosPromise<GetJWKSResponse>;
 }
 
 /**
@@ -16183,7 +17093,7 @@ export class PublicApi extends BaseAPI implements PublicApiInterface {
     error?: string,
     errorDescription?: string,
     errorDetails?: string,
-    options?: AxiosRequestConfig,
+    options?: RawAxiosRequestConfig,
   ) {
     return PublicApiFp(this.configuration)
       .authCallback(state, code, error, errorDescription, errorDetails, options)
@@ -16197,7 +17107,7 @@ export class PublicApi extends BaseAPI implements PublicApiInterface {
    * @throws {RequiredError}
    * @memberof PublicApi
    */
-  public generateCustomerAccessToken(tokenRequest?: TokenRequest, options?: AxiosRequestConfig) {
+  public generateCustomerAccessToken(tokenRequest?: TokenRequest, options?: RawAxiosRequestConfig) {
     return PublicApiFp(this.configuration)
       .generateCustomerAccessToken(tokenRequest, options)
       .then((request) => request(this.axios, this.basePath));
@@ -16209,7 +17119,7 @@ export class PublicApi extends BaseAPI implements PublicApiInterface {
    * @throws {RequiredError}
    * @memberof PublicApi
    */
-  public getCredSubmitJwks(options?: AxiosRequestConfig) {
+  public getCredSubmitJwks(options?: RawAxiosRequestConfig) {
     return PublicApiFp(this.configuration)
       .getCredSubmitJwks(options)
       .then((request) => request(this.axios, this.basePath));
@@ -16221,7 +17131,7 @@ export class PublicApi extends BaseAPI implements PublicApiInterface {
    * @throws {RequiredError}
    * @memberof PublicApi
    */
-  public getPaymentsJwks(options?: AxiosRequestConfig) {
+  public getPaymentsJwks(options?: RawAxiosRequestConfig) {
     return PublicApiFp(this.configuration)
       .getPaymentsJwks(options)
       .then((request) => request(this.axios, this.basePath));
