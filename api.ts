@@ -4188,6 +4188,19 @@ export interface ListPaymentsResponse {
 /**
  *
  * @export
+ * @interface ListPayoutsResponse
+ */
+export interface ListPayoutsResponse {
+  /**
+   *
+   * @type {Array<PayoutSnapshotResponse>}
+   * @memberof ListPayoutsResponse
+   */
+  payouts: Array<PayoutSnapshotResponse>;
+}
+/**
+ *
+ * @export
  * @interface ListTransactionsResponse
  */
 export interface ListTransactionsResponse {
@@ -6660,13 +6673,13 @@ export interface PayoutSnapshotResponse {
    * @type {string}
    * @memberof PayoutSnapshotResponse
    */
-  status?: string;
+  status?: PayoutSnapshotResponseStatusEnum;
   /**
    *
    * @type {string}
    * @memberof PayoutSnapshotResponse
    */
-  type?: string;
+  type?: PayoutSnapshotResponseTypeEnum;
   /**
    *
    * @type {string}
@@ -6752,6 +6765,28 @@ export interface PayoutSnapshotResponse {
    */
   error?: FvEmbeddedErrorModel;
 }
+
+export const PayoutSnapshotResponseStatusEnum = {
+  Executed: 'EXECUTED',
+  Created: 'CREATED',
+  Processing: 'PROCESSING',
+  ProcessingFunds: 'PROCESSING_FUNDS',
+  Cancelled: 'CANCELLED',
+  Failed: 'FAILED',
+  Funded: 'FUNDED',
+  Submitted: 'SUBMITTED',
+} as const;
+
+export type PayoutSnapshotResponseStatusEnum =
+  (typeof PayoutSnapshotResponseStatusEnum)[keyof typeof PayoutSnapshotResponseStatusEnum];
+export const PayoutSnapshotResponseTypeEnum = {
+  Manual: 'MANUAL',
+  Scheduled: 'SCHEDULED',
+} as const;
+
+export type PayoutSnapshotResponseTypeEnum =
+  (typeof PayoutSnapshotResponseTypeEnum)[keyof typeof PayoutSnapshotResponseTypeEnum];
+
 /**
  *
  * @export
@@ -11797,6 +11832,113 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * List payouts
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListPayoutsStatusesEnum>} [statuses] The payout statuses to filter for, comma separated
+     * @param {Array<string>} [currencies]
+     * @param {Array<ListPayoutsPayoutTypesEnum>} [payoutTypes]
+     * @param {string} [mandateId]
+     * @param {string} [senderAccountId]
+     * @param {string} [recipientAccountId]
+     * @param {string} [recipientUserId]
+     * @param {string} [recipientExternalUserId]
+     * @param {number} [offset] Default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPayouts: async (
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListPayoutsStatusesEnum>,
+      currencies?: Array<string>,
+      payoutTypes?: Array<ListPayoutsPayoutTypesEnum>,
+      mandateId?: string,
+      senderAccountId?: string,
+      recipientAccountId?: string,
+      recipientUserId?: string,
+      recipientExternalUserId?: string,
+      offset?: number,
+      limit?: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/payouts`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (dateFrom !== undefined) {
+        localVarQueryParameter['date_from'] =
+          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substring(0, 10) : dateFrom;
+      }
+
+      if (dateTo !== undefined) {
+        localVarQueryParameter['date_to'] =
+          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substring(0, 10) : dateTo;
+      }
+
+      if (statuses) {
+        localVarQueryParameter['statuses'] = statuses.join(COLLECTION_FORMATS.csv);
+      }
+
+      if (currencies) {
+        localVarQueryParameter['currencies'] = currencies.join(COLLECTION_FORMATS.csv);
+      }
+
+      if (payoutTypes) {
+        localVarQueryParameter['payout_types'] = payoutTypes.join(COLLECTION_FORMATS.csv);
+      }
+
+      if (mandateId !== undefined) {
+        localVarQueryParameter['mandate_id'] = mandateId;
+      }
+
+      if (senderAccountId !== undefined) {
+        localVarQueryParameter['sender_account_id'] = senderAccountId;
+      }
+
+      if (recipientAccountId !== undefined) {
+        localVarQueryParameter['recipient_account_id'] = recipientAccountId;
+      }
+
+      if (recipientUserId !== undefined) {
+        localVarQueryParameter['recipient_user_id'] = recipientUserId;
+      }
+
+      if (recipientExternalUserId !== undefined) {
+        localVarQueryParameter['recipient_external_user_id'] = recipientExternalUserId;
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter['offset'] = offset;
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter['limit'] = limit;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Refresh payment attempt from payment link front-end
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -12613,6 +12755,64 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
+     * List payouts
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListPayoutsStatusesEnum>} [statuses] The payout statuses to filter for, comma separated
+     * @param {Array<string>} [currencies]
+     * @param {Array<ListPayoutsPayoutTypesEnum>} [payoutTypes]
+     * @param {string} [mandateId]
+     * @param {string} [senderAccountId]
+     * @param {string} [recipientAccountId]
+     * @param {string} [recipientUserId]
+     * @param {string} [recipientExternalUserId]
+     * @param {number} [offset] Default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listPayouts(
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListPayoutsStatusesEnum>,
+      currencies?: Array<string>,
+      payoutTypes?: Array<ListPayoutsPayoutTypesEnum>,
+      mandateId?: string,
+      senderAccountId?: string,
+      recipientAccountId?: string,
+      recipientUserId?: string,
+      recipientExternalUserId?: string,
+      offset?: number,
+      limit?: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPayoutsResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listPayouts(
+        dateFrom,
+        dateTo,
+        statuses,
+        currencies,
+        payoutTypes,
+        mandateId,
+        senderAccountId,
+        recipientAccountId,
+        recipientUserId,
+        recipientExternalUserId,
+        offset,
+        limit,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.listPayouts']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
      * Refresh payment attempt from payment link front-end
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13059,6 +13259,56 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         .then((request) => request(axios, basePath));
     },
     /**
+     * List payouts
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListPayoutsStatusesEnum>} [statuses] The payout statuses to filter for, comma separated
+     * @param {Array<string>} [currencies]
+     * @param {Array<ListPayoutsPayoutTypesEnum>} [payoutTypes]
+     * @param {string} [mandateId]
+     * @param {string} [senderAccountId]
+     * @param {string} [recipientAccountId]
+     * @param {string} [recipientUserId]
+     * @param {string} [recipientExternalUserId]
+     * @param {number} [offset] Default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPayouts(
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListPayoutsStatusesEnum>,
+      currencies?: Array<string>,
+      payoutTypes?: Array<ListPayoutsPayoutTypesEnum>,
+      mandateId?: string,
+      senderAccountId?: string,
+      recipientAccountId?: string,
+      recipientUserId?: string,
+      recipientExternalUserId?: string,
+      offset?: number,
+      limit?: number,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ListPayoutsResponse> {
+      return localVarFp
+        .listPayouts(
+          dateFrom,
+          dateTo,
+          statuses,
+          currencies,
+          payoutTypes,
+          mandateId,
+          senderAccountId,
+          recipientAccountId,
+          recipientUserId,
+          recipientExternalUserId,
+          offset,
+          limit,
+          options,
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Refresh payment attempt from payment link front-end
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13420,6 +13670,40 @@ export interface DefaultApiInterface {
     limit?: number,
     options?: RawAxiosRequestConfig,
   ): AxiosPromise<ListPaymentsResponse>;
+
+  /**
+   * List payouts
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<ListPayoutsStatusesEnum>} [statuses] The payout statuses to filter for, comma separated
+   * @param {Array<string>} [currencies]
+   * @param {Array<ListPayoutsPayoutTypesEnum>} [payoutTypes]
+   * @param {string} [mandateId]
+   * @param {string} [senderAccountId]
+   * @param {string} [recipientAccountId]
+   * @param {string} [recipientUserId]
+   * @param {string} [recipientExternalUserId]
+   * @param {number} [offset] Default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  listPayouts(
+    dateFrom?: string,
+    dateTo?: string,
+    statuses?: Array<ListPayoutsStatusesEnum>,
+    currencies?: Array<string>,
+    payoutTypes?: Array<ListPayoutsPayoutTypesEnum>,
+    mandateId?: string,
+    senderAccountId?: string,
+    recipientAccountId?: string,
+    recipientUserId?: string,
+    recipientExternalUserId?: string,
+    offset?: number,
+    limit?: number,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<ListPayoutsResponse>;
 
   /**
    * Refresh payment attempt from payment link front-end
@@ -13892,6 +14176,58 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   }
 
   /**
+   * List payouts
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<ListPayoutsStatusesEnum>} [statuses] The payout statuses to filter for, comma separated
+   * @param {Array<string>} [currencies]
+   * @param {Array<ListPayoutsPayoutTypesEnum>} [payoutTypes]
+   * @param {string} [mandateId]
+   * @param {string} [senderAccountId]
+   * @param {string} [recipientAccountId]
+   * @param {string} [recipientUserId]
+   * @param {string} [recipientExternalUserId]
+   * @param {number} [offset] Default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public listPayouts(
+    dateFrom?: string,
+    dateTo?: string,
+    statuses?: Array<ListPayoutsStatusesEnum>,
+    currencies?: Array<string>,
+    payoutTypes?: Array<ListPayoutsPayoutTypesEnum>,
+    mandateId?: string,
+    senderAccountId?: string,
+    recipientAccountId?: string,
+    recipientUserId?: string,
+    recipientExternalUserId?: string,
+    offset?: number,
+    limit?: number,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return DefaultApiFp(this.configuration)
+      .listPayouts(
+        dateFrom,
+        dateTo,
+        statuses,
+        currencies,
+        payoutTypes,
+        mandateId,
+        senderAccountId,
+        recipientAccountId,
+        recipientUserId,
+        recipientExternalUserId,
+        offset,
+        limit,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
    * Refresh payment attempt from payment link front-end
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -14034,6 +14370,28 @@ export const ListPaymentsPaymentTypesEnum = {
 } as const;
 export type ListPaymentsPaymentTypesEnum =
   (typeof ListPaymentsPaymentTypesEnum)[keyof typeof ListPaymentsPaymentTypesEnum];
+/**
+ * @export
+ */
+export const ListPayoutsStatusesEnum = {
+  Executed: 'EXECUTED',
+  Created: 'CREATED',
+  Processing: 'PROCESSING',
+  ProcessingFunds: 'PROCESSING_FUNDS',
+  Cancelled: 'CANCELLED',
+  Failed: 'FAILED',
+  Funded: 'FUNDED',
+  Submitted: 'SUBMITTED',
+} as const;
+export type ListPayoutsStatusesEnum = (typeof ListPayoutsStatusesEnum)[keyof typeof ListPayoutsStatusesEnum];
+/**
+ * @export
+ */
+export const ListPayoutsPayoutTypesEnum = {
+  Manual: 'MANUAL',
+  Scheduled: 'SCHEDULED',
+} as const;
+export type ListPayoutsPayoutTypesEnum = (typeof ListPayoutsPayoutTypesEnum)[keyof typeof ListPayoutsPayoutTypesEnum];
 
 /**
  * LinkApi - axios parameter creator
