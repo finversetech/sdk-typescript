@@ -2154,7 +2154,35 @@ export interface FVCardDetails {
    * @memberof FVCardDetails
    */
   collection_entity_name?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof FVCardDetails
+   */
+  country?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof FVCardDetails
+   */
+  fingerprint?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof FVCardDetails
+   */
+  funding?: FVCardDetailsFundingEnum;
 }
+
+export const FVCardDetailsFundingEnum = {
+  Unknown: 'UNKNOWN',
+  Credit: 'CREDIT',
+  Debit: 'DEBIT',
+  Prepaid: 'PREPAID',
+} as const;
+
+export type FVCardDetailsFundingEnum = (typeof FVCardDetailsFundingEnum)[keyof typeof FVCardDetailsFundingEnum];
+
 /**
  *
  * @export
