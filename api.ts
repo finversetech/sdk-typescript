@@ -4178,6 +4178,25 @@ export interface ListPaymentAccountsResponse {
 /**
  *
  * @export
+ * @interface ListPaymentAccountsWithEnrichedDataResponse
+ */
+export interface ListPaymentAccountsWithEnrichedDataResponse {
+  /**
+   *
+   * @type {Array<PaymentAccountDetailsWithEnrichedData>}
+   * @memberof ListPaymentAccountsWithEnrichedDataResponse
+   */
+  payment_accounts?: Array<PaymentAccountDetailsWithEnrichedData>;
+  /**
+   * Total number of matching payment accounts
+   * @type {number}
+   * @memberof ListPaymentAccountsWithEnrichedDataResponse
+   */
+  total?: number;
+}
+/**
+ *
+ * @export
  * @interface ListPaymentMethodsResponse
  */
 export interface ListPaymentMethodsResponse {
@@ -5366,6 +5385,12 @@ export interface PaymentAccountDetails {
    */
   business_units?: Array<string>;
   /**
+   * This field is only applicable to settlement account
+   * @type {string}
+   * @memberof PaymentAccountDetails
+   */
+  legal_entity_name?: string;
+  /**
    * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
    * @type {{ [key: string]: string; }}
    * @memberof PaymentAccountDetails
@@ -5392,6 +5417,124 @@ export const PaymentAccountDetailsAccountTypeEnum = {
 
 export type PaymentAccountDetailsAccountTypeEnum =
   (typeof PaymentAccountDetailsAccountTypeEnum)[keyof typeof PaymentAccountDetailsAccountTypeEnum];
+
+/**
+ *
+ * @export
+ * @interface PaymentAccountDetailsWithEnrichedData
+ */
+export interface PaymentAccountDetailsWithEnrichedData {
+  /**
+   * Payment account id
+   * @type {string}
+   * @memberof PaymentAccountDetailsWithEnrichedData
+   */
+  account_id?: string;
+  /**
+   *
+   * @type {RecipientAccountNumber}
+   * @memberof PaymentAccountDetailsWithEnrichedData
+   */
+  account_number?: RecipientAccountNumber;
+  /**
+   * Masked Account number of the payment account
+   * @type {string}
+   * @memberof PaymentAccountDetailsWithEnrichedData
+   */
+  account_number_masked?: string;
+  /**
+   * Type of payment account.
+   * @type {string}
+   * @memberof PaymentAccountDetailsWithEnrichedData
+   */
+  account_type?: PaymentAccountDetailsWithEnrichedDataAccountTypeEnum;
+  /**
+   * Accountholder name of the payment account
+   * @type {string}
+   * @memberof PaymentAccountDetailsWithEnrichedData
+   */
+  accountholder_name?: string;
+  /**
+   * Finverse Institution ID for the payment institution.
+   * @type {string}
+   * @memberof PaymentAccountDetailsWithEnrichedData
+   */
+  institution_id?: string;
+  /**
+   * Institution Name for the sender’s institution.
+   * @type {string}
+   * @memberof PaymentAccountDetailsWithEnrichedData
+   */
+  institution_name?: string;
+  /**
+   * A unique identifier generated after creating user (Finverse Payment User ID)
+   * @type {string}
+   * @memberof PaymentAccountDetailsWithEnrichedData
+   */
+  user_id?: string;
+  /**
+   * 3-digit code associated with bank
+   * @type {string}
+   * @memberof PaymentAccountDetailsWithEnrichedData
+   */
+  bank_code?: string;
+  /**
+   * 3-digit code used to identify specific bank branch
+   * @type {string}
+   * @memberof PaymentAccountDetailsWithEnrichedData
+   */
+  branch_code?: string;
+  /**
+   * List of currencies supported by the payment account
+   * @type {Array<string>}
+   * @memberof PaymentAccountDetailsWithEnrichedData
+   */
+  currencies?: Array<string>;
+  /**
+   * The business units the payment account belongs to
+   * @type {Array<string>}
+   * @memberof PaymentAccountDetailsWithEnrichedData
+   */
+  business_units?: Array<string>;
+  /**
+   * This field is only applicable to settlement account
+   * @type {string}
+   * @memberof PaymentAccountDetailsWithEnrichedData
+   */
+  legal_entity_name?: string;
+  /**
+   * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 10 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
+   * @type {{ [key: string]: string; }}
+   * @memberof PaymentAccountDetailsWithEnrichedData
+   */
+  metadata?: { [key: string]: string };
+  /**
+   * Timestamp of when the payment link was created in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof PaymentAccountDetailsWithEnrichedData
+   */
+  created_at?: string;
+  /**
+   * Timestamp of when the payment link was last updated in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof PaymentAccountDetailsWithEnrichedData
+   */
+  updated_at?: string;
+  /**
+   *
+   * @type {PaymentMethodOverview}
+   * @memberof PaymentAccountDetailsWithEnrichedData
+   */
+  payment_method_overview?: PaymentMethodOverview;
+}
+
+export const PaymentAccountDetailsWithEnrichedDataAccountTypeEnum = {
+  ExternalAccount: 'EXTERNAL_ACCOUNT',
+  SettlementAccount: 'SETTLEMENT_ACCOUNT',
+} as const;
+
+export type PaymentAccountDetailsWithEnrichedDataAccountTypeEnum =
+  (typeof PaymentAccountDetailsWithEnrichedDataAccountTypeEnum)[keyof typeof PaymentAccountDetailsWithEnrichedDataAccountTypeEnum];
 
 /**
  *
@@ -6161,6 +6304,55 @@ export interface PaymentMethodIntegrationMetadataStripeMetadataCustomer {
    * @memberof PaymentMethodIntegrationMetadataStripeMetadataCustomer
    */
   id: string;
+}
+/**
+ *
+ * @export
+ * @interface PaymentMethodOverview
+ */
+export interface PaymentMethodOverview {
+  /**
+   * STRIPE, CYBERSOURCE, UOB, DBS (only shown when payment flows funds via a 3rd party gateway direct to the customer)
+   * @type {string}
+   * @memberof PaymentMethodOverview
+   */
+  external_gateway?: string;
+  /**
+   * It can be either REALTIME or DELAYED
+   * @type {string}
+   * @memberof PaymentMethodOverview
+   */
+  payment_confirmation_speed?: string;
+  /**
+   * The payment method type, possible values CARD, MANDATE and MANUAL
+   * @type {string}
+   * @memberof PaymentMethodOverview
+   */
+  payment_method_type?: string;
+  /**
+   * The payment method subtype
+   * @type {string}
+   * @memberof PaymentMethodOverview
+   */
+  payment_method_subtype?: string;
+  /**
+   * Only shown if funds flow via Finverse, possible values FINVERSE
+   * @type {string}
+   * @memberof PaymentMethodOverview
+   */
+  payment_processor?: string;
+  /**
+   * Whether the payment method can move real money or not
+   * @type {boolean}
+   * @memberof PaymentMethodOverview
+   */
+  live_mode?: boolean;
+  /**
+   * Shows which currencies are supported
+   * @type {Array<string>}
+   * @memberof PaymentMethodOverview
+   */
+  supported_currencies?: Array<string>;
 }
 /**
  *
@@ -8912,6 +9104,63 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
+     * Get payment account for customer app
+     * @param {ListPaymentAccountsWithEnrichedDataAccountTypeEnum} [accountType] The account_type to filter for
+     * @param {Array<string>} [currencies] The currencies to filter for
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPaymentAccountsWithEnrichedData: async (
+      accountType?: ListPaymentAccountsWithEnrichedDataAccountTypeEnum,
+      currencies?: Array<string>,
+      offset?: number,
+      limit?: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/payment_accounts`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (accountType !== undefined) {
+        localVarQueryParameter['account_type'] = accountType;
+      }
+
+      if (currencies) {
+        localVarQueryParameter['currencies'] = currencies.join(COLLECTION_FORMATS.csv);
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter['offset'] = offset;
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter['limit'] = limit;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Refresh an access token
      * @param {RefreshRequest} refreshRequest The refresh token
      * @param {*} [options] Override http request option.
@@ -9605,6 +9854,42 @@ export const CustomerApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
+     * Get payment account for customer app
+     * @param {ListPaymentAccountsWithEnrichedDataAccountTypeEnum} [accountType] The account_type to filter for
+     * @param {Array<string>} [currencies] The currencies to filter for
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listPaymentAccountsWithEnrichedData(
+      accountType?: ListPaymentAccountsWithEnrichedDataAccountTypeEnum,
+      currencies?: Array<string>,
+      offset?: number,
+      limit?: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPaymentAccountsWithEnrichedDataResponse>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listPaymentAccountsWithEnrichedData(
+        accountType,
+        currencies,
+        offset,
+        limit,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.listPaymentAccountsWithEnrichedData']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
      * Refresh an access token
      * @param {RefreshRequest} refreshRequest The refresh token
      * @param {*} [options] Override http request option.
@@ -9987,6 +10272,26 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
       return localVarFp.listPaymentAccounts(paymentUserId, options).then((request) => request(axios, basePath));
     },
     /**
+     * Get payment account for customer app
+     * @param {ListPaymentAccountsWithEnrichedDataAccountTypeEnum} [accountType] The account_type to filter for
+     * @param {Array<string>} [currencies] The currencies to filter for
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPaymentAccountsWithEnrichedData(
+      accountType?: ListPaymentAccountsWithEnrichedDataAccountTypeEnum,
+      currencies?: Array<string>,
+      offset?: number,
+      limit?: number,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ListPaymentAccountsWithEnrichedDataResponse> {
+      return localVarFp
+        .listPaymentAccountsWithEnrichedData(accountType, currencies, offset, limit, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Refresh an access token
      * @param {RefreshRequest} refreshRequest The refresh token
      * @param {*} [options] Override http request option.
@@ -10294,6 +10599,24 @@ export interface CustomerApiInterface {
     paymentUserId: string,
     options?: RawAxiosRequestConfig,
   ): AxiosPromise<ListPaymentAccountsResponse>;
+
+  /**
+   * Get payment account for customer app
+   * @param {ListPaymentAccountsWithEnrichedDataAccountTypeEnum} [accountType] The account_type to filter for
+   * @param {Array<string>} [currencies] The currencies to filter for
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  listPaymentAccountsWithEnrichedData(
+    accountType?: ListPaymentAccountsWithEnrichedDataAccountTypeEnum,
+    currencies?: Array<string>,
+    offset?: number,
+    limit?: number,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<ListPaymentAccountsWithEnrichedDataResponse>;
 
   /**
    * Refresh an access token
@@ -10651,6 +10974,28 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   }
 
   /**
+   * Get payment account for customer app
+   * @param {ListPaymentAccountsWithEnrichedDataAccountTypeEnum} [accountType] The account_type to filter for
+   * @param {Array<string>} [currencies] The currencies to filter for
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public listPaymentAccountsWithEnrichedData(
+    accountType?: ListPaymentAccountsWithEnrichedDataAccountTypeEnum,
+    currencies?: Array<string>,
+    offset?: number,
+    limit?: number,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return CustomerApiFp(this.configuration)
+      .listPaymentAccountsWithEnrichedData(accountType, currencies, offset, limit, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
    * Refresh an access token
    * @param {RefreshRequest} refreshRequest The refresh token
    * @param {*} [options] Override http request option.
@@ -10741,6 +11086,15 @@ export const ListInstitutionsInstitutionTypeEnum = {
 } as const;
 export type ListInstitutionsInstitutionTypeEnum =
   (typeof ListInstitutionsInstitutionTypeEnum)[keyof typeof ListInstitutionsInstitutionTypeEnum];
+/**
+ * @export
+ */
+export const ListPaymentAccountsWithEnrichedDataAccountTypeEnum = {
+  ExternalAccount: 'EXTERNAL_ACCOUNT',
+  SettlementAccount: 'SETTLEMENT_ACCOUNT',
+} as const;
+export type ListPaymentAccountsWithEnrichedDataAccountTypeEnum =
+  (typeof ListPaymentAccountsWithEnrichedDataAccountTypeEnum)[keyof typeof ListPaymentAccountsWithEnrichedDataAccountTypeEnum];
 
 /**
  * DefaultApi - axios parameter creator
