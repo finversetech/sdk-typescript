@@ -2225,6 +2225,82 @@ export type FeePaidByEnum = (typeof FeePaidByEnum)[keyof typeof FeePaidByEnum];
 /**
  *
  * @export
+ * @interface FeeRule
+ */
+export interface FeeRule {
+  /**
+   * Minimum fee amount that will be charged. Actual amount multiplied by 1000
+   * @type {number}
+   * @memberof FeeRule
+   */
+  min_amount?: number;
+  /**
+   * Maximum fee amount that will be charged. Actual amount multiplied by 1000
+   * @type {number}
+   * @memberof FeeRule
+   */
+  max_amount?: number;
+  /**
+   * The BPS amount that will be used to calculate the fee.
+   * @type {number}
+   * @memberof FeeRule
+   */
+  fee_bps?: number;
+  /**
+   * The currency the fee is charged in
+   * @type {string}
+   * @memberof FeeRule
+   */
+  currency: string;
+  /**
+   * The fixed fee amount that will be charged on top of the calculated fee
+   * @type {number}
+   * @memberof FeeRule
+   */
+  fee_fixed?: number;
+  /**
+   * Whether the fee is paid by the RECIPIENT or SENDER
+   * @type {string}
+   * @memberof FeeRule
+   */
+  fee_paid_by: FeeRuleFeePaidByEnum;
+}
+
+export const FeeRuleFeePaidByEnum = {
+  Sender: 'SENDER',
+  Recipient: 'RECIPIENT',
+} as const;
+
+export type FeeRuleFeePaidByEnum = (typeof FeeRuleFeePaidByEnum)[keyof typeof FeeRuleFeePaidByEnum];
+
+/**
+ * Fee rule applicable to this payment account
+ * @export
+ * @interface FeeRules
+ */
+export interface FeeRules {
+  /**
+   * Fee rule applicable to mandate
+   * @type {Array<FeeRule>}
+   * @memberof FeeRules
+   */
+  mandate_rules: Array<FeeRule>;
+  /**
+   * Fee rule applicable to payment
+   * @type {Array<FeeRule>}
+   * @memberof FeeRules
+   */
+  payment_rules: Array<FeeRule>;
+  /**
+   * Fee rule applicable to payouts
+   * @type {Array<FeeRule>}
+   * @memberof FeeRules
+   */
+  payout_rules: Array<FeeRule>;
+}
+/**
+ *
+ * @export
  * @interface FpsQrCodeResponse
  */
 export interface FpsQrCodeResponse {
@@ -5343,6 +5419,12 @@ export interface PaymentAccountDetails {
    */
   accountholder_name?: string;
   /**
+   * The customer app ID
+   * @type {string}
+   * @memberof PaymentAccountDetails
+   */
+  customer_app_id?: string;
+  /**
    * Finverse Institution ID for the payment institution.
    * @type {string}
    * @memberof PaymentAccountDetails
@@ -5396,6 +5478,12 @@ export interface PaymentAccountDetails {
    * @memberof PaymentAccountDetails
    */
   metadata?: { [key: string]: string };
+  /**
+   *
+   * @type {FeeRules}
+   * @memberof PaymentAccountDetails
+   */
+  fee_rules?: FeeRules;
   /**
    * Timestamp of when the payment link was created in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
@@ -5455,6 +5543,12 @@ export interface PaymentAccountDetailsWithEnrichedData {
    */
   accountholder_name?: string;
   /**
+   * The customer app ID
+   * @type {string}
+   * @memberof PaymentAccountDetailsWithEnrichedData
+   */
+  customer_app_id?: string;
+  /**
    * Finverse Institution ID for the payment institution.
    * @type {string}
    * @memberof PaymentAccountDetailsWithEnrichedData
@@ -5508,6 +5602,12 @@ export interface PaymentAccountDetailsWithEnrichedData {
    * @memberof PaymentAccountDetailsWithEnrichedData
    */
   metadata?: { [key: string]: string };
+  /**
+   *
+   * @type {FeeRules}
+   * @memberof PaymentAccountDetailsWithEnrichedData
+   */
+  fee_rules?: FeeRules;
   /**
    * Timestamp of when the payment link was created in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
