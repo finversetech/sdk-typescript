@@ -4320,6 +4320,12 @@ export interface ListPayoutsResponse {
    * @memberof ListPayoutsResponse
    */
   payouts: Array<PayoutSnapshotResponse>;
+  /**
+   *
+   * @type {number}
+   * @memberof ListPayoutsResponse
+   */
+  total_payouts: number;
 }
 /**
  *
