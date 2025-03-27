@@ -11600,6 +11600,37 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Demote payment attempt
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    demotePaymentAttempt: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/payment_link/fvlink/payment_attempt/demote`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Download the balance statement for the ledger (CSV)
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -12783,6 +12814,26 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
+     * Demote payment attempt
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async demotePaymentAttempt(
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.demotePaymentAttempt(options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.demotePaymentAttempt']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
      * Download the balance statement for the ledger (CSV)
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -13453,6 +13504,14 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         .then((request) => request(axios, basePath));
     },
     /**
+     * Demote payment attempt
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    demotePaymentAttempt(options?: RawAxiosRequestConfig): AxiosPromise<void> {
+      return localVarFp.demotePaymentAttempt(options).then((request) => request(axios, basePath));
+    },
+    /**
      * Download the balance statement for the ledger (CSV)
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -13892,6 +13951,14 @@ export interface DefaultApiInterface {
   ): AxiosPromise<PayoutSnapshotResponse>;
 
   /**
+   * Demote payment attempt
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  demotePaymentAttempt(options?: RawAxiosRequestConfig): AxiosPromise<void>;
+
+  /**
    * Download the balance statement for the ledger (CSV)
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
    * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -14325,6 +14392,18 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   ) {
     return DefaultApiFp(this.configuration)
       .createScheduledPayout(idempotencyKey, createScheduledPayoutRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Demote payment attempt
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public demotePaymentAttempt(options?: RawAxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .demotePaymentAttempt(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
