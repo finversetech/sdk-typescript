@@ -903,6 +903,8 @@ export const CardFvLinkResponseStatusEnum = {
   Unknown: 'UNKNOWN',
   Processing: 'PROCESSING',
   Succeeded: 'SUCCEEDED',
+  Cancelled: 'CANCELLED',
+  Failed: 'FAILED',
 } as const;
 
 export type CardFvLinkResponseStatusEnum =
@@ -1299,6 +1301,9 @@ export const CreateMandateResponseStatusEnum = {
   Succeeded: 'SUCCEEDED',
   Failed: 'FAILED',
   Revoked: 'REVOKED',
+  ReadyToSubmit: 'READY_TO_SUBMIT',
+  Closed: 'CLOSED',
+  Cancelled: 'CANCELLED',
 } as const;
 
 export type CreateMandateResponseStatusEnum =
@@ -2108,6 +2113,8 @@ export const FVCardStatusEnum = {
   Unknown: 'UNKNOWN',
   Processing: 'PROCESSING',
   Succeeded: 'SUCCEEDED',
+  Cancelled: 'CANCELLED',
+  Failed: 'FAILED',
 } as const;
 
 export type FVCardStatusEnum = (typeof FVCardStatusEnum)[keyof typeof FVCardStatusEnum];
@@ -5194,6 +5201,8 @@ export const ManualPaymentConfirmationResponseStatusEnum = {
   Executed: 'EXECUTED',
   Failed: 'FAILED',
   Revoked: 'REVOKED',
+  Cancelled: 'CANCELLED',
+  Created: 'CREATED',
 } as const;
 
 export type ManualPaymentConfirmationResponseStatusEnum =
@@ -5730,6 +5739,8 @@ export const PaymentFvLinkResponseStatusEnum = {
   Executed: 'EXECUTED',
   Failed: 'FAILED',
   Revoked: 'REVOKED',
+  Cancelled: 'CANCELLED',
+  Created: 'CREATED',
 } as const;
 
 export type PaymentFvLinkResponseStatusEnum =
@@ -6547,6 +6558,8 @@ export const PaymentResponseStatusEnum = {
   Executed: 'EXECUTED',
   Failed: 'FAILED',
   Revoked: 'REVOKED',
+  Cancelled: 'CANCELLED',
+  Created: 'CREATED',
 } as const;
 
 export type PaymentResponseStatusEnum = (typeof PaymentResponseStatusEnum)[keyof typeof PaymentResponseStatusEnum];
@@ -14773,6 +14786,9 @@ export const ListDetokenizedMandatesStatusesEnum = {
   Succeeded: 'SUCCEEDED',
   Failed: 'FAILED',
   Revoked: 'REVOKED',
+  ReadyToSubmit: 'READY_TO_SUBMIT',
+  Closed: 'CLOSED',
+  Cancelled: 'CANCELLED',
 } as const;
 export type ListDetokenizedMandatesStatusesEnum =
   (typeof ListDetokenizedMandatesStatusesEnum)[keyof typeof ListDetokenizedMandatesStatusesEnum];
@@ -14796,6 +14812,9 @@ export const ListMandatesStatusesEnum = {
   Succeeded: 'SUCCEEDED',
   Failed: 'FAILED',
   Revoked: 'REVOKED',
+  ReadyToSubmit: 'READY_TO_SUBMIT',
+  Closed: 'CLOSED',
+  Cancelled: 'CANCELLED',
 } as const;
 export type ListMandatesStatusesEnum = (typeof ListMandatesStatusesEnum)[keyof typeof ListMandatesStatusesEnum];
 /**
@@ -14817,6 +14836,8 @@ export const ListPaymentsStatusesEnum = {
   Executed: 'EXECUTED',
   Failed: 'FAILED',
   Revoked: 'REVOKED',
+  Cancelled: 'CANCELLED',
+  Created: 'CREATED',
 } as const;
 export type ListPaymentsStatusesEnum = (typeof ListPaymentsStatusesEnum)[keyof typeof ListPaymentsStatusesEnum];
 /**
