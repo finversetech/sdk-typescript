@@ -2179,6 +2179,12 @@ export interface FVCardDetails {
    * @memberof FVCardDetails
    */
   funding?: FVCardDetailsFundingEnum;
+  /**
+   *
+   * @type {string}
+   * @memberof FVCardDetails
+   */
+  finverse_authorization_reference?: string;
 }
 
 export const FVCardDetailsFundingEnum = {
