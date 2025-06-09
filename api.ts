@@ -5709,6 +5709,18 @@ export interface PaymentDetails2 {
    * @memberof PaymentDetails2
    */
   collection_entity_name?: string;
+  /**
+   *
+   * @type {PaymentProcessorDetails}
+   * @memberof PaymentDetails2
+   */
+  processor_details?: PaymentProcessorDetails;
+  /**
+   * The recurring payment mode
+   * @type {string}
+   * @memberof PaymentDetails2
+   */
+  recurring_payment_mode?: string;
 }
 /**
  *
@@ -6468,6 +6480,62 @@ export interface PaymentMethodResponse {
    * @memberof PaymentMethodResponse
    */
   integration_metadata?: PaymentMethodIntegrationMetadata;
+}
+/**
+ *
+ * @export
+ * @interface PaymentProcessorDetails
+ */
+export interface PaymentProcessorDetails {
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentProcessorDetails
+   */
+  auth_code?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentProcessorDetails
+   */
+  processor_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentProcessorDetails
+   */
+  processor_reference?: string;
+  /**
+   *
+   * @type {PaymentProcessorResult}
+   * @memberof PaymentProcessorDetails
+   */
+  result?: PaymentProcessorResult;
+}
+/**
+ *
+ * @export
+ * @interface PaymentProcessorResult
+ */
+export interface PaymentProcessorResult {
+  /**
+   * Payment processor\'s decline code (e.g. \"2\")
+   * @type {string}
+   * @memberof PaymentProcessorResult
+   */
+  decline_code?: string;
+  /**
+   * Payment processor\'s decline explanation (e.g. \"Blocked card\")
+   * @type {string}
+   * @memberof PaymentProcessorResult
+   */
+  decline_reason?: string;
+  /**
+   * Payment processor\'s result code (e.g. \"Authorized\", \"Refused\").
+   * @type {string}
+   * @memberof PaymentProcessorResult
+   */
+  result_code?: string;
 }
 /**
  *
