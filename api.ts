@@ -2185,6 +2185,18 @@ export interface FVCardDetails {
    * @memberof FVCardDetails
    */
   finverse_authorization_reference?: string;
+  /**
+   *
+   * @type {FVCardProcessorDetails}
+   * @memberof FVCardDetails
+   */
+  processor_details?: FVCardProcessorDetails;
+  /**
+   * The recurring payment mode
+   * @type {string}
+   * @memberof FVCardDetails
+   */
+  recurring_payment_mode?: string;
 }
 
 export const FVCardDetailsFundingEnum = {
@@ -2196,6 +2208,37 @@ export const FVCardDetailsFundingEnum = {
 
 export type FVCardDetailsFundingEnum = (typeof FVCardDetailsFundingEnum)[keyof typeof FVCardDetailsFundingEnum];
 
+/**
+ *
+ * @export
+ * @interface FVCardProcessorDetails
+ */
+export interface FVCardProcessorDetails {
+  /**
+   *
+   * @type {string}
+   * @memberof FVCardProcessorDetails
+   */
+  auth_code?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof FVCardProcessorDetails
+   */
+  processor_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof FVCardProcessorDetails
+   */
+  processor_reference?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof FVCardProcessorDetails
+   */
+  token_id?: string;
+}
 /**
  *
  * @export
