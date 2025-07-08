@@ -1943,6 +1943,165 @@ export interface DeleteLoginIdentityResponse {
 /**
  *
  * @export
+ * @interface DisputeResponse
+ */
+export interface DisputeResponse {
+  /**
+   * The dispute id
+   * @type {string}
+   * @memberof DisputeResponse
+   */
+  dispute_id?: string;
+  /**
+   * Amount to be disputed, in currency\'s smallest unit or “minor unit”, as defined in ISO 4217. For example, HKD 100.01 is represented as amount = 10001 (minor unit = cents). For currencies without minor units (e.g. VND, JPY), the amount is represented as is, without modification. For example, VND 15101 is represented as amount = 15101.
+   * @type {number}
+   * @memberof DisputeResponse
+   */
+  disputed_amount?: number;
+  /**
+   * The currency of the balance
+   * @type {string}
+   * @memberof DisputeResponse
+   */
+  currency?: string;
+  /**
+   * The name of the last event for this dispute
+   * @type {string}
+   * @memberof DisputeResponse
+   */
+  last_event_name?: string;
+  /**
+   * The payment processor handling the dispute
+   * @type {string}
+   * @memberof DisputeResponse
+   */
+  payment_processor?: string;
+  /**
+   * The account ID at the payment processor
+   * @type {string}
+   * @memberof DisputeResponse
+   */
+  payment_processor_account_id?: string;
+  /**
+   * The payment reference for the disputed transaction
+   * @type {string}
+   * @memberof DisputeResponse
+   */
+  payment_reference?: string;
+  /**
+   * The payment processor\'s payment reference
+   * @type {string}
+   * @memberof DisputeResponse
+   */
+  payment_processor_payment_reference?: string;
+  /**
+   *
+   * @type {DisputeResponseCardDetails}
+   * @memberof DisputeResponse
+   */
+  card_details?: DisputeResponseCardDetails;
+  /**
+   * The payment processor\'s dispute reference
+   * @type {string}
+   * @memberof DisputeResponse
+   */
+  payment_processor_dispute_reference?: string;
+  /**
+   * The reason for the dispute as provided by the payment processor
+   * @type {string}
+   * @memberof DisputeResponse
+   */
+  payment_processor_dispute_reason?: string;
+  /**
+   * Acquirer Reference Number
+   * @type {string}
+   * @memberof DisputeResponse
+   */
+  arn?: string;
+  /**
+   * The dispute code from the payment processor
+   * @type {string}
+   * @memberof DisputeResponse
+   */
+  payment_processor_dispute_code?: string;
+  /**
+   * Whether the dispute is defendable
+   * @type {boolean}
+   * @memberof DisputeResponse
+   */
+  is_defendable?: boolean;
+  /**
+   * The status of the dispute
+   * @type {string}
+   * @memberof DisputeResponse
+   */
+  dispute_status?: DisputeResponseDisputeStatusEnum;
+  /**
+   * The status of the dispute at the payment processor
+   * @type {string}
+   * @memberof DisputeResponse
+   */
+  payment_processor_dispute_status?: string;
+  /**
+   * Whether the dispute was automatically defended
+   * @type {boolean}
+   * @memberof DisputeResponse
+   */
+  is_auto_defended?: boolean;
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof DisputeResponse
+   */
+  defense_period_deadline?: string;
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof DisputeResponse
+   */
+  issuer_comments?: { [key: string]: string };
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof DisputeResponse
+   */
+  created_at?: string;
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof DisputeResponse
+   */
+  updated_at?: string;
+}
+
+export const DisputeResponseDisputeStatusEnum = {
+  Undefended: 'UNDEFENDED',
+  ActionRequired: 'ACTION_REQUIRED',
+  Processing: 'PROCESSING',
+  Accepted: 'ACCEPTED',
+  Lost: 'LOST',
+  Won: 'WON',
+} as const;
+
+export type DisputeResponseDisputeStatusEnum =
+  (typeof DisputeResponseDisputeStatusEnum)[keyof typeof DisputeResponseDisputeStatusEnum];
+
+/**
+ *
+ * @export
+ * @interface DisputeResponseCardDetails
+ */
+export interface DisputeResponseCardDetails {
+  /**
+   *
+   * @type {string}
+   * @memberof DisputeResponseCardDetails
+   */
+  brand?: string;
+}
+/**
+ *
+ * @export
  * @interface DownloadBalanceStatementResponse
  */
 export interface DownloadBalanceStatementResponse {
@@ -4198,6 +4357,25 @@ export interface ListCardsDetailsResponse {
    * @memberof ListCardsDetailsResponse
    */
   card_details?: CardDetails;
+}
+/**
+ *
+ * @export
+ * @interface ListDisputesResponse
+ */
+export interface ListDisputesResponse {
+  /**
+   *
+   * @type {Array<DisputeResponse>}
+   * @memberof ListDisputesResponse
+   */
+  disputes: Array<DisputeResponse>;
+  /**
+   *
+   * @type {number}
+   * @memberof ListDisputesResponse
+   */
+  total_disputes: number;
 }
 /**
  *
@@ -12160,6 +12338,65 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * List Disputes
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListDisputesStatusesEnum>} [statuses] The dispute statuses to filter for, comma separated
+     * @param {Array<string>} [currencies] The currencies to filter for, comma separated
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listDisputes: async (
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListDisputesStatusesEnum>,
+      currencies?: Array<string>,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/disputes`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (dateFrom !== undefined) {
+        localVarQueryParameter['date_from'] =
+          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substring(0, 10) : dateFrom;
+      }
+
+      if (dateTo !== undefined) {
+        localVarQueryParameter['date_to'] =
+          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substring(0, 10) : dateTo;
+      }
+
+      if (statuses) {
+        localVarQueryParameter['statuses'] = statuses.join(COLLECTION_FORMATS.csv);
+      }
+
+      if (currencies) {
+        localVarQueryParameter['currencies'] = currencies.join(COLLECTION_FORMATS.csv);
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -13176,6 +13413,40 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
+     * List Disputes
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListDisputesStatusesEnum>} [statuses] The dispute statuses to filter for, comma separated
+     * @param {Array<string>} [currencies] The currencies to filter for, comma separated
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listDisputes(
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListDisputesStatusesEnum>,
+      currencies?: Array<string>,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListDisputesResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listDisputes(
+        dateFrom,
+        dateTo,
+        statuses,
+        currencies,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.listDisputes']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -13704,6 +13975,26 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         .then((request) => request(axios, basePath));
     },
     /**
+     * List Disputes
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListDisputesStatusesEnum>} [statuses] The dispute statuses to filter for, comma separated
+     * @param {Array<string>} [currencies] The currencies to filter for, comma separated
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listDisputes(
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListDisputesStatusesEnum>,
+      currencies?: Array<string>,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ListDisputesResponse> {
+      return localVarFp
+        .listDisputes(dateFrom, dateTo, statuses, currencies, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * List mandates
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -14137,6 +14428,24 @@ export interface DefaultApiInterface {
     limit?: number,
     options?: RawAxiosRequestConfig,
   ): AxiosPromise<ListMandatesResponse>;
+
+  /**
+   * List Disputes
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<ListDisputesStatusesEnum>} [statuses] The dispute statuses to filter for, comma separated
+   * @param {Array<string>} [currencies] The currencies to filter for, comma separated
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  listDisputes(
+    dateFrom?: string,
+    dateTo?: string,
+    statuses?: Array<ListDisputesStatusesEnum>,
+    currencies?: Array<string>,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<ListDisputesResponse>;
 
   /**
    * List mandates
@@ -14620,6 +14929,28 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   }
 
   /**
+   * List Disputes
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<ListDisputesStatusesEnum>} [statuses] The dispute statuses to filter for, comma separated
+   * @param {Array<string>} [currencies] The currencies to filter for, comma separated
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public listDisputes(
+    dateFrom?: string,
+    dateTo?: string,
+    statuses?: Array<ListDisputesStatusesEnum>,
+    currencies?: Array<string>,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return DefaultApiFp(this.configuration)
+      .listDisputes(dateFrom, dateTo, statuses, currencies, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
    * List mandates
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
    * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -14839,6 +15170,18 @@ export const ListDetokenizedMandatesSenderTypeEnum = {
 } as const;
 export type ListDetokenizedMandatesSenderTypeEnum =
   (typeof ListDetokenizedMandatesSenderTypeEnum)[keyof typeof ListDetokenizedMandatesSenderTypeEnum];
+/**
+ * @export
+ */
+export const ListDisputesStatusesEnum = {
+  Undefended: 'UNDEFENDED',
+  ActionRequired: 'ACTION_REQUIRED',
+  Processing: 'PROCESSING',
+  Accepted: 'ACCEPTED',
+  Lost: 'LOST',
+  Won: 'WON',
+} as const;
+export type ListDisputesStatusesEnum = (typeof ListDisputesStatusesEnum)[keyof typeof ListDisputesStatusesEnum];
 /**
  * @export
  */
