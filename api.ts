@@ -1957,7 +1957,7 @@ export interface DisputeResponse {
    * @type {number}
    * @memberof DisputeResponse
    */
-  disputed_amount?: number;
+  amount?: number;
   /**
    * The currency of the balance
    * @type {string}
@@ -1970,6 +1970,12 @@ export interface DisputeResponse {
    * @memberof DisputeResponse
    */
   last_event_name?: string;
+  /**
+   * The payment id
+   * @type {string}
+   * @memberof DisputeResponse
+   */
+  payment_id?: string;
   /**
    * The payment processor handling the dispute
    * @type {string}
