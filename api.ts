@@ -2081,6 +2081,7 @@ export interface DisputeResponse {
 }
 
 export const DisputeResponseDisputeStatusEnum = {
+  Unknown: 'UNKNOWN',
   Undefended: 'UNDEFENDED',
   ActionRequired: 'ACTION_REQUIRED',
   Processing: 'PROCESSING',
@@ -15158,6 +15159,7 @@ export type ListDetokenizedMandatesSenderTypeEnum =
  * @export
  */
 export const ListDisputesStatusesEnum = {
+  Unknown: 'UNKNOWN',
   Undefended: 'UNDEFENDED',
   ActionRequired: 'ACTION_REQUIRED',
   Processing: 'PROCESSING',
