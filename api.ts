@@ -12349,6 +12349,8 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
      * @param {Array<ListDisputesStatusesEnum>} [statuses] The dispute statuses to filter for, comma separated
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -12356,6 +12358,8 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       dateFrom?: string,
       dateTo?: string,
       statuses?: Array<ListDisputesStatusesEnum>,
+      offset?: number,
+      limit?: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/disputes`;
@@ -12386,6 +12390,14 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
       if (statuses) {
         localVarQueryParameter['statuses'] = statuses.join(COLLECTION_FORMATS.csv);
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter['offset'] = offset;
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter['limit'] = limit;
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -13418,6 +13430,8 @@ export const DefaultApiFp = function (configuration?: Configuration) {
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
      * @param {Array<ListDisputesStatusesEnum>} [statuses] The dispute statuses to filter for, comma separated
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -13425,9 +13439,18 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       dateFrom?: string,
       dateTo?: string,
       statuses?: Array<ListDisputesStatusesEnum>,
+      offset?: number,
+      limit?: number,
       options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListDisputesResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.listDisputes(dateFrom, dateTo, statuses, options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listDisputes(
+        dateFrom,
+        dateTo,
+        statuses,
+        offset,
+        limit,
+        options,
+      );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap['DefaultApi.listDisputes']?.[localVarOperationServerIndex]?.url;
@@ -13972,6 +13995,8 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
      * @param {Array<ListDisputesStatusesEnum>} [statuses] The dispute statuses to filter for, comma separated
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -13979,9 +14004,13 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       dateFrom?: string,
       dateTo?: string,
       statuses?: Array<ListDisputesStatusesEnum>,
+      offset?: number,
+      limit?: number,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<ListDisputesResponse> {
-      return localVarFp.listDisputes(dateFrom, dateTo, statuses, options).then((request) => request(axios, basePath));
+      return localVarFp
+        .listDisputes(dateFrom, dateTo, statuses, offset, limit, options)
+        .then((request) => request(axios, basePath));
     },
     /**
      * List mandates
@@ -14423,6 +14452,8 @@ export interface DefaultApiInterface {
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
    * @param {string} [dateTo] ISO format (YYYY-MM-DD)
    * @param {Array<ListDisputesStatusesEnum>} [statuses] The dispute statuses to filter for, comma separated
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
@@ -14431,6 +14462,8 @@ export interface DefaultApiInterface {
     dateFrom?: string,
     dateTo?: string,
     statuses?: Array<ListDisputesStatusesEnum>,
+    offset?: number,
+    limit?: number,
     options?: RawAxiosRequestConfig,
   ): AxiosPromise<ListDisputesResponse>;
 
@@ -14920,6 +14953,8 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
    * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
    * @param {string} [dateTo] ISO format (YYYY-MM-DD)
    * @param {Array<ListDisputesStatusesEnum>} [statuses] The dispute statuses to filter for, comma separated
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApi
@@ -14928,10 +14963,12 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
     dateFrom?: string,
     dateTo?: string,
     statuses?: Array<ListDisputesStatusesEnum>,
+    offset?: number,
+    limit?: number,
     options?: RawAxiosRequestConfig,
   ) {
     return DefaultApiFp(this.configuration)
-      .listDisputes(dateFrom, dateTo, statuses, options)
+      .listDisputes(dateFrom, dateTo, statuses, offset, limit, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
