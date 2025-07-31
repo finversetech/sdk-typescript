@@ -1983,11 +1983,11 @@ export interface DisputeResponse {
    */
   payment_processor?: string;
   /**
-   * The account ID at the payment processor
+   *
    * @type {string}
    * @memberof DisputeResponse
    */
-  payment_processor_account_id?: string;
+  payment_processor_merchant_reference?: string;
   /**
    * The payment reference for the disputed transaction
    * @type {string}
