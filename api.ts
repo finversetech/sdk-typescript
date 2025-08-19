@@ -2035,7 +2035,7 @@ export interface DisputeResponse {
    * @type {boolean}
    * @memberof DisputeResponse
    */
-  is_defendable?: boolean;
+  is_defendable?: boolean | null;
   /**
    * The status of the dispute
    * @type {string}
@@ -2053,13 +2053,13 @@ export interface DisputeResponse {
    * @type {boolean}
    * @memberof DisputeResponse
    */
-  is_auto_defended?: boolean;
+  is_auto_defended?: boolean | null;
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
    * @memberof DisputeResponse
    */
-  defense_period_deadline?: string;
+  defense_period_deadline?: string | null;
   /**
    *
    * @type {{ [key: string]: string; }}
