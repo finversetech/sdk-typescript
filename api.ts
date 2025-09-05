@@ -2035,7 +2035,7 @@ export interface DisputeResponse {
    * @type {boolean}
    * @memberof DisputeResponse
    */
-  is_defendable?: boolean;
+  is_defendable?: boolean | null;
   /**
    * The status of the dispute
    * @type {string}
@@ -2053,13 +2053,13 @@ export interface DisputeResponse {
    * @type {boolean}
    * @memberof DisputeResponse
    */
-  is_auto_defended?: boolean;
+  is_auto_defended?: boolean | null;
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
    * @memberof DisputeResponse
    */
-  defense_period_deadline?: string;
+  defense_period_deadline?: string | null;
   /**
    *
    * @type {{ [key: string]: string; }}
@@ -6933,6 +6933,12 @@ export interface PaymentSetupOptions {
    * @memberof PaymentSetupOptions
    */
   autopay_enrollment_configuration?: AutopayEnrollmentConfiguration;
+  /**
+   * The recurring payment mode
+   * @type {string}
+   * @memberof PaymentSetupOptions
+   */
+  recurring_payment_mode?: string;
 }
 
 export const PaymentSetupOptionsFuturePaymentsEnum = {
@@ -7181,6 +7187,38 @@ export interface PayoutDetails {
 /**
  *
  * @export
+ * @interface PayoutProcessorDetails
+ */
+export interface PayoutProcessorDetails {
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutProcessorDetails
+   */
+  processor_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutProcessorDetails
+   */
+  processor_reference?: string;
+}
+/**
+ *
+ * @export
+ * @interface PayoutReferences
+ */
+export interface PayoutReferences {
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutReferences
+   */
+  recipient_reference?: string;
+}
+/**
+ *
+ * @export
  * @interface PayoutSnapshotDetails
  */
 export interface PayoutSnapshotDetails {
@@ -7208,6 +7246,24 @@ export interface PayoutSnapshotDetails {
    * @memberof PayoutSnapshotDetails
    */
   scheduled_date?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSnapshotDetails
+   */
+  estimated_arrival_time?: string | null;
+  /**
+   *
+   * @type {PayoutProcessorDetails}
+   * @memberof PayoutSnapshotDetails
+   */
+  processor_details?: PayoutProcessorDetails;
+  /**
+   *
+   * @type {PayoutReferences}
+   * @memberof PayoutSnapshotDetails
+   */
+  references?: PayoutReferences;
 }
 /**
  *
@@ -7251,6 +7307,12 @@ export interface PayoutSnapshotResponse {
    * @memberof PayoutSnapshotResponse
    */
   transaction_date?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSnapshotResponse
+   */
+  transaction_time?: string | null;
   /**
    *
    * @type {PayoutSnapshotDetails}
@@ -7552,6 +7614,12 @@ export interface RapidstorMetadataRequest {
    * @memberof RapidstorMetadataRequest
    */
   account_token: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RapidstorMetadataRequest
+   */
+  unit_type_id?: string;
 }
 /**
  *
@@ -7595,6 +7663,12 @@ export interface RapidstorMetadataResponse {
    * @memberof RapidstorMetadataResponse
    */
   account_token?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RapidstorMetadataResponse
+   */
+  unit_type_id?: string;
 }
 /**
  *
