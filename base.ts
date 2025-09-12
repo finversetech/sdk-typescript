@@ -18,7 +18,7 @@ import type { Configuration } from './configuration';
 import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 
-export const BASE_PATH = 'https://api.sandbox.finverse.net'.replace(/\/+$/, '');
+export const BASE_PATH = 'https://api.prod.finverse.net'.replace(/\/+$/, '');
 
 /**
  *

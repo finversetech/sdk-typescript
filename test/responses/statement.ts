@@ -19,5 +19,5 @@ export function getStatements(): GetStatementsResponse {
 }
 
 export function getStatementAsBuffer(): ArrayBuffer {
-  return new TextEncoder().encode("this is statement");
+  return new TextEncoder().encode("this is statement").buffer;
 }
