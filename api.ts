@@ -1560,10 +1560,10 @@ export interface CreatePaymentLinkRequest {
   unique_reference_id: string;
   /**
    *
-   * @type {PaymentSetupOptions}
+   * @type {PaymentSetupOptionsRequest}
    * @memberof CreatePaymentLinkRequest
    */
-  payment_setup_options?: PaymentSetupOptions;
+  payment_setup_options?: PaymentSetupOptionsRequest;
   /**
    *
    * @type {{ [key: string]: string; }}
@@ -5014,14 +5014,45 @@ export interface MandateDetailsForPaymentLink {
   end_date?: string | null;
   /**
    *
-   * @type {TransactionLimits}
+   * @type {TransactionLimitsResponse}
    * @memberof MandateDetailsForPaymentLink
    */
-  transaction_limits?: TransactionLimits;
+  transaction_limits?: TransactionLimitsResponse;
   /**
    * End-user facing description of the mandate (used in notifications, and in payments if no description is provided)
    * @type {string}
    * @memberof MandateDetailsForPaymentLink
+   */
+  description?: string;
+}
+/**
+ *
+ * @export
+ * @interface MandateDetailsForPaymentLinkRequest
+ */
+export interface MandateDetailsForPaymentLinkRequest {
+  /**
+   * YYYY-MM-DD, must be later than or the same as the date of creation. If unspecified, default to the date of creation.
+   * @type {string}
+   * @memberof MandateDetailsForPaymentLinkRequest
+   */
+  start_date?: string | null;
+  /**
+   * YYYY-MM-DD, must be later than the date of creation.
+   * @type {string}
+   * @memberof MandateDetailsForPaymentLinkRequest
+   */
+  end_date?: string | null;
+  /**
+   *
+   * @type {TransactionLimitsRequest}
+   * @memberof MandateDetailsForPaymentLinkRequest
+   */
+  transaction_limits?: TransactionLimitsRequest;
+  /**
+   * End-user facing description of the mandate (used in notifications, and in payments if no description is provided)
+   * @type {string}
+   * @memberof MandateDetailsForPaymentLinkRequest
    */
   description?: string;
 }
@@ -5057,10 +5088,10 @@ export interface MandateDetailsRequest {
   payment_schedule?: PaymentSchedule;
   /**
    *
-   * @type {TransactionLimits}
+   * @type {TransactionLimitsRequest}
    * @memberof MandateDetailsRequest
    */
-  transaction_limits?: TransactionLimits;
+  transaction_limits?: TransactionLimitsRequest;
   /**
    * End-user facing description of the mandate (used in notifications, and in payments if no description is provided)
    * @type {string}
@@ -5106,10 +5137,10 @@ export interface MandateDetailsRequestWithDdaReference {
   end_date?: string | null;
   /**
    *
-   * @type {TransactionLimits}
+   * @type {TransactionLimitsRequest}
    * @memberof MandateDetailsRequestWithDdaReference
    */
-  transaction_limits?: TransactionLimits;
+  transaction_limits?: TransactionLimitsRequest;
   /**
    * End-user facing description of the mandate (used in notifications, and in payments if no description is provided)
    * @type {string}
@@ -5155,10 +5186,10 @@ export interface MandateDetailsResponse {
   payment_schedule?: PaymentSchedule;
   /**
    *
-   * @type {TransactionLimits}
+   * @type {TransactionLimitsResponse}
    * @memberof MandateDetailsResponse
    */
-  transaction_limits?: TransactionLimits;
+  transaction_limits?: TransactionLimitsResponse;
   /**
    * End-user facing description of the mandate (used in notifications, and in payments if no description is provided)
    * @type {string}
@@ -6961,6 +6992,67 @@ export type PaymentSetupOptionsPaymentMethodTypesEnum =
 /**
  *
  * @export
+ * @interface PaymentSetupOptionsRequest
+ */
+export interface PaymentSetupOptionsRequest {
+  /**
+   * The type of future_payments that customer want to use. Possible values: AUTOPAY or CLICK_TO_PAY
+   * @type {string}
+   * @memberof PaymentSetupOptionsRequest
+   */
+  future_payments?: PaymentSetupOptionsRequestFuturePaymentsEnum;
+  /**
+   *
+   * @type {MandateDetailsForPaymentLinkRequest}
+   * @memberof PaymentSetupOptionsRequest
+   */
+  mandate_details?: MandateDetailsForPaymentLinkRequest;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof PaymentSetupOptionsRequest
+   */
+  payment_method_types?: Array<PaymentSetupOptionsRequestPaymentMethodTypesEnum>;
+  /**
+   *
+   * @type {RecipientAccountFilters}
+   * @memberof PaymentSetupOptionsRequest
+   */
+  recipient_account_filters?: RecipientAccountFilters;
+  /**
+   *
+   * @type {AutopayEnrollmentConfiguration}
+   * @memberof PaymentSetupOptionsRequest
+   */
+  autopay_enrollment_configuration?: AutopayEnrollmentConfiguration;
+  /**
+   * The recurring payment mode
+   * @type {string}
+   * @memberof PaymentSetupOptionsRequest
+   */
+  recurring_payment_mode?: string;
+}
+
+export const PaymentSetupOptionsRequestFuturePaymentsEnum = {
+  Autopay: 'AUTOPAY',
+  ClickToPay: 'CLICK_TO_PAY',
+} as const;
+
+export type PaymentSetupOptionsRequestFuturePaymentsEnum =
+  (typeof PaymentSetupOptionsRequestFuturePaymentsEnum)[keyof typeof PaymentSetupOptionsRequestFuturePaymentsEnum];
+export const PaymentSetupOptionsRequestPaymentMethodTypesEnum = {
+  Mandate: 'MANDATE',
+  Single: 'SINGLE',
+  Card: 'CARD',
+  Manual: 'MANUAL',
+} as const;
+
+export type PaymentSetupOptionsRequestPaymentMethodTypesEnum =
+  (typeof PaymentSetupOptionsRequestPaymentMethodTypesEnum)[keyof typeof PaymentSetupOptionsRequestPaymentMethodTypesEnum];
+
+/**
+ *
+ * @export
  * @interface PaymentSnapshotPaymentMethod
  */
 export interface PaymentSnapshotPaymentMethod {
@@ -8448,36 +8540,36 @@ export interface Transaction {
 /**
  *
  * @export
- * @interface TransactionLimits
+ * @interface TransactionLimitsRequest
  */
-export interface TransactionLimits {
+export interface TransactionLimitsRequest {
   /**
    * Maximum amount of money that can be paid during the reference period (across any number of transactions). Expressed in currency\'s smallest unit or “minor unit”, as defined in ISO 4217.
    * @type {number}
-   * @memberof TransactionLimits
+   * @memberof TransactionLimitsRequest
    */
   max_period_amount?: number;
   /**
    * Maximum number of transactions (of any amount) that can be executed during the reference period.
    * @type {number}
-   * @memberof TransactionLimits
+   * @memberof TransactionLimitsRequest
    */
   max_period_count?: number;
   /**
    * The maximum amount of money that can be transferred in a single transaction under this mandate. Expressed in currency\'s smallest unit or “minor unit”, as defined in ISO 4217.
    * @type {number}
-   * @memberof TransactionLimits
+   * @memberof TransactionLimitsRequest
    */
   max_transaction_amount: number;
   /**
    * Reference calendar periods for the payment limits. Possible values (DAILY, WEEKLY, MONTHLY, QUARTERLY, YEARLY)
    * @type {string}
-   * @memberof TransactionLimits
+   * @memberof TransactionLimitsRequest
    */
-  period?: TransactionLimitsPeriodEnum | null;
+  period?: TransactionLimitsRequestPeriodEnum | null;
 }
 
-export const TransactionLimitsPeriodEnum = {
+export const TransactionLimitsRequestPeriodEnum = {
   Daily: 'DAILY',
   Weekly: 'WEEKLY',
   Monthly: 'MONTHLY',
@@ -8485,8 +8577,57 @@ export const TransactionLimitsPeriodEnum = {
   Yearly: 'YEARLY',
 } as const;
 
-export type TransactionLimitsPeriodEnum =
-  (typeof TransactionLimitsPeriodEnum)[keyof typeof TransactionLimitsPeriodEnum];
+export type TransactionLimitsRequestPeriodEnum =
+  (typeof TransactionLimitsRequestPeriodEnum)[keyof typeof TransactionLimitsRequestPeriodEnum];
+
+/**
+ *
+ * @export
+ * @interface TransactionLimitsResponse
+ */
+export interface TransactionLimitsResponse {
+  /**
+   * Maximum amount of money that can be paid during the reference period (across any number of transactions). Expressed in currency\'s smallest unit or “minor unit”, as defined in ISO 4217.
+   * @type {number}
+   * @memberof TransactionLimitsResponse
+   */
+  max_period_amount?: number;
+  /**
+   * Maximum number of transactions (of any amount) that can be executed during the reference period.
+   * @type {number}
+   * @memberof TransactionLimitsResponse
+   */
+  max_period_count?: number;
+  /**
+   * The maximum amount of money that can be transferred in a single transaction under this mandate. Expressed in currency\'s smallest unit or “minor unit”, as defined in ISO 4217.
+   * @type {number}
+   * @memberof TransactionLimitsResponse
+   */
+  max_transaction_amount: number;
+  /**
+   * The maximum amount of money that can be transferred in a single transaction under this mandate set by the payer. Expressed in currency\'s smallest unit or “minor unit”, as defined in ISO 4217.
+   * @type {number}
+   * @memberof TransactionLimitsResponse
+   */
+  max_transaction_amount_set_by_payer_initial?: number | null;
+  /**
+   * Reference calendar periods for the payment limits. Possible values (DAILY, WEEKLY, MONTHLY, QUARTERLY, YEARLY)
+   * @type {string}
+   * @memberof TransactionLimitsResponse
+   */
+  period?: TransactionLimitsResponsePeriodEnum | null;
+}
+
+export const TransactionLimitsResponsePeriodEnum = {
+  Daily: 'DAILY',
+  Weekly: 'WEEKLY',
+  Monthly: 'MONTHLY',
+  Quarterly: 'QUARTERLY',
+  Yearly: 'YEARLY',
+} as const;
+
+export type TransactionLimitsResponsePeriodEnum =
+  (typeof TransactionLimitsResponsePeriodEnum)[keyof typeof TransactionLimitsResponsePeriodEnum];
 
 /**
  *
