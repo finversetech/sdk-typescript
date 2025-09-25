@@ -8603,7 +8603,7 @@ export interface TransactionLimitsResponse {
    * @type {number}
    * @memberof TransactionLimitsResponse
    */
-  max_transaction_amount: number;
+  max_transaction_amount?: number;
   /**
    * The maximum amount of money that can be transferred in a single transaction under this mandate set by the payer. Expressed in currency\'s smallest unit or “minor unit”, as defined in ISO 4217.
    * @type {number}

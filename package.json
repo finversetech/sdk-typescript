@@ -1,6 +1,6 @@
 {
   "name": "@finverse/sdk-typescript",
-  "version": "0.0.313",
+  "version": "0.0.314",
   "description": "OpenAPI client for @finverse/sdk-typescript",
   "author": "OpenAPI-Generator Contributors",
   "repository": {
