@@ -4252,6 +4252,7 @@ export const LinkTokenRequestLanguageEnum = {
   En: 'en',
   Vi: 'vi',
   Zh: 'zh',
+  Ko: 'ko',
 } as const;
 
 export type LinkTokenRequestLanguageEnum =
@@ -4980,6 +4981,7 @@ export const MandateAuthLinkCustomizationsLanguageEnum = {
   En: 'en',
   Vi: 'vi',
   Zh: 'zh',
+  Ko: 'ko',
 } as const;
 
 export type MandateAuthLinkCustomizationsLanguageEnum =
@@ -6215,6 +6217,7 @@ export const PaymentLinkCustomizationsLanguageEnum = {
   En: 'en',
   Vi: 'vi',
   Zh: 'zh',
+  Ko: 'ko',
 } as const;
 
 export type PaymentLinkCustomizationsLanguageEnum =
@@ -7948,6 +7951,7 @@ export const RefreshLoginIdentityLinkCustomizationsLanguageEnum = {
   En: 'en',
   Vi: 'vi',
   Zh: 'zh',
+  Ko: 'ko',
 } as const;
 
 export type RefreshLoginIdentityLinkCustomizationsLanguageEnum =
