@@ -7682,6 +7682,12 @@ export interface Principal {
    * @type {string}
    * @memberof Principal
    */
+  payment_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Principal
+   */
   product_flow?: string;
   /**
    *
