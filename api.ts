@@ -1107,7 +1107,7 @@ export interface CompleteKcpPaymentRequest {
    */
   kcp_select_card_code: string;
   /**
-   * In the format of \"[FV Payment ID] | [Amount]\"
+   * In the format of \"[FV Payment ID]|[Amount]\"
    * @type {string}
    * @memberof CompleteKcpPaymentRequest
    */
