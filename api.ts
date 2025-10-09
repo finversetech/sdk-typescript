@@ -1019,6 +1019,125 @@ export interface ChangePaymentMethodFvLinkResponse {
 /**
  *
  * @export
+ * @interface CompleteKcpPaymentRequest
+ */
+export interface CompleteKcpPaymentRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof CompleteKcpPaymentRequest
+   */
+  lang?: string;
+  /**
+   * Result code, \"0000\" if the payment is successful
+   * @type {string}
+   * @memberof CompleteKcpPaymentRequest
+   */
+  res_cd?: string;
+  /**
+   * Result message
+   * @type {string}
+   * @memberof CompleteKcpPaymentRequest
+   */
+  res_msg?: string;
+  /**
+   * Buyer\'s mail
+   * @type {string}
+   * @memberof CompleteKcpPaymentRequest
+   */
+  buyr_mail: string;
+  /**
+   * Transaction code
+   * @type {string}
+   * @memberof CompleteKcpPaymentRequest
+   */
+  tran_cd: string;
+  /**
+   * Trace number
+   * @type {string}
+   * @memberof CompleteKcpPaymentRequest
+   */
+  trace_no: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CompleteKcpPaymentRequest
+   */
+  ret_pay_method?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CompleteKcpPaymentRequest
+   */
+  use_pay_method?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CompleteKcpPaymentRequest
+   */
+  enc_data: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CompleteKcpPaymentRequest
+   */
+  enc_info: string;
+  /**
+   * FV Payment ID
+   * @type {string}
+   * @memberof CompleteKcpPaymentRequest
+   */
+  ordr_idxx: string;
+  /**
+   * Card payment method
+   * @type {string}
+   * @memberof CompleteKcpPaymentRequest
+   */
+  card_pay_method: string;
+  /**
+   * If card point is used
+   * @type {string}
+   * @memberof CompleteKcpPaymentRequest
+   */
+  card_point_use: CompleteKcpPaymentRequestCardPointUseEnum;
+  /**
+   * KCP select card code
+   * @type {string}
+   * @memberof CompleteKcpPaymentRequest
+   */
+  kcp_select_card_code: string;
+  /**
+   * In the format of \"[FV Payment ID] | [Amount]\"
+   * @type {string}
+   * @memberof CompleteKcpPaymentRequest
+   */
+  ordr_chk: string;
+}
+
+export const CompleteKcpPaymentRequestCardPointUseEnum = {
+  Y: 'Y',
+  N: 'N',
+} as const;
+
+export type CompleteKcpPaymentRequestCardPointUseEnum =
+  (typeof CompleteKcpPaymentRequestCardPointUseEnum)[keyof typeof CompleteKcpPaymentRequestCardPointUseEnum];
+
+/**
+ *
+ * @export
+ * @interface CompleteKcpPaymentResponse
+ */
+export interface CompleteKcpPaymentResponse {
+  /**
+   * retryUrl from the token\'s claims
+   * @type {string}
+   * @memberof CompleteKcpPaymentResponse
+   */
+  redirect: string;
+}
+/**
+ *
+ * @export
  * @interface CompositeStatementLink
  */
 export interface CompositeStatementLink {
@@ -11761,6 +11880,50 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Complete a KCP payment
+     * @param {CompleteKcpPaymentRequest} completeKcpPaymentRequest Parameters from the KCP SDK callback to complete the payment
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    completeKcpPayment: async (
+      completeKcpPaymentRequest: CompleteKcpPaymentRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'completeKcpPaymentRequest' is not null or undefined
+      assertParamExists('completeKcpPayment', 'completeKcpPaymentRequest', completeKcpPaymentRequest);
+      const localVarPath = `/payment_links/kcp/payment`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        completeKcpPaymentRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Submit manual payment confirmation
      * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
      * @param {*} [options] Override http request option.
@@ -13170,6 +13333,28 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
+     * Complete a KCP payment
+     * @param {CompleteKcpPaymentRequest} completeKcpPaymentRequest Parameters from the KCP SDK callback to complete the payment
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async completeKcpPayment(
+      completeKcpPaymentRequest: CompleteKcpPaymentRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CompleteKcpPaymentResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.completeKcpPayment(completeKcpPaymentRequest, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.completeKcpPayment']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
      * Submit manual payment confirmation
      * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
      * @param {*} [options] Override http request option.
@@ -13976,6 +14161,20 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       return localVarFp.changePaymentMethodPaymentLink(options).then((request) => request(axios, basePath));
     },
     /**
+     * Complete a KCP payment
+     * @param {CompleteKcpPaymentRequest} completeKcpPaymentRequest Parameters from the KCP SDK callback to complete the payment
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    completeKcpPayment(
+      completeKcpPaymentRequest: CompleteKcpPaymentRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<CompleteKcpPaymentResponse> {
+      return localVarFp
+        .completeKcpPayment(completeKcpPaymentRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Submit manual payment confirmation
      * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
      * @param {*} [options] Override http request option.
@@ -14449,6 +14648,18 @@ export interface DefaultApiInterface {
   changePaymentMethodPaymentLink(options?: RawAxiosRequestConfig): AxiosPromise<ChangePaymentMethodFvLinkResponse>;
 
   /**
+   * Complete a KCP payment
+   * @param {CompleteKcpPaymentRequest} completeKcpPaymentRequest Parameters from the KCP SDK callback to complete the payment
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  completeKcpPayment(
+    completeKcpPaymentRequest: CompleteKcpPaymentRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<CompleteKcpPaymentResponse>;
+
+  /**
    * Submit manual payment confirmation
    * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
    * @param {*} [options] Override http request option.
@@ -14869,6 +15080,19 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public changePaymentMethodPaymentLink(options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .changePaymentMethodPaymentLink(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Complete a KCP payment
+   * @param {CompleteKcpPaymentRequest} completeKcpPaymentRequest Parameters from the KCP SDK callback to complete the payment
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public completeKcpPayment(completeKcpPaymentRequest: CompleteKcpPaymentRequest, options?: RawAxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .completeKcpPayment(completeKcpPaymentRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
