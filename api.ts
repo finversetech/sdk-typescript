@@ -1572,6 +1572,19 @@ export interface CreatePaymentInstructionResponse {
 /**
  *
  * @export
+ * @interface CreatePaymentLinkCardPaymentRequest
+ */
+export interface CreatePaymentLinkCardPaymentRequest {
+  /**
+   * Whether the request is from a mobile device
+   * @type {boolean}
+   * @memberof CreatePaymentLinkCardPaymentRequest
+   */
+  is_mobile?: boolean;
+}
+/**
+ *
+ * @export
  * @interface CreatePaymentLinkCardPaymentResponse
  */
 export interface CreatePaymentLinkCardPaymentResponse {
@@ -12128,10 +12141,14 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     },
     /**
      * Initiate Card Payment for a Payment Link
+     * @param {CreatePaymentLinkCardPaymentRequest} [createPaymentLinkCardPaymentRequest] request body for initiating card payment for a payment link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createPaymentLinkCardPayment: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+    createPaymentLinkCardPayment: async (
+      createPaymentLinkCardPaymentRequest?: CreatePaymentLinkCardPaymentRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
       const localVarPath = `/payment_links/card`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -12148,9 +12165,16 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        createPaymentLinkCardPaymentRequest,
+        localVarRequestOptions,
+        configuration,
+      );
 
       return {
         url: toPathString(localVarUrlObj),
@@ -13474,13 +13498,18 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     },
     /**
      * Initiate Card Payment for a Payment Link
+     * @param {CreatePaymentLinkCardPaymentRequest} [createPaymentLinkCardPaymentRequest] request body for initiating card payment for a payment link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async createPaymentLinkCardPayment(
+      createPaymentLinkCardPaymentRequest?: CreatePaymentLinkCardPaymentRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePaymentLinkCardPaymentResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentLinkCardPayment(options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentLinkCardPayment(
+        createPaymentLinkCardPaymentRequest,
+        options,
+      );
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap['DefaultApi.createPaymentLinkCardPayment']?.[localVarOperationServerIndex]?.url;
@@ -14242,11 +14271,17 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     },
     /**
      * Initiate Card Payment for a Payment Link
+     * @param {CreatePaymentLinkCardPaymentRequest} [createPaymentLinkCardPaymentRequest] request body for initiating card payment for a payment link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createPaymentLinkCardPayment(options?: RawAxiosRequestConfig): AxiosPromise<CreatePaymentLinkCardPaymentResponse> {
-      return localVarFp.createPaymentLinkCardPayment(options).then((request) => request(axios, basePath));
+    createPaymentLinkCardPayment(
+      createPaymentLinkCardPaymentRequest?: CreatePaymentLinkCardPaymentRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<CreatePaymentLinkCardPaymentResponse> {
+      return localVarFp
+        .createPaymentLinkCardPayment(createPaymentLinkCardPaymentRequest, options)
+        .then((request) => request(axios, basePath));
     },
     /**
      * CREATE Mandate for payment link
@@ -14721,11 +14756,15 @@ export interface DefaultApiInterface {
 
   /**
    * Initiate Card Payment for a Payment Link
+   * @param {CreatePaymentLinkCardPaymentRequest} [createPaymentLinkCardPaymentRequest] request body for initiating card payment for a payment link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
-  createPaymentLinkCardPayment(options?: RawAxiosRequestConfig): AxiosPromise<CreatePaymentLinkCardPaymentResponse>;
+  createPaymentLinkCardPayment(
+    createPaymentLinkCardPaymentRequest?: CreatePaymentLinkCardPaymentRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<CreatePaymentLinkCardPaymentResponse>;
 
   /**
    * CREATE Mandate for payment link
@@ -15175,13 +15214,17 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
 
   /**
    * Initiate Card Payment for a Payment Link
+   * @param {CreatePaymentLinkCardPaymentRequest} [createPaymentLinkCardPaymentRequest] request body for initiating card payment for a payment link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
-  public createPaymentLinkCardPayment(options?: RawAxiosRequestConfig) {
+  public createPaymentLinkCardPayment(
+    createPaymentLinkCardPaymentRequest?: CreatePaymentLinkCardPaymentRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
     return DefaultApiFp(this.configuration)
-      .createPaymentLinkCardPayment(options)
+      .createPaymentLinkCardPayment(createPaymentLinkCardPaymentRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
