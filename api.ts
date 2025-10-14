@@ -1045,7 +1045,7 @@ export interface CompleteKcpPaymentRequest {
    * @type {string}
    * @memberof CompleteKcpPaymentRequest
    */
-  buyr_mail: string;
+  buyr_mail?: string;
   /**
    * Transaction code
    * @type {string}
@@ -1057,7 +1057,7 @@ export interface CompleteKcpPaymentRequest {
    * @type {string}
    * @memberof CompleteKcpPaymentRequest
    */
-  trace_no: string;
+  trace_no?: string;
   /**
    *
    * @type {string}
@@ -1093,25 +1093,25 @@ export interface CompleteKcpPaymentRequest {
    * @type {string}
    * @memberof CompleteKcpPaymentRequest
    */
-  card_pay_method: string;
+  card_pay_method?: string;
   /**
    * If card point is used
    * @type {string}
    * @memberof CompleteKcpPaymentRequest
    */
-  card_point_use: CompleteKcpPaymentRequestCardPointUseEnum;
+  card_point_use?: CompleteKcpPaymentRequestCardPointUseEnum;
   /**
    * KCP select card code
    * @type {string}
    * @memberof CompleteKcpPaymentRequest
    */
-  kcp_select_card_code: string;
+  kcp_select_card_code?: string;
   /**
    * In the format of \"[FV Payment ID]|[Amount]\"
    * @type {string}
    * @memberof CompleteKcpPaymentRequest
    */
-  ordr_chk: string;
+  ordr_chk?: string;
 }
 
 export const CompleteKcpPaymentRequestCardPointUseEnum = {
