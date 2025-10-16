@@ -6130,6 +6130,12 @@ export interface PaymentFvLinkResponse {
   status?: PaymentFvLinkResponseStatusEnum;
   /**
    *
+   * @type {string}
+   * @memberof PaymentFvLinkResponse
+   */
+  type?: PaymentFvLinkResponseTypeEnum;
+  /**
+   *
    * @type {PaymentFvLinkDetails}
    * @memberof PaymentFvLinkResponse
    */
@@ -6156,6 +6162,15 @@ export const PaymentFvLinkResponseStatusEnum = {
 
 export type PaymentFvLinkResponseStatusEnum =
   (typeof PaymentFvLinkResponseStatusEnum)[keyof typeof PaymentFvLinkResponseStatusEnum];
+export const PaymentFvLinkResponseTypeEnum = {
+  Mandate: 'MANDATE',
+  Single: 'SINGLE',
+  Card: 'CARD',
+  Manual: 'MANUAL',
+} as const;
+
+export type PaymentFvLinkResponseTypeEnum =
+  (typeof PaymentFvLinkResponseTypeEnum)[keyof typeof PaymentFvLinkResponseTypeEnum];
 
 /**
  *
