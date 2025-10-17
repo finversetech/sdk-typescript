@@ -1580,7 +1580,7 @@ export interface CreatePaymentLinkCardPaymentRequest {
    * @type {boolean}
    * @memberof CreatePaymentLinkCardPaymentRequest
    */
-  is_mobile?: boolean;
+  is_mobile: boolean;
 }
 /**
  *
@@ -12156,14 +12156,20 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     },
     /**
      * Initiate Card Payment for a Payment Link
-     * @param {CreatePaymentLinkCardPaymentRequest} [createPaymentLinkCardPaymentRequest] request body for initiating card payment for a payment link
+     * @param {CreatePaymentLinkCardPaymentRequest} createPaymentLinkCardPaymentRequest request body for initiating card payment for a payment link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     createPaymentLinkCardPayment: async (
-      createPaymentLinkCardPaymentRequest?: CreatePaymentLinkCardPaymentRequest,
+      createPaymentLinkCardPaymentRequest: CreatePaymentLinkCardPaymentRequest,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
+      // verify required parameter 'createPaymentLinkCardPaymentRequest' is not null or undefined
+      assertParamExists(
+        'createPaymentLinkCardPayment',
+        'createPaymentLinkCardPaymentRequest',
+        createPaymentLinkCardPaymentRequest,
+      );
       const localVarPath = `/payment_links/card`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -13513,12 +13519,12 @@ export const DefaultApiFp = function (configuration?: Configuration) {
     },
     /**
      * Initiate Card Payment for a Payment Link
-     * @param {CreatePaymentLinkCardPaymentRequest} [createPaymentLinkCardPaymentRequest] request body for initiating card payment for a payment link
+     * @param {CreatePaymentLinkCardPaymentRequest} createPaymentLinkCardPaymentRequest request body for initiating card payment for a payment link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async createPaymentLinkCardPayment(
-      createPaymentLinkCardPaymentRequest?: CreatePaymentLinkCardPaymentRequest,
+      createPaymentLinkCardPaymentRequest: CreatePaymentLinkCardPaymentRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePaymentLinkCardPaymentResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentLinkCardPayment(
@@ -14286,12 +14292,12 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     },
     /**
      * Initiate Card Payment for a Payment Link
-     * @param {CreatePaymentLinkCardPaymentRequest} [createPaymentLinkCardPaymentRequest] request body for initiating card payment for a payment link
+     * @param {CreatePaymentLinkCardPaymentRequest} createPaymentLinkCardPaymentRequest request body for initiating card payment for a payment link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     createPaymentLinkCardPayment(
-      createPaymentLinkCardPaymentRequest?: CreatePaymentLinkCardPaymentRequest,
+      createPaymentLinkCardPaymentRequest: CreatePaymentLinkCardPaymentRequest,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<CreatePaymentLinkCardPaymentResponse> {
       return localVarFp
@@ -14771,13 +14777,13 @@ export interface DefaultApiInterface {
 
   /**
    * Initiate Card Payment for a Payment Link
-   * @param {CreatePaymentLinkCardPaymentRequest} [createPaymentLinkCardPaymentRequest] request body for initiating card payment for a payment link
+   * @param {CreatePaymentLinkCardPaymentRequest} createPaymentLinkCardPaymentRequest request body for initiating card payment for a payment link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApiInterface
    */
   createPaymentLinkCardPayment(
-    createPaymentLinkCardPaymentRequest?: CreatePaymentLinkCardPaymentRequest,
+    createPaymentLinkCardPaymentRequest: CreatePaymentLinkCardPaymentRequest,
     options?: RawAxiosRequestConfig,
   ): AxiosPromise<CreatePaymentLinkCardPaymentResponse>;
 
@@ -15229,13 +15235,13 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
 
   /**
    * Initiate Card Payment for a Payment Link
-   * @param {CreatePaymentLinkCardPaymentRequest} [createPaymentLinkCardPaymentRequest] request body for initiating card payment for a payment link
+   * @param {CreatePaymentLinkCardPaymentRequest} createPaymentLinkCardPaymentRequest request body for initiating card payment for a payment link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof DefaultApi
    */
   public createPaymentLinkCardPayment(
-    createPaymentLinkCardPaymentRequest?: CreatePaymentLinkCardPaymentRequest,
+    createPaymentLinkCardPaymentRequest: CreatePaymentLinkCardPaymentRequest,
     options?: RawAxiosRequestConfig,
   ) {
     return DefaultApiFp(this.configuration)
