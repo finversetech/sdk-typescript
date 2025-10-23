@@ -6706,15 +6706,69 @@ export interface PaymentMethodIntegrationMetadata {
    * @memberof PaymentMethodIntegrationMetadata
    */
   cybersource_metadata?: PaymentMethodIntegrationMetadataCybersourceMetadata;
+  /**
+   *
+   * @type {PaymentMethodIntegrationMetadataAdyenMetadata}
+   * @memberof PaymentMethodIntegrationMetadata
+   */
+  adyen_metadata?: PaymentMethodIntegrationMetadataAdyenMetadata;
 }
 
 export const PaymentMethodIntegrationMetadataIntegrationIdEnum = {
   Stripe: 'STRIPE',
   Cybersource: 'CYBERSOURCE',
+  Adyen: 'ADYEN',
 } as const;
 
 export type PaymentMethodIntegrationMetadataIntegrationIdEnum =
   (typeof PaymentMethodIntegrationMetadataIntegrationIdEnum)[keyof typeof PaymentMethodIntegrationMetadataIntegrationIdEnum];
+
+/**
+ *
+ * @export
+ * @interface PaymentMethodIntegrationMetadataAdyenMetadata
+ */
+export interface PaymentMethodIntegrationMetadataAdyenMetadata {
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataAdyenMetadata
+   */
+  payment_method_id: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataAdyenMetadata
+   */
+  auth_code?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataAdyenMetadata
+   */
+  psp_reference?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataAdyenMetadata
+   */
+  recurring_processing_model?: PaymentMethodIntegrationMetadataAdyenMetadataRecurringProcessingModelEnum;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataAdyenMetadata
+   */
+  network_transaction_reference?: string;
+}
+
+export const PaymentMethodIntegrationMetadataAdyenMetadataRecurringProcessingModelEnum = {
+  CardOnFile: 'CardOnFile',
+  UnscheduledCardOnFile: 'UnscheduledCardOnFile',
+  Subscription: 'Subscription',
+} as const;
+
+export type PaymentMethodIntegrationMetadataAdyenMetadataRecurringProcessingModelEnum =
+  (typeof PaymentMethodIntegrationMetadataAdyenMetadataRecurringProcessingModelEnum)[keyof typeof PaymentMethodIntegrationMetadataAdyenMetadataRecurringProcessingModelEnum];
 
 /**
  *
