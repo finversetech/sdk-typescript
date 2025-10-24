@@ -2536,6 +2536,12 @@ export interface FVCardProcessorDetails {
    * @memberof FVCardProcessorDetails
    */
   token_id?: string;
+  /**
+   * The network transaction reference
+   * @type {string}
+   * @memberof FVCardProcessorDetails
+   */
+  network_transaction_reference?: string;
 }
 /**
  *
