@@ -571,6 +571,68 @@ export type AutopayEnrollmentConfigurationEnrollmentPrefillValueEnum =
 /**
  *
  * @export
+ * @interface AvailablePaymentMethod
+ */
+export interface AvailablePaymentMethod {
+  /**
+   *
+   * @type {string}
+   * @memberof AvailablePaymentMethod
+   */
+  payment_account_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof AvailablePaymentMethod
+   */
+  title?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof AvailablePaymentMethod
+   */
+  description?: string;
+  /**
+   * The payment method type, possible values CARD, MANDATE and MANUAL
+   * @type {string}
+   * @memberof AvailablePaymentMethod
+   */
+  payment_method_type?: string;
+  /**
+   * The payment method subtype
+   * @type {string}
+   * @memberof AvailablePaymentMethod
+   */
+  payment_method_subtype?: string;
+  /**
+   *
+   * @type {boolean}
+   * @memberof AvailablePaymentMethod
+   */
+  recurring?: boolean;
+  /**
+   *
+   * @type {string}
+   * @memberof AvailablePaymentMethod
+   */
+  fee?: string;
+}
+/**
+ *
+ * @export
+ * @interface AvailablePaymentMethodsFvLinkResponse
+ */
+export interface AvailablePaymentMethodsFvLinkResponse {
+  /**
+   *
+   * @type {Array<AvailablePaymentMethod>}
+   * @memberof AvailablePaymentMethodsFvLinkResponse
+   */
+  available_payment_methods?: Array<AvailablePaymentMethod>;
+}
+/**
+ *
+ * @export
  * @interface BadRequestModel
  */
 export interface BadRequestModel {
@@ -12756,6 +12818,37 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * List available payment methods
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listAvailablePaymentMethodsPaymentLink: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/payment_link/fvlink/available_payment_methods`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * List mandates details
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -13901,6 +13994,26 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
+     * List available payment methods
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listAvailablePaymentMethodsPaymentLink(
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AvailablePaymentMethodsFvLinkResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listAvailablePaymentMethodsPaymentLink(options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.listAvailablePaymentMethodsPaymentLink']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
      * List mandates details
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -14504,6 +14617,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       return localVarFp.getSenderPaymentUser(options).then((request) => request(axios, basePath));
     },
     /**
+     * List available payment methods
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listAvailablePaymentMethodsPaymentLink(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<AvailablePaymentMethodsFvLinkResponse> {
+      return localVarFp.listAvailablePaymentMethodsPaymentLink(options).then((request) => request(axios, basePath));
+    },
+    /**
      * List mandates details
      * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
      * @param {string} [dateTo] ISO format (YYYY-MM-DD)
@@ -14977,6 +15100,16 @@ export interface DefaultApiInterface {
    * @memberof DefaultApiInterface
    */
   getSenderPaymentUser(options?: RawAxiosRequestConfig): AxiosPromise<GetPaymentUserResponse>;
+
+  /**
+   * List available payment methods
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  listAvailablePaymentMethodsPaymentLink(
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<AvailablePaymentMethodsFvLinkResponse>;
 
   /**
    * List mandates details
@@ -15489,6 +15622,18 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public getSenderPaymentUser(options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .getSenderPaymentUser(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * List available payment methods
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public listAvailablePaymentMethodsPaymentLink(options?: RawAxiosRequestConfig) {
+    return DefaultApiFp(this.configuration)
+      .listAvailablePaymentMethodsPaymentLink(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
