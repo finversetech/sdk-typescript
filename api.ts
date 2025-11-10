@@ -599,12 +599,6 @@ export interface AvailablePaymentMethod {
    */
   payment_method_type?: string;
   /**
-   * The payment method subtype
-   * @type {string}
-   * @memberof AvailablePaymentMethod
-   */
-  payment_method_subtype?: string;
-  /**
    *
    * @type {boolean}
    * @memberof AvailablePaymentMethod
@@ -616,6 +610,18 @@ export interface AvailablePaymentMethod {
    * @memberof AvailablePaymentMethod
    */
   fee?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof AvailablePaymentMethod
+   */
+  payment_method_provider?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof AvailablePaymentMethod
+   */
+  payment_rail_id?: string;
 }
 /**
  *
