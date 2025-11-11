@@ -6921,6 +6921,25 @@ export interface PaymentMethodOverview {
   supported_currencies?: Array<string>;
 }
 /**
+ * The payment method provider.
+ * @export
+ * @enum {string}
+ */
+
+export const PaymentMethodProvider = {
+  HkEdda: 'HK_EDDA',
+  SgEgiro: 'SG_EGIRO',
+  Stripe: 'STRIPE',
+  Cybersource: 'CYBERSOURCE',
+  Adyen: 'ADYEN',
+  Kcp: 'KCP',
+  HkFps: 'HK_FPS',
+  SgPaynow: 'SG_PAYNOW',
+} as const;
+
+export type PaymentMethodProvider = (typeof PaymentMethodProvider)[keyof typeof PaymentMethodProvider];
+
+/**
  *
  * @export
  * @interface PaymentMethodResponse
@@ -8335,6 +8354,65 @@ export interface RelinkRequest {
    * @memberof RelinkRequest
    */
   consent?: boolean | null;
+}
+/**
+ *
+ * @export
+ * @interface SelectPaymentMethodRequest
+ */
+export interface SelectPaymentMethodRequest {
+  /**
+   * The payment account ID of the selected payment method
+   * @type {string}
+   * @memberof SelectPaymentMethodRequest
+   */
+  payment_account_id: string;
+  /**
+   *
+   * @type {PaymentMethodProvider}
+   * @memberof SelectPaymentMethodRequest
+   */
+  payment_method_provider?: PaymentMethodProvider;
+  /**
+   *
+   * @type {string}
+   * @memberof SelectPaymentMethodRequest
+   */
+  user_type?: SelectPaymentMethodRequestUserTypeEnum;
+  /**
+   * Whether the user is on mobile device (only makes a difference if payment_method_provider is KCP)
+   * @type {boolean}
+   * @memberof SelectPaymentMethodRequest
+   */
+  is_mobile?: boolean;
+}
+
+export const SelectPaymentMethodRequestUserTypeEnum = {
+  Individual: 'INDIVIDUAL',
+  Business: 'BUSINESS',
+} as const;
+
+export type SelectPaymentMethodRequestUserTypeEnum =
+  (typeof SelectPaymentMethodRequestUserTypeEnum)[keyof typeof SelectPaymentMethodRequestUserTypeEnum];
+
+/**
+ *
+ * @export
+ * @interface SelectPaymentMethodResponse
+ */
+export interface SelectPaymentMethodResponse {
+  /**
+   * Token for the selected payment method
+   * @type {string}
+   * @memberof SelectPaymentMethodResponse
+   */
+  token?: string;
+  /**
+   * URL to redirect to for making the card payment
+   * @type {string}
+   * @memberof SelectPaymentMethodResponse
+   */
+  card_processor_redirect_uri?: string;
 }
 /**
  *
@@ -13356,6 +13434,50 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Select a payment method for payment link
+     * @param {SelectPaymentMethodRequest} selectPaymentMethodRequest request body for selecting a payment method
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    selectPaymentMethodPaymentLink: async (
+      selectPaymentMethodRequest: SelectPaymentMethodRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'selectPaymentMethodRequest' is not null or undefined
+      assertParamExists('selectPaymentMethodPaymentLink', 'selectPaymentMethodRequest', selectPaymentMethodRequest);
+      const localVarPath = `/payment_links/fvlink/select_payment_method`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        selectPaymentMethodRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Set autopay consent for payment user
      * @param {SetAutopayConsentRequest} setAutopayConsentRequest
      * @param {*} [options] Override http request option.
@@ -14292,6 +14414,31 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
+     * Select a payment method for payment link
+     * @param {SelectPaymentMethodRequest} selectPaymentMethodRequest request body for selecting a payment method
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async selectPaymentMethodPaymentLink(
+      selectPaymentMethodRequest: SelectPaymentMethodRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SelectPaymentMethodResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.selectPaymentMethodPaymentLink(
+        selectPaymentMethodRequest,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['DefaultApi.selectPaymentMethodPaymentLink']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
      * Set autopay consent for payment user
      * @param {SetAutopayConsentRequest} setAutopayConsentRequest
      * @param {*} [options] Override http request option.
@@ -14816,6 +14963,20 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       return localVarFp.refreshPaymentAttempt(options).then((request) => request(axios, basePath));
     },
     /**
+     * Select a payment method for payment link
+     * @param {SelectPaymentMethodRequest} selectPaymentMethodRequest request body for selecting a payment method
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    selectPaymentMethodPaymentLink(
+      selectPaymentMethodRequest: SelectPaymentMethodRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<SelectPaymentMethodResponse> {
+      return localVarFp
+        .selectPaymentMethodPaymentLink(selectPaymentMethodRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
      * Set autopay consent for payment user
      * @param {SetAutopayConsentRequest} setAutopayConsentRequest
      * @param {*} [options] Override http request option.
@@ -15257,6 +15418,18 @@ export interface DefaultApiInterface {
    * @memberof DefaultApiInterface
    */
   refreshPaymentAttempt(options?: RawAxiosRequestConfig): AxiosPromise<RefreshPaymentAttemptResponse>;
+
+  /**
+   * Select a payment method for payment link
+   * @param {SelectPaymentMethodRequest} selectPaymentMethodRequest request body for selecting a payment method
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApiInterface
+   */
+  selectPaymentMethodPaymentLink(
+    selectPaymentMethodRequest: SelectPaymentMethodRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<SelectPaymentMethodResponse>;
 
   /**
    * Set autopay consent for payment user
@@ -15838,6 +16011,22 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public refreshPaymentAttempt(options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .refreshPaymentAttempt(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Select a payment method for payment link
+   * @param {SelectPaymentMethodRequest} selectPaymentMethodRequest request body for selecting a payment method
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof DefaultApi
+   */
+  public selectPaymentMethodPaymentLink(
+    selectPaymentMethodRequest: SelectPaymentMethodRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return DefaultApiFp(this.configuration)
+      .selectPaymentMethodPaymentLink(selectPaymentMethodRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
