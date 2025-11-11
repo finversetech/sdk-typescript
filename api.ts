@@ -581,18 +581,6 @@ export interface AvailablePaymentMethod {
    */
   payment_account_id?: string;
   /**
-   *
-   * @type {string}
-   * @memberof AvailablePaymentMethod
-   */
-  title?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof AvailablePaymentMethod
-   */
-  description?: string;
-  /**
    * The payment method type, possible values CARD, MANDATE and MANUAL
    * @type {string}
    * @memberof AvailablePaymentMethod
@@ -616,12 +604,6 @@ export interface AvailablePaymentMethod {
    * @memberof AvailablePaymentMethod
    */
   payment_method_provider?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof AvailablePaymentMethod
-   */
-  payment_rail_id?: string;
 }
 /**
  *
