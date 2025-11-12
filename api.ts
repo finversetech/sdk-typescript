@@ -8368,6 +8368,12 @@ export interface SelectPaymentMethodRequest {
    */
   payment_account_id: string;
   /**
+   * The type of payment method to select
+   * @type {string}
+   * @memberof SelectPaymentMethodRequest
+   */
+  payment_method_type: SelectPaymentMethodRequestPaymentMethodTypeEnum;
+  /**
    *
    * @type {PaymentMethodProvider}
    * @memberof SelectPaymentMethodRequest
@@ -8387,6 +8393,15 @@ export interface SelectPaymentMethodRequest {
   is_mobile?: boolean;
 }
 
+export const SelectPaymentMethodRequestPaymentMethodTypeEnum = {
+  Mandate: 'MANDATE',
+  Single: 'SINGLE',
+  Card: 'CARD',
+  Manual: 'MANUAL',
+} as const;
+
+export type SelectPaymentMethodRequestPaymentMethodTypeEnum =
+  (typeof SelectPaymentMethodRequestPaymentMethodTypeEnum)[keyof typeof SelectPaymentMethodRequestPaymentMethodTypeEnum];
 export const SelectPaymentMethodRequestUserTypeEnum = {
   Individual: 'INDIVIDUAL',
   Business: 'BUSINESS',
