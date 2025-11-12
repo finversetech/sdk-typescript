@@ -8384,7 +8384,7 @@ export interface SelectPaymentMethodRequest {
    * @type {string}
    * @memberof SelectPaymentMethodRequest
    */
-  user_type?: SelectPaymentMethodRequestUserTypeEnum;
+  sender_type?: SelectPaymentMethodRequestSenderTypeEnum;
   /**
    * Whether the user is on mobile device (only makes a difference if payment_method_provider is KCP)
    * @type {boolean}
@@ -8402,13 +8402,13 @@ export const SelectPaymentMethodRequestPaymentMethodTypeEnum = {
 
 export type SelectPaymentMethodRequestPaymentMethodTypeEnum =
   (typeof SelectPaymentMethodRequestPaymentMethodTypeEnum)[keyof typeof SelectPaymentMethodRequestPaymentMethodTypeEnum];
-export const SelectPaymentMethodRequestUserTypeEnum = {
+export const SelectPaymentMethodRequestSenderTypeEnum = {
   Individual: 'INDIVIDUAL',
   Business: 'BUSINESS',
 } as const;
 
-export type SelectPaymentMethodRequestUserTypeEnum =
-  (typeof SelectPaymentMethodRequestUserTypeEnum)[keyof typeof SelectPaymentMethodRequestUserTypeEnum];
+export type SelectPaymentMethodRequestSenderTypeEnum =
+  (typeof SelectPaymentMethodRequestSenderTypeEnum)[keyof typeof SelectPaymentMethodRequestSenderTypeEnum];
 
 /**
  *
@@ -8417,11 +8417,11 @@ export type SelectPaymentMethodRequestUserTypeEnum =
  */
 export interface SelectPaymentMethodResponse {
   /**
-   * Token for the selected payment method
-   * @type {string}
+   *
+   * @type {PaymentLinkTokenResponse}
    * @memberof SelectPaymentMethodResponse
    */
-  token?: string;
+  token?: PaymentLinkTokenResponse;
   /**
    * URL to redirect to for making the card payment
    * @type {string}
