@@ -591,7 +591,7 @@ export interface AvailablePaymentMethod {
    * @type {boolean}
    * @memberof AvailablePaymentMethod
    */
-  recurring?: boolean;
+  recurring: boolean;
   /**
    *
    * @type {string}
@@ -6921,25 +6921,6 @@ export interface PaymentMethodOverview {
   supported_currencies?: Array<string>;
 }
 /**
- * The payment method provider.
- * @export
- * @enum {string}
- */
-
-export const PaymentMethodProvider = {
-  HkEdda: 'HK_EDDA',
-  SgEgiro: 'SG_EGIRO',
-  Stripe: 'STRIPE',
-  Cybersource: 'CYBERSOURCE',
-  Adyen: 'ADYEN',
-  Kcp: 'KCP',
-  HkFps: 'HK_FPS',
-  SgPaynow: 'SG_PAYNOW',
-} as const;
-
-export type PaymentMethodProvider = (typeof PaymentMethodProvider)[keyof typeof PaymentMethodProvider];
-
-/**
  *
  * @export
  * @interface PaymentMethodResponse
@@ -8373,12 +8354,6 @@ export interface SelectPaymentMethodRequest {
    * @memberof SelectPaymentMethodRequest
    */
   payment_method_type: SelectPaymentMethodRequestPaymentMethodTypeEnum;
-  /**
-   *
-   * @type {PaymentMethodProvider}
-   * @memberof SelectPaymentMethodRequest
-   */
-  payment_method_provider?: PaymentMethodProvider;
   /**
    *
    * @type {string}
