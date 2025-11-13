@@ -587,6 +587,12 @@ export interface AvailablePaymentMethod {
    */
   payment_method_type?: string;
   /**
+   * The payment method subtype, e.g., EDDA_HK, CARD_GENERIC etc
+   * @type {string}
+   * @memberof AvailablePaymentMethod
+   */
+  payment_method_subtype?: string;
+  /**
    *
    * @type {boolean}
    * @memberof AvailablePaymentMethod
@@ -6895,6 +6901,12 @@ export interface PaymentMethodOverview {
    * @memberof PaymentMethodOverview
    */
   payment_method_type?: string;
+  /**
+   * The payment method subtype, e.g., EDDA_HK, CARD_GENERIC etc
+   * @type {string}
+   * @memberof PaymentMethodOverview
+   */
+  payment_method_subtype?: string;
   /**
    * Only shown if funds flow via Finverse, possible values FINVERSE
    * @type {string}
