@@ -6896,12 +6896,6 @@ export interface PaymentMethodOverview {
    */
   payment_method_type?: string;
   /**
-   * The payment method subtype
-   * @type {string}
-   * @memberof PaymentMethodOverview
-   */
-  payment_method_subtype?: string;
-  /**
    * Only shown if funds flow via Finverse, possible values FINVERSE
    * @type {string}
    * @memberof PaymentMethodOverview
