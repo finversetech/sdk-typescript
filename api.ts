@@ -8830,6 +8830,12 @@ export interface Transaction {
    */
   amount?: CurrencyAmount;
   /**
+   *
+   * @type {CurrencyAmount}
+   * @memberof Transaction
+   */
+  running_balance?: CurrencyAmount;
+  /**
    * Transaction Details
    * @type {object}
    * @memberof Transaction
