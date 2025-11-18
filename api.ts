@@ -11969,6 +11969,7 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
 export const GetLineItemsForDisplayPaymentTypeEnum = {
   Mandate: 'MANDATE',
   Manual: 'MANUAL',
+  Card: 'CARD',
 } as const;
 export type GetLineItemsForDisplayPaymentTypeEnum =
   (typeof GetLineItemsForDisplayPaymentTypeEnum)[keyof typeof GetLineItemsForDisplayPaymentTypeEnum];
