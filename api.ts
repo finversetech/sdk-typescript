@@ -1296,19 +1296,6 @@ export interface CreateCardRequestCardDetails {
 /**
  *
  * @export
- * @interface CreateFpsTokenResponse
- */
-export interface CreateFpsTokenResponse {
-  /**
-   *
-   * @type {PaymentLinkTokenResponse}
-   * @memberof CreateFpsTokenResponse
-   */
-  fps_token: PaymentLinkTokenResponse;
-}
-/**
- *
- * @export
  * @interface CreateMandateRequest
  */
 export interface CreateMandateRequest {
@@ -1624,79 +1611,6 @@ export interface CreatePaymentInstructionResponse {
    * @memberof CreatePaymentInstructionResponse
    */
   payment_instruction_id?: string;
-}
-/**
- *
- * @export
- * @interface CreatePaymentLinkCardPaymentRequest
- */
-export interface CreatePaymentLinkCardPaymentRequest {
-  /**
-   * Whether the request is from a mobile device
-   * @type {boolean}
-   * @memberof CreatePaymentLinkCardPaymentRequest
-   */
-  is_mobile: boolean;
-}
-/**
- *
- * @export
- * @interface CreatePaymentLinkCardPaymentResponse
- */
-export interface CreatePaymentLinkCardPaymentResponse {
-  /**
-   * URL to redirect to for making the card payment (e.g. Stripe)
-   * @type {string}
-   * @memberof CreatePaymentLinkCardPaymentResponse
-   */
-  card_processor_redirect_uri: string;
-  /**
-   * Finverse Payment ID
-   * @type {string}
-   * @memberof CreatePaymentLinkCardPaymentResponse
-   */
-  payment_id?: string;
-}
-/**
- *
- * @export
- * @interface CreatePaymentLinkMandateRequest
- */
-export interface CreatePaymentLinkMandateRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof CreatePaymentLinkMandateRequest
-   */
-  payment_attempt_id: string;
-  /**
-   * The sender type of the mandate
-   * @type {string}
-   * @memberof CreatePaymentLinkMandateRequest
-   */
-  sender_type: CreatePaymentLinkMandateRequestSenderTypeEnum;
-}
-
-export const CreatePaymentLinkMandateRequestSenderTypeEnum = {
-  Individual: 'INDIVIDUAL',
-  Business: 'BUSINESS',
-} as const;
-
-export type CreatePaymentLinkMandateRequestSenderTypeEnum =
-  (typeof CreatePaymentLinkMandateRequestSenderTypeEnum)[keyof typeof CreatePaymentLinkMandateRequestSenderTypeEnum];
-
-/**
- *
- * @export
- * @interface CreatePaymentLinkMandateResponse
- */
-export interface CreatePaymentLinkMandateResponse {
-  /**
-   *
-   * @type {PaymentLinkTokenResponse}
-   * @memberof CreatePaymentLinkMandateResponse
-   */
-  mandate_link_token: PaymentLinkTokenResponse;
 }
 /**
  *
@@ -12224,37 +12138,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
-     * Create token for fps flow
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createFpsToken: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/payment_links/fps/token`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
      * Create mandate for an existing sender account
      * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
@@ -12336,98 +12219,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
       localVarRequestOptions.data = serializeDataIfNeeded(
         createPaymentLinkRequest,
-        localVarRequestOptions,
-        configuration,
-      );
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Initiate Card Payment for a Payment Link
-     * @param {CreatePaymentLinkCardPaymentRequest} createPaymentLinkCardPaymentRequest request body for initiating card payment for a payment link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createPaymentLinkCardPayment: async (
-      createPaymentLinkCardPaymentRequest: CreatePaymentLinkCardPaymentRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'createPaymentLinkCardPaymentRequest' is not null or undefined
-      assertParamExists(
-        'createPaymentLinkCardPayment',
-        'createPaymentLinkCardPaymentRequest',
-        createPaymentLinkCardPaymentRequest,
-      );
-      const localVarPath = `/payment_links/card`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        createPaymentLinkCardPaymentRequest,
-        localVarRequestOptions,
-        configuration,
-      );
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * CREATE Mandate for payment link
-     * @param {CreatePaymentLinkMandateRequest} createPaymentLinkMandateRequest request body for creating mandate for payment-link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createPaymentLinkMandate: async (
-      createPaymentLinkMandateRequest: CreatePaymentLinkMandateRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'createPaymentLinkMandateRequest' is not null or undefined
-      assertParamExists('createPaymentLinkMandate', 'createPaymentLinkMandateRequest', createPaymentLinkMandateRequest);
-      const localVarPath = `/payment_links/mandates`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        createPaymentLinkMandateRequest,
         localVarRequestOptions,
         configuration,
       );
@@ -13714,26 +13505,6 @@ export const DefaultApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
-     * Create token for fps flow
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async createFpsToken(
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateFpsTokenResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createFpsToken(options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.createFpsToken']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
      * Create mandate for an existing sender account
      * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
@@ -13775,56 +13546,6 @@ export const DefaultApiFp = function (configuration?: Configuration) {
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap['DefaultApi.createPaymentLink']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Initiate Card Payment for a Payment Link
-     * @param {CreatePaymentLinkCardPaymentRequest} createPaymentLinkCardPaymentRequest request body for initiating card payment for a payment link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async createPaymentLinkCardPayment(
-      createPaymentLinkCardPaymentRequest: CreatePaymentLinkCardPaymentRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePaymentLinkCardPaymentResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentLinkCardPayment(
-        createPaymentLinkCardPaymentRequest,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.createPaymentLinkCardPayment']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * CREATE Mandate for payment link
-     * @param {CreatePaymentLinkMandateRequest} createPaymentLinkMandateRequest request body for creating mandate for payment-link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async createPaymentLinkMandate(
-      createPaymentLinkMandateRequest: CreatePaymentLinkMandateRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePaymentLinkMandateResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentLinkMandate(
-        createPaymentLinkMandateRequest,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.createPaymentLinkMandate']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -14564,14 +14285,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
       return localVarFp.confirmPayment(options).then((request) => request(axios, basePath));
     },
     /**
-     * Create token for fps flow
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createFpsToken(options?: RawAxiosRequestConfig): AxiosPromise<CreateFpsTokenResponse> {
-      return localVarFp.createFpsToken(options).then((request) => request(axios, basePath));
-    },
-    /**
      * Create mandate for an existing sender account
      * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
      * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
@@ -14599,34 +14312,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     ): AxiosPromise<PaymentLinkResponse> {
       return localVarFp
         .createPaymentLink(createPaymentLinkRequest, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * Initiate Card Payment for a Payment Link
-     * @param {CreatePaymentLinkCardPaymentRequest} createPaymentLinkCardPaymentRequest request body for initiating card payment for a payment link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createPaymentLinkCardPayment(
-      createPaymentLinkCardPaymentRequest: CreatePaymentLinkCardPaymentRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<CreatePaymentLinkCardPaymentResponse> {
-      return localVarFp
-        .createPaymentLinkCardPayment(createPaymentLinkCardPaymentRequest, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * CREATE Mandate for payment link
-     * @param {CreatePaymentLinkMandateRequest} createPaymentLinkMandateRequest request body for creating mandate for payment-link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createPaymentLinkMandate(
-      createPaymentLinkMandateRequest: CreatePaymentLinkMandateRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<CreatePaymentLinkMandateResponse> {
-      return localVarFp
-        .createPaymentLinkMandate(createPaymentLinkMandateRequest, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -15077,14 +14762,6 @@ export interface DefaultApiInterface {
   confirmPayment(options?: RawAxiosRequestConfig): AxiosPromise<ConfirmPaymentResponse>;
 
   /**
-   * Create token for fps flow
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  createFpsToken(options?: RawAxiosRequestConfig): AxiosPromise<CreateFpsTokenResponse>;
-
-  /**
    * Create mandate for an existing sender account
    * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
    * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
@@ -15109,30 +14786,6 @@ export interface DefaultApiInterface {
     createPaymentLinkRequest: CreatePaymentLinkRequest,
     options?: RawAxiosRequestConfig,
   ): AxiosPromise<PaymentLinkResponse>;
-
-  /**
-   * Initiate Card Payment for a Payment Link
-   * @param {CreatePaymentLinkCardPaymentRequest} createPaymentLinkCardPaymentRequest request body for initiating card payment for a payment link
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  createPaymentLinkCardPayment(
-    createPaymentLinkCardPaymentRequest: CreatePaymentLinkCardPaymentRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<CreatePaymentLinkCardPaymentResponse>;
-
-  /**
-   * CREATE Mandate for payment link
-   * @param {CreatePaymentLinkMandateRequest} createPaymentLinkMandateRequest request body for creating mandate for payment-link
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  createPaymentLinkMandate(
-    createPaymentLinkMandateRequest: CreatePaymentLinkMandateRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<CreatePaymentLinkMandateResponse>;
 
   /**
    * Create a Payment Method for a user
@@ -15548,18 +15201,6 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   }
 
   /**
-   * Create token for fps flow
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public createFpsToken(options?: RawAxiosRequestConfig) {
-    return DefaultApiFp(this.configuration)
-      .createFpsToken(options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
    * Create mandate for an existing sender account
    * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
    * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
@@ -15587,38 +15228,6 @@ export class DefaultApi extends BaseAPI implements DefaultApiInterface {
   public createPaymentLink(createPaymentLinkRequest: CreatePaymentLinkRequest, options?: RawAxiosRequestConfig) {
     return DefaultApiFp(this.configuration)
       .createPaymentLink(createPaymentLinkRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Initiate Card Payment for a Payment Link
-   * @param {CreatePaymentLinkCardPaymentRequest} createPaymentLinkCardPaymentRequest request body for initiating card payment for a payment link
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public createPaymentLinkCardPayment(
-    createPaymentLinkCardPaymentRequest: CreatePaymentLinkCardPaymentRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return DefaultApiFp(this.configuration)
-      .createPaymentLinkCardPayment(createPaymentLinkCardPaymentRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * CREATE Mandate for payment link
-   * @param {CreatePaymentLinkMandateRequest} createPaymentLinkMandateRequest request body for creating mandate for payment-link
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public createPaymentLinkMandate(
-    createPaymentLinkMandateRequest: CreatePaymentLinkMandateRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return DefaultApiFp(this.configuration)
-      .createPaymentLinkMandate(createPaymentLinkMandateRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
