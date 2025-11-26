@@ -7517,7 +7517,7 @@ export interface PayoutSnapshotDetails {
    * @type {string}
    * @memberof PayoutSnapshotDetails
    */
-  scheduled_date?: string;
+  scheduled_date?: string | null;
   /**
    *
    * @type {string}
