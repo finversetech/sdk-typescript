@@ -2888,6 +2888,19 @@ export interface GetLineItemsForDisplayResponse {
 /**
  *
  * @export
+ * @interface GetLineItemsForDisplayResponseV2
+ */
+export interface GetLineItemsForDisplayResponseV2 {
+  /**
+   *
+   * @type {Array<LineItem>}
+   * @memberof GetLineItemsForDisplayResponseV2
+   */
+  line_items?: Array<LineItem>;
+}
+/**
+ *
+ * @export
  * @interface GetLoginIdentityByIdResponse
  */
 export interface GetLoginIdentityByIdResponse {
@@ -9520,6 +9533,37 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
+     * Get line items for display
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getLineItemsForDisplayV2: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/calculate/line_items_v2`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get a specific loginIdentity
      * @param {string} loginIdentityId The login identity id
      * @param {*} [options] Override http request option.
@@ -10434,6 +10478,26 @@ export const CustomerApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
+     * Get line items for display
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getLineItemsForDisplayV2(
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetLineItemsForDisplayResponseV2>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getLineItemsForDisplayV2(options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['CustomerApi.getLineItemsForDisplayV2']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
      * Get a specific loginIdentity
      * @param {string} loginIdentityId The login identity id
      * @param {*} [options] Override http request option.
@@ -10963,6 +11027,14 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
       return localVarFp.getLineItemsForDisplay(paymentType, options).then((request) => request(axios, basePath));
     },
     /**
+     * Get line items for display
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getLineItemsForDisplayV2(options?: RawAxiosRequestConfig): AxiosPromise<GetLineItemsForDisplayResponseV2> {
+      return localVarFp.getLineItemsForDisplayV2(options).then((request) => request(axios, basePath));
+    },
+    /**
      * Get a specific loginIdentity
      * @param {string} loginIdentityId The login identity id
      * @param {*} [options] Override http request option.
@@ -11296,6 +11368,14 @@ export interface CustomerApiInterface {
     paymentType: GetLineItemsForDisplayPaymentTypeEnum,
     options?: RawAxiosRequestConfig,
   ): AxiosPromise<GetLineItemsForDisplayResponse>;
+
+  /**
+   * Get line items for display
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApiInterface
+   */
+  getLineItemsForDisplayV2(options?: RawAxiosRequestConfig): AxiosPromise<GetLineItemsForDisplayResponseV2>;
 
   /**
    * Get a specific loginIdentity
@@ -11642,6 +11722,18 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public getLineItemsForDisplay(paymentType: GetLineItemsForDisplayPaymentTypeEnum, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getLineItemsForDisplay(paymentType, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get line items for display
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof CustomerApi
+   */
+  public getLineItemsForDisplayV2(options?: RawAxiosRequestConfig) {
+    return CustomerApiFp(this.configuration)
+      .getLineItemsForDisplayV2(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
