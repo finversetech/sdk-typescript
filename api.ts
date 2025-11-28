@@ -7759,6 +7759,12 @@ export interface Principal {
    * @type {string}
    * @memberof Principal
    */
+  payment_account_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Principal
+   */
   product_flow?: string;
   /**
    *
