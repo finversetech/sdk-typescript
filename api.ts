@@ -1484,6 +1484,12 @@ export interface CreateMandateSender {
    */
   name?: string;
   /**
+   *
+   * @type {string}
+   * @memberof CreateMandateSender
+   */
+  email: string;
+  /**
    * Customer App\'s user ID, representing the end-user making the payment.
    * @type {string}
    * @memberof CreateMandateSender
