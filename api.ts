@@ -1827,10 +1827,10 @@ export interface CreatePaymentUserRequest {
   autopay_consent?: boolean;
   /**
    *
-   * @type {IntegrationMetadataRequest}
+   * @type {IntegrationMetadataPaymentUserRequest}
    * @memberof CreatePaymentUserRequest
    */
-  integration_metadata?: IntegrationMetadataRequest;
+  integration_metadata?: IntegrationMetadataPaymentUserRequest;
 }
 
 export const CreatePaymentUserRequestUserTypeEnum = {
@@ -3928,6 +3928,33 @@ export interface InstitutionShort {
    */
   portal_name?: string;
 }
+/**
+ *
+ * @export
+ * @interface IntegrationMetadataPaymentUserRequest
+ */
+export interface IntegrationMetadataPaymentUserRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof IntegrationMetadataPaymentUserRequest
+   */
+  integration_id: IntegrationMetadataPaymentUserRequestIntegrationIdEnum;
+  /**
+   *
+   * @type {RapidstorPaymentUserMetadataRequest}
+   * @memberof IntegrationMetadataPaymentUserRequest
+   */
+  rapidstor_metadata?: RapidstorPaymentUserMetadataRequest;
+}
+
+export const IntegrationMetadataPaymentUserRequestIntegrationIdEnum = {
+  Rapidstor: 'RAPIDSTOR',
+} as const;
+
+export type IntegrationMetadataPaymentUserRequestIntegrationIdEnum =
+  (typeof IntegrationMetadataPaymentUserRequestIntegrationIdEnum)[keyof typeof IntegrationMetadataPaymentUserRequestIntegrationIdEnum];
+
 /**
  *
  * @export
@@ -7960,6 +7987,55 @@ export interface RapidstorMetadataResponse {
    * @memberof RapidstorMetadataResponse
    */
   unit_type_id?: string;
+}
+/**
+ *
+ * @export
+ * @interface RapidstorPaymentUserMetadataRequest
+ */
+export interface RapidstorPaymentUserMetadataRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof RapidstorPaymentUserMetadataRequest
+   */
+  corp_code: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RapidstorPaymentUserMetadataRequest
+   */
+  s_location_code: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RapidstorPaymentUserMetadataRequest
+   */
+  tenant_id: string;
+  /**
+   *
+   * @type {number}
+   * @memberof RapidstorPaymentUserMetadataRequest
+   */
+  i_anniv_days?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof RapidstorPaymentUserMetadataRequest
+   */
+  account_token: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RapidstorPaymentUserMetadataRequest
+   */
+  unit_type_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof RapidstorPaymentUserMetadataRequest
+   */
+  tenant_default_currency: string;
 }
 /**
  *
