@@ -2881,19 +2881,6 @@ export interface GetJWKSResponse {
 /**
  *
  * @export
- * @interface GetLineItemsForDisplayResponse
- */
-export interface GetLineItemsForDisplayResponse {
-  /**
-   *
-   * @type {Array<LineItem>}
-   * @memberof GetLineItemsForDisplayResponse
-   */
-  line_items?: Array<LineItem>;
-}
-/**
- *
- * @export
  * @interface GetLineItemsForDisplayResponseV2
  */
 export interface GetLineItemsForDisplayResponseV2 {
@@ -9506,46 +9493,6 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
     },
     /**
      * Get line items for display
-     * @param {GetLineItemsForDisplayPaymentTypeEnum} paymentType The payment type
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getLineItemsForDisplay: async (
-      paymentType: GetLineItemsForDisplayPaymentTypeEnum,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'paymentType' is not null or undefined
-      assertParamExists('getLineItemsForDisplay', 'paymentType', paymentType);
-      const localVarPath = `/calculate/line_items/{paymentType}`.replace(
-        `{${'paymentType'}}`,
-        encodeURIComponent(String(paymentType)),
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Get line items for display
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -10469,28 +10416,6 @@ export const CustomerApiFp = function (configuration?: Configuration) {
     },
     /**
      * Get line items for display
-     * @param {GetLineItemsForDisplayPaymentTypeEnum} paymentType The payment type
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getLineItemsForDisplay(
-      paymentType: GetLineItemsForDisplayPaymentTypeEnum,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetLineItemsForDisplayResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getLineItemsForDisplay(paymentType, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.getLineItemsForDisplay']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Get line items for display
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -11028,18 +10953,6 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
     },
     /**
      * Get line items for display
-     * @param {GetLineItemsForDisplayPaymentTypeEnum} paymentType The payment type
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getLineItemsForDisplay(
-      paymentType: GetLineItemsForDisplayPaymentTypeEnum,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<GetLineItemsForDisplayResponse> {
-      return localVarFp.getLineItemsForDisplay(paymentType, options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Get line items for display
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -11368,18 +11281,6 @@ export interface CustomerApiInterface {
    * @memberof CustomerApiInterface
    */
   getInstitution(institutionId: string, options?: RawAxiosRequestConfig): AxiosPromise<Institution>;
-
-  /**
-   * Get line items for display
-   * @param {GetLineItemsForDisplayPaymentTypeEnum} paymentType The payment type
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  getLineItemsForDisplay(
-    paymentType: GetLineItemsForDisplayPaymentTypeEnum,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<GetLineItemsForDisplayResponse>;
 
   /**
    * Get line items for display
@@ -11726,19 +11627,6 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
 
   /**
    * Get line items for display
-   * @param {GetLineItemsForDisplayPaymentTypeEnum} paymentType The payment type
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public getLineItemsForDisplay(paymentType: GetLineItemsForDisplayPaymentTypeEnum, options?: RawAxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .getLineItemsForDisplay(paymentType, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Get line items for display
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApi
@@ -11981,16 +11869,6 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   }
 }
 
-/**
- * @export
- */
-export const GetLineItemsForDisplayPaymentTypeEnum = {
-  Mandate: 'MANDATE',
-  Manual: 'MANUAL',
-  Card: 'CARD',
-} as const;
-export type GetLineItemsForDisplayPaymentTypeEnum =
-  (typeof GetLineItemsForDisplayPaymentTypeEnum)[keyof typeof GetLineItemsForDisplayPaymentTypeEnum];
 /**
  * @export
  */
