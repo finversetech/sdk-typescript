@@ -2381,6 +2381,12 @@ export interface FVCard {
    * @memberof FVCard
    */
   recipient_account?: MandateRecipientAccount;
+  /**
+   *
+   * @type {RiskData}
+   * @memberof FVCard
+   */
+  risk_data?: RiskData;
 }
 
 export const FVCardStatusEnum = {
@@ -2436,7 +2442,7 @@ export interface FVCardDetails {
    */
   collection_entity_name?: string;
   /**
-   *
+   * The issuer country
    * @type {string}
    * @memberof FVCardDetails
    */
@@ -2448,7 +2454,7 @@ export interface FVCardDetails {
    */
   fingerprint?: string;
   /**
-   *
+   * The funding source of the card
    * @type {string}
    * @memberof FVCardDetails
    */
@@ -2471,6 +2477,30 @@ export interface FVCardDetails {
    * @memberof FVCardDetails
    */
   recurring_payment_mode?: string;
+  /**
+   * The acquirer authorization reference
+   * @type {string}
+   * @memberof FVCardDetails
+   */
+  acquirer_authorization_reference?: string;
+  /**
+   * The brand product name
+   * @type {string}
+   * @memberof FVCardDetails
+   */
+  brand_product_name?: string;
+  /**
+   * The card number alias
+   * @type {string}
+   * @memberof FVCardDetails
+   */
+  card_number_alias?: string;
+  /**
+   * Whether the card is a commercial card
+   * @type {boolean}
+   * @memberof FVCardDetails
+   */
+  is_commercial?: boolean | null;
 }
 
 export const FVCardDetailsFundingEnum = {
@@ -8343,6 +8373,43 @@ export interface RelinkRequest {
    * @memberof RelinkRequest
    */
   consent?: boolean | null;
+}
+/**
+ *
+ * @export
+ * @interface RiskData
+ */
+export interface RiskData {
+  /**
+   * The browser type
+   * @type {string}
+   * @memberof RiskData
+   */
+  browser_type?: string;
+  /**
+   * The device type
+   * @type {string}
+   * @memberof RiskData
+   */
+  device_type?: string;
+  /**
+   * The shopper country
+   * @type {string}
+   * @memberof RiskData
+   */
+  shopper_country?: string;
+  /**
+   * The shopper IP address
+   * @type {string}
+   * @memberof RiskData
+   */
+  shopper_ip?: string;
+  /**
+   * The shopper locale
+   * @type {string}
+   * @memberof RiskData
+   */
+  shopper_locale?: string;
 }
 /**
  *
