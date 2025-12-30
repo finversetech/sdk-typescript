@@ -1292,7 +1292,42 @@ export interface CreateCardRequestCardDetails {
    * @memberof CreateCardRequestCardDetails
    */
   expiry_year?: number;
+  /**
+   * First 6 digits of the credit card number
+   * @type {string}
+   * @memberof CreateCardRequestCardDetails
+   */
+  card_bin?: string;
+  /**
+   * The card number alias
+   * @type {string}
+   * @memberof CreateCardRequestCardDetails
+   */
+  card_number_alias?: string;
+  /**
+   * The issuer country
+   * @type {string}
+   * @memberof CreateCardRequestCardDetails
+   */
+  country?: string;
+  /**
+   * The funding source of the card
+   * @type {string}
+   * @memberof CreateCardRequestCardDetails
+   */
+  funding?: CreateCardRequestCardDetailsFundingEnum;
 }
+
+export const CreateCardRequestCardDetailsFundingEnum = {
+  Unknown: 'UNKNOWN',
+  Credit: 'CREDIT',
+  Debit: 'DEBIT',
+  Prepaid: 'PREPAID',
+} as const;
+
+export type CreateCardRequestCardDetailsFundingEnum =
+  (typeof CreateCardRequestCardDetailsFundingEnum)[keyof typeof CreateCardRequestCardDetailsFundingEnum];
+
 /**
  *
  * @export
