@@ -6557,12 +6557,6 @@ export interface PaymentLinkResponse {
    */
   session_status?: PaymentLinkResponseSessionStatusEnum;
   /**
-   * Timestamp of when the payment link was or will expired in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof PaymentLinkResponse
-   */
-  expires_at?: string;
-  /**
    * Timestamp of when the payment link was created in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
    * @memberof PaymentLinkResponse
