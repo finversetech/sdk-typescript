@@ -7927,6 +7927,43 @@ export interface Principal {
 /**
  *
  * @export
+ * @interface ProcessorRiskData
+ */
+export interface ProcessorRiskData {
+  /**
+   * The browser type
+   * @type {string}
+   * @memberof ProcessorRiskData
+   */
+  browser_type?: string;
+  /**
+   * The device type
+   * @type {string}
+   * @memberof ProcessorRiskData
+   */
+  device_type?: string;
+  /**
+   * The shopper country
+   * @type {string}
+   * @memberof ProcessorRiskData
+   */
+  shopper_country?: string;
+  /**
+   * The shopper IP address
+   * @type {string}
+   * @memberof ProcessorRiskData
+   */
+  shopper_ip?: string;
+  /**
+   * The shopper locale
+   * @type {string}
+   * @memberof ProcessorRiskData
+   */
+  shopper_locale?: string;
+}
+/**
+ *
+ * @export
  * @interface ProductStatus
  */
 export interface ProductStatus {
@@ -8410,35 +8447,11 @@ export interface RelinkRequest {
  */
 export interface RiskData {
   /**
-   * The browser type
-   * @type {string}
+   *
+   * @type {ProcessorRiskData}
    * @memberof RiskData
    */
-  browser_type?: string;
-  /**
-   * The device type
-   * @type {string}
-   * @memberof RiskData
-   */
-  device_type?: string;
-  /**
-   * The shopper country
-   * @type {string}
-   * @memberof RiskData
-   */
-  shopper_country?: string;
-  /**
-   * The shopper IP address
-   * @type {string}
-   * @memberof RiskData
-   */
-  shopper_ip?: string;
-  /**
-   * The shopper locale
-   * @type {string}
-   * @memberof RiskData
-   */
-  shopper_locale?: string;
+  processor_risk_data?: ProcessorRiskData;
 }
 /**
  *
