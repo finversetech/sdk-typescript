@@ -6241,6 +6241,7 @@ export const PaymentFvLinkResponseTypeEnum = {
   Single: 'SINGLE',
   Card: 'CARD',
   Manual: 'MANUAL',
+  Wallet: 'WALLET',
 } as const;
 
 export type PaymentFvLinkResponseTypeEnum =
@@ -7152,6 +7153,7 @@ export const PaymentResponseTypeEnum = {
   Single: 'SINGLE',
   Card: 'CARD',
   Manual: 'MANUAL',
+  Wallet: 'WALLET',
 } as const;
 
 export type PaymentResponseTypeEnum = (typeof PaymentResponseTypeEnum)[keyof typeof PaymentResponseTypeEnum];
@@ -7256,6 +7258,7 @@ export const PaymentSetupOptionsPaymentMethodTypesEnum = {
   Single: 'SINGLE',
   Card: 'CARD',
   Manual: 'MANUAL',
+  Wallet: 'WALLET',
 } as const;
 
 export type PaymentSetupOptionsPaymentMethodTypesEnum =
@@ -7317,6 +7320,7 @@ export const PaymentSetupOptionsRequestPaymentMethodTypesEnum = {
   Single: 'SINGLE',
   Card: 'CARD',
   Manual: 'MANUAL',
+  Wallet: 'WALLET',
 } as const;
 
 export type PaymentSetupOptionsRequestPaymentMethodTypesEnum =
@@ -8490,6 +8494,7 @@ export const SelectPaymentMethodRequestPaymentMethodTypeEnum = {
   Single: 'SINGLE',
   Card: 'CARD',
   Manual: 'MANUAL',
+  Wallet: 'WALLET',
 } as const;
 
 export type SelectPaymentMethodRequestPaymentMethodTypeEnum =
@@ -15935,6 +15940,7 @@ export const ListPaymentsPaymentTypeEnum = {
   Single: 'SINGLE',
   Card: 'CARD',
   Manual: 'MANUAL',
+  Wallet: 'WALLET',
 } as const;
 export type ListPaymentsPaymentTypeEnum =
   (typeof ListPaymentsPaymentTypeEnum)[keyof typeof ListPaymentsPaymentTypeEnum];
@@ -15946,6 +15952,7 @@ export const ListPaymentsPaymentTypesEnum = {
   Single: 'SINGLE',
   Card: 'CARD',
   Manual: 'MANUAL',
+  Wallet: 'WALLET',
 } as const;
 export type ListPaymentsPaymentTypesEnum =
   (typeof ListPaymentsPaymentTypesEnum)[keyof typeof ListPaymentsPaymentTypesEnum];
