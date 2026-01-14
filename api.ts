@@ -8525,6 +8525,12 @@ export interface SelectPaymentMethodResponse {
    * @memberof SelectPaymentMethodResponse
    */
   card_processor_redirect_uri?: string;
+  /**
+   * URL to redirect to for making the mandate payment (right now only for Gocardless)
+   * @type {string}
+   * @memberof SelectPaymentMethodResponse
+   */
+  mandate_processor_redirect_uri?: string;
 }
 /**
  *
