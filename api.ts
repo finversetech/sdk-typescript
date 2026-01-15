@@ -2587,6 +2587,31 @@ export interface FVCardProcessorDetails {
 /**
  *
  * @export
+ * @interface FVWalletDetails
+ */
+export interface FVWalletDetails {
+  /**
+   * The wallet brand
+   * @type {string}
+   * @memberof FVWalletDetails
+   */
+  brand?: string;
+  /**
+   * The brand product name
+   * @type {string}
+   * @memberof FVWalletDetails
+   */
+  brand_product_name?: string;
+  /**
+   * The issuer country
+   * @type {string}
+   * @memberof FVWalletDetails
+   */
+  country?: string;
+}
+/**
+ *
+ * @export
  * @interface Fee
  */
 export interface Fee {
@@ -7338,6 +7363,12 @@ export interface PaymentSnapshotPaymentMethod {
    * @memberof PaymentSnapshotPaymentMethod
    */
   card?: PaymentSnapshotPaymentMethodCard;
+  /**
+   *
+   * @type {PaymentSnapshotPaymentMethodWallet}
+   * @memberof PaymentSnapshotPaymentMethod
+   */
+  wallet?: PaymentSnapshotPaymentMethodWallet;
 }
 /**
  *
@@ -7351,6 +7382,25 @@ export interface PaymentSnapshotPaymentMethodCard {
    * @memberof PaymentSnapshotPaymentMethodCard
    */
   card_details?: FVCardDetails;
+}
+/**
+ *
+ * @export
+ * @interface PaymentSnapshotPaymentMethodWallet
+ */
+export interface PaymentSnapshotPaymentMethodWallet {
+  /**
+   *
+   * @type {FVWalletDetails}
+   * @memberof PaymentSnapshotPaymentMethodWallet
+   */
+  wallet_details?: FVWalletDetails;
+  /**
+   *
+   * @type {RiskData}
+   * @memberof PaymentSnapshotPaymentMethodWallet
+   */
+  risk_data?: RiskData;
 }
 /**
  *
