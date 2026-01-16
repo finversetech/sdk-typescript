@@ -6806,12 +6806,19 @@ export interface PaymentMethodIntegrationMetadata {
    * @memberof PaymentMethodIntegrationMetadata
    */
   adyen_metadata?: PaymentMethodIntegrationMetadataAdyenMetadata;
+  /**
+   *
+   * @type {PaymentMethodIntegrationMetadataGocardlessMetadata}
+   * @memberof PaymentMethodIntegrationMetadata
+   */
+  gocardless_metadata?: PaymentMethodIntegrationMetadataGocardlessMetadata;
 }
 
 export const PaymentMethodIntegrationMetadataIntegrationIdEnum = {
   Stripe: 'STRIPE',
   Cybersource: 'CYBERSOURCE',
   Adyen: 'ADYEN',
+  Gocardless: 'GOCARDLESS',
 } as const;
 
 export type PaymentMethodIntegrationMetadataIntegrationIdEnum =
@@ -6877,6 +6884,70 @@ export interface PaymentMethodIntegrationMetadataCybersourceMetadata {
    */
   payment_token: string;
 }
+/**
+ *
+ * @export
+ * @interface PaymentMethodIntegrationMetadataGocardlessMetadata
+ */
+export interface PaymentMethodIntegrationMetadataGocardlessMetadata {
+  /**
+   * The GoCardless mandate ID
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataGocardlessMetadata
+   */
+  mandate_id: string;
+  /**
+   * The GoCardless reference
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataGocardlessMetadata
+   */
+  reference?: string;
+  /**
+   * The GoCardless mandate status
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataGocardlessMetadata
+   */
+  status?: PaymentMethodIntegrationMetadataGocardlessMetadataStatusEnum;
+  /**
+   * The bank payment scheme
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataGocardlessMetadata
+   */
+  scheme?: string;
+  /**
+   * The next possible charge date, in ISO format (YYYY-MM-DD)
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataGocardlessMetadata
+   */
+  next_possible_charge_date?: string;
+  /**
+   * Whether payments require approval
+   * @type {boolean}
+   * @memberof PaymentMethodIntegrationMetadataGocardlessMetadata
+   */
+  payments_require_approval?: boolean;
+  /**
+   * How GoCardless handles funds settlement
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataGocardlessMetadata
+   */
+  funds_settlement?: PaymentMethodIntegrationMetadataGocardlessMetadataFundsSettlementEnum;
+}
+
+export const PaymentMethodIntegrationMetadataGocardlessMetadataStatusEnum = {
+  Active: 'active',
+} as const;
+
+export type PaymentMethodIntegrationMetadataGocardlessMetadataStatusEnum =
+  (typeof PaymentMethodIntegrationMetadataGocardlessMetadataStatusEnum)[keyof typeof PaymentMethodIntegrationMetadataGocardlessMetadataStatusEnum];
+export const PaymentMethodIntegrationMetadataGocardlessMetadataFundsSettlementEnum = {
+  Managed: 'managed',
+  Direct: 'direct',
+} as const;
+
+export type PaymentMethodIntegrationMetadataGocardlessMetadataFundsSettlementEnum =
+  (typeof PaymentMethodIntegrationMetadataGocardlessMetadataFundsSettlementEnum)[keyof typeof PaymentMethodIntegrationMetadataGocardlessMetadataFundsSettlementEnum];
+
 /**
  *
  * @export
