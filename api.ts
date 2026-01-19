@@ -6938,6 +6938,12 @@ export interface PaymentMethodIntegrationMetadataGocardlessMetadata {
    * @memberof PaymentMethodIntegrationMetadataGocardlessMetadata
    */
   funds_settlement?: PaymentMethodIntegrationMetadataGocardlessMetadataFundsSettlementEnum;
+  /**
+   * The timestamp when the mandate was verified, in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataGocardlessMetadata
+   */
+  verified_at?: string | null;
 }
 
 export const PaymentMethodIntegrationMetadataGocardlessMetadataStatusEnum = {
