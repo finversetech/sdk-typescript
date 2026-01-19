@@ -1594,7 +1594,13 @@ export interface CreatePaymentAccountRequest {
    * @type {RecipientAccountNumber}
    * @memberof CreatePaymentAccountRequest
    */
-  account_number: RecipientAccountNumber;
+  account_number?: RecipientAccountNumber;
+  /**
+   * Masked account number of the payment account. Optional for EXTERNAL_ACCOUNT type. Can be provided when account_number is not available. Only one of account_number or account_number_masked can be provided.
+   * @type {string}
+   * @memberof CreatePaymentAccountRequest
+   */
+  account_number_masked?: string;
   /**
    * Type of payment account. Currently only allow creating external account.
    * @type {string}
