@@ -7103,6 +7103,12 @@ export interface PaymentProcessorDetails {
    */
   processor_reference?: string;
   /**
+   * Scheme like becs, bacs, ach, etc. (applicable to Gocardless for now)
+   * @type {string}
+   * @memberof PaymentProcessorDetails
+   */
+  scheme?: string;
+  /**
    *
    * @type {PaymentProcessorResult}
    * @memberof PaymentProcessorDetails
@@ -7133,6 +7139,18 @@ export interface PaymentProcessorResult {
    * @memberof PaymentProcessorResult
    */
   result_code?: string;
+  /**
+   * Last action taken by the payment processor (e.g. \"created\", \"captured\", \"failed\", etc.)
+   * @type {string}
+   * @memberof PaymentProcessorResult
+   */
+  last_action?: string;
+  /**
+   * Status of the payment reported by processor (e.g. \"authorized\", \"captured\", \"failed\", etc.)
+   * @type {string}
+   * @memberof PaymentProcessorResult
+   */
+  status?: string;
 }
 /**
  *
