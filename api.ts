@@ -6925,7 +6925,7 @@ export interface PaymentMethodIntegrationMetadataGocardlessMetadata {
    * @type {string}
    * @memberof PaymentMethodIntegrationMetadataGocardlessMetadata
    */
-  next_possible_charge_date?: string;
+  next_possible_charge_date?: string | null;
   /**
    * Whether payments require approval
    * @type {boolean}
