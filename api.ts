@@ -6963,6 +6963,186 @@ export type PaymentMethodIntegrationMetadataGocardlessMetadataFundsSettlementEnu
 /**
  *
  * @export
+ * @interface PaymentMethodIntegrationMetadataResponse
+ */
+export interface PaymentMethodIntegrationMetadataResponse {
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataResponse
+   */
+  integration_id?: string;
+  /**
+   *
+   * @type {PaymentMethodIntegrationMetadataResponseStripeMetadata}
+   * @memberof PaymentMethodIntegrationMetadataResponse
+   */
+  stripe_metadata?: PaymentMethodIntegrationMetadataResponseStripeMetadata | null;
+  /**
+   *
+   * @type {PaymentMethodIntegrationMetadataResponseCybersourceMetadata}
+   * @memberof PaymentMethodIntegrationMetadataResponse
+   */
+  cybersource_metadata?: PaymentMethodIntegrationMetadataResponseCybersourceMetadata | null;
+  /**
+   *
+   * @type {PaymentMethodIntegrationMetadataResponseAdyenMetadata}
+   * @memberof PaymentMethodIntegrationMetadataResponse
+   */
+  adyen_metadata?: PaymentMethodIntegrationMetadataResponseAdyenMetadata | null;
+  /**
+   *
+   * @type {PaymentMethodIntegrationMetadataResponseGocardlessMetadata}
+   * @memberof PaymentMethodIntegrationMetadataResponse
+   */
+  gocardless_metadata?: PaymentMethodIntegrationMetadataResponseGocardlessMetadata | null;
+}
+/**
+ *
+ * @export
+ * @interface PaymentMethodIntegrationMetadataResponseAdyenMetadata
+ */
+export interface PaymentMethodIntegrationMetadataResponseAdyenMetadata {
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataResponseAdyenMetadata
+   */
+  payment_method_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataResponseAdyenMetadata
+   */
+  auth_code?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataResponseAdyenMetadata
+   */
+  psp_reference?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataResponseAdyenMetadata
+   */
+  recurring_processing_model?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataResponseAdyenMetadata
+   */
+  network_transaction_reference?: string;
+}
+/**
+ *
+ * @export
+ * @interface PaymentMethodIntegrationMetadataResponseCybersourceMetadata
+ */
+export interface PaymentMethodIntegrationMetadataResponseCybersourceMetadata {
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataResponseCybersourceMetadata
+   */
+  payment_token?: string;
+}
+/**
+ *
+ * @export
+ * @interface PaymentMethodIntegrationMetadataResponseGocardlessMetadata
+ */
+export interface PaymentMethodIntegrationMetadataResponseGocardlessMetadata {
+  /**
+   * The GoCardless mandate ID
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
+   */
+  mandate_id?: string;
+  /**
+   * The GoCardless reference
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
+   */
+  reference?: string;
+  /**
+   * The GoCardless mandate status
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
+   */
+  status?: string;
+  /**
+   * The last action taken on the mandate
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
+   */
+  last_action?: string;
+  /**
+   * The bank payment scheme
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
+   */
+  scheme?: string;
+  /**
+   * The next possible charge date, in ISO format (YYYY-MM-DD)
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
+   */
+  next_possible_charge_date?: string | null;
+  /**
+   * Whether payments require approval
+   * @type {boolean}
+   * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
+   */
+  payments_require_approval?: boolean;
+  /**
+   * How GoCardless handles funds settlement
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
+   */
+  funds_settlement?: string;
+  /**
+   * The timestamp when the mandate was verified, in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
+   */
+  verified_at?: string | null;
+}
+/**
+ *
+ * @export
+ * @interface PaymentMethodIntegrationMetadataResponseStripeMetadata
+ */
+export interface PaymentMethodIntegrationMetadataResponseStripeMetadata {
+  /**
+   *
+   * @type {PaymentMethodIntegrationMetadataResponseStripeMetadataCustomer}
+   * @memberof PaymentMethodIntegrationMetadataResponseStripeMetadata
+   */
+  customer?: PaymentMethodIntegrationMetadataResponseStripeMetadataCustomer;
+  /**
+   *
+   * @type {PaymentMethodIntegrationMetadataResponseStripeMetadataCustomer}
+   * @memberof PaymentMethodIntegrationMetadataResponseStripeMetadata
+   */
+  payment_method?: PaymentMethodIntegrationMetadataResponseStripeMetadataCustomer;
+}
+/**
+ *
+ * @export
+ * @interface PaymentMethodIntegrationMetadataResponseStripeMetadataCustomer
+ */
+export interface PaymentMethodIntegrationMetadataResponseStripeMetadataCustomer {
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataResponseStripeMetadataCustomer
+   */
+  id?: string;
+}
+/**
+ *
+ * @export
  * @interface PaymentMethodIntegrationMetadataStripeMetadata
  */
 export interface PaymentMethodIntegrationMetadataStripeMetadata {
@@ -7073,10 +7253,10 @@ export interface PaymentMethodResponse {
   card?: FVCard;
   /**
    *
-   * @type {PaymentMethodIntegrationMetadata}
+   * @type {PaymentMethodIntegrationMetadataResponse}
    * @memberof PaymentMethodResponse
    */
-  integration_metadata?: PaymentMethodIntegrationMetadata;
+  integration_metadata?: PaymentMethodIntegrationMetadataResponse;
 }
 /**
  *
