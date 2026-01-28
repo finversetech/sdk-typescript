@@ -7094,13 +7094,19 @@ export interface PaymentMethodIntegrationMetadataResponseGocardlessMetadata {
    * @type {boolean}
    * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
    */
-  payments_require_approval?: boolean;
+  payments_require_approval?: boolean | null;
   /**
    * How GoCardless handles funds settlement
    * @type {string}
    * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
    */
   funds_settlement?: string;
+  /**
+   * The source of the mandate authorization
+   * @type {string}
+   * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
+   */
+  authorization_source?: string;
   /**
    * The timestamp when the mandate was verified, in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
