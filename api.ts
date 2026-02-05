@@ -16367,43 +16367,6 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
       };
     },
     /**
-     * Creates a new link
-     * @param {LinkRequest} linkRequest Request body for starting a new Link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createLinkWoauth: async (linkRequest: LinkRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'linkRequest' is not null or undefined
-      assertParamExists('createLinkWoauth', 'linkRequest', linkRequest);
-      const localVarPath = `/link/woauth`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', ['link'], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(linkRequest, localVarRequestOptions, configuration);
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
      * Post the user action value
      * @param {string} loginIdentityId The login identity id
      * @param {ActionRequest} actionRequest Request body for post link action
@@ -16521,43 +16484,6 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Update an existing link
-     * @param {RelinkRequest} relinkRequest Request body for updating Link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    relink: async (relinkRequest: RelinkRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'relinkRequest' is not null or undefined
-      assertParamExists('relink', 'relinkRequest', relinkRequest);
-      const localVarPath = `/link/relink`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(relinkRequest, localVarRequestOptions, configuration);
 
       return {
         url: toPathString(localVarUrlObj),
@@ -16713,28 +16639,6 @@ export const LinkApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
-     * Creates a new link
-     * @param {LinkRequest} linkRequest Request body for starting a new Link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async createLinkWoauth(
-      linkRequest: LinkRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LinkResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createLinkWoauth(linkRequest, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['LinkApi.createLinkWoauth']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
      * Post the user action value
      * @param {string} loginIdentityId The login identity id
      * @param {ActionRequest} actionRequest Request body for post link action
@@ -16794,27 +16698,6 @@ export const LinkApiFp = function (configuration?: Configuration) {
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap['LinkApi.linkStatusNonSensitive']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Update an existing link
-     * @param {RelinkRequest} relinkRequest Request body for updating Link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async relink(
-      relinkRequest: RelinkRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LinkResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.relink(relinkRequest, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath = operationServerMap['LinkApi.relink']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -16897,15 +16780,6 @@ export const LinkApiFactory = function (configuration?: Configuration, basePath?
       return localVarFp.createLink(apiLinkRequest, options).then((request) => request(axios, basePath));
     },
     /**
-     * Creates a new link
-     * @param {LinkRequest} linkRequest Request body for starting a new Link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createLinkWoauth(linkRequest: LinkRequest, options?: RawAxiosRequestConfig): AxiosPromise<LinkResponse> {
-      return localVarFp.createLinkWoauth(linkRequest, options).then((request) => request(axios, basePath));
-    },
-    /**
      * Post the user action value
      * @param {string} loginIdentityId The login identity id
      * @param {ActionRequest} actionRequest Request body for post link action
@@ -16939,15 +16813,6 @@ export const LinkApiFactory = function (configuration?: Configuration, basePath?
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<NonSensitiveLinkStatusResponse> {
       return localVarFp.linkStatusNonSensitive(loginIdentityId, options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Update an existing link
-     * @param {RelinkRequest} relinkRequest Request body for updating Link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    relink(relinkRequest: RelinkRequest, options?: RawAxiosRequestConfig): AxiosPromise<LinkResponse> {
-      return localVarFp.relink(relinkRequest, options).then((request) => request(axios, basePath));
     },
     /**
      * Create a new link using an existing LIID
@@ -17007,15 +16872,6 @@ export interface LinkApiInterface {
   ): AxiosPromise<GetLoginIdentityByIdResponse>;
 
   /**
-   * Creates a new link
-   * @param {LinkRequest} linkRequest Request body for starting a new Link
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LinkApiInterface
-   */
-  createLinkWoauth(linkRequest: LinkRequest, options?: RawAxiosRequestConfig): AxiosPromise<LinkResponse>;
-
-  /**
    * Post the user action value
    * @param {string} loginIdentityId The login identity id
    * @param {ActionRequest} actionRequest Request body for post link action
@@ -17049,15 +16905,6 @@ export interface LinkApiInterface {
     loginIdentityId: string,
     options?: RawAxiosRequestConfig,
   ): AxiosPromise<NonSensitiveLinkStatusResponse>;
-
-  /**
-   * Update an existing link
-   * @param {RelinkRequest} relinkRequest Request body for updating Link
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LinkApiInterface
-   */
-  relink(relinkRequest: RelinkRequest, options?: RawAxiosRequestConfig): AxiosPromise<LinkResponse>;
 
   /**
    * Create a new link using an existing LIID
@@ -17113,19 +16960,6 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
   }
 
   /**
-   * Creates a new link
-   * @param {LinkRequest} linkRequest Request body for starting a new Link
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LinkApi
-   */
-  public createLinkWoauth(linkRequest: LinkRequest, options?: RawAxiosRequestConfig) {
-    return LinkApiFp(this.configuration)
-      .createLinkWoauth(linkRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
    * Post the user action value
    * @param {string} loginIdentityId The login identity id
    * @param {ActionRequest} actionRequest Request body for post link action
@@ -17162,19 +16996,6 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
   public linkStatusNonSensitive(loginIdentityId: string, options?: RawAxiosRequestConfig) {
     return LinkApiFp(this.configuration)
       .linkStatusNonSensitive(loginIdentityId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Update an existing link
-   * @param {RelinkRequest} relinkRequest Request body for updating Link
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LinkApi
-   */
-  public relink(relinkRequest: RelinkRequest, options?: RawAxiosRequestConfig) {
-    return LinkApiFp(this.configuration)
-      .relink(relinkRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -18821,67 +18642,6 @@ export type GetBalanceHistorySourceEnum =
 export const PublicApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
-     * Callback url to get the oauth authorization token
-     * @param {string} state The state of the client when oauth was initialized
-     * @param {string} [code] The authorization code generated by the Oauth provider
-     * @param {string} [error] error
-     * @param {string} [errorDescription] error description
-     * @param {string} [errorDetails] error details
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    authCallback: async (
-      state: string,
-      code?: string,
-      error?: string,
-      errorDescription?: string,
-      errorDetails?: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'state' is not null or undefined
-      assertParamExists('authCallback', 'state', state);
-      const localVarPath = `/auth/callback`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      if (state !== undefined) {
-        localVarQueryParameter['state'] = state;
-      }
-
-      if (code !== undefined) {
-        localVarQueryParameter['code'] = code;
-      }
-
-      if (error !== undefined) {
-        localVarQueryParameter['error'] = error;
-      }
-
-      if (errorDescription !== undefined) {
-        localVarQueryParameter['error_description'] = errorDescription;
-      }
-
-      if (errorDetails !== undefined) {
-        localVarQueryParameter['error_details'] = errorDetails;
-      }
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
      * generate an access_token
      * @param {TokenRequest} [tokenRequest] token request
      * @param {*} [options] Override http request option.
@@ -18980,43 +18740,6 @@ export const PublicApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = PublicApiAxiosParamCreator(configuration);
   return {
     /**
-     * Callback url to get the oauth authorization token
-     * @param {string} state The state of the client when oauth was initialized
-     * @param {string} [code] The authorization code generated by the Oauth provider
-     * @param {string} [error] error
-     * @param {string} [errorDescription] error description
-     * @param {string} [errorDetails] error details
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async authCallback(
-      state: string,
-      code?: string,
-      error?: string,
-      errorDescription?: string,
-      errorDetails?: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RedirectUriResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.authCallback(
-        state,
-        code,
-        error,
-        errorDescription,
-        errorDetails,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['PublicApi.authCallback']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
      * generate an access_token
      * @param {TokenRequest} [tokenRequest] token request
      * @param {*} [options] Override http request option.
@@ -19089,28 +18812,6 @@ export const PublicApiFactory = function (configuration?: Configuration, basePat
   const localVarFp = PublicApiFp(configuration);
   return {
     /**
-     * Callback url to get the oauth authorization token
-     * @param {string} state The state of the client when oauth was initialized
-     * @param {string} [code] The authorization code generated by the Oauth provider
-     * @param {string} [error] error
-     * @param {string} [errorDescription] error description
-     * @param {string} [errorDetails] error details
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    authCallback(
-      state: string,
-      code?: string,
-      error?: string,
-      errorDescription?: string,
-      errorDetails?: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<RedirectUriResponse> {
-      return localVarFp
-        .authCallback(state, code, error, errorDescription, errorDetails, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
      * generate an access_token
      * @param {TokenRequest} [tokenRequest] token request
      * @param {*} [options] Override http request option.
@@ -19148,26 +18849,6 @@ export const PublicApiFactory = function (configuration?: Configuration, basePat
  */
 export interface PublicApiInterface {
   /**
-   * Callback url to get the oauth authorization token
-   * @param {string} state The state of the client when oauth was initialized
-   * @param {string} [code] The authorization code generated by the Oauth provider
-   * @param {string} [error] error
-   * @param {string} [errorDescription] error description
-   * @param {string} [errorDetails] error details
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof PublicApiInterface
-   */
-  authCallback(
-    state: string,
-    code?: string,
-    error?: string,
-    errorDescription?: string,
-    errorDetails?: string,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<RedirectUriResponse>;
-
-  /**
    * generate an access_token
    * @param {TokenRequest} [tokenRequest] token request
    * @param {*} [options] Override http request option.
@@ -19203,30 +18884,6 @@ export interface PublicApiInterface {
  * @extends {BaseAPI}
  */
 export class PublicApi extends BaseAPI implements PublicApiInterface {
-  /**
-   * Callback url to get the oauth authorization token
-   * @param {string} state The state of the client when oauth was initialized
-   * @param {string} [code] The authorization code generated by the Oauth provider
-   * @param {string} [error] error
-   * @param {string} [errorDescription] error description
-   * @param {string} [errorDetails] error details
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof PublicApi
-   */
-  public authCallback(
-    state: string,
-    code?: string,
-    error?: string,
-    errorDescription?: string,
-    errorDetails?: string,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return PublicApiFp(this.configuration)
-      .authCallback(state, code, error, errorDescription, errorDetails, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
   /**
    * generate an access_token
    * @param {TokenRequest} [tokenRequest] token request
