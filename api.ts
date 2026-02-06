@@ -6251,6 +6251,12 @@ export interface PaymentFvLinkResponse {
    * @memberof PaymentFvLinkResponse
    */
   error?: FvEmbeddedErrorModel;
+  /**
+   * Set to true if payment uses GoCardless rail, indicating frontend should skip polling
+   * @type {boolean}
+   * @memberof PaymentFvLinkResponse
+   */
+  skip_polling: boolean;
 }
 
 export const PaymentFvLinkResponseStatusEnum = {
