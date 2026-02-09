@@ -553,11 +553,11 @@ export interface AutopayEnrollmentConfiguration {
    */
   display_enrollment_screen: boolean;
   /**
-   * Indicate what value should be prefilled on the autopay enrollment screen
+   * Indicate what value should be prefilled on the autopay enrollment screen. Required when display_enrollment_screen is true; optional when display_enrollment_screen is false.
    * @type {string}
    * @memberof AutopayEnrollmentConfiguration
    */
-  enrollment_prefill_value: AutopayEnrollmentConfigurationEnrollmentPrefillValueEnum;
+  enrollment_prefill_value?: AutopayEnrollmentConfigurationEnrollmentPrefillValueEnum;
 }
 
 export const AutopayEnrollmentConfigurationEnrollmentPrefillValueEnum = {
