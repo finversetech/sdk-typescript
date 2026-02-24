@@ -8874,6 +8874,12 @@ export interface SelectPaymentMethodResponse {
    * @memberof SelectPaymentMethodResponse
    */
   mandate_processor_redirect_uri?: string;
+  /**
+   * URL to redirect to for making the payment
+   * @type {string}
+   * @memberof SelectPaymentMethodResponse
+   */
+  processor_redirect_uri?: string;
 }
 /**
  *
