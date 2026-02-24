@@ -1,6 +1,6 @@
 {
   "name": "@finverse/sdk-typescript",
-  "version": "0.0.369",
+  "version": "0.0.370",
   "description": "OpenAPI client for @finverse/sdk-typescript",
   "author": "OpenAPI-Generator Contributors",
   "repository": {
@@ -24,7 +24,7 @@
     "test": "mocha --require ts-node/register test/**/*.spec.ts"
   },
   "dependencies": {
-    "axios": "1.12.2"
+    "axios": "1"
   },
   "devDependencies": {
     "@types/chai": "^5.2.3",
