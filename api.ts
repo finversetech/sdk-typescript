@@ -761,6 +761,19 @@ export interface BalanceHistory {
 /**
  *
  * @export
+ * @interface BankTransferDetails
+ */
+export interface BankTransferDetails {
+  /**
+   * The transfer type
+   * @type {string}
+   * @memberof BankTransferDetails
+   */
+  transfer_type?: string;
+}
+/**
+ *
+ * @export
  * @interface CardAccount
  */
 export interface CardAccount {
@@ -7662,6 +7675,31 @@ export interface PaymentSnapshotPaymentMethod {
    * @memberof PaymentSnapshotPaymentMethod
    */
   wallet?: PaymentSnapshotPaymentMethodWallet;
+  /**
+   *
+   * @type {PaymentSnapshotPaymentMethodBankTransfer}
+   * @memberof PaymentSnapshotPaymentMethod
+   */
+  bank_transfer?: PaymentSnapshotPaymentMethodBankTransfer;
+}
+/**
+ *
+ * @export
+ * @interface PaymentSnapshotPaymentMethodBankTransfer
+ */
+export interface PaymentSnapshotPaymentMethodBankTransfer {
+  /**
+   *
+   * @type {BankTransferDetails}
+   * @memberof PaymentSnapshotPaymentMethodBankTransfer
+   */
+  bank_transfer_details?: BankTransferDetails;
+  /**
+   *
+   * @type {RiskData}
+   * @memberof PaymentSnapshotPaymentMethodBankTransfer
+   */
+  risk_data?: RiskData;
 }
 /**
  *
