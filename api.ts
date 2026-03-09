@@ -4488,6 +4488,12 @@ export interface LinkTokenRequest {
    * @memberof LinkTokenRequest
    */
   user_configs?: LinkTokenUserConfigs;
+  /**
+   * Limit historical data retrieval to this date. ISO format (YYYY-MM-DD)
+   * @type {string}
+   * @memberof LinkTokenRequest
+   */
+  history_date_limit?: string;
 }
 
 export const LinkTokenRequestUiModeEnum = {
@@ -8255,6 +8261,12 @@ export interface Principal {
    */
   currency?: string;
   /**
+   * Limit historical data retrieval to this date (YYYY-MM-DD)
+   * @type {string}
+   * @memberof Principal
+   */
+  history_date_limit?: string;
+  /**
    *
    * @type {string}
    * @memberof Principal
@@ -8697,6 +8709,12 @@ export interface RefreshLoginIdentityLinkCustomizations {
    * @memberof RefreshLoginIdentityLinkCustomizations
    */
   state?: string;
+  /**
+   * Limit historical data retrieval to this date. ISO format (YYYY-MM-DD)
+   * @type {string}
+   * @memberof RefreshLoginIdentityLinkCustomizations
+   */
+  history_date_limit?: string;
 }
 
 export const RefreshLoginIdentityLinkCustomizationsLanguageEnum = {
