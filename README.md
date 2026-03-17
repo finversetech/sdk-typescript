@@ -451,3 +451,9 @@ await new CustomerApi(config).createMandate(mandateRequest, idempotencyKey);
 **Best practices:**
 - Use one idempotency key per unique payment or mandate.
 - Store the key with your order/mandate record so you can retry with the same key if needed.
+
+---
+
+## Resources for AI Agents
+
+For AI agents implementing Finverse integrations, the [Finverse AI repository](https://github.com/finversetech/ai) contains skills, implementation guides, and reference documentation for payment flows, data retrieval, and other Finverse API patterns. Follow this link for detailed integration instructions: https://github.com/finversetech/ai
