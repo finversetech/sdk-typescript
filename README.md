@@ -83,7 +83,7 @@ const callbackUrl = process.env.CALLBACK_URL; // e.g. https://yoursite.com/callb
 
 const createResp = await defaultApi.createPaymentLink({
   mode: "PAYMENT",
-  amount: 10000,  // 100.00 in minor units
+  amount: 10000,  // 100.00 HKD
   currency: "HKD",
   unique_reference_id: uniqueReferenceId,
   sender: {
@@ -137,12 +137,6 @@ const createResp = await defaultApi.createPaymentLink({
 
 Redirect the user to `paymentUrl`. **Use HTTP 303** so the browser follows with GET (Finverse expects GET):
 
-```typescript
-// Next.js: use 303 explicitly (307 preserves POST method)
-// NextResponse.redirect(paymentUrl, 303);
-
-// Express: res.redirect(303, paymentUrl);
-```
 
 #### 4. Callback Handler: Poll for Completion
 
