@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { config, grantType } from './config';
 import { Configuration } from '..';
-import { CustomerApi, LinkApi, TokenGrantTypeEnum } from '../api';
+import { LinkApi, TokenGrantTypeEnum } from '../api';
 import { linkToken } from './responses/linkToken';
 import { customerToken } from './responses/customerToken';
 import { loginIdentityToken } from './responses/loginIdentityToken';
@@ -34,7 +34,7 @@ describe('Link', function () {
 
     // Make Request
     const configuration = new Configuration({ basePath: config.apiHost, accessToken: customerToken.access_token });
-    const got = await new CustomerApi(configuration).generateLinkToken(requestBody);
+    const got = await new LinkApi(configuration).generateLinkToken(requestBody);
 
     // Expect
     // The link url is used to initialize Finverse Link, when linking is finished, a cose is sent to the redirectUri
