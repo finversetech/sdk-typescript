@@ -9713,191 +9713,6 @@ export interface UserMessage {
 export const CustomerApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
-     * Allows a customer to authorize a specific mandate
-     * @param {string} mandateId The mandate_id that is being authorized
-     * @param {AuthorizeMandateRequest} authorizeMandateRequest request body for authorizing a mandate
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    authorizeMandate: async (
-      mandateId: string,
-      authorizeMandateRequest: AuthorizeMandateRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'mandateId' is not null or undefined
-      assertParamExists('authorizeMandate', 'mandateId', mandateId);
-      // verify required parameter 'authorizeMandateRequest' is not null or undefined
-      assertParamExists('authorizeMandate', 'authorizeMandateRequest', authorizeMandateRequest);
-      const localVarPath = `/mandates/{mandateId}/authorize`.replace(
-        `{${'mandateId'}}`,
-        encodeURIComponent(String(mandateId)),
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        authorizeMandateRequest,
-        localVarRequestOptions,
-        configuration,
-      );
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * CREATE Mandate
-     * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createMandate: async (
-      createMandateRequest: CreateMandateRequest,
-      idempotencyKey?: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'createMandateRequest' is not null or undefined
-      assertParamExists('createMandate', 'createMandateRequest', createMandateRequest);
-      const localVarPath = `/mandates`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      if (idempotencyKey != null) {
-        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
-      }
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(createMandateRequest, localVarRequestOptions, configuration);
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Create new Payment
-     * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createPayment: async (
-      createPaymentRequest: CreatePaymentRequest,
-      idempotencyKey?: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'createPaymentRequest' is not null or undefined
-      assertParamExists('createPayment', 'createPaymentRequest', createPaymentRequest);
-      const localVarPath = `/payments`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      if (idempotencyKey != null) {
-        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
-      }
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(createPaymentRequest, localVarRequestOptions, configuration);
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * create payment account
-     * @param {CreatePaymentAccountRequest} createPaymentAccountRequest request body for creating payment account
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createPaymentAccount: async (
-      createPaymentAccountRequest: CreatePaymentAccountRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'createPaymentAccountRequest' is not null or undefined
-      assertParamExists('createPaymentAccount', 'createPaymentAccountRequest', createPaymentAccountRequest);
-      const localVarPath = `/payment_accounts`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        createPaymentAccountRequest,
-        localVarRequestOptions,
-        configuration,
-      );
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
      * Create a new payment instruction to be used when linking to perform new payment
      * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
      * @param {*} [options] Override http request option.
@@ -9931,130 +9746,6 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
       localVarRequestOptions.data = serializeDataIfNeeded(paymentInstruction, localVarRequestOptions, configuration);
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Create a payment user
-     * @param {CreatePaymentUserRequest} createPaymentUserRequest request body for creating payment user
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createPaymentUser: async (
-      createPaymentUserRequest: CreatePaymentUserRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'createPaymentUserRequest' is not null or undefined
-      assertParamExists('createPaymentUser', 'createPaymentUserRequest', createPaymentUserRequest);
-      const localVarPath = `/payment_users`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        createPaymentUserRequest,
-        localVarRequestOptions,
-        configuration,
-      );
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * delete payment account
-     * @param {string} paymentAccountId The payment account id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    deletePaymentAccount: async (
-      paymentAccountId: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'paymentAccountId' is not null or undefined
-      assertParamExists('deletePaymentAccount', 'paymentAccountId', paymentAccountId);
-      const localVarPath = `/payment_accounts/{paymentAccountId}`.replace(
-        `{${'paymentAccountId'}}`,
-        encodeURIComponent(String(paymentAccountId)),
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * generate a link token that can be used to create link
-     * @param {LinkTokenRequest} linkTokenRequest token request
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    generateLinkToken: async (
-      linkTokenRequest: LinkTokenRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'linkTokenRequest' is not null or undefined
-      assertParamExists('generateLinkToken', 'linkTokenRequest', linkTokenRequest);
-      const localVarPath = `/link/token`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(linkTokenRequest, localVarRequestOptions, configuration);
 
       return {
         url: toPathString(localVarUrlObj),
@@ -10099,12 +9790,12 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
-     * Get line items for display
+     * Get a customer-specific list of institutions for Finverse Link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getLineItemsForDisplayV2: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/calculate/line_items_v2`;
+    getInstitutionsForCustomer: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/institutions/customer`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -10130,232 +9821,10 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
-     * Get a specific loginIdentity
-     * @param {string} loginIdentityId The login identity id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getLoginIdentityById: async (
-      loginIdentityId: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'loginIdentityId' is not null or undefined
-      assertParamExists('getLoginIdentityById', 'loginIdentityId', loginIdentityId);
-      const localVarPath = `/login_identity/{loginIdentityId}`.replace(
-        `{${'loginIdentityId'}}`,
-        encodeURIComponent(String(loginIdentityId)),
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Get a history of events for a specific loginIdentity
-     * @param {string} loginIdentityId The login identity id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getLoginIdentityHistory: async (
-      loginIdentityId: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'loginIdentityId' is not null or undefined
-      assertParamExists('getLoginIdentityHistory', 'loginIdentityId', loginIdentityId);
-      const localVarPath = `/login_identity/{loginIdentityId}/history`.replace(
-        `{${'loginIdentityId'}}`,
-        encodeURIComponent(String(loginIdentityId)),
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Get Mandate details by mandate_id
-     * @param {string} mandateId mandate id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getMandate: async (mandateId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'mandateId' is not null or undefined
-      assertParamExists('getMandate', 'mandateId', mandateId);
-      const localVarPath = `/mandates/{mandateId}`.replace(`{${'mandateId'}}`, encodeURIComponent(String(mandateId)));
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Get Mandate Authorization by mandate id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getMandateAuth: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/mandates/auth`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Get link to launch FV Link UI in mandate authorization mode
-     * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getMandateAuthLink: async (
-      getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'getMandateAuthLinkRequest' is not null or undefined
-      assertParamExists('getMandateAuthLink', 'getMandateAuthLinkRequest', getMandateAuthLinkRequest);
-      const localVarPath = `/mandates/link`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        getMandateAuthLinkRequest,
-        localVarRequestOptions,
-        configuration,
-      );
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Get Payment details by payment_id
-     * @param {string} paymentId payment id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getPayment: async (paymentId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'paymentId' is not null or undefined
-      assertParamExists('getPayment', 'paymentId', paymentId);
-      const localVarPath = `/payments/{paymentId}`.replace(`{${'paymentId'}}`, encodeURIComponent(String(paymentId)));
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Get payment instructions by payment_instruction_id
+     * [DEPRECATED] Get payment instructions by payment_instruction_id
      * @param {string} paymentInstructionId The id of a payment instruction
      * @param {*} [options] Override http request option.
+     * @deprecated
      * @throws {RequiredError}
      */
     getPaymentInstruction: async (
@@ -10367,43 +9836,6 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       const localVarPath = `/payments/instruction/{paymentInstructionId}`.replace(
         `{${'paymentInstructionId'}}`,
         encodeURIComponent(String(paymentInstructionId)),
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Get a payment user
-     * @param {string} paymentUserId
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getPaymentUser: async (paymentUserId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'paymentUserId' is not null or undefined
-      assertParamExists('getPaymentUser', 'paymentUserId', paymentUserId);
-      const localVarPath = `/payment_users/{paymentUserId}`.replace(
-        `{${'paymentUserId'}}`,
-        encodeURIComponent(String(paymentUserId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -10487,100 +9919,6 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       };
     },
     /**
-     * Get payment account by user id
-     * @param {string} paymentUserId The payment user id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listPaymentAccounts: async (paymentUserId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'paymentUserId' is not null or undefined
-      assertParamExists('listPaymentAccounts', 'paymentUserId', paymentUserId);
-      const localVarPath = `/payment_users/{paymentUserId}/payment_accounts`.replace(
-        `{${'paymentUserId'}}`,
-        encodeURIComponent(String(paymentUserId)),
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Get payment account for customer app
-     * @param {ListPaymentAccountsWithEnrichedDataAccountTypeEnum} [accountType] The account_type to filter for
-     * @param {Array<string>} [currencies] The currencies to filter for
-     * @param {number} [offset] default is 0
-     * @param {number} [limit] default is 500, max is 1000
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listPaymentAccountsWithEnrichedData: async (
-      accountType?: ListPaymentAccountsWithEnrichedDataAccountTypeEnum,
-      currencies?: Array<string>,
-      offset?: number,
-      limit?: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/payment_accounts`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      if (accountType !== undefined) {
-        localVarQueryParameter['account_type'] = accountType;
-      }
-
-      if (currencies) {
-        localVarQueryParameter['currencies'] = currencies.join(COLLECTION_FORMATS.csv);
-      }
-
-      if (offset !== undefined) {
-        localVarQueryParameter['offset'] = offset;
-      }
-
-      if (limit !== undefined) {
-        localVarQueryParameter['limit'] = limit;
-      }
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
      * Refresh an access token
      * @param {RefreshRequest} refreshRequest The refresh token
      * @param {*} [options] Override http request option.
@@ -10617,181 +9955,6 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
         options: localVarRequestOptions,
       };
     },
-    /**
-     * Update InstitutionID and SenderType for Mandate
-     * @param {SetMandateInstitutionRequest} updateRequest request body for updating mandate institutionId and senderType
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    setMandateInstitution: async (
-      updateRequest: SetMandateInstitutionRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'updateRequest' is not null or undefined
-      assertParamExists('setMandateInstitution', 'updateRequest', updateRequest);
-      const localVarPath = `/mandates/institution_selection`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(updateRequest, localVarRequestOptions, configuration);
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Submit authorization checklist items
-     * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    submitAuthChecklist: async (
-      submitAuthChecklistRequest: SubmitAuthChecklistRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'submitAuthChecklistRequest' is not null or undefined
-      assertParamExists('submitAuthChecklist', 'submitAuthChecklistRequest', submitAuthChecklistRequest);
-      const localVarPath = `/mandates/auth`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        submitAuthChecklistRequest,
-        localVarRequestOptions,
-        configuration,
-      );
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Update payment
-     * @param {string} paymentId payment id
-     * @param {UpdatePaymentRequest} updatePaymentRequest request body for updating payment
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    updatePayment: async (
-      paymentId: string,
-      updatePaymentRequest: UpdatePaymentRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'paymentId' is not null or undefined
-      assertParamExists('updatePayment', 'paymentId', paymentId);
-      // verify required parameter 'updatePaymentRequest' is not null or undefined
-      assertParamExists('updatePayment', 'updatePaymentRequest', updatePaymentRequest);
-      const localVarPath = `/payments/{paymentId}`.replace(`{${'paymentId'}}`, encodeURIComponent(String(paymentId)));
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(updatePaymentRequest, localVarRequestOptions, configuration);
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Update the status of a test manual payment
-     * @param {string} paymentId The test payment ID
-     * @param {UpdateTestPaymentStatusRequest} paymentStatus Request body for updating the test manual payment status
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    updateTestPaymentStatus: async (
-      paymentId: string,
-      paymentStatus: UpdateTestPaymentStatusRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'paymentId' is not null or undefined
-      assertParamExists('updateTestPaymentStatus', 'paymentId', paymentId);
-      // verify required parameter 'paymentStatus' is not null or undefined
-      assertParamExists('updateTestPaymentStatus', 'paymentStatus', paymentStatus);
-      const localVarPath = `/testing/payments/{paymentId}/status`.replace(
-        `{${'paymentId'}}`,
-        encodeURIComponent(String(paymentId)),
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(paymentStatus, localVarRequestOptions, configuration);
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
   };
 };
 
@@ -10802,115 +9965,6 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
 export const CustomerApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = CustomerApiAxiosParamCreator(configuration);
   return {
-    /**
-     * Allows a customer to authorize a specific mandate
-     * @param {string} mandateId The mandate_id that is being authorized
-     * @param {AuthorizeMandateRequest} authorizeMandateRequest request body for authorizing a mandate
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async authorizeMandate(
-      mandateId: string,
-      authorizeMandateRequest: AuthorizeMandateRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.authorizeMandate(
-        mandateId,
-        authorizeMandateRequest,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.authorizeMandate']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * CREATE Mandate
-     * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async createMandate(
-      createMandateRequest: CreateMandateRequest,
-      idempotencyKey?: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateMandateResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createMandate(
-        createMandateRequest,
-        idempotencyKey,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.createMandate']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Create new Payment
-     * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async createPayment(
-      createPaymentRequest: CreatePaymentRequest,
-      idempotencyKey?: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createPayment(
-        createPaymentRequest,
-        idempotencyKey,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.createPayment']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * create payment account
-     * @param {CreatePaymentAccountRequest} createPaymentAccountRequest request body for creating payment account
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async createPaymentAccount(
-      createPaymentAccountRequest: CreatePaymentAccountRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentAccountDetails>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentAccount(
-        createPaymentAccountRequest,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.createPaymentAccount']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
     /**
      * Create a new payment instruction to be used when linking to perform new payment
      * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
@@ -10925,72 +9979,6 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap['CustomerApi.createPaymentInstruction']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Create a payment user
-     * @param {CreatePaymentUserRequest} createPaymentUserRequest request body for creating payment user
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async createPaymentUser(
-      createPaymentUserRequest: CreatePaymentUserRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentUser>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentUser(createPaymentUserRequest, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.createPaymentUser']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * delete payment account
-     * @param {string} paymentAccountId The payment account id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async deletePaymentAccount(
-      paymentAccountId: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.deletePaymentAccount(paymentAccountId, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.deletePaymentAccount']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * generate a link token that can be used to create link
-     * @param {LinkTokenRequest} linkTokenRequest token request
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async generateLinkToken(
-      linkTokenRequest: LinkTokenRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LinkTokenResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.generateLinkToken(linkTokenRequest, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.generateLinkToken']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -11022,17 +10010,17 @@ export const CustomerApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
-     * Get line items for display
+     * Get a customer-specific list of institutions for Finverse Link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getLineItemsForDisplayV2(
+    async getInstitutionsForCustomer(
       options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetLineItemsForDisplayResponseV2>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getLineItemsForDisplayV2(options);
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Institution>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getInstitutionsForCustomer(options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.getLineItemsForDisplayV2']?.[localVarOperationServerIndex]?.url;
+        operationServerMap['CustomerApi.getInstitutionsForCustomer']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -11042,139 +10030,10 @@ export const CustomerApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
-     * Get a specific loginIdentity
-     * @param {string} loginIdentityId The login identity id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getLoginIdentityById(
-      loginIdentityId: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetLoginIdentityByIdResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getLoginIdentityById(loginIdentityId, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.getLoginIdentityById']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Get a history of events for a specific loginIdentity
-     * @param {string} loginIdentityId The login identity id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getLoginIdentityHistory(
-      loginIdentityId: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetLoginIdentityHistoryResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getLoginIdentityHistory(loginIdentityId, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.getLoginIdentityHistory']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Get Mandate details by mandate_id
-     * @param {string} mandateId mandate id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getMandate(
-      mandateId: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getMandate(mandateId, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.getMandate']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Get Mandate Authorization by mandate id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getMandateAuth(
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateAuthResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getMandateAuth(options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.getMandateAuth']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Get link to launch FV Link UI in mandate authorization mode
-     * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getMandateAuthLink(
-      getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateAuthLinkResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getMandateAuthLink(getMandateAuthLinkRequest, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.getMandateAuthLink']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Get Payment details by payment_id
-     * @param {string} paymentId payment id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getPayment(
-      paymentId: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getPayment(paymentId, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.getPayment']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Get payment instructions by payment_instruction_id
+     * [DEPRECATED] Get payment instructions by payment_instruction_id
      * @param {string} paymentInstructionId The id of a payment instruction
      * @param {*} [options] Override http request option.
+     * @deprecated
      * @throws {RequiredError}
      */
     async getPaymentInstruction(
@@ -11185,28 +10044,6 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap['CustomerApi.getPaymentInstruction']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Get a payment user
-     * @param {string} paymentUserId
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getPaymentUser(
-      paymentUserId: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentUser>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentUser(paymentUserId, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.getPaymentUser']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -11250,64 +10087,6 @@ export const CustomerApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
-     * Get payment account by user id
-     * @param {string} paymentUserId The payment user id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async listPaymentAccounts(
-      paymentUserId: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPaymentAccountsResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.listPaymentAccounts(paymentUserId, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.listPaymentAccounts']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Get payment account for customer app
-     * @param {ListPaymentAccountsWithEnrichedDataAccountTypeEnum} [accountType] The account_type to filter for
-     * @param {Array<string>} [currencies] The currencies to filter for
-     * @param {number} [offset] default is 0
-     * @param {number} [limit] default is 500, max is 1000
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async listPaymentAccountsWithEnrichedData(
-      accountType?: ListPaymentAccountsWithEnrichedDataAccountTypeEnum,
-      currencies?: Array<string>,
-      offset?: number,
-      limit?: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPaymentAccountsWithEnrichedDataResponse>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.listPaymentAccountsWithEnrichedData(
-        accountType,
-        currencies,
-        offset,
-        limit,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.listPaymentAccountsWithEnrichedData']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
      * Refresh an access token
      * @param {RefreshRequest} refreshRequest The refresh token
      * @param {*} [options] Override http request option.
@@ -11329,105 +10108,6 @@ export const CustomerApiFp = function (configuration?: Configuration) {
           configuration,
         )(axios, localVarOperationServerBasePath || basePath);
     },
-    /**
-     * Update InstitutionID and SenderType for Mandate
-     * @param {SetMandateInstitutionRequest} updateRequest request body for updating mandate institutionId and senderType
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async setMandateInstitution(
-      updateRequest: SetMandateInstitutionRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SetMandateInstitutionResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.setMandateInstitution(updateRequest, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.setMandateInstitution']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Submit authorization checklist items
-     * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async submitAuthChecklist(
-      submitAuthChecklistRequest: SubmitAuthChecklistRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SubmitAuthChecklistResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.submitAuthChecklist(
-        submitAuthChecklistRequest,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.submitAuthChecklist']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Update payment
-     * @param {string} paymentId payment id
-     * @param {UpdatePaymentRequest} updatePaymentRequest request body for updating payment
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async updatePayment(
-      paymentId: string,
-      updatePaymentRequest: UpdatePaymentRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.updatePayment(paymentId, updatePaymentRequest, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.updatePayment']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Update the status of a test manual payment
-     * @param {string} paymentId The test payment ID
-     * @param {UpdateTestPaymentStatusRequest} paymentStatus Request body for updating the test manual payment status
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async updateTestPaymentStatus(
-      paymentId: string,
-      paymentStatus: UpdateTestPaymentStatusRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.updateTestPaymentStatus(
-        paymentId,
-        paymentStatus,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.updateTestPaymentStatus']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
   };
 };
 
@@ -11438,68 +10118,6 @@ export const CustomerApiFp = function (configuration?: Configuration) {
 export const CustomerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
   const localVarFp = CustomerApiFp(configuration);
   return {
-    /**
-     * Allows a customer to authorize a specific mandate
-     * @param {string} mandateId The mandate_id that is being authorized
-     * @param {AuthorizeMandateRequest} authorizeMandateRequest request body for authorizing a mandate
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    authorizeMandate(
-      mandateId: string,
-      authorizeMandateRequest: AuthorizeMandateRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<GetMandateResponse> {
-      return localVarFp
-        .authorizeMandate(mandateId, authorizeMandateRequest, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * CREATE Mandate
-     * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createMandate(
-      createMandateRequest: CreateMandateRequest,
-      idempotencyKey?: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<CreateMandateResponse> {
-      return localVarFp
-        .createMandate(createMandateRequest, idempotencyKey, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * Create new Payment
-     * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
-     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createPayment(
-      createPaymentRequest: CreatePaymentRequest,
-      idempotencyKey?: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PaymentResponse> {
-      return localVarFp
-        .createPayment(createPaymentRequest, idempotencyKey, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * create payment account
-     * @param {CreatePaymentAccountRequest} createPaymentAccountRequest request body for creating payment account
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createPaymentAccount(
-      createPaymentAccountRequest: CreatePaymentAccountRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PaymentAccountDetails> {
-      return localVarFp
-        .createPaymentAccount(createPaymentAccountRequest, options)
-        .then((request) => request(axios, basePath));
-    },
     /**
      * Create a new payment instruction to be used when linking to perform new payment
      * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
@@ -11515,41 +10133,6 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
         .then((request) => request(axios, basePath));
     },
     /**
-     * Create a payment user
-     * @param {CreatePaymentUserRequest} createPaymentUserRequest request body for creating payment user
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createPaymentUser(
-      createPaymentUserRequest: CreatePaymentUserRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PaymentUser> {
-      return localVarFp
-        .createPaymentUser(createPaymentUserRequest, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * delete payment account
-     * @param {string} paymentAccountId The payment account id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    deletePaymentAccount(paymentAccountId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-      return localVarFp.deletePaymentAccount(paymentAccountId, options).then((request) => request(axios, basePath));
-    },
-    /**
-     * generate a link token that can be used to create link
-     * @param {LinkTokenRequest} linkTokenRequest token request
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    generateLinkToken(
-      linkTokenRequest: LinkTokenRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<LinkTokenResponse> {
-      return localVarFp.generateLinkToken(linkTokenRequest, options).then((request) => request(axios, basePath));
-    },
-    /**
      * Get a specific institution by institutionId
      * @param {string} institutionId The institution id
      * @param {*} [options] Override http request option.
@@ -11559,81 +10142,18 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
       return localVarFp.getInstitution(institutionId, options).then((request) => request(axios, basePath));
     },
     /**
-     * Get line items for display
+     * Get a customer-specific list of institutions for Finverse Link
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getLineItemsForDisplayV2(options?: RawAxiosRequestConfig): AxiosPromise<GetLineItemsForDisplayResponseV2> {
-      return localVarFp.getLineItemsForDisplayV2(options).then((request) => request(axios, basePath));
+    getInstitutionsForCustomer(options?: RawAxiosRequestConfig): AxiosPromise<Array<Institution>> {
+      return localVarFp.getInstitutionsForCustomer(options).then((request) => request(axios, basePath));
     },
     /**
-     * Get a specific loginIdentity
-     * @param {string} loginIdentityId The login identity id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getLoginIdentityById(
-      loginIdentityId: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<GetLoginIdentityByIdResponse> {
-      return localVarFp.getLoginIdentityById(loginIdentityId, options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Get a history of events for a specific loginIdentity
-     * @param {string} loginIdentityId The login identity id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getLoginIdentityHistory(
-      loginIdentityId: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<GetLoginIdentityHistoryResponse> {
-      return localVarFp.getLoginIdentityHistory(loginIdentityId, options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Get Mandate details by mandate_id
-     * @param {string} mandateId mandate id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getMandate(mandateId: string, options?: RawAxiosRequestConfig): AxiosPromise<GetMandateResponse> {
-      return localVarFp.getMandate(mandateId, options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Get Mandate Authorization by mandate id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getMandateAuth(options?: RawAxiosRequestConfig): AxiosPromise<GetMandateAuthResponse> {
-      return localVarFp.getMandateAuth(options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Get link to launch FV Link UI in mandate authorization mode
-     * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getMandateAuthLink(
-      getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<GetMandateAuthLinkResponse> {
-      return localVarFp
-        .getMandateAuthLink(getMandateAuthLinkRequest, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * Get Payment details by payment_id
-     * @param {string} paymentId payment id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getPayment(paymentId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentResponse> {
-      return localVarFp.getPayment(paymentId, options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Get payment instructions by payment_instruction_id
+     * [DEPRECATED] Get payment instructions by payment_instruction_id
      * @param {string} paymentInstructionId The id of a payment instruction
      * @param {*} [options] Override http request option.
+     * @deprecated
      * @throws {RequiredError}
      */
     getPaymentInstruction(
@@ -11643,15 +10163,6 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
       return localVarFp
         .getPaymentInstruction(paymentInstructionId, options)
         .then((request) => request(axios, basePath));
-    },
-    /**
-     * Get a payment user
-     * @param {string} paymentUserId
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getPaymentUser(paymentUserId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentUser> {
-      return localVarFp.getPaymentUser(paymentUserId, options).then((request) => request(axios, basePath));
     },
     /**
      * Get a list of institutions
@@ -11674,38 +10185,6 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
         .then((request) => request(axios, basePath));
     },
     /**
-     * Get payment account by user id
-     * @param {string} paymentUserId The payment user id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listPaymentAccounts(
-      paymentUserId: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<ListPaymentAccountsResponse> {
-      return localVarFp.listPaymentAccounts(paymentUserId, options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Get payment account for customer app
-     * @param {ListPaymentAccountsWithEnrichedDataAccountTypeEnum} [accountType] The account_type to filter for
-     * @param {Array<string>} [currencies] The currencies to filter for
-     * @param {number} [offset] default is 0
-     * @param {number} [limit] default is 500, max is 1000
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listPaymentAccountsWithEnrichedData(
-      accountType?: ListPaymentAccountsWithEnrichedDataAccountTypeEnum,
-      currencies?: Array<string>,
-      offset?: number,
-      limit?: number,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<ListPaymentAccountsWithEnrichedDataResponse> {
-      return localVarFp
-        .listPaymentAccountsWithEnrichedData(accountType, currencies, offset, limit, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
      * Refresh an access token
      * @param {RefreshRequest} refreshRequest The refresh token
      * @param {*} [options] Override http request option.
@@ -11713,64 +10192,6 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      */
     refreshToken(refreshRequest: RefreshRequest, options?: RawAxiosRequestConfig): AxiosPromise<AccessTokenResponse> {
       return localVarFp.refreshToken(refreshRequest, options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Update InstitutionID and SenderType for Mandate
-     * @param {SetMandateInstitutionRequest} updateRequest request body for updating mandate institutionId and senderType
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    setMandateInstitution(
-      updateRequest: SetMandateInstitutionRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<SetMandateInstitutionResponse> {
-      return localVarFp.setMandateInstitution(updateRequest, options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Submit authorization checklist items
-     * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    submitAuthChecklist(
-      submitAuthChecklistRequest: SubmitAuthChecklistRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<SubmitAuthChecklistResponse> {
-      return localVarFp
-        .submitAuthChecklist(submitAuthChecklistRequest, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * Update payment
-     * @param {string} paymentId payment id
-     * @param {UpdatePaymentRequest} updatePaymentRequest request body for updating payment
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    updatePayment(
-      paymentId: string,
-      updatePaymentRequest: UpdatePaymentRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PaymentResponse> {
-      return localVarFp
-        .updatePayment(paymentId, updatePaymentRequest, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * Update the status of a test manual payment
-     * @param {string} paymentId The test payment ID
-     * @param {UpdateTestPaymentStatusRequest} paymentStatus Request body for updating the test manual payment status
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    updateTestPaymentStatus(
-      paymentId: string,
-      paymentStatus: UpdateTestPaymentStatusRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
-      return localVarFp
-        .updateTestPaymentStatus(paymentId, paymentStatus, options)
-        .then((request) => request(axios, basePath));
     },
   };
 };
@@ -11781,60 +10202,6 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
  * @interface CustomerApi
  */
 export interface CustomerApiInterface {
-  /**
-   * Allows a customer to authorize a specific mandate
-   * @param {string} mandateId The mandate_id that is being authorized
-   * @param {AuthorizeMandateRequest} authorizeMandateRequest request body for authorizing a mandate
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  authorizeMandate(
-    mandateId: string,
-    authorizeMandateRequest: AuthorizeMandateRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<GetMandateResponse>;
-
-  /**
-   * CREATE Mandate
-   * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
-   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  createMandate(
-    createMandateRequest: CreateMandateRequest,
-    idempotencyKey?: string,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<CreateMandateResponse>;
-
-  /**
-   * Create new Payment
-   * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
-   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  createPayment(
-    createPaymentRequest: CreatePaymentRequest,
-    idempotencyKey?: string,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<PaymentResponse>;
-
-  /**
-   * create payment account
-   * @param {CreatePaymentAccountRequest} createPaymentAccountRequest request body for creating payment account
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  createPaymentAccount(
-    createPaymentAccountRequest: CreatePaymentAccountRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<PaymentAccountDetails>;
-
   /**
    * Create a new payment instruction to be used when linking to perform new payment
    * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
@@ -11848,39 +10215,6 @@ export interface CustomerApiInterface {
   ): AxiosPromise<CreatePaymentInstructionResponse>;
 
   /**
-   * Create a payment user
-   * @param {CreatePaymentUserRequest} createPaymentUserRequest request body for creating payment user
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  createPaymentUser(
-    createPaymentUserRequest: CreatePaymentUserRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<PaymentUser>;
-
-  /**
-   * delete payment account
-   * @param {string} paymentAccountId The payment account id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  deletePaymentAccount(paymentAccountId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
-
-  /**
-   * generate a link token that can be used to create link
-   * @param {LinkTokenRequest} linkTokenRequest token request
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  generateLinkToken(
-    linkTokenRequest: LinkTokenRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<LinkTokenResponse>;
-
-  /**
    * Get a specific institution by institutionId
    * @param {string} institutionId The institution id
    * @param {*} [options] Override http request option.
@@ -11890,79 +10224,18 @@ export interface CustomerApiInterface {
   getInstitution(institutionId: string, options?: RawAxiosRequestConfig): AxiosPromise<Institution>;
 
   /**
-   * Get line items for display
+   * Get a customer-specific list of institutions for Finverse Link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
-  getLineItemsForDisplayV2(options?: RawAxiosRequestConfig): AxiosPromise<GetLineItemsForDisplayResponseV2>;
+  getInstitutionsForCustomer(options?: RawAxiosRequestConfig): AxiosPromise<Array<Institution>>;
 
   /**
-   * Get a specific loginIdentity
-   * @param {string} loginIdentityId The login identity id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  getLoginIdentityById(
-    loginIdentityId: string,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<GetLoginIdentityByIdResponse>;
-
-  /**
-   * Get a history of events for a specific loginIdentity
-   * @param {string} loginIdentityId The login identity id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  getLoginIdentityHistory(
-    loginIdentityId: string,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<GetLoginIdentityHistoryResponse>;
-
-  /**
-   * Get Mandate details by mandate_id
-   * @param {string} mandateId mandate id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  getMandate(mandateId: string, options?: RawAxiosRequestConfig): AxiosPromise<GetMandateResponse>;
-
-  /**
-   * Get Mandate Authorization by mandate id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  getMandateAuth(options?: RawAxiosRequestConfig): AxiosPromise<GetMandateAuthResponse>;
-
-  /**
-   * Get link to launch FV Link UI in mandate authorization mode
-   * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  getMandateAuthLink(
-    getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<GetMandateAuthLinkResponse>;
-
-  /**
-   * Get Payment details by payment_id
-   * @param {string} paymentId payment id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  getPayment(paymentId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentResponse>;
-
-  /**
-   * Get payment instructions by payment_instruction_id
+   * [DEPRECATED] Get payment instructions by payment_instruction_id
    * @param {string} paymentInstructionId The id of a payment instruction
    * @param {*} [options] Override http request option.
+   * @deprecated
    * @throws {RequiredError}
    * @memberof CustomerApiInterface
    */
@@ -11970,15 +10243,6 @@ export interface CustomerApiInterface {
     paymentInstructionId: string,
     options?: RawAxiosRequestConfig,
   ): AxiosPromise<GetPaymentInstructionsResponse>;
-
-  /**
-   * Get a payment user
-   * @param {string} paymentUserId
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  getPaymentUser(paymentUserId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentUser>;
 
   /**
    * Get a list of institutions
@@ -11999,36 +10263,6 @@ export interface CustomerApiInterface {
   ): AxiosPromise<Array<Institution>>;
 
   /**
-   * Get payment account by user id
-   * @param {string} paymentUserId The payment user id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  listPaymentAccounts(
-    paymentUserId: string,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<ListPaymentAccountsResponse>;
-
-  /**
-   * Get payment account for customer app
-   * @param {ListPaymentAccountsWithEnrichedDataAccountTypeEnum} [accountType] The account_type to filter for
-   * @param {Array<string>} [currencies] The currencies to filter for
-   * @param {number} [offset] default is 0
-   * @param {number} [limit] default is 500, max is 1000
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  listPaymentAccountsWithEnrichedData(
-    accountType?: ListPaymentAccountsWithEnrichedDataAccountTypeEnum,
-    currencies?: Array<string>,
-    offset?: number,
-    limit?: number,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<ListPaymentAccountsWithEnrichedDataResponse>;
-
-  /**
    * Refresh an access token
    * @param {RefreshRequest} refreshRequest The refresh token
    * @param {*} [options] Override http request option.
@@ -12036,58 +10270,6 @@ export interface CustomerApiInterface {
    * @memberof CustomerApiInterface
    */
   refreshToken(refreshRequest: RefreshRequest, options?: RawAxiosRequestConfig): AxiosPromise<AccessTokenResponse>;
-
-  /**
-   * Update InstitutionID and SenderType for Mandate
-   * @param {SetMandateInstitutionRequest} updateRequest request body for updating mandate institutionId and senderType
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  setMandateInstitution(
-    updateRequest: SetMandateInstitutionRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<SetMandateInstitutionResponse>;
-
-  /**
-   * Submit authorization checklist items
-   * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  submitAuthChecklist(
-    submitAuthChecklistRequest: SubmitAuthChecklistRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<SubmitAuthChecklistResponse>;
-
-  /**
-   * Update payment
-   * @param {string} paymentId payment id
-   * @param {UpdatePaymentRequest} updatePaymentRequest request body for updating payment
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  updatePayment(
-    paymentId: string,
-    updatePaymentRequest: UpdatePaymentRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<PaymentResponse>;
-
-  /**
-   * Update the status of a test manual payment
-   * @param {string} paymentId The test payment ID
-   * @param {UpdateTestPaymentStatusRequest} paymentStatus Request body for updating the test manual payment status
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  updateTestPaymentStatus(
-    paymentId: string,
-    paymentStatus: UpdateTestPaymentStatusRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<void>;
 }
 
 /**
@@ -12098,76 +10280,6 @@ export interface CustomerApiInterface {
  */
 export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   /**
-   * Allows a customer to authorize a specific mandate
-   * @param {string} mandateId The mandate_id that is being authorized
-   * @param {AuthorizeMandateRequest} authorizeMandateRequest request body for authorizing a mandate
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public authorizeMandate(
-    mandateId: string,
-    authorizeMandateRequest: AuthorizeMandateRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return CustomerApiFp(this.configuration)
-      .authorizeMandate(mandateId, authorizeMandateRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * CREATE Mandate
-   * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
-   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public createMandate(
-    createMandateRequest: CreateMandateRequest,
-    idempotencyKey?: string,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return CustomerApiFp(this.configuration)
-      .createMandate(createMandateRequest, idempotencyKey, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Create new Payment
-   * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
-   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public createPayment(
-    createPaymentRequest: CreatePaymentRequest,
-    idempotencyKey?: string,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return CustomerApiFp(this.configuration)
-      .createPayment(createPaymentRequest, idempotencyKey, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * create payment account
-   * @param {CreatePaymentAccountRequest} createPaymentAccountRequest request body for creating payment account
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public createPaymentAccount(
-    createPaymentAccountRequest: CreatePaymentAccountRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return CustomerApiFp(this.configuration)
-      .createPaymentAccount(createPaymentAccountRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
    * Create a new payment instruction to be used when linking to perform new payment
    * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
    * @param {*} [options] Override http request option.
@@ -12177,45 +10289,6 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public createPaymentInstruction(paymentInstruction: CustomerPaymentInstruction, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .createPaymentInstruction(paymentInstruction, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Create a payment user
-   * @param {CreatePaymentUserRequest} createPaymentUserRequest request body for creating payment user
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public createPaymentUser(createPaymentUserRequest: CreatePaymentUserRequest, options?: RawAxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .createPaymentUser(createPaymentUserRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * delete payment account
-   * @param {string} paymentAccountId The payment account id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public deletePaymentAccount(paymentAccountId: string, options?: RawAxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .deletePaymentAccount(paymentAccountId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * generate a link token that can be used to create link
-   * @param {LinkTokenRequest} linkTokenRequest token request
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public generateLinkToken(linkTokenRequest: LinkTokenRequest, options?: RawAxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .generateLinkToken(linkTokenRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -12233,117 +10306,28 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   }
 
   /**
-   * Get line items for display
+   * Get a customer-specific list of institutions for Finverse Link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
-  public getLineItemsForDisplayV2(options?: RawAxiosRequestConfig) {
+  public getInstitutionsForCustomer(options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
-      .getLineItemsForDisplayV2(options)
+      .getInstitutionsForCustomer(options)
       .then((request) => request(this.axios, this.basePath));
   }
 
   /**
-   * Get a specific loginIdentity
-   * @param {string} loginIdentityId The login identity id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public getLoginIdentityById(loginIdentityId: string, options?: RawAxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .getLoginIdentityById(loginIdentityId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Get a history of events for a specific loginIdentity
-   * @param {string} loginIdentityId The login identity id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public getLoginIdentityHistory(loginIdentityId: string, options?: RawAxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .getLoginIdentityHistory(loginIdentityId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Get Mandate details by mandate_id
-   * @param {string} mandateId mandate id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public getMandate(mandateId: string, options?: RawAxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .getMandate(mandateId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Get Mandate Authorization by mandate id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public getMandateAuth(options?: RawAxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .getMandateAuth(options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Get link to launch FV Link UI in mandate authorization mode
-   * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public getMandateAuthLink(getMandateAuthLinkRequest: GetMandateAuthLinkRequest, options?: RawAxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .getMandateAuthLink(getMandateAuthLinkRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Get Payment details by payment_id
-   * @param {string} paymentId payment id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public getPayment(paymentId: string, options?: RawAxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .getPayment(paymentId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Get payment instructions by payment_instruction_id
+   * [DEPRECATED] Get payment instructions by payment_instruction_id
    * @param {string} paymentInstructionId The id of a payment instruction
    * @param {*} [options] Override http request option.
+   * @deprecated
    * @throws {RequiredError}
    * @memberof CustomerApi
    */
   public getPaymentInstruction(paymentInstructionId: string, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getPaymentInstruction(paymentInstructionId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Get a payment user
-   * @param {string} paymentUserId
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public getPaymentUser(paymentUserId: string, options?: RawAxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .getPaymentUser(paymentUserId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -12370,41 +10354,6 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   }
 
   /**
-   * Get payment account by user id
-   * @param {string} paymentUserId The payment user id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public listPaymentAccounts(paymentUserId: string, options?: RawAxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .listPaymentAccounts(paymentUserId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Get payment account for customer app
-   * @param {ListPaymentAccountsWithEnrichedDataAccountTypeEnum} [accountType] The account_type to filter for
-   * @param {Array<string>} [currencies] The currencies to filter for
-   * @param {number} [offset] default is 0
-   * @param {number} [limit] default is 500, max is 1000
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public listPaymentAccountsWithEnrichedData(
-    accountType?: ListPaymentAccountsWithEnrichedDataAccountTypeEnum,
-    currencies?: Array<string>,
-    offset?: number,
-    limit?: number,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return CustomerApiFp(this.configuration)
-      .listPaymentAccountsWithEnrichedData(accountType, currencies, offset, limit, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
    * Refresh an access token
    * @param {RefreshRequest} refreshRequest The refresh token
    * @param {*} [options] Override http request option.
@@ -12414,64 +10363,6 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public refreshToken(refreshRequest: RefreshRequest, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .refreshToken(refreshRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Update InstitutionID and SenderType for Mandate
-   * @param {SetMandateInstitutionRequest} updateRequest request body for updating mandate institutionId and senderType
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public setMandateInstitution(updateRequest: SetMandateInstitutionRequest, options?: RawAxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .setMandateInstitution(updateRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Submit authorization checklist items
-   * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public submitAuthChecklist(submitAuthChecklistRequest: SubmitAuthChecklistRequest, options?: RawAxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .submitAuthChecklist(submitAuthChecklistRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Update payment
-   * @param {string} paymentId payment id
-   * @param {UpdatePaymentRequest} updatePaymentRequest request body for updating payment
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public updatePayment(paymentId: string, updatePaymentRequest: UpdatePaymentRequest, options?: RawAxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .updatePayment(paymentId, updatePaymentRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Update the status of a test manual payment
-   * @param {string} paymentId The test payment ID
-   * @param {UpdateTestPaymentStatusRequest} paymentStatus Request body for updating the test manual payment status
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public updateTestPaymentStatus(
-    paymentId: string,
-    paymentStatus: UpdateTestPaymentStatusRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return CustomerApiFp(this.configuration)
-      .updateTestPaymentStatus(paymentId, paymentStatus, options)
       .then((request) => request(this.axios, this.basePath));
   }
 }
@@ -12486,3254 +10377,6 @@ export const ListInstitutionsInstitutionTypeEnum = {
 } as const;
 export type ListInstitutionsInstitutionTypeEnum =
   (typeof ListInstitutionsInstitutionTypeEnum)[keyof typeof ListInstitutionsInstitutionTypeEnum];
-/**
- * @export
- */
-export const ListPaymentAccountsWithEnrichedDataAccountTypeEnum = {
-  ExternalAccount: 'EXTERNAL_ACCOUNT',
-  SettlementAccount: 'SETTLEMENT_ACCOUNT',
-} as const;
-export type ListPaymentAccountsWithEnrichedDataAccountTypeEnum =
-  (typeof ListPaymentAccountsWithEnrichedDataAccountTypeEnum)[keyof typeof ListPaymentAccountsWithEnrichedDataAccountTypeEnum];
-
-/**
- * DefaultApi - axios parameter creator
- * @export
- */
-export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
-  return {
-    /**
-     * Cancel a payment link
-     * @param {string} paymentLinkId The payment link id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    cancelPaymentLink: async (paymentLinkId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'paymentLinkId' is not null or undefined
-      assertParamExists('cancelPaymentLink', 'paymentLinkId', paymentLinkId);
-      const localVarPath = `/payment_links/{paymentLinkId}/cancel`.replace(
-        `{${'paymentLinkId'}}`,
-        encodeURIComponent(String(paymentLinkId)),
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Cancel Payout by payout_id
-     * @param {string} payoutId payout id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    cancelPayout: async (payoutId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'payoutId' is not null or undefined
-      assertParamExists('cancelPayout', 'payoutId', payoutId);
-      const localVarPath = `/payouts/{payoutId}/cancel`.replace(
-        `{${'payoutId'}}`,
-        encodeURIComponent(String(payoutId)),
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Complete a KCP payment
-     * @param {CompleteKcpPaymentRequest} completeKcpPaymentRequest Parameters from the KCP SDK callback to complete the payment
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    completeKcpPayment: async (
-      completeKcpPaymentRequest: CompleteKcpPaymentRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'completeKcpPaymentRequest' is not null or undefined
-      assertParamExists('completeKcpPayment', 'completeKcpPaymentRequest', completeKcpPaymentRequest);
-      const localVarPath = `/payment_links/kcp/payment`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        completeKcpPaymentRequest,
-        localVarRequestOptions,
-        configuration,
-      );
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Submit manual payment confirmation
-     * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    confirmManualPayment: async (
-      manualPaymentIdentifiers: ManualPaymentConfirmationRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'manualPaymentIdentifiers' is not null or undefined
-      assertParamExists('confirmManualPayment', 'manualPaymentIdentifiers', manualPaymentIdentifiers);
-      const localVarPath = `/payments/manual_payment`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        manualPaymentIdentifiers,
-        localVarRequestOptions,
-        configuration,
-      );
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Confirm a payment against a payment Link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    confirmPayment: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/payment_links/confirm`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Create mandate for an existing sender account
-     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createMandateForExistingSender: async (
-      idempotencyKey: string,
-      createMandateRequest: CreateMandateWithSenderAccountRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'idempotencyKey' is not null or undefined
-      assertParamExists('createMandateForExistingSender', 'idempotencyKey', idempotencyKey);
-      // verify required parameter 'createMandateRequest' is not null or undefined
-      assertParamExists('createMandateForExistingSender', 'createMandateRequest', createMandateRequest);
-      const localVarPath = `/mandates/sender_account`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      if (idempotencyKey != null) {
-        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
-      }
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(createMandateRequest, localVarRequestOptions, configuration);
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Create payment link
-     * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createPaymentLink: async (
-      createPaymentLinkRequest: CreatePaymentLinkRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'createPaymentLinkRequest' is not null or undefined
-      assertParamExists('createPaymentLink', 'createPaymentLinkRequest', createPaymentLinkRequest);
-      const localVarPath = `/payment_links`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        createPaymentLinkRequest,
-        localVarRequestOptions,
-        configuration,
-      );
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Create a Payment Method for a user
-     * @param {string} paymentUserId Payment User ID
-     * @param {CreatePaymentMethodRequest} createPaymentMethodRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createPaymentMethod: async (
-      paymentUserId: string,
-      createPaymentMethodRequest: CreatePaymentMethodRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'paymentUserId' is not null or undefined
-      assertParamExists('createPaymentMethod', 'paymentUserId', paymentUserId);
-      // verify required parameter 'createPaymentMethodRequest' is not null or undefined
-      assertParamExists('createPaymentMethod', 'createPaymentMethodRequest', createPaymentMethodRequest);
-      const localVarPath = `/payment_users/{paymentUserId}/payment_methods`.replace(
-        `{${'paymentUserId'}}`,
-        encodeURIComponent(String(paymentUserId)),
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        createPaymentMethodRequest,
-        localVarRequestOptions,
-        configuration,
-      );
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Create a scheduled payout
-     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createScheduledPayout: async (
-      idempotencyKey: string,
-      createScheduledPayoutRequest: CreateScheduledPayoutRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'idempotencyKey' is not null or undefined
-      assertParamExists('createScheduledPayout', 'idempotencyKey', idempotencyKey);
-      // verify required parameter 'createScheduledPayoutRequest' is not null or undefined
-      assertParamExists('createScheduledPayout', 'createScheduledPayoutRequest', createScheduledPayoutRequest);
-      const localVarPath = `/payouts/scheduled`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      if (idempotencyKey != null) {
-        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
-      }
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        createScheduledPayoutRequest,
-        localVarRequestOptions,
-        configuration,
-      );
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Download the balance statement for the ledger (CSV)
-     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<string>} [currencies] The currencies to filter for
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    downloadBalanceStatement: async (
-      dateFrom?: string,
-      dateTo?: string,
-      currencies?: Array<string>,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/ledger/statement`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      if (dateFrom !== undefined) {
-        localVarQueryParameter['date_from'] =
-          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substring(0, 10) : dateFrom;
-      }
-
-      if (dateTo !== undefined) {
-        localVarQueryParameter['date_to'] =
-          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substring(0, 10) : dateTo;
-      }
-
-      if (currencies) {
-        localVarQueryParameter['currencies'] = currencies.join(COLLECTION_FORMATS.csv);
-      }
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Get the FPS QR code
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getFpsQrCode: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/payment_links/fps/qr_code`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Get a customer-specific list of institutions for Finverse Link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getInstitutionsForCustomer: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/institutions/customer`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Get payment link
-     * @param {string} paymentLinkId The payment link id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getPaymentLink: async (paymentLinkId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'paymentLinkId' is not null or undefined
-      assertParamExists('getPaymentLink', 'paymentLinkId', paymentLinkId);
-      const localVarPath = `/payment_links/{paymentLinkId}`.replace(
-        `{${'paymentLinkId'}}`,
-        encodeURIComponent(String(paymentLinkId)),
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Get a payment method
-     * @param {string} paymentMethodId
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getPaymentMethod: async (paymentMethodId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'paymentMethodId' is not null or undefined
-      assertParamExists('getPaymentMethod', 'paymentMethodId', paymentMethodId);
-      const localVarPath = `/payment_methods/{paymentMethodId}`.replace(
-        `{${'paymentMethodId'}}`,
-        encodeURIComponent(String(paymentMethodId)),
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Get payout by payout_id
-     * @param {string} payoutId payout id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getPayoutById: async (payoutId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'payoutId' is not null or undefined
-      assertParamExists('getPayoutById', 'payoutId', payoutId);
-      const localVarPath = `/payouts/{payoutId}`.replace(`{${'payoutId'}}`, encodeURIComponent(String(payoutId)));
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * List mandates details
-     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<ListDetokenizedMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
-     * @param {ListDetokenizedMandatesSenderTypeEnum} [senderType] The sender type of the mandate
-     * @param {string} [userId] The user_id the mandate was setup for
-     * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {number} [offset] default is 0
-     * @param {number} [limit] default is 500, max is 1000
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listDetokenizedMandates: async (
-      dateFrom?: string,
-      dateTo?: string,
-      statuses?: Array<ListDetokenizedMandatesStatusesEnum>,
-      senderType?: ListDetokenizedMandatesSenderTypeEnum,
-      userId?: string,
-      institutionId?: string,
-      offset?: number,
-      limit?: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/mandates/details`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      if (dateFrom !== undefined) {
-        localVarQueryParameter['date_from'] =
-          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substring(0, 10) : dateFrom;
-      }
-
-      if (dateTo !== undefined) {
-        localVarQueryParameter['date_to'] =
-          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substring(0, 10) : dateTo;
-      }
-
-      if (statuses) {
-        localVarQueryParameter['statuses'] = statuses.join(COLLECTION_FORMATS.csv);
-      }
-
-      if (senderType !== undefined) {
-        localVarQueryParameter['sender_type'] = senderType;
-      }
-
-      if (userId !== undefined) {
-        localVarQueryParameter['user_id'] = userId;
-      }
-
-      if (institutionId !== undefined) {
-        localVarQueryParameter['institution_id'] = institutionId;
-      }
-
-      if (offset !== undefined) {
-        localVarQueryParameter['offset'] = offset;
-      }
-
-      if (limit !== undefined) {
-        localVarQueryParameter['limit'] = limit;
-      }
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * List Disputes
-     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<ListDisputesStatusesEnum>} [statuses] The dispute statuses to filter for, comma separated
-     * @param {number} [offset] default is 0
-     * @param {number} [limit] default is 500, max is 1000
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listDisputes: async (
-      dateFrom?: string,
-      dateTo?: string,
-      statuses?: Array<ListDisputesStatusesEnum>,
-      offset?: number,
-      limit?: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/disputes`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      if (dateFrom !== undefined) {
-        localVarQueryParameter['date_from'] =
-          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substring(0, 10) : dateFrom;
-      }
-
-      if (dateTo !== undefined) {
-        localVarQueryParameter['date_to'] =
-          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substring(0, 10) : dateTo;
-      }
-
-      if (statuses) {
-        localVarQueryParameter['statuses'] = statuses.join(COLLECTION_FORMATS.csv);
-      }
-
-      if (offset !== undefined) {
-        localVarQueryParameter['offset'] = offset;
-      }
-
-      if (limit !== undefined) {
-        localVarQueryParameter['limit'] = limit;
-      }
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * List mandates
-     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<ListMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
-     * @param {ListMandatesSenderTypeEnum} [senderType] The sender type of the mandate
-     * @param {string} [userId] The user_id the mandate was setup for
-     * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {number} [offset] default is 0
-     * @param {number} [limit] default is 500, max is 1000
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listMandates: async (
-      dateFrom?: string,
-      dateTo?: string,
-      statuses?: Array<ListMandatesStatusesEnum>,
-      senderType?: ListMandatesSenderTypeEnum,
-      userId?: string,
-      institutionId?: string,
-      offset?: number,
-      limit?: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/mandates`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      if (dateFrom !== undefined) {
-        localVarQueryParameter['date_from'] =
-          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substring(0, 10) : dateFrom;
-      }
-
-      if (dateTo !== undefined) {
-        localVarQueryParameter['date_to'] =
-          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substring(0, 10) : dateTo;
-      }
-
-      if (statuses) {
-        localVarQueryParameter['statuses'] = statuses.join(COLLECTION_FORMATS.csv);
-      }
-
-      if (senderType !== undefined) {
-        localVarQueryParameter['sender_type'] = senderType;
-      }
-
-      if (userId !== undefined) {
-        localVarQueryParameter['user_id'] = userId;
-      }
-
-      if (institutionId !== undefined) {
-        localVarQueryParameter['institution_id'] = institutionId;
-      }
-
-      if (offset !== undefined) {
-        localVarQueryParameter['offset'] = offset;
-      }
-
-      if (limit !== undefined) {
-        localVarQueryParameter['limit'] = limit;
-      }
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * List Payment Methods for a User
-     * @param {string} paymentUserId Payment User Id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listPaymentMethods: async (paymentUserId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'paymentUserId' is not null or undefined
-      assertParamExists('listPaymentMethods', 'paymentUserId', paymentUserId);
-      const localVarPath = `/payment_users/{paymentUserId}/payment_methods`.replace(
-        `{${'paymentUserId'}}`,
-        encodeURIComponent(String(paymentUserId)),
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * List Payments
-     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<ListPaymentsStatusesEnum>} [statuses] The payment statuses to filter for, comma separated
-     * @param {ListPaymentsSenderTypeEnum} [senderType] The sender type of the mandate
-     * @param {string} [userId] The user_id the mandate was setup for
-     * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {ListPaymentsPaymentTypeEnum} [paymentType] Deprecated - The type of payment
-     * @param {Array<ListPaymentsPaymentTypesEnum>} [paymentTypes]
-     * @param {string} [mandateId] The mandate the payment belongs to
-     * @param {string} [currency] Deprecated - The currency the payment is made in
-     * @param {Array<string>} [currencies]
-     * @param {number} [offset] default is 0
-     * @param {number} [limit] default is 500, max is 1000
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listPayments: async (
-      dateFrom?: string,
-      dateTo?: string,
-      statuses?: Array<ListPaymentsStatusesEnum>,
-      senderType?: ListPaymentsSenderTypeEnum,
-      userId?: string,
-      institutionId?: string,
-      paymentType?: ListPaymentsPaymentTypeEnum,
-      paymentTypes?: Array<ListPaymentsPaymentTypesEnum>,
-      mandateId?: string,
-      currency?: string,
-      currencies?: Array<string>,
-      offset?: number,
-      limit?: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/payments`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      if (dateFrom !== undefined) {
-        localVarQueryParameter['date_from'] =
-          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substring(0, 10) : dateFrom;
-      }
-
-      if (dateTo !== undefined) {
-        localVarQueryParameter['date_to'] =
-          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substring(0, 10) : dateTo;
-      }
-
-      if (statuses) {
-        localVarQueryParameter['statuses'] = statuses.join(COLLECTION_FORMATS.csv);
-      }
-
-      if (senderType !== undefined) {
-        localVarQueryParameter['sender_type'] = senderType;
-      }
-
-      if (userId !== undefined) {
-        localVarQueryParameter['user_id'] = userId;
-      }
-
-      if (institutionId !== undefined) {
-        localVarQueryParameter['institution_id'] = institutionId;
-      }
-
-      if (paymentType !== undefined) {
-        localVarQueryParameter['payment_type'] = paymentType;
-      }
-
-      if (paymentTypes) {
-        localVarQueryParameter['payment_types'] = paymentTypes.join(COLLECTION_FORMATS.csv);
-      }
-
-      if (mandateId !== undefined) {
-        localVarQueryParameter['mandate_id'] = mandateId;
-      }
-
-      if (currency !== undefined) {
-        localVarQueryParameter['currency'] = currency;
-      }
-
-      if (currencies) {
-        localVarQueryParameter['currencies'] = currencies.join(COLLECTION_FORMATS.csv);
-      }
-
-      if (offset !== undefined) {
-        localVarQueryParameter['offset'] = offset;
-      }
-
-      if (limit !== undefined) {
-        localVarQueryParameter['limit'] = limit;
-      }
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * List payouts
-     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<ListPayoutsStatusesEnum>} [statuses] The payout statuses to filter for, comma separated
-     * @param {Array<string>} [currencies]
-     * @param {Array<ListPayoutsPayoutTypesEnum>} [payoutTypes]
-     * @param {string} [mandateId]
-     * @param {string} [senderAccountId]
-     * @param {string} [recipientAccountId]
-     * @param {string} [recipientUserId]
-     * @param {string} [recipientExternalUserId]
-     * @param {number} [offset] Default is 0
-     * @param {number} [limit] default is 500, max is 1000
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listPayouts: async (
-      dateFrom?: string,
-      dateTo?: string,
-      statuses?: Array<ListPayoutsStatusesEnum>,
-      currencies?: Array<string>,
-      payoutTypes?: Array<ListPayoutsPayoutTypesEnum>,
-      mandateId?: string,
-      senderAccountId?: string,
-      recipientAccountId?: string,
-      recipientUserId?: string,
-      recipientExternalUserId?: string,
-      offset?: number,
-      limit?: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/payouts`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      if (dateFrom !== undefined) {
-        localVarQueryParameter['date_from'] =
-          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substring(0, 10) : dateFrom;
-      }
-
-      if (dateTo !== undefined) {
-        localVarQueryParameter['date_to'] =
-          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substring(0, 10) : dateTo;
-      }
-
-      if (statuses) {
-        localVarQueryParameter['statuses'] = statuses.join(COLLECTION_FORMATS.csv);
-      }
-
-      if (currencies) {
-        localVarQueryParameter['currencies'] = currencies.join(COLLECTION_FORMATS.csv);
-      }
-
-      if (payoutTypes) {
-        localVarQueryParameter['payout_types'] = payoutTypes.join(COLLECTION_FORMATS.csv);
-      }
-
-      if (mandateId !== undefined) {
-        localVarQueryParameter['mandate_id'] = mandateId;
-      }
-
-      if (senderAccountId !== undefined) {
-        localVarQueryParameter['sender_account_id'] = senderAccountId;
-      }
-
-      if (recipientAccountId !== undefined) {
-        localVarQueryParameter['recipient_account_id'] = recipientAccountId;
-      }
-
-      if (recipientUserId !== undefined) {
-        localVarQueryParameter['recipient_user_id'] = recipientUserId;
-      }
-
-      if (recipientExternalUserId !== undefined) {
-        localVarQueryParameter['recipient_external_user_id'] = recipientExternalUserId;
-      }
-
-      if (offset !== undefined) {
-        localVarQueryParameter['offset'] = offset;
-      }
-
-      if (limit !== undefined) {
-        localVarQueryParameter['limit'] = limit;
-      }
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Select a payment method for payment link
-     * @param {SelectPaymentMethodRequest} selectPaymentMethodRequest request body for selecting a payment method
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    selectPaymentMethodPaymentLink: async (
-      selectPaymentMethodRequest: SelectPaymentMethodRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'selectPaymentMethodRequest' is not null or undefined
-      assertParamExists('selectPaymentMethodPaymentLink', 'selectPaymentMethodRequest', selectPaymentMethodRequest);
-      const localVarPath = `/payment_links/fvlink/select_payment_method`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        selectPaymentMethodRequest,
-        localVarRequestOptions,
-        configuration,
-      );
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Update a payment user
-     * @param {string} paymentUserId
-     * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    updatePaymentUser: async (
-      paymentUserId: string,
-      updatePaymentUserRequest: UpdatePaymentUserRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'paymentUserId' is not null or undefined
-      assertParamExists('updatePaymentUser', 'paymentUserId', paymentUserId);
-      // verify required parameter 'updatePaymentUserRequest' is not null or undefined
-      assertParamExists('updatePaymentUser', 'updatePaymentUserRequest', updatePaymentUserRequest);
-      const localVarPath = `/payment_users/{paymentUserId}`.replace(
-        `{${'paymentUserId'}}`,
-        encodeURIComponent(String(paymentUserId)),
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        updatePaymentUserRequest,
-        localVarRequestOptions,
-        configuration,
-      );
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-  };
-};
-
-/**
- * DefaultApi - functional programming interface
- * @export
- */
-export const DefaultApiFp = function (configuration?: Configuration) {
-  const localVarAxiosParamCreator = DefaultApiAxiosParamCreator(configuration);
-  return {
-    /**
-     * Cancel a payment link
-     * @param {string} paymentLinkId The payment link id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async cancelPaymentLink(
-      paymentLinkId: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentLinkResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.cancelPaymentLink(paymentLinkId, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.cancelPaymentLink']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Cancel Payout by payout_id
-     * @param {string} payoutId payout id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async cancelPayout(
-      payoutId: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutSnapshotResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.cancelPayout(payoutId, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.cancelPayout']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Complete a KCP payment
-     * @param {CompleteKcpPaymentRequest} completeKcpPaymentRequest Parameters from the KCP SDK callback to complete the payment
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async completeKcpPayment(
-      completeKcpPaymentRequest: CompleteKcpPaymentRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CompleteKcpPaymentResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.completeKcpPayment(completeKcpPaymentRequest, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.completeKcpPayment']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Submit manual payment confirmation
-     * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async confirmManualPayment(
-      manualPaymentIdentifiers: ManualPaymentConfirmationRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ManualPaymentConfirmationResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.confirmManualPayment(manualPaymentIdentifiers, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.confirmManualPayment']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Confirm a payment against a payment Link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async confirmPayment(
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConfirmPaymentResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.confirmPayment(options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.confirmPayment']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Create mandate for an existing sender account
-     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async createMandateForExistingSender(
-      idempotencyKey: string,
-      createMandateRequest: CreateMandateWithSenderAccountRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateMandateResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createMandateForExistingSender(
-        idempotencyKey,
-        createMandateRequest,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.createMandateForExistingSender']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Create payment link
-     * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async createPaymentLink(
-      createPaymentLinkRequest: CreatePaymentLinkRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentLinkResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentLink(createPaymentLinkRequest, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.createPaymentLink']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Create a Payment Method for a user
-     * @param {string} paymentUserId Payment User ID
-     * @param {CreatePaymentMethodRequest} createPaymentMethodRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async createPaymentMethod(
-      paymentUserId: string,
-      createPaymentMethodRequest: CreatePaymentMethodRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentMethodResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentMethod(
-        paymentUserId,
-        createPaymentMethodRequest,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.createPaymentMethod']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Create a scheduled payout
-     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async createScheduledPayout(
-      idempotencyKey: string,
-      createScheduledPayoutRequest: CreateScheduledPayoutRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutSnapshotResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createScheduledPayout(
-        idempotencyKey,
-        createScheduledPayoutRequest,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.createScheduledPayout']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Download the balance statement for the ledger (CSV)
-     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<string>} [currencies] The currencies to filter for
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async downloadBalanceStatement(
-      dateFrom?: string,
-      dateTo?: string,
-      currencies?: Array<string>,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DownloadBalanceStatementResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.downloadBalanceStatement(
-        dateFrom,
-        dateTo,
-        currencies,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.downloadBalanceStatement']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Get the FPS QR code
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getFpsQrCode(
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FpsQrCodeResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getFpsQrCode(options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.getFpsQrCode']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Get a customer-specific list of institutions for Finverse Link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getInstitutionsForCustomer(
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Institution>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getInstitutionsForCustomer(options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.getInstitutionsForCustomer']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Get payment link
-     * @param {string} paymentLinkId The payment link id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getPaymentLink(
-      paymentLinkId: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentLinkResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentLink(paymentLinkId, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.getPaymentLink']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Get a payment method
-     * @param {string} paymentMethodId
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getPaymentMethod(
-      paymentMethodId: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentMethodResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentMethod(paymentMethodId, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.getPaymentMethod']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Get payout by payout_id
-     * @param {string} payoutId payout id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getPayoutById(
-      payoutId: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutSnapshotResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getPayoutById(payoutId, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.getPayoutById']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * List mandates details
-     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<ListDetokenizedMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
-     * @param {ListDetokenizedMandatesSenderTypeEnum} [senderType] The sender type of the mandate
-     * @param {string} [userId] The user_id the mandate was setup for
-     * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {number} [offset] default is 0
-     * @param {number} [limit] default is 500, max is 1000
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async listDetokenizedMandates(
-      dateFrom?: string,
-      dateTo?: string,
-      statuses?: Array<ListDetokenizedMandatesStatusesEnum>,
-      senderType?: ListDetokenizedMandatesSenderTypeEnum,
-      userId?: string,
-      institutionId?: string,
-      offset?: number,
-      limit?: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListMandatesResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.listDetokenizedMandates(
-        dateFrom,
-        dateTo,
-        statuses,
-        senderType,
-        userId,
-        institutionId,
-        offset,
-        limit,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.listDetokenizedMandates']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * List Disputes
-     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<ListDisputesStatusesEnum>} [statuses] The dispute statuses to filter for, comma separated
-     * @param {number} [offset] default is 0
-     * @param {number} [limit] default is 500, max is 1000
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async listDisputes(
-      dateFrom?: string,
-      dateTo?: string,
-      statuses?: Array<ListDisputesStatusesEnum>,
-      offset?: number,
-      limit?: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListDisputesResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.listDisputes(
-        dateFrom,
-        dateTo,
-        statuses,
-        offset,
-        limit,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.listDisputes']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * List mandates
-     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<ListMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
-     * @param {ListMandatesSenderTypeEnum} [senderType] The sender type of the mandate
-     * @param {string} [userId] The user_id the mandate was setup for
-     * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {number} [offset] default is 0
-     * @param {number} [limit] default is 500, max is 1000
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async listMandates(
-      dateFrom?: string,
-      dateTo?: string,
-      statuses?: Array<ListMandatesStatusesEnum>,
-      senderType?: ListMandatesSenderTypeEnum,
-      userId?: string,
-      institutionId?: string,
-      offset?: number,
-      limit?: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListMandatesResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.listMandates(
-        dateFrom,
-        dateTo,
-        statuses,
-        senderType,
-        userId,
-        institutionId,
-        offset,
-        limit,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.listMandates']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * List Payment Methods for a User
-     * @param {string} paymentUserId Payment User Id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async listPaymentMethods(
-      paymentUserId: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPaymentMethodsResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.listPaymentMethods(paymentUserId, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.listPaymentMethods']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * List Payments
-     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<ListPaymentsStatusesEnum>} [statuses] The payment statuses to filter for, comma separated
-     * @param {ListPaymentsSenderTypeEnum} [senderType] The sender type of the mandate
-     * @param {string} [userId] The user_id the mandate was setup for
-     * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {ListPaymentsPaymentTypeEnum} [paymentType] Deprecated - The type of payment
-     * @param {Array<ListPaymentsPaymentTypesEnum>} [paymentTypes]
-     * @param {string} [mandateId] The mandate the payment belongs to
-     * @param {string} [currency] Deprecated - The currency the payment is made in
-     * @param {Array<string>} [currencies]
-     * @param {number} [offset] default is 0
-     * @param {number} [limit] default is 500, max is 1000
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async listPayments(
-      dateFrom?: string,
-      dateTo?: string,
-      statuses?: Array<ListPaymentsStatusesEnum>,
-      senderType?: ListPaymentsSenderTypeEnum,
-      userId?: string,
-      institutionId?: string,
-      paymentType?: ListPaymentsPaymentTypeEnum,
-      paymentTypes?: Array<ListPaymentsPaymentTypesEnum>,
-      mandateId?: string,
-      currency?: string,
-      currencies?: Array<string>,
-      offset?: number,
-      limit?: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPaymentsResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.listPayments(
-        dateFrom,
-        dateTo,
-        statuses,
-        senderType,
-        userId,
-        institutionId,
-        paymentType,
-        paymentTypes,
-        mandateId,
-        currency,
-        currencies,
-        offset,
-        limit,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.listPayments']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * List payouts
-     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<ListPayoutsStatusesEnum>} [statuses] The payout statuses to filter for, comma separated
-     * @param {Array<string>} [currencies]
-     * @param {Array<ListPayoutsPayoutTypesEnum>} [payoutTypes]
-     * @param {string} [mandateId]
-     * @param {string} [senderAccountId]
-     * @param {string} [recipientAccountId]
-     * @param {string} [recipientUserId]
-     * @param {string} [recipientExternalUserId]
-     * @param {number} [offset] Default is 0
-     * @param {number} [limit] default is 500, max is 1000
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async listPayouts(
-      dateFrom?: string,
-      dateTo?: string,
-      statuses?: Array<ListPayoutsStatusesEnum>,
-      currencies?: Array<string>,
-      payoutTypes?: Array<ListPayoutsPayoutTypesEnum>,
-      mandateId?: string,
-      senderAccountId?: string,
-      recipientAccountId?: string,
-      recipientUserId?: string,
-      recipientExternalUserId?: string,
-      offset?: number,
-      limit?: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPayoutsResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.listPayouts(
-        dateFrom,
-        dateTo,
-        statuses,
-        currencies,
-        payoutTypes,
-        mandateId,
-        senderAccountId,
-        recipientAccountId,
-        recipientUserId,
-        recipientExternalUserId,
-        offset,
-        limit,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.listPayouts']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Select a payment method for payment link
-     * @param {SelectPaymentMethodRequest} selectPaymentMethodRequest request body for selecting a payment method
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async selectPaymentMethodPaymentLink(
-      selectPaymentMethodRequest: SelectPaymentMethodRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SelectPaymentMethodResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.selectPaymentMethodPaymentLink(
-        selectPaymentMethodRequest,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.selectPaymentMethodPaymentLink']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Update a payment user
-     * @param {string} paymentUserId
-     * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async updatePaymentUser(
-      paymentUserId: string,
-      updatePaymentUserRequest: UpdatePaymentUserRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentUser>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.updatePaymentUser(
-        paymentUserId,
-        updatePaymentUserRequest,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['DefaultApi.updatePaymentUser']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-  };
-};
-
-/**
- * DefaultApi - factory interface
- * @export
- */
-export const DefaultApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-  const localVarFp = DefaultApiFp(configuration);
-  return {
-    /**
-     * Cancel a payment link
-     * @param {string} paymentLinkId The payment link id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    cancelPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentLinkResponse> {
-      return localVarFp.cancelPaymentLink(paymentLinkId, options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Cancel Payout by payout_id
-     * @param {string} payoutId payout id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    cancelPayout(payoutId: string, options?: RawAxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse> {
-      return localVarFp.cancelPayout(payoutId, options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Complete a KCP payment
-     * @param {CompleteKcpPaymentRequest} completeKcpPaymentRequest Parameters from the KCP SDK callback to complete the payment
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    completeKcpPayment(
-      completeKcpPaymentRequest: CompleteKcpPaymentRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<CompleteKcpPaymentResponse> {
-      return localVarFp
-        .completeKcpPayment(completeKcpPaymentRequest, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * Submit manual payment confirmation
-     * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    confirmManualPayment(
-      manualPaymentIdentifiers: ManualPaymentConfirmationRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<ManualPaymentConfirmationResponse> {
-      return localVarFp
-        .confirmManualPayment(manualPaymentIdentifiers, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * Confirm a payment against a payment Link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    confirmPayment(options?: RawAxiosRequestConfig): AxiosPromise<ConfirmPaymentResponse> {
-      return localVarFp.confirmPayment(options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Create mandate for an existing sender account
-     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createMandateForExistingSender(
-      idempotencyKey: string,
-      createMandateRequest: CreateMandateWithSenderAccountRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<CreateMandateResponse> {
-      return localVarFp
-        .createMandateForExistingSender(idempotencyKey, createMandateRequest, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * Create payment link
-     * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createPaymentLink(
-      createPaymentLinkRequest: CreatePaymentLinkRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PaymentLinkResponse> {
-      return localVarFp
-        .createPaymentLink(createPaymentLinkRequest, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * Create a Payment Method for a user
-     * @param {string} paymentUserId Payment User ID
-     * @param {CreatePaymentMethodRequest} createPaymentMethodRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createPaymentMethod(
-      paymentUserId: string,
-      createPaymentMethodRequest: CreatePaymentMethodRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PaymentMethodResponse> {
-      return localVarFp
-        .createPaymentMethod(paymentUserId, createPaymentMethodRequest, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * Create a scheduled payout
-     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createScheduledPayout(
-      idempotencyKey: string,
-      createScheduledPayoutRequest: CreateScheduledPayoutRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PayoutSnapshotResponse> {
-      return localVarFp
-        .createScheduledPayout(idempotencyKey, createScheduledPayoutRequest, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * Download the balance statement for the ledger (CSV)
-     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<string>} [currencies] The currencies to filter for
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    downloadBalanceStatement(
-      dateFrom?: string,
-      dateTo?: string,
-      currencies?: Array<string>,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<DownloadBalanceStatementResponse> {
-      return localVarFp
-        .downloadBalanceStatement(dateFrom, dateTo, currencies, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * Get the FPS QR code
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getFpsQrCode(options?: RawAxiosRequestConfig): AxiosPromise<FpsQrCodeResponse> {
-      return localVarFp.getFpsQrCode(options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Get a customer-specific list of institutions for Finverse Link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getInstitutionsForCustomer(options?: RawAxiosRequestConfig): AxiosPromise<Array<Institution>> {
-      return localVarFp.getInstitutionsForCustomer(options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Get payment link
-     * @param {string} paymentLinkId The payment link id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentLinkResponse> {
-      return localVarFp.getPaymentLink(paymentLinkId, options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Get a payment method
-     * @param {string} paymentMethodId
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getPaymentMethod(paymentMethodId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentMethodResponse> {
-      return localVarFp.getPaymentMethod(paymentMethodId, options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Get payout by payout_id
-     * @param {string} payoutId payout id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getPayoutById(payoutId: string, options?: RawAxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse> {
-      return localVarFp.getPayoutById(payoutId, options).then((request) => request(axios, basePath));
-    },
-    /**
-     * List mandates details
-     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<ListDetokenizedMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
-     * @param {ListDetokenizedMandatesSenderTypeEnum} [senderType] The sender type of the mandate
-     * @param {string} [userId] The user_id the mandate was setup for
-     * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {number} [offset] default is 0
-     * @param {number} [limit] default is 500, max is 1000
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listDetokenizedMandates(
-      dateFrom?: string,
-      dateTo?: string,
-      statuses?: Array<ListDetokenizedMandatesStatusesEnum>,
-      senderType?: ListDetokenizedMandatesSenderTypeEnum,
-      userId?: string,
-      institutionId?: string,
-      offset?: number,
-      limit?: number,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<ListMandatesResponse> {
-      return localVarFp
-        .listDetokenizedMandates(dateFrom, dateTo, statuses, senderType, userId, institutionId, offset, limit, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * List Disputes
-     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<ListDisputesStatusesEnum>} [statuses] The dispute statuses to filter for, comma separated
-     * @param {number} [offset] default is 0
-     * @param {number} [limit] default is 500, max is 1000
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listDisputes(
-      dateFrom?: string,
-      dateTo?: string,
-      statuses?: Array<ListDisputesStatusesEnum>,
-      offset?: number,
-      limit?: number,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<ListDisputesResponse> {
-      return localVarFp
-        .listDisputes(dateFrom, dateTo, statuses, offset, limit, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * List mandates
-     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<ListMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
-     * @param {ListMandatesSenderTypeEnum} [senderType] The sender type of the mandate
-     * @param {string} [userId] The user_id the mandate was setup for
-     * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {number} [offset] default is 0
-     * @param {number} [limit] default is 500, max is 1000
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listMandates(
-      dateFrom?: string,
-      dateTo?: string,
-      statuses?: Array<ListMandatesStatusesEnum>,
-      senderType?: ListMandatesSenderTypeEnum,
-      userId?: string,
-      institutionId?: string,
-      offset?: number,
-      limit?: number,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<ListMandatesResponse> {
-      return localVarFp
-        .listMandates(dateFrom, dateTo, statuses, senderType, userId, institutionId, offset, limit, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * List Payment Methods for a User
-     * @param {string} paymentUserId Payment User Id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listPaymentMethods(
-      paymentUserId: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<ListPaymentMethodsResponse> {
-      return localVarFp.listPaymentMethods(paymentUserId, options).then((request) => request(axios, basePath));
-    },
-    /**
-     * List Payments
-     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<ListPaymentsStatusesEnum>} [statuses] The payment statuses to filter for, comma separated
-     * @param {ListPaymentsSenderTypeEnum} [senderType] The sender type of the mandate
-     * @param {string} [userId] The user_id the mandate was setup for
-     * @param {string} [institutionId] The institution the mandate was executed against
-     * @param {ListPaymentsPaymentTypeEnum} [paymentType] Deprecated - The type of payment
-     * @param {Array<ListPaymentsPaymentTypesEnum>} [paymentTypes]
-     * @param {string} [mandateId] The mandate the payment belongs to
-     * @param {string} [currency] Deprecated - The currency the payment is made in
-     * @param {Array<string>} [currencies]
-     * @param {number} [offset] default is 0
-     * @param {number} [limit] default is 500, max is 1000
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listPayments(
-      dateFrom?: string,
-      dateTo?: string,
-      statuses?: Array<ListPaymentsStatusesEnum>,
-      senderType?: ListPaymentsSenderTypeEnum,
-      userId?: string,
-      institutionId?: string,
-      paymentType?: ListPaymentsPaymentTypeEnum,
-      paymentTypes?: Array<ListPaymentsPaymentTypesEnum>,
-      mandateId?: string,
-      currency?: string,
-      currencies?: Array<string>,
-      offset?: number,
-      limit?: number,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<ListPaymentsResponse> {
-      return localVarFp
-        .listPayments(
-          dateFrom,
-          dateTo,
-          statuses,
-          senderType,
-          userId,
-          institutionId,
-          paymentType,
-          paymentTypes,
-          mandateId,
-          currency,
-          currencies,
-          offset,
-          limit,
-          options,
-        )
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * List payouts
-     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-     * @param {Array<ListPayoutsStatusesEnum>} [statuses] The payout statuses to filter for, comma separated
-     * @param {Array<string>} [currencies]
-     * @param {Array<ListPayoutsPayoutTypesEnum>} [payoutTypes]
-     * @param {string} [mandateId]
-     * @param {string} [senderAccountId]
-     * @param {string} [recipientAccountId]
-     * @param {string} [recipientUserId]
-     * @param {string} [recipientExternalUserId]
-     * @param {number} [offset] Default is 0
-     * @param {number} [limit] default is 500, max is 1000
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    listPayouts(
-      dateFrom?: string,
-      dateTo?: string,
-      statuses?: Array<ListPayoutsStatusesEnum>,
-      currencies?: Array<string>,
-      payoutTypes?: Array<ListPayoutsPayoutTypesEnum>,
-      mandateId?: string,
-      senderAccountId?: string,
-      recipientAccountId?: string,
-      recipientUserId?: string,
-      recipientExternalUserId?: string,
-      offset?: number,
-      limit?: number,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<ListPayoutsResponse> {
-      return localVarFp
-        .listPayouts(
-          dateFrom,
-          dateTo,
-          statuses,
-          currencies,
-          payoutTypes,
-          mandateId,
-          senderAccountId,
-          recipientAccountId,
-          recipientUserId,
-          recipientExternalUserId,
-          offset,
-          limit,
-          options,
-        )
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * Select a payment method for payment link
-     * @param {SelectPaymentMethodRequest} selectPaymentMethodRequest request body for selecting a payment method
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    selectPaymentMethodPaymentLink(
-      selectPaymentMethodRequest: SelectPaymentMethodRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<SelectPaymentMethodResponse> {
-      return localVarFp
-        .selectPaymentMethodPaymentLink(selectPaymentMethodRequest, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
-     * Update a payment user
-     * @param {string} paymentUserId
-     * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    updatePaymentUser(
-      paymentUserId: string,
-      updatePaymentUserRequest: UpdatePaymentUserRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PaymentUser> {
-      return localVarFp
-        .updatePaymentUser(paymentUserId, updatePaymentUserRequest, options)
-        .then((request) => request(axios, basePath));
-    },
-  };
-};
-
-/**
- * DefaultApi - interface
- * @export
- * @interface DefaultApi
- */
-export interface DefaultApiInterface {
-  /**
-   * Cancel a payment link
-   * @param {string} paymentLinkId The payment link id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  cancelPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentLinkResponse>;
-
-  /**
-   * Cancel Payout by payout_id
-   * @param {string} payoutId payout id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  cancelPayout(payoutId: string, options?: RawAxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse>;
-
-  /**
-   * Complete a KCP payment
-   * @param {CompleteKcpPaymentRequest} completeKcpPaymentRequest Parameters from the KCP SDK callback to complete the payment
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  completeKcpPayment(
-    completeKcpPaymentRequest: CompleteKcpPaymentRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<CompleteKcpPaymentResponse>;
-
-  /**
-   * Submit manual payment confirmation
-   * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  confirmManualPayment(
-    manualPaymentIdentifiers: ManualPaymentConfirmationRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<ManualPaymentConfirmationResponse>;
-
-  /**
-   * Confirm a payment against a payment Link
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  confirmPayment(options?: RawAxiosRequestConfig): AxiosPromise<ConfirmPaymentResponse>;
-
-  /**
-   * Create mandate for an existing sender account
-   * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-   * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  createMandateForExistingSender(
-    idempotencyKey: string,
-    createMandateRequest: CreateMandateWithSenderAccountRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<CreateMandateResponse>;
-
-  /**
-   * Create payment link
-   * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  createPaymentLink(
-    createPaymentLinkRequest: CreatePaymentLinkRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<PaymentLinkResponse>;
-
-  /**
-   * Create a Payment Method for a user
-   * @param {string} paymentUserId Payment User ID
-   * @param {CreatePaymentMethodRequest} createPaymentMethodRequest
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  createPaymentMethod(
-    paymentUserId: string,
-    createPaymentMethodRequest: CreatePaymentMethodRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<PaymentMethodResponse>;
-
-  /**
-   * Create a scheduled payout
-   * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-   * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  createScheduledPayout(
-    idempotencyKey: string,
-    createScheduledPayoutRequest: CreateScheduledPayoutRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<PayoutSnapshotResponse>;
-
-  /**
-   * Download the balance statement for the ledger (CSV)
-   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {Array<string>} [currencies] The currencies to filter for
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  downloadBalanceStatement(
-    dateFrom?: string,
-    dateTo?: string,
-    currencies?: Array<string>,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<DownloadBalanceStatementResponse>;
-
-  /**
-   * Get the FPS QR code
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  getFpsQrCode(options?: RawAxiosRequestConfig): AxiosPromise<FpsQrCodeResponse>;
-
-  /**
-   * Get a customer-specific list of institutions for Finverse Link
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  getInstitutionsForCustomer(options?: RawAxiosRequestConfig): AxiosPromise<Array<Institution>>;
-
-  /**
-   * Get payment link
-   * @param {string} paymentLinkId The payment link id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  getPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentLinkResponse>;
-
-  /**
-   * Get a payment method
-   * @param {string} paymentMethodId
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  getPaymentMethod(paymentMethodId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentMethodResponse>;
-
-  /**
-   * Get payout by payout_id
-   * @param {string} payoutId payout id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  getPayoutById(payoutId: string, options?: RawAxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse>;
-
-  /**
-   * List mandates details
-   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {Array<ListDetokenizedMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
-   * @param {ListDetokenizedMandatesSenderTypeEnum} [senderType] The sender type of the mandate
-   * @param {string} [userId] The user_id the mandate was setup for
-   * @param {string} [institutionId] The institution the mandate was executed against
-   * @param {number} [offset] default is 0
-   * @param {number} [limit] default is 500, max is 1000
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  listDetokenizedMandates(
-    dateFrom?: string,
-    dateTo?: string,
-    statuses?: Array<ListDetokenizedMandatesStatusesEnum>,
-    senderType?: ListDetokenizedMandatesSenderTypeEnum,
-    userId?: string,
-    institutionId?: string,
-    offset?: number,
-    limit?: number,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<ListMandatesResponse>;
-
-  /**
-   * List Disputes
-   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {Array<ListDisputesStatusesEnum>} [statuses] The dispute statuses to filter for, comma separated
-   * @param {number} [offset] default is 0
-   * @param {number} [limit] default is 500, max is 1000
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  listDisputes(
-    dateFrom?: string,
-    dateTo?: string,
-    statuses?: Array<ListDisputesStatusesEnum>,
-    offset?: number,
-    limit?: number,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<ListDisputesResponse>;
-
-  /**
-   * List mandates
-   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {Array<ListMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
-   * @param {ListMandatesSenderTypeEnum} [senderType] The sender type of the mandate
-   * @param {string} [userId] The user_id the mandate was setup for
-   * @param {string} [institutionId] The institution the mandate was executed against
-   * @param {number} [offset] default is 0
-   * @param {number} [limit] default is 500, max is 1000
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  listMandates(
-    dateFrom?: string,
-    dateTo?: string,
-    statuses?: Array<ListMandatesStatusesEnum>,
-    senderType?: ListMandatesSenderTypeEnum,
-    userId?: string,
-    institutionId?: string,
-    offset?: number,
-    limit?: number,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<ListMandatesResponse>;
-
-  /**
-   * List Payment Methods for a User
-   * @param {string} paymentUserId Payment User Id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  listPaymentMethods(paymentUserId: string, options?: RawAxiosRequestConfig): AxiosPromise<ListPaymentMethodsResponse>;
-
-  /**
-   * List Payments
-   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {Array<ListPaymentsStatusesEnum>} [statuses] The payment statuses to filter for, comma separated
-   * @param {ListPaymentsSenderTypeEnum} [senderType] The sender type of the mandate
-   * @param {string} [userId] The user_id the mandate was setup for
-   * @param {string} [institutionId] The institution the mandate was executed against
-   * @param {ListPaymentsPaymentTypeEnum} [paymentType] Deprecated - The type of payment
-   * @param {Array<ListPaymentsPaymentTypesEnum>} [paymentTypes]
-   * @param {string} [mandateId] The mandate the payment belongs to
-   * @param {string} [currency] Deprecated - The currency the payment is made in
-   * @param {Array<string>} [currencies]
-   * @param {number} [offset] default is 0
-   * @param {number} [limit] default is 500, max is 1000
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  listPayments(
-    dateFrom?: string,
-    dateTo?: string,
-    statuses?: Array<ListPaymentsStatusesEnum>,
-    senderType?: ListPaymentsSenderTypeEnum,
-    userId?: string,
-    institutionId?: string,
-    paymentType?: ListPaymentsPaymentTypeEnum,
-    paymentTypes?: Array<ListPaymentsPaymentTypesEnum>,
-    mandateId?: string,
-    currency?: string,
-    currencies?: Array<string>,
-    offset?: number,
-    limit?: number,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<ListPaymentsResponse>;
-
-  /**
-   * List payouts
-   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {Array<ListPayoutsStatusesEnum>} [statuses] The payout statuses to filter for, comma separated
-   * @param {Array<string>} [currencies]
-   * @param {Array<ListPayoutsPayoutTypesEnum>} [payoutTypes]
-   * @param {string} [mandateId]
-   * @param {string} [senderAccountId]
-   * @param {string} [recipientAccountId]
-   * @param {string} [recipientUserId]
-   * @param {string} [recipientExternalUserId]
-   * @param {number} [offset] Default is 0
-   * @param {number} [limit] default is 500, max is 1000
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  listPayouts(
-    dateFrom?: string,
-    dateTo?: string,
-    statuses?: Array<ListPayoutsStatusesEnum>,
-    currencies?: Array<string>,
-    payoutTypes?: Array<ListPayoutsPayoutTypesEnum>,
-    mandateId?: string,
-    senderAccountId?: string,
-    recipientAccountId?: string,
-    recipientUserId?: string,
-    recipientExternalUserId?: string,
-    offset?: number,
-    limit?: number,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<ListPayoutsResponse>;
-
-  /**
-   * Select a payment method for payment link
-   * @param {SelectPaymentMethodRequest} selectPaymentMethodRequest request body for selecting a payment method
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  selectPaymentMethodPaymentLink(
-    selectPaymentMethodRequest: SelectPaymentMethodRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<SelectPaymentMethodResponse>;
-
-  /**
-   * Update a payment user
-   * @param {string} paymentUserId
-   * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApiInterface
-   */
-  updatePaymentUser(
-    paymentUserId: string,
-    updatePaymentUserRequest: UpdatePaymentUserRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<PaymentUser>;
-}
-
-/**
- * DefaultApi - object-oriented interface
- * @export
- * @class DefaultApi
- * @extends {BaseAPI}
- */
-export class DefaultApi extends BaseAPI implements DefaultApiInterface {
-  /**
-   * Cancel a payment link
-   * @param {string} paymentLinkId The payment link id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public cancelPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig) {
-    return DefaultApiFp(this.configuration)
-      .cancelPaymentLink(paymentLinkId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Cancel Payout by payout_id
-   * @param {string} payoutId payout id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public cancelPayout(payoutId: string, options?: RawAxiosRequestConfig) {
-    return DefaultApiFp(this.configuration)
-      .cancelPayout(payoutId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Complete a KCP payment
-   * @param {CompleteKcpPaymentRequest} completeKcpPaymentRequest Parameters from the KCP SDK callback to complete the payment
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public completeKcpPayment(completeKcpPaymentRequest: CompleteKcpPaymentRequest, options?: RawAxiosRequestConfig) {
-    return DefaultApiFp(this.configuration)
-      .completeKcpPayment(completeKcpPaymentRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Submit manual payment confirmation
-   * @param {ManualPaymentConfirmationRequest} manualPaymentIdentifiers Request body containing information to identify manual payment
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public confirmManualPayment(
-    manualPaymentIdentifiers: ManualPaymentConfirmationRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return DefaultApiFp(this.configuration)
-      .confirmManualPayment(manualPaymentIdentifiers, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Confirm a payment against a payment Link
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public confirmPayment(options?: RawAxiosRequestConfig) {
-    return DefaultApiFp(this.configuration)
-      .confirmPayment(options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Create mandate for an existing sender account
-   * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-   * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public createMandateForExistingSender(
-    idempotencyKey: string,
-    createMandateRequest: CreateMandateWithSenderAccountRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return DefaultApiFp(this.configuration)
-      .createMandateForExistingSender(idempotencyKey, createMandateRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Create payment link
-   * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public createPaymentLink(createPaymentLinkRequest: CreatePaymentLinkRequest, options?: RawAxiosRequestConfig) {
-    return DefaultApiFp(this.configuration)
-      .createPaymentLink(createPaymentLinkRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Create a Payment Method for a user
-   * @param {string} paymentUserId Payment User ID
-   * @param {CreatePaymentMethodRequest} createPaymentMethodRequest
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public createPaymentMethod(
-    paymentUserId: string,
-    createPaymentMethodRequest: CreatePaymentMethodRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return DefaultApiFp(this.configuration)
-      .createPaymentMethod(paymentUserId, createPaymentMethodRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Create a scheduled payout
-   * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-   * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public createScheduledPayout(
-    idempotencyKey: string,
-    createScheduledPayoutRequest: CreateScheduledPayoutRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return DefaultApiFp(this.configuration)
-      .createScheduledPayout(idempotencyKey, createScheduledPayoutRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Download the balance statement for the ledger (CSV)
-   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {Array<string>} [currencies] The currencies to filter for
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public downloadBalanceStatement(
-    dateFrom?: string,
-    dateTo?: string,
-    currencies?: Array<string>,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return DefaultApiFp(this.configuration)
-      .downloadBalanceStatement(dateFrom, dateTo, currencies, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Get the FPS QR code
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public getFpsQrCode(options?: RawAxiosRequestConfig) {
-    return DefaultApiFp(this.configuration)
-      .getFpsQrCode(options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Get a customer-specific list of institutions for Finverse Link
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public getInstitutionsForCustomer(options?: RawAxiosRequestConfig) {
-    return DefaultApiFp(this.configuration)
-      .getInstitutionsForCustomer(options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Get payment link
-   * @param {string} paymentLinkId The payment link id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public getPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig) {
-    return DefaultApiFp(this.configuration)
-      .getPaymentLink(paymentLinkId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Get a payment method
-   * @param {string} paymentMethodId
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public getPaymentMethod(paymentMethodId: string, options?: RawAxiosRequestConfig) {
-    return DefaultApiFp(this.configuration)
-      .getPaymentMethod(paymentMethodId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Get payout by payout_id
-   * @param {string} payoutId payout id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public getPayoutById(payoutId: string, options?: RawAxiosRequestConfig) {
-    return DefaultApiFp(this.configuration)
-      .getPayoutById(payoutId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * List mandates details
-   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {Array<ListDetokenizedMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
-   * @param {ListDetokenizedMandatesSenderTypeEnum} [senderType] The sender type of the mandate
-   * @param {string} [userId] The user_id the mandate was setup for
-   * @param {string} [institutionId] The institution the mandate was executed against
-   * @param {number} [offset] default is 0
-   * @param {number} [limit] default is 500, max is 1000
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public listDetokenizedMandates(
-    dateFrom?: string,
-    dateTo?: string,
-    statuses?: Array<ListDetokenizedMandatesStatusesEnum>,
-    senderType?: ListDetokenizedMandatesSenderTypeEnum,
-    userId?: string,
-    institutionId?: string,
-    offset?: number,
-    limit?: number,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return DefaultApiFp(this.configuration)
-      .listDetokenizedMandates(dateFrom, dateTo, statuses, senderType, userId, institutionId, offset, limit, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * List Disputes
-   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {Array<ListDisputesStatusesEnum>} [statuses] The dispute statuses to filter for, comma separated
-   * @param {number} [offset] default is 0
-   * @param {number} [limit] default is 500, max is 1000
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public listDisputes(
-    dateFrom?: string,
-    dateTo?: string,
-    statuses?: Array<ListDisputesStatusesEnum>,
-    offset?: number,
-    limit?: number,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return DefaultApiFp(this.configuration)
-      .listDisputes(dateFrom, dateTo, statuses, offset, limit, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * List mandates
-   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {Array<ListMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
-   * @param {ListMandatesSenderTypeEnum} [senderType] The sender type of the mandate
-   * @param {string} [userId] The user_id the mandate was setup for
-   * @param {string} [institutionId] The institution the mandate was executed against
-   * @param {number} [offset] default is 0
-   * @param {number} [limit] default is 500, max is 1000
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public listMandates(
-    dateFrom?: string,
-    dateTo?: string,
-    statuses?: Array<ListMandatesStatusesEnum>,
-    senderType?: ListMandatesSenderTypeEnum,
-    userId?: string,
-    institutionId?: string,
-    offset?: number,
-    limit?: number,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return DefaultApiFp(this.configuration)
-      .listMandates(dateFrom, dateTo, statuses, senderType, userId, institutionId, offset, limit, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * List Payment Methods for a User
-   * @param {string} paymentUserId Payment User Id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public listPaymentMethods(paymentUserId: string, options?: RawAxiosRequestConfig) {
-    return DefaultApiFp(this.configuration)
-      .listPaymentMethods(paymentUserId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * List Payments
-   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {Array<ListPaymentsStatusesEnum>} [statuses] The payment statuses to filter for, comma separated
-   * @param {ListPaymentsSenderTypeEnum} [senderType] The sender type of the mandate
-   * @param {string} [userId] The user_id the mandate was setup for
-   * @param {string} [institutionId] The institution the mandate was executed against
-   * @param {ListPaymentsPaymentTypeEnum} [paymentType] Deprecated - The type of payment
-   * @param {Array<ListPaymentsPaymentTypesEnum>} [paymentTypes]
-   * @param {string} [mandateId] The mandate the payment belongs to
-   * @param {string} [currency] Deprecated - The currency the payment is made in
-   * @param {Array<string>} [currencies]
-   * @param {number} [offset] default is 0
-   * @param {number} [limit] default is 500, max is 1000
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public listPayments(
-    dateFrom?: string,
-    dateTo?: string,
-    statuses?: Array<ListPaymentsStatusesEnum>,
-    senderType?: ListPaymentsSenderTypeEnum,
-    userId?: string,
-    institutionId?: string,
-    paymentType?: ListPaymentsPaymentTypeEnum,
-    paymentTypes?: Array<ListPaymentsPaymentTypesEnum>,
-    mandateId?: string,
-    currency?: string,
-    currencies?: Array<string>,
-    offset?: number,
-    limit?: number,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return DefaultApiFp(this.configuration)
-      .listPayments(
-        dateFrom,
-        dateTo,
-        statuses,
-        senderType,
-        userId,
-        institutionId,
-        paymentType,
-        paymentTypes,
-        mandateId,
-        currency,
-        currencies,
-        offset,
-        limit,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * List payouts
-   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
-   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
-   * @param {Array<ListPayoutsStatusesEnum>} [statuses] The payout statuses to filter for, comma separated
-   * @param {Array<string>} [currencies]
-   * @param {Array<ListPayoutsPayoutTypesEnum>} [payoutTypes]
-   * @param {string} [mandateId]
-   * @param {string} [senderAccountId]
-   * @param {string} [recipientAccountId]
-   * @param {string} [recipientUserId]
-   * @param {string} [recipientExternalUserId]
-   * @param {number} [offset] Default is 0
-   * @param {number} [limit] default is 500, max is 1000
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public listPayouts(
-    dateFrom?: string,
-    dateTo?: string,
-    statuses?: Array<ListPayoutsStatusesEnum>,
-    currencies?: Array<string>,
-    payoutTypes?: Array<ListPayoutsPayoutTypesEnum>,
-    mandateId?: string,
-    senderAccountId?: string,
-    recipientAccountId?: string,
-    recipientUserId?: string,
-    recipientExternalUserId?: string,
-    offset?: number,
-    limit?: number,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return DefaultApiFp(this.configuration)
-      .listPayouts(
-        dateFrom,
-        dateTo,
-        statuses,
-        currencies,
-        payoutTypes,
-        mandateId,
-        senderAccountId,
-        recipientAccountId,
-        recipientUserId,
-        recipientExternalUserId,
-        offset,
-        limit,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Select a payment method for payment link
-   * @param {SelectPaymentMethodRequest} selectPaymentMethodRequest request body for selecting a payment method
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public selectPaymentMethodPaymentLink(
-    selectPaymentMethodRequest: SelectPaymentMethodRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return DefaultApiFp(this.configuration)
-      .selectPaymentMethodPaymentLink(selectPaymentMethodRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Update a payment user
-   * @param {string} paymentUserId
-   * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof DefaultApi
-   */
-  public updatePaymentUser(
-    paymentUserId: string,
-    updatePaymentUserRequest: UpdatePaymentUserRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return DefaultApiFp(this.configuration)
-      .updatePaymentUser(paymentUserId, updatePaymentUserRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-}
-
-/**
- * @export
- */
-export const ListDetokenizedMandatesStatusesEnum = {
-  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
-  Authorizing: 'AUTHORIZING',
-  Processing: 'PROCESSING',
-  Submitted: 'SUBMITTED',
-  Succeeded: 'SUCCEEDED',
-  Failed: 'FAILED',
-  Revoked: 'REVOKED',
-  ReadyToSubmit: 'READY_TO_SUBMIT',
-  Closed: 'CLOSED',
-  Cancelled: 'CANCELLED',
-} as const;
-export type ListDetokenizedMandatesStatusesEnum =
-  (typeof ListDetokenizedMandatesStatusesEnum)[keyof typeof ListDetokenizedMandatesStatusesEnum];
-/**
- * @export
- */
-export const ListDetokenizedMandatesSenderTypeEnum = {
-  Individual: 'INDIVIDUAL',
-  Business: 'BUSINESS',
-} as const;
-export type ListDetokenizedMandatesSenderTypeEnum =
-  (typeof ListDetokenizedMandatesSenderTypeEnum)[keyof typeof ListDetokenizedMandatesSenderTypeEnum];
-/**
- * @export
- */
-export const ListDisputesStatusesEnum = {
-  Unknown: 'UNKNOWN',
-  Undefended: 'UNDEFENDED',
-  ActionRequired: 'ACTION_REQUIRED',
-  Processing: 'PROCESSING',
-  Accepted: 'ACCEPTED',
-  Lost: 'LOST',
-  Won: 'WON',
-} as const;
-export type ListDisputesStatusesEnum = (typeof ListDisputesStatusesEnum)[keyof typeof ListDisputesStatusesEnum];
-/**
- * @export
- */
-export const ListMandatesStatusesEnum = {
-  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
-  Authorizing: 'AUTHORIZING',
-  Processing: 'PROCESSING',
-  Submitted: 'SUBMITTED',
-  Succeeded: 'SUCCEEDED',
-  Failed: 'FAILED',
-  Revoked: 'REVOKED',
-  ReadyToSubmit: 'READY_TO_SUBMIT',
-  Closed: 'CLOSED',
-  Cancelled: 'CANCELLED',
-} as const;
-export type ListMandatesStatusesEnum = (typeof ListMandatesStatusesEnum)[keyof typeof ListMandatesStatusesEnum];
-/**
- * @export
- */
-export const ListMandatesSenderTypeEnum = {
-  Individual: 'INDIVIDUAL',
-  Business: 'BUSINESS',
-} as const;
-export type ListMandatesSenderTypeEnum = (typeof ListMandatesSenderTypeEnum)[keyof typeof ListMandatesSenderTypeEnum];
-/**
- * @export
- */
-export const ListPaymentsStatusesEnum = {
-  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
-  Authorizing: 'AUTHORIZING',
-  Processing: 'PROCESSING',
-  Submitted: 'SUBMITTED',
-  Executed: 'EXECUTED',
-  Failed: 'FAILED',
-  Revoked: 'REVOKED',
-  Cancelled: 'CANCELLED',
-  Created: 'CREATED',
-} as const;
-export type ListPaymentsStatusesEnum = (typeof ListPaymentsStatusesEnum)[keyof typeof ListPaymentsStatusesEnum];
-/**
- * @export
- */
-export const ListPaymentsSenderTypeEnum = {
-  Individual: 'INDIVIDUAL',
-  Business: 'BUSINESS',
-} as const;
-export type ListPaymentsSenderTypeEnum = (typeof ListPaymentsSenderTypeEnum)[keyof typeof ListPaymentsSenderTypeEnum];
-/**
- * @export
- */
-export const ListPaymentsPaymentTypeEnum = {
-  Mandate: 'MANDATE',
-  Single: 'SINGLE',
-  Card: 'CARD',
-  Manual: 'MANUAL',
-  Wallet: 'WALLET',
-} as const;
-export type ListPaymentsPaymentTypeEnum =
-  (typeof ListPaymentsPaymentTypeEnum)[keyof typeof ListPaymentsPaymentTypeEnum];
-/**
- * @export
- */
-export const ListPaymentsPaymentTypesEnum = {
-  Mandate: 'MANDATE',
-  Single: 'SINGLE',
-  Card: 'CARD',
-  Manual: 'MANUAL',
-  Wallet: 'WALLET',
-} as const;
-export type ListPaymentsPaymentTypesEnum =
-  (typeof ListPaymentsPaymentTypesEnum)[keyof typeof ListPaymentsPaymentTypesEnum];
-/**
- * @export
- */
-export const ListPayoutsStatusesEnum = {
-  Executed: 'EXECUTED',
-  Created: 'CREATED',
-  Processing: 'PROCESSING',
-  ProcessingFunds: 'PROCESSING_FUNDS',
-  Cancelled: 'CANCELLED',
-  Failed: 'FAILED',
-  Funded: 'FUNDED',
-  Submitted: 'SUBMITTED',
-} as const;
-export type ListPayoutsStatusesEnum = (typeof ListPayoutsStatusesEnum)[keyof typeof ListPayoutsStatusesEnum];
-/**
- * @export
- */
-export const ListPayoutsPayoutTypesEnum = {
-  Manual: 'MANUAL',
-  Scheduled: 'SCHEDULED',
-  Settlement: 'SETTLEMENT',
-} as const;
-export type ListPayoutsPayoutTypesEnum = (typeof ListPayoutsPayoutTypesEnum)[keyof typeof ListPayoutsPayoutTypesEnum];
 
 /**
  * LinkApi - axios parameter creator
@@ -15772,6 +10415,46 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
       localVarRequestOptions.data = serializeDataIfNeeded(apiLinkRequest, localVarRequestOptions, configuration);
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * generate a link token that can be used to create link
+     * @param {LinkTokenRequest} linkTokenRequest token request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    generateLinkToken: async (
+      linkTokenRequest: LinkTokenRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'linkTokenRequest' is not null or undefined
+      assertParamExists('generateLinkToken', 'linkTokenRequest', linkTokenRequest);
+      const localVarPath = `/link/token`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(linkTokenRequest, localVarRequestOptions, configuration);
 
       return {
         url: toPathString(localVarUrlObj),
@@ -15835,46 +10518,6 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
       // verify required parameter 'loginIdentityId' is not null or undefined
       assertParamExists('linkStatus', 'loginIdentityId', loginIdentityId);
       const localVarPath = `/link/status/{loginIdentityId}`.replace(
-        `{${'loginIdentityId'}}`,
-        encodeURIComponent(String(loginIdentityId)),
-      );
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * Check the status of a given login identity via FVLink
-     * @param {string} loginIdentityId The login identity id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    linkStatusNonSensitive: async (
-      loginIdentityId: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'loginIdentityId' is not null or undefined
-      assertParamExists('linkStatusNonSensitive', 'loginIdentityId', loginIdentityId);
-      const localVarPath = `/link/fvlink/status/{loginIdentityId}`.replace(
         `{${'loginIdentityId'}}`,
         encodeURIComponent(String(loginIdentityId)),
       );
@@ -16051,6 +10694,28 @@ export const LinkApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
+     * generate a link token that can be used to create link
+     * @param {LinkTokenRequest} linkTokenRequest token request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async generateLinkToken(
+      linkTokenRequest: LinkTokenRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LinkTokenResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.generateLinkToken(linkTokenRequest, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LinkApi.generateLinkToken']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
      * Post the user action value
      * @param {string} loginIdentityId The login identity id
      * @param {ActionRequest} actionRequest Request body for post link action
@@ -16088,28 +10753,6 @@ export const LinkApiFp = function (configuration?: Configuration) {
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap['LinkApi.linkStatus']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * Check the status of a given login identity via FVLink
-     * @param {string} loginIdentityId The login identity id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async linkStatusNonSensitive(
-      loginIdentityId: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<NonSensitiveLinkStatusResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.linkStatusNonSensitive(loginIdentityId, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['LinkApi.linkStatusNonSensitive']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -16192,6 +10835,18 @@ export const LinkApiFactory = function (configuration?: Configuration, basePath?
       return localVarFp.createLink(apiLinkRequest, options).then((request) => request(axios, basePath));
     },
     /**
+     * generate a link token that can be used to create link
+     * @param {LinkTokenRequest} linkTokenRequest token request
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    generateLinkToken(
+      linkTokenRequest: LinkTokenRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<LinkTokenResponse> {
+      return localVarFp.generateLinkToken(linkTokenRequest, options).then((request) => request(axios, basePath));
+    },
+    /**
      * Post the user action value
      * @param {string} loginIdentityId The login identity id
      * @param {ActionRequest} actionRequest Request body for post link action
@@ -16213,18 +10868,6 @@ export const LinkApiFactory = function (configuration?: Configuration, basePath?
      */
     linkStatus(loginIdentityId: string, options?: RawAxiosRequestConfig): AxiosPromise<LinkStatusResponse> {
       return localVarFp.linkStatus(loginIdentityId, options).then((request) => request(axios, basePath));
-    },
-    /**
-     * Check the status of a given login identity via FVLink
-     * @param {string} loginIdentityId The login identity id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    linkStatusNonSensitive(
-      loginIdentityId: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<NonSensitiveLinkStatusResponse> {
-      return localVarFp.linkStatusNonSensitive(loginIdentityId, options).then((request) => request(axios, basePath));
     },
     /**
      * Create a new link using an existing LIID
@@ -16284,6 +10927,18 @@ export interface LinkApiInterface {
   ): AxiosPromise<GetLoginIdentityByIdResponse>;
 
   /**
+   * generate a link token that can be used to create link
+   * @param {LinkTokenRequest} linkTokenRequest token request
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LinkApiInterface
+   */
+  generateLinkToken(
+    linkTokenRequest: LinkTokenRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<LinkTokenResponse>;
+
+  /**
    * Post the user action value
    * @param {string} loginIdentityId The login identity id
    * @param {ActionRequest} actionRequest Request body for post link action
@@ -16305,18 +10960,6 @@ export interface LinkApiInterface {
    * @memberof LinkApiInterface
    */
   linkStatus(loginIdentityId: string, options?: RawAxiosRequestConfig): AxiosPromise<LinkStatusResponse>;
-
-  /**
-   * Check the status of a given login identity via FVLink
-   * @param {string} loginIdentityId The login identity id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LinkApiInterface
-   */
-  linkStatusNonSensitive(
-    loginIdentityId: string,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<NonSensitiveLinkStatusResponse>;
 
   /**
    * Create a new link using an existing LIID
@@ -16372,6 +11015,19 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
   }
 
   /**
+   * generate a link token that can be used to create link
+   * @param {LinkTokenRequest} linkTokenRequest token request
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LinkApi
+   */
+  public generateLinkToken(linkTokenRequest: LinkTokenRequest, options?: RawAxiosRequestConfig) {
+    return LinkApiFp(this.configuration)
+      .generateLinkToken(linkTokenRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
    * Post the user action value
    * @param {string} loginIdentityId The login identity id
    * @param {ActionRequest} actionRequest Request body for post link action
@@ -16395,19 +11051,6 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
   public linkStatus(loginIdentityId: string, options?: RawAxiosRequestConfig) {
     return LinkApiFp(this.configuration)
       .linkStatus(loginIdentityId, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Check the status of a given login identity via FVLink
-   * @param {string} loginIdentityId The login identity id
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LinkApi
-   */
-  public linkStatusNonSensitive(loginIdentityId: string, options?: RawAxiosRequestConfig) {
-    return LinkApiFp(this.configuration)
-      .linkStatusNonSensitive(loginIdentityId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -16487,46 +11130,6 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * generate a link token that can be used to create link
-     * @param {LinkTokenRequest} linkTokenRequest token request
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    generateLinkToken: async (
-      linkTokenRequest: LinkTokenRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'linkTokenRequest' is not null or undefined
-      assertParamExists('generateLinkToken', 'linkTokenRequest', linkTokenRequest);
-      const localVarPath = `/link/token`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(linkTokenRequest, localVarRequestOptions, configuration);
 
       return {
         url: toPathString(localVarUrlObj),
@@ -16755,6 +11358,86 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
      */
     getLoginIdentity: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/login_identity`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Get a specific loginIdentity
+     * @param {string} loginIdentityId The login identity id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getLoginIdentityById: async (
+      loginIdentityId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'loginIdentityId' is not null or undefined
+      assertParamExists('getLoginIdentityById', 'loginIdentityId', loginIdentityId);
+      const localVarPath = `/login_identity/{loginIdentityId}`.replace(
+        `{${'loginIdentityId'}}`,
+        encodeURIComponent(String(loginIdentityId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Get a history of events for a specific loginIdentity
+     * @param {string} loginIdentityId The login identity id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getLoginIdentityHistory: async (
+      loginIdentityId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'loginIdentityId' is not null or undefined
+      assertParamExists('getLoginIdentityHistory', 'loginIdentityId', loginIdentityId);
+      const localVarPath = `/login_identity/{loginIdentityId}/history`.replace(
+        `{${'loginIdentityId'}}`,
+        encodeURIComponent(String(loginIdentityId)),
+      );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -17100,28 +11783,6 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
-     * generate a link token that can be used to create link
-     * @param {LinkTokenRequest} linkTokenRequest token request
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async generateLinkToken(
-      linkTokenRequest: LinkTokenRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LinkTokenResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.generateLinkToken(linkTokenRequest, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['LoginIdentityApi.generateLinkToken']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
      * Get a specific account\'s information
      * @param {string} accountId The account id
      * @param {*} [options] Override http request option.
@@ -17263,6 +11924,50 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap['LoginIdentityApi.getLoginIdentity']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Get a specific loginIdentity
+     * @param {string} loginIdentityId The login identity id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getLoginIdentityById(
+      loginIdentityId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetLoginIdentityByIdResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getLoginIdentityById(loginIdentityId, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LoginIdentityApi.getLoginIdentityById']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Get a history of events for a specific loginIdentity
+     * @param {string} loginIdentityId The login identity id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getLoginIdentityHistory(
+      loginIdentityId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetLoginIdentityHistoryResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getLoginIdentityHistory(loginIdentityId, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['LoginIdentityApi.getLoginIdentityHistory']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -17465,18 +12170,6 @@ export const LoginIdentityApiFactory = function (
       return localVarFp.deleteLoginIdentity(options).then((request) => request(axios, basePath));
     },
     /**
-     * generate a link token that can be used to create link
-     * @param {LinkTokenRequest} linkTokenRequest token request
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    generateLinkToken(
-      linkTokenRequest: LinkTokenRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<LinkTokenResponse> {
-      return localVarFp.generateLinkToken(linkTokenRequest, options).then((request) => request(axios, basePath));
-    },
-    /**
      * Get a specific account\'s information
      * @param {string} accountId The account id
      * @param {*} [options] Override http request option.
@@ -17540,6 +12233,30 @@ export const LoginIdentityApiFactory = function (
      */
     getLoginIdentity(options?: RawAxiosRequestConfig): AxiosPromise<GetLoginIdentityByIdResponse> {
       return localVarFp.getLoginIdentity(options).then((request) => request(axios, basePath));
+    },
+    /**
+     * Get a specific loginIdentity
+     * @param {string} loginIdentityId The login identity id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getLoginIdentityById(
+      loginIdentityId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<GetLoginIdentityByIdResponse> {
+      return localVarFp.getLoginIdentityById(loginIdentityId, options).then((request) => request(axios, basePath));
+    },
+    /**
+     * Get a history of events for a specific loginIdentity
+     * @param {string} loginIdentityId The login identity id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getLoginIdentityHistory(
+      loginIdentityId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<GetLoginIdentityHistoryResponse> {
+      return localVarFp.getLoginIdentityHistory(loginIdentityId, options).then((request) => request(axios, basePath));
     },
     /**
      * Download statement
@@ -17649,18 +12366,6 @@ export interface LoginIdentityApiInterface {
   deleteLoginIdentity(options?: RawAxiosRequestConfig): AxiosPromise<DeleteLoginIdentityResponse>;
 
   /**
-   * generate a link token that can be used to create link
-   * @param {LinkTokenRequest} linkTokenRequest token request
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
-   */
-  generateLinkToken(
-    linkTokenRequest: LinkTokenRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<LinkTokenResponse>;
-
-  /**
    * Get a specific account\'s information
    * @param {string} accountId The account id
    * @param {*} [options] Override http request option.
@@ -17724,6 +12429,30 @@ export interface LoginIdentityApiInterface {
    * @memberof LoginIdentityApiInterface
    */
   getLoginIdentity(options?: RawAxiosRequestConfig): AxiosPromise<GetLoginIdentityByIdResponse>;
+
+  /**
+   * Get a specific loginIdentity
+   * @param {string} loginIdentityId The login identity id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LoginIdentityApiInterface
+   */
+  getLoginIdentityById(
+    loginIdentityId: string,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<GetLoginIdentityByIdResponse>;
+
+  /**
+   * Get a history of events for a specific loginIdentity
+   * @param {string} loginIdentityId The login identity id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LoginIdentityApiInterface
+   */
+  getLoginIdentityHistory(
+    loginIdentityId: string,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<GetLoginIdentityHistoryResponse>;
 
   /**
    * Download statement
@@ -17830,19 +12559,6 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
   }
 
   /**
-   * generate a link token that can be used to create link
-   * @param {LinkTokenRequest} linkTokenRequest token request
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof LoginIdentityApi
-   */
-  public generateLinkToken(linkTokenRequest: LinkTokenRequest, options?: RawAxiosRequestConfig) {
-    return LoginIdentityApiFp(this.configuration)
-      .generateLinkToken(linkTokenRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
    * Get a specific account\'s information
    * @param {string} accountId The account id
    * @param {*} [options] Override http request option.
@@ -17928,6 +12644,32 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
   public getLoginIdentity(options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
       .getLoginIdentity(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get a specific loginIdentity
+   * @param {string} loginIdentityId The login identity id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LoginIdentityApi
+   */
+  public getLoginIdentityById(loginIdentityId: string, options?: RawAxiosRequestConfig) {
+    return LoginIdentityApiFp(this.configuration)
+      .getLoginIdentityById(loginIdentityId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get a history of events for a specific loginIdentity
+   * @param {string} loginIdentityId The login identity id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LoginIdentityApi
+   */
+  public getLoginIdentityHistory(loginIdentityId: string, options?: RawAxiosRequestConfig) {
+    return LoginIdentityApiFp(this.configuration)
+      .getLoginIdentityHistory(loginIdentityId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -18046,6 +12788,4620 @@ export const GetBalanceHistorySourceEnum = {
 } as const;
 export type GetBalanceHistorySourceEnum =
   (typeof GetBalanceHistorySourceEnum)[keyof typeof GetBalanceHistorySourceEnum];
+
+/**
+ * PaymentApi - axios parameter creator
+ * @export
+ */
+export const PaymentApiAxiosParamCreator = function (configuration?: Configuration) {
+  return {
+    /**
+     * Allows a customer to authorize a specific mandate
+     * @param {string} mandateId The mandate_id that is being authorized
+     * @param {AuthorizeMandateRequest} authorizeMandateRequest request body for authorizing a mandate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authorizeMandate: async (
+      mandateId: string,
+      authorizeMandateRequest: AuthorizeMandateRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'mandateId' is not null or undefined
+      assertParamExists('authorizeMandate', 'mandateId', mandateId);
+      // verify required parameter 'authorizeMandateRequest' is not null or undefined
+      assertParamExists('authorizeMandate', 'authorizeMandateRequest', authorizeMandateRequest);
+      const localVarPath = `/mandates/{mandateId}/authorize`.replace(
+        `{${'mandateId'}}`,
+        encodeURIComponent(String(mandateId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        authorizeMandateRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Cancel a payment link
+     * @param {string} paymentLinkId The payment link id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    cancelPaymentLink: async (paymentLinkId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'paymentLinkId' is not null or undefined
+      assertParamExists('cancelPaymentLink', 'paymentLinkId', paymentLinkId);
+      const localVarPath = `/payment_links/{paymentLinkId}/cancel`.replace(
+        `{${'paymentLinkId'}}`,
+        encodeURIComponent(String(paymentLinkId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Cancel Payout by payout_id
+     * @param {string} payoutId payout id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    cancelPayout: async (payoutId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'payoutId' is not null or undefined
+      assertParamExists('cancelPayout', 'payoutId', payoutId);
+      const localVarPath = `/payouts/{payoutId}/cancel`.replace(
+        `{${'payoutId'}}`,
+        encodeURIComponent(String(payoutId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Complete a KCP payment
+     * @param {CompleteKcpPaymentRequest} completeKcpPaymentRequest Parameters from the KCP SDK callback to complete the payment
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    completeKcpPayment: async (
+      completeKcpPaymentRequest: CompleteKcpPaymentRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'completeKcpPaymentRequest' is not null or undefined
+      assertParamExists('completeKcpPayment', 'completeKcpPaymentRequest', completeKcpPaymentRequest);
+      const localVarPath = `/payment_links/kcp/payment`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        completeKcpPaymentRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * CREATE Mandate
+     * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createMandate: async (
+      createMandateRequest: CreateMandateRequest,
+      idempotencyKey?: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'createMandateRequest' is not null or undefined
+      assertParamExists('createMandate', 'createMandateRequest', createMandateRequest);
+      const localVarPath = `/mandates`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      if (idempotencyKey != null) {
+        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
+      }
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(createMandateRequest, localVarRequestOptions, configuration);
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Create mandate for an existing sender account
+     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createMandateForExistingSender: async (
+      idempotencyKey: string,
+      createMandateRequest: CreateMandateWithSenderAccountRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'idempotencyKey' is not null or undefined
+      assertParamExists('createMandateForExistingSender', 'idempotencyKey', idempotencyKey);
+      // verify required parameter 'createMandateRequest' is not null or undefined
+      assertParamExists('createMandateForExistingSender', 'createMandateRequest', createMandateRequest);
+      const localVarPath = `/mandates/sender_account`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      if (idempotencyKey != null) {
+        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
+      }
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(createMandateRequest, localVarRequestOptions, configuration);
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Create new Payment
+     * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPayment: async (
+      createPaymentRequest: CreatePaymentRequest,
+      idempotencyKey?: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'createPaymentRequest' is not null or undefined
+      assertParamExists('createPayment', 'createPaymentRequest', createPaymentRequest);
+      const localVarPath = `/payments`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      if (idempotencyKey != null) {
+        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
+      }
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(createPaymentRequest, localVarRequestOptions, configuration);
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * create payment account
+     * @param {CreatePaymentAccountRequest} createPaymentAccountRequest request body for creating payment account
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentAccount: async (
+      createPaymentAccountRequest: CreatePaymentAccountRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'createPaymentAccountRequest' is not null or undefined
+      assertParamExists('createPaymentAccount', 'createPaymentAccountRequest', createPaymentAccountRequest);
+      const localVarPath = `/payment_accounts`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        createPaymentAccountRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Create payment link
+     * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentLink: async (
+      createPaymentLinkRequest: CreatePaymentLinkRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'createPaymentLinkRequest' is not null or undefined
+      assertParamExists('createPaymentLink', 'createPaymentLinkRequest', createPaymentLinkRequest);
+      const localVarPath = `/payment_links`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        createPaymentLinkRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Create a Payment Method for a user
+     * @param {string} paymentUserId Payment User ID
+     * @param {CreatePaymentMethodRequest} createPaymentMethodRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentMethod: async (
+      paymentUserId: string,
+      createPaymentMethodRequest: CreatePaymentMethodRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'paymentUserId' is not null or undefined
+      assertParamExists('createPaymentMethod', 'paymentUserId', paymentUserId);
+      // verify required parameter 'createPaymentMethodRequest' is not null or undefined
+      assertParamExists('createPaymentMethod', 'createPaymentMethodRequest', createPaymentMethodRequest);
+      const localVarPath = `/payment_users/{paymentUserId}/payment_methods`.replace(
+        `{${'paymentUserId'}}`,
+        encodeURIComponent(String(paymentUserId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        createPaymentMethodRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Create a payment user
+     * @param {CreatePaymentUserRequest} createPaymentUserRequest request body for creating payment user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentUser: async (
+      createPaymentUserRequest: CreatePaymentUserRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'createPaymentUserRequest' is not null or undefined
+      assertParamExists('createPaymentUser', 'createPaymentUserRequest', createPaymentUserRequest);
+      const localVarPath = `/payment_users`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        createPaymentUserRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Create a scheduled payout
+     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createScheduledPayout: async (
+      idempotencyKey: string,
+      createScheduledPayoutRequest: CreateScheduledPayoutRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'idempotencyKey' is not null or undefined
+      assertParamExists('createScheduledPayout', 'idempotencyKey', idempotencyKey);
+      // verify required parameter 'createScheduledPayoutRequest' is not null or undefined
+      assertParamExists('createScheduledPayout', 'createScheduledPayoutRequest', createScheduledPayoutRequest);
+      const localVarPath = `/payouts/scheduled`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      if (idempotencyKey != null) {
+        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
+      }
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        createScheduledPayoutRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * delete payment account
+     * @param {string} paymentAccountId The payment account id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deletePaymentAccount: async (
+      paymentAccountId: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'paymentAccountId' is not null or undefined
+      assertParamExists('deletePaymentAccount', 'paymentAccountId', paymentAccountId);
+      const localVarPath = `/payment_accounts/{paymentAccountId}`.replace(
+        `{${'paymentAccountId'}}`,
+        encodeURIComponent(String(paymentAccountId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Download the balance statement for the ledger (CSV)
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<string>} [currencies] The currencies to filter for
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    downloadBalanceStatement: async (
+      dateFrom?: string,
+      dateTo?: string,
+      currencies?: Array<string>,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/ledger/statement`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (dateFrom !== undefined) {
+        localVarQueryParameter['date_from'] =
+          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substring(0, 10) : dateFrom;
+      }
+
+      if (dateTo !== undefined) {
+        localVarQueryParameter['date_to'] =
+          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substring(0, 10) : dateTo;
+      }
+
+      if (currencies) {
+        localVarQueryParameter['currencies'] = currencies.join(COLLECTION_FORMATS.csv);
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Get Mandate details by mandate_id
+     * @param {string} mandateId mandate id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getMandate: async (mandateId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'mandateId' is not null or undefined
+      assertParamExists('getMandate', 'mandateId', mandateId);
+      const localVarPath = `/mandates/{mandateId}`.replace(`{${'mandateId'}}`, encodeURIComponent(String(mandateId)));
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Get Mandate Authorization by mandate id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getMandateAuth: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/mandates/auth`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Get link to launch FV Link UI in mandate authorization mode
+     * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getMandateAuthLink: async (
+      getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'getMandateAuthLinkRequest' is not null or undefined
+      assertParamExists('getMandateAuthLink', 'getMandateAuthLinkRequest', getMandateAuthLinkRequest);
+      const localVarPath = `/mandates/link`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        getMandateAuthLinkRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Get Payment details by payment_id
+     * @param {string} paymentId payment id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPayment: async (paymentId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'paymentId' is not null or undefined
+      assertParamExists('getPayment', 'paymentId', paymentId);
+      const localVarPath = `/payments/{paymentId}`.replace(`{${'paymentId'}}`, encodeURIComponent(String(paymentId)));
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Get payment link
+     * @param {string} paymentLinkId The payment link id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPaymentLink: async (paymentLinkId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'paymentLinkId' is not null or undefined
+      assertParamExists('getPaymentLink', 'paymentLinkId', paymentLinkId);
+      const localVarPath = `/payment_links/{paymentLinkId}`.replace(
+        `{${'paymentLinkId'}}`,
+        encodeURIComponent(String(paymentLinkId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Get a payment method
+     * @param {string} paymentMethodId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPaymentMethod: async (paymentMethodId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'paymentMethodId' is not null or undefined
+      assertParamExists('getPaymentMethod', 'paymentMethodId', paymentMethodId);
+      const localVarPath = `/payment_methods/{paymentMethodId}`.replace(
+        `{${'paymentMethodId'}}`,
+        encodeURIComponent(String(paymentMethodId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Get a payment user
+     * @param {string} paymentUserId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPaymentUser: async (paymentUserId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'paymentUserId' is not null or undefined
+      assertParamExists('getPaymentUser', 'paymentUserId', paymentUserId);
+      const localVarPath = `/payment_users/{paymentUserId}`.replace(
+        `{${'paymentUserId'}}`,
+        encodeURIComponent(String(paymentUserId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Get payout by payout_id
+     * @param {string} payoutId payout id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPayoutById: async (payoutId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'payoutId' is not null or undefined
+      assertParamExists('getPayoutById', 'payoutId', payoutId);
+      const localVarPath = `/payouts/{payoutId}`.replace(`{${'payoutId'}}`, encodeURIComponent(String(payoutId)));
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * List mandates details
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListDetokenizedMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
+     * @param {ListDetokenizedMandatesSenderTypeEnum} [senderType] The sender type of the mandate
+     * @param {string} [userId] The user_id the mandate was setup for
+     * @param {string} [institutionId] The institution the mandate was executed against
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listDetokenizedMandates: async (
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListDetokenizedMandatesStatusesEnum>,
+      senderType?: ListDetokenizedMandatesSenderTypeEnum,
+      userId?: string,
+      institutionId?: string,
+      offset?: number,
+      limit?: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/mandates/details`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (dateFrom !== undefined) {
+        localVarQueryParameter['date_from'] =
+          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substring(0, 10) : dateFrom;
+      }
+
+      if (dateTo !== undefined) {
+        localVarQueryParameter['date_to'] =
+          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substring(0, 10) : dateTo;
+      }
+
+      if (statuses) {
+        localVarQueryParameter['statuses'] = statuses.join(COLLECTION_FORMATS.csv);
+      }
+
+      if (senderType !== undefined) {
+        localVarQueryParameter['sender_type'] = senderType;
+      }
+
+      if (userId !== undefined) {
+        localVarQueryParameter['user_id'] = userId;
+      }
+
+      if (institutionId !== undefined) {
+        localVarQueryParameter['institution_id'] = institutionId;
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter['offset'] = offset;
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter['limit'] = limit;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * List Disputes
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListDisputesStatusesEnum>} [statuses] The dispute statuses to filter for, comma separated
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listDisputes: async (
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListDisputesStatusesEnum>,
+      offset?: number,
+      limit?: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/disputes`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (dateFrom !== undefined) {
+        localVarQueryParameter['date_from'] =
+          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substring(0, 10) : dateFrom;
+      }
+
+      if (dateTo !== undefined) {
+        localVarQueryParameter['date_to'] =
+          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substring(0, 10) : dateTo;
+      }
+
+      if (statuses) {
+        localVarQueryParameter['statuses'] = statuses.join(COLLECTION_FORMATS.csv);
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter['offset'] = offset;
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter['limit'] = limit;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * List mandates
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
+     * @param {ListMandatesSenderTypeEnum} [senderType] The sender type of the mandate
+     * @param {string} [userId] The user_id the mandate was setup for
+     * @param {string} [institutionId] The institution the mandate was executed against
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listMandates: async (
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListMandatesStatusesEnum>,
+      senderType?: ListMandatesSenderTypeEnum,
+      userId?: string,
+      institutionId?: string,
+      offset?: number,
+      limit?: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/mandates`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (dateFrom !== undefined) {
+        localVarQueryParameter['date_from'] =
+          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substring(0, 10) : dateFrom;
+      }
+
+      if (dateTo !== undefined) {
+        localVarQueryParameter['date_to'] =
+          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substring(0, 10) : dateTo;
+      }
+
+      if (statuses) {
+        localVarQueryParameter['statuses'] = statuses.join(COLLECTION_FORMATS.csv);
+      }
+
+      if (senderType !== undefined) {
+        localVarQueryParameter['sender_type'] = senderType;
+      }
+
+      if (userId !== undefined) {
+        localVarQueryParameter['user_id'] = userId;
+      }
+
+      if (institutionId !== undefined) {
+        localVarQueryParameter['institution_id'] = institutionId;
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter['offset'] = offset;
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter['limit'] = limit;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Get payment account by user id
+     * @param {string} paymentUserId The payment user id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPaymentAccounts: async (paymentUserId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'paymentUserId' is not null or undefined
+      assertParamExists('listPaymentAccounts', 'paymentUserId', paymentUserId);
+      const localVarPath = `/payment_users/{paymentUserId}/payment_accounts`.replace(
+        `{${'paymentUserId'}}`,
+        encodeURIComponent(String(paymentUserId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Get payment account for customer app
+     * @param {ListPaymentAccountsWithEnrichedDataAccountTypeEnum} [accountType] The account_type to filter for
+     * @param {Array<string>} [currencies] The currencies to filter for
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPaymentAccountsWithEnrichedData: async (
+      accountType?: ListPaymentAccountsWithEnrichedDataAccountTypeEnum,
+      currencies?: Array<string>,
+      offset?: number,
+      limit?: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/payment_accounts`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (accountType !== undefined) {
+        localVarQueryParameter['account_type'] = accountType;
+      }
+
+      if (currencies) {
+        localVarQueryParameter['currencies'] = currencies.join(COLLECTION_FORMATS.csv);
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter['offset'] = offset;
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter['limit'] = limit;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * List Payment Methods for a User
+     * @param {string} paymentUserId Payment User Id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPaymentMethods: async (paymentUserId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'paymentUserId' is not null or undefined
+      assertParamExists('listPaymentMethods', 'paymentUserId', paymentUserId);
+      const localVarPath = `/payment_users/{paymentUserId}/payment_methods`.replace(
+        `{${'paymentUserId'}}`,
+        encodeURIComponent(String(paymentUserId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * List Payments
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListPaymentsStatusesEnum>} [statuses] The payment statuses to filter for, comma separated
+     * @param {ListPaymentsSenderTypeEnum} [senderType] The sender type of the mandate
+     * @param {string} [userId] The user_id the mandate was setup for
+     * @param {string} [institutionId] The institution the mandate was executed against
+     * @param {ListPaymentsPaymentTypeEnum} [paymentType] Deprecated - The type of payment
+     * @param {Array<ListPaymentsPaymentTypesEnum>} [paymentTypes]
+     * @param {string} [mandateId] The mandate the payment belongs to
+     * @param {string} [currency] Deprecated - The currency the payment is made in
+     * @param {Array<string>} [currencies]
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPayments: async (
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListPaymentsStatusesEnum>,
+      senderType?: ListPaymentsSenderTypeEnum,
+      userId?: string,
+      institutionId?: string,
+      paymentType?: ListPaymentsPaymentTypeEnum,
+      paymentTypes?: Array<ListPaymentsPaymentTypesEnum>,
+      mandateId?: string,
+      currency?: string,
+      currencies?: Array<string>,
+      offset?: number,
+      limit?: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/payments`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (dateFrom !== undefined) {
+        localVarQueryParameter['date_from'] =
+          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substring(0, 10) : dateFrom;
+      }
+
+      if (dateTo !== undefined) {
+        localVarQueryParameter['date_to'] =
+          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substring(0, 10) : dateTo;
+      }
+
+      if (statuses) {
+        localVarQueryParameter['statuses'] = statuses.join(COLLECTION_FORMATS.csv);
+      }
+
+      if (senderType !== undefined) {
+        localVarQueryParameter['sender_type'] = senderType;
+      }
+
+      if (userId !== undefined) {
+        localVarQueryParameter['user_id'] = userId;
+      }
+
+      if (institutionId !== undefined) {
+        localVarQueryParameter['institution_id'] = institutionId;
+      }
+
+      if (paymentType !== undefined) {
+        localVarQueryParameter['payment_type'] = paymentType;
+      }
+
+      if (paymentTypes) {
+        localVarQueryParameter['payment_types'] = paymentTypes.join(COLLECTION_FORMATS.csv);
+      }
+
+      if (mandateId !== undefined) {
+        localVarQueryParameter['mandate_id'] = mandateId;
+      }
+
+      if (currency !== undefined) {
+        localVarQueryParameter['currency'] = currency;
+      }
+
+      if (currencies) {
+        localVarQueryParameter['currencies'] = currencies.join(COLLECTION_FORMATS.csv);
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter['offset'] = offset;
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter['limit'] = limit;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * List payouts
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListPayoutsStatusesEnum>} [statuses] The payout statuses to filter for, comma separated
+     * @param {Array<string>} [currencies]
+     * @param {Array<ListPayoutsPayoutTypesEnum>} [payoutTypes]
+     * @param {string} [mandateId]
+     * @param {string} [senderAccountId]
+     * @param {string} [recipientAccountId]
+     * @param {string} [recipientUserId]
+     * @param {string} [recipientExternalUserId]
+     * @param {number} [offset] Default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPayouts: async (
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListPayoutsStatusesEnum>,
+      currencies?: Array<string>,
+      payoutTypes?: Array<ListPayoutsPayoutTypesEnum>,
+      mandateId?: string,
+      senderAccountId?: string,
+      recipientAccountId?: string,
+      recipientUserId?: string,
+      recipientExternalUserId?: string,
+      offset?: number,
+      limit?: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/payouts`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (dateFrom !== undefined) {
+        localVarQueryParameter['date_from'] =
+          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substring(0, 10) : dateFrom;
+      }
+
+      if (dateTo !== undefined) {
+        localVarQueryParameter['date_to'] =
+          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substring(0, 10) : dateTo;
+      }
+
+      if (statuses) {
+        localVarQueryParameter['statuses'] = statuses.join(COLLECTION_FORMATS.csv);
+      }
+
+      if (currencies) {
+        localVarQueryParameter['currencies'] = currencies.join(COLLECTION_FORMATS.csv);
+      }
+
+      if (payoutTypes) {
+        localVarQueryParameter['payout_types'] = payoutTypes.join(COLLECTION_FORMATS.csv);
+      }
+
+      if (mandateId !== undefined) {
+        localVarQueryParameter['mandate_id'] = mandateId;
+      }
+
+      if (senderAccountId !== undefined) {
+        localVarQueryParameter['sender_account_id'] = senderAccountId;
+      }
+
+      if (recipientAccountId !== undefined) {
+        localVarQueryParameter['recipient_account_id'] = recipientAccountId;
+      }
+
+      if (recipientUserId !== undefined) {
+        localVarQueryParameter['recipient_user_id'] = recipientUserId;
+      }
+
+      if (recipientExternalUserId !== undefined) {
+        localVarQueryParameter['recipient_external_user_id'] = recipientExternalUserId;
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter['offset'] = offset;
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter['limit'] = limit;
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Update InstitutionID and SenderType for Mandate
+     * @param {SetMandateInstitutionRequest} updateRequest request body for updating mandate institutionId and senderType
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    setMandateInstitution: async (
+      updateRequest: SetMandateInstitutionRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'updateRequest' is not null or undefined
+      assertParamExists('setMandateInstitution', 'updateRequest', updateRequest);
+      const localVarPath = `/mandates/institution_selection`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(updateRequest, localVarRequestOptions, configuration);
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Submit authorization checklist items
+     * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    submitAuthChecklist: async (
+      submitAuthChecklistRequest: SubmitAuthChecklistRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'submitAuthChecklistRequest' is not null or undefined
+      assertParamExists('submitAuthChecklist', 'submitAuthChecklistRequest', submitAuthChecklistRequest);
+      const localVarPath = `/mandates/auth`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        submitAuthChecklistRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Update payment
+     * @param {string} paymentId payment id
+     * @param {UpdatePaymentRequest} updatePaymentRequest request body for updating payment
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updatePayment: async (
+      paymentId: string,
+      updatePaymentRequest: UpdatePaymentRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'paymentId' is not null or undefined
+      assertParamExists('updatePayment', 'paymentId', paymentId);
+      // verify required parameter 'updatePaymentRequest' is not null or undefined
+      assertParamExists('updatePayment', 'updatePaymentRequest', updatePaymentRequest);
+      const localVarPath = `/payments/{paymentId}`.replace(`{${'paymentId'}}`, encodeURIComponent(String(paymentId)));
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(updatePaymentRequest, localVarRequestOptions, configuration);
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Update a payment user
+     * @param {string} paymentUserId
+     * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updatePaymentUser: async (
+      paymentUserId: string,
+      updatePaymentUserRequest: UpdatePaymentUserRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'paymentUserId' is not null or undefined
+      assertParamExists('updatePaymentUser', 'paymentUserId', paymentUserId);
+      // verify required parameter 'updatePaymentUserRequest' is not null or undefined
+      assertParamExists('updatePaymentUser', 'updatePaymentUserRequest', updatePaymentUserRequest);
+      const localVarPath = `/payment_users/{paymentUserId}`.replace(
+        `{${'paymentUserId'}}`,
+        encodeURIComponent(String(paymentUserId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        updatePaymentUserRequest,
+        localVarRequestOptions,
+        configuration,
+      );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * [DEPRECATED] Update the status of a test manual payment
+     * @param {string} paymentId The test payment ID
+     * @param {UpdateTestPaymentStatusRequest} paymentStatus Request body for updating the test manual payment status
+     * @param {*} [options] Override http request option.
+     * @deprecated
+     * @throws {RequiredError}
+     */
+    updateTestPaymentStatus: async (
+      paymentId: string,
+      paymentStatus: UpdateTestPaymentStatusRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'paymentId' is not null or undefined
+      assertParamExists('updateTestPaymentStatus', 'paymentId', paymentId);
+      // verify required parameter 'paymentStatus' is not null or undefined
+      assertParamExists('updateTestPaymentStatus', 'paymentStatus', paymentStatus);
+      const localVarPath = `/testing/payments/{paymentId}/status`.replace(
+        `{${'paymentId'}}`,
+        encodeURIComponent(String(paymentId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(paymentStatus, localVarRequestOptions, configuration);
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+  };
+};
+
+/**
+ * PaymentApi - functional programming interface
+ * @export
+ */
+export const PaymentApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = PaymentApiAxiosParamCreator(configuration);
+  return {
+    /**
+     * Allows a customer to authorize a specific mandate
+     * @param {string} mandateId The mandate_id that is being authorized
+     * @param {AuthorizeMandateRequest} authorizeMandateRequest request body for authorizing a mandate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async authorizeMandate(
+      mandateId: string,
+      authorizeMandateRequest: AuthorizeMandateRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.authorizeMandate(
+        mandateId,
+        authorizeMandateRequest,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.authorizeMandate']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Cancel a payment link
+     * @param {string} paymentLinkId The payment link id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async cancelPaymentLink(
+      paymentLinkId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentLinkResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.cancelPaymentLink(paymentLinkId, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.cancelPaymentLink']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Cancel Payout by payout_id
+     * @param {string} payoutId payout id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async cancelPayout(
+      payoutId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutSnapshotResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.cancelPayout(payoutId, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.cancelPayout']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Complete a KCP payment
+     * @param {CompleteKcpPaymentRequest} completeKcpPaymentRequest Parameters from the KCP SDK callback to complete the payment
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async completeKcpPayment(
+      completeKcpPaymentRequest: CompleteKcpPaymentRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CompleteKcpPaymentResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.completeKcpPayment(completeKcpPaymentRequest, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.completeKcpPayment']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * CREATE Mandate
+     * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createMandate(
+      createMandateRequest: CreateMandateRequest,
+      idempotencyKey?: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateMandateResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createMandate(
+        createMandateRequest,
+        idempotencyKey,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.createMandate']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Create mandate for an existing sender account
+     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createMandateForExistingSender(
+      idempotencyKey: string,
+      createMandateRequest: CreateMandateWithSenderAccountRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreateMandateResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createMandateForExistingSender(
+        idempotencyKey,
+        createMandateRequest,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.createMandateForExistingSender']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Create new Payment
+     * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createPayment(
+      createPaymentRequest: CreatePaymentRequest,
+      idempotencyKey?: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createPayment(
+        createPaymentRequest,
+        idempotencyKey,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.createPayment']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * create payment account
+     * @param {CreatePaymentAccountRequest} createPaymentAccountRequest request body for creating payment account
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createPaymentAccount(
+      createPaymentAccountRequest: CreatePaymentAccountRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentAccountDetails>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentAccount(
+        createPaymentAccountRequest,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.createPaymentAccount']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Create payment link
+     * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createPaymentLink(
+      createPaymentLinkRequest: CreatePaymentLinkRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentLinkResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentLink(createPaymentLinkRequest, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.createPaymentLink']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Create a Payment Method for a user
+     * @param {string} paymentUserId Payment User ID
+     * @param {CreatePaymentMethodRequest} createPaymentMethodRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createPaymentMethod(
+      paymentUserId: string,
+      createPaymentMethodRequest: CreatePaymentMethodRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentMethodResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentMethod(
+        paymentUserId,
+        createPaymentMethodRequest,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.createPaymentMethod']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Create a payment user
+     * @param {CreatePaymentUserRequest} createPaymentUserRequest request body for creating payment user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createPaymentUser(
+      createPaymentUserRequest: CreatePaymentUserRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentUser>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentUser(createPaymentUserRequest, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.createPaymentUser']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Create a scheduled payout
+     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createScheduledPayout(
+      idempotencyKey: string,
+      createScheduledPayoutRequest: CreateScheduledPayoutRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutSnapshotResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createScheduledPayout(
+        idempotencyKey,
+        createScheduledPayoutRequest,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.createScheduledPayout']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * delete payment account
+     * @param {string} paymentAccountId The payment account id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async deletePaymentAccount(
+      paymentAccountId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.deletePaymentAccount(paymentAccountId, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.deletePaymentAccount']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Download the balance statement for the ledger (CSV)
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<string>} [currencies] The currencies to filter for
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async downloadBalanceStatement(
+      dateFrom?: string,
+      dateTo?: string,
+      currencies?: Array<string>,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DownloadBalanceStatementResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.downloadBalanceStatement(
+        dateFrom,
+        dateTo,
+        currencies,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.downloadBalanceStatement']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Get Mandate details by mandate_id
+     * @param {string} mandateId mandate id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMandate(
+      mandateId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getMandate(mandateId, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.getMandate']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Get Mandate Authorization by mandate id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMandateAuth(
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateAuthResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getMandateAuth(options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.getMandateAuth']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Get link to launch FV Link UI in mandate authorization mode
+     * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getMandateAuthLink(
+      getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetMandateAuthLinkResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getMandateAuthLink(getMandateAuthLinkRequest, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.getMandateAuthLink']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Get Payment details by payment_id
+     * @param {string} paymentId payment id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getPayment(
+      paymentId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getPayment(paymentId, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.getPayment']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Get payment link
+     * @param {string} paymentLinkId The payment link id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getPaymentLink(
+      paymentLinkId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentLinkResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentLink(paymentLinkId, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.getPaymentLink']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Get a payment method
+     * @param {string} paymentMethodId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getPaymentMethod(
+      paymentMethodId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentMethodResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentMethod(paymentMethodId, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.getPaymentMethod']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Get a payment user
+     * @param {string} paymentUserId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getPaymentUser(
+      paymentUserId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentUser>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentUser(paymentUserId, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.getPaymentUser']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Get payout by payout_id
+     * @param {string} payoutId payout id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getPayoutById(
+      payoutId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutSnapshotResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getPayoutById(payoutId, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.getPayoutById']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * List mandates details
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListDetokenizedMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
+     * @param {ListDetokenizedMandatesSenderTypeEnum} [senderType] The sender type of the mandate
+     * @param {string} [userId] The user_id the mandate was setup for
+     * @param {string} [institutionId] The institution the mandate was executed against
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listDetokenizedMandates(
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListDetokenizedMandatesStatusesEnum>,
+      senderType?: ListDetokenizedMandatesSenderTypeEnum,
+      userId?: string,
+      institutionId?: string,
+      offset?: number,
+      limit?: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListMandatesResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listDetokenizedMandates(
+        dateFrom,
+        dateTo,
+        statuses,
+        senderType,
+        userId,
+        institutionId,
+        offset,
+        limit,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.listDetokenizedMandates']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * List Disputes
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListDisputesStatusesEnum>} [statuses] The dispute statuses to filter for, comma separated
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listDisputes(
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListDisputesStatusesEnum>,
+      offset?: number,
+      limit?: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListDisputesResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listDisputes(
+        dateFrom,
+        dateTo,
+        statuses,
+        offset,
+        limit,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.listDisputes']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * List mandates
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
+     * @param {ListMandatesSenderTypeEnum} [senderType] The sender type of the mandate
+     * @param {string} [userId] The user_id the mandate was setup for
+     * @param {string} [institutionId] The institution the mandate was executed against
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listMandates(
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListMandatesStatusesEnum>,
+      senderType?: ListMandatesSenderTypeEnum,
+      userId?: string,
+      institutionId?: string,
+      offset?: number,
+      limit?: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListMandatesResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listMandates(
+        dateFrom,
+        dateTo,
+        statuses,
+        senderType,
+        userId,
+        institutionId,
+        offset,
+        limit,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.listMandates']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Get payment account by user id
+     * @param {string} paymentUserId The payment user id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listPaymentAccounts(
+      paymentUserId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPaymentAccountsResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listPaymentAccounts(paymentUserId, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.listPaymentAccounts']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Get payment account for customer app
+     * @param {ListPaymentAccountsWithEnrichedDataAccountTypeEnum} [accountType] The account_type to filter for
+     * @param {Array<string>} [currencies] The currencies to filter for
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listPaymentAccountsWithEnrichedData(
+      accountType?: ListPaymentAccountsWithEnrichedDataAccountTypeEnum,
+      currencies?: Array<string>,
+      offset?: number,
+      limit?: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPaymentAccountsWithEnrichedDataResponse>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listPaymentAccountsWithEnrichedData(
+        accountType,
+        currencies,
+        offset,
+        limit,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.listPaymentAccountsWithEnrichedData']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * List Payment Methods for a User
+     * @param {string} paymentUserId Payment User Id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listPaymentMethods(
+      paymentUserId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPaymentMethodsResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listPaymentMethods(paymentUserId, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.listPaymentMethods']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * List Payments
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListPaymentsStatusesEnum>} [statuses] The payment statuses to filter for, comma separated
+     * @param {ListPaymentsSenderTypeEnum} [senderType] The sender type of the mandate
+     * @param {string} [userId] The user_id the mandate was setup for
+     * @param {string} [institutionId] The institution the mandate was executed against
+     * @param {ListPaymentsPaymentTypeEnum} [paymentType] Deprecated - The type of payment
+     * @param {Array<ListPaymentsPaymentTypesEnum>} [paymentTypes]
+     * @param {string} [mandateId] The mandate the payment belongs to
+     * @param {string} [currency] Deprecated - The currency the payment is made in
+     * @param {Array<string>} [currencies]
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listPayments(
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListPaymentsStatusesEnum>,
+      senderType?: ListPaymentsSenderTypeEnum,
+      userId?: string,
+      institutionId?: string,
+      paymentType?: ListPaymentsPaymentTypeEnum,
+      paymentTypes?: Array<ListPaymentsPaymentTypesEnum>,
+      mandateId?: string,
+      currency?: string,
+      currencies?: Array<string>,
+      offset?: number,
+      limit?: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPaymentsResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listPayments(
+        dateFrom,
+        dateTo,
+        statuses,
+        senderType,
+        userId,
+        institutionId,
+        paymentType,
+        paymentTypes,
+        mandateId,
+        currency,
+        currencies,
+        offset,
+        limit,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.listPayments']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * List payouts
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListPayoutsStatusesEnum>} [statuses] The payout statuses to filter for, comma separated
+     * @param {Array<string>} [currencies]
+     * @param {Array<ListPayoutsPayoutTypesEnum>} [payoutTypes]
+     * @param {string} [mandateId]
+     * @param {string} [senderAccountId]
+     * @param {string} [recipientAccountId]
+     * @param {string} [recipientUserId]
+     * @param {string} [recipientExternalUserId]
+     * @param {number} [offset] Default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listPayouts(
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListPayoutsStatusesEnum>,
+      currencies?: Array<string>,
+      payoutTypes?: Array<ListPayoutsPayoutTypesEnum>,
+      mandateId?: string,
+      senderAccountId?: string,
+      recipientAccountId?: string,
+      recipientUserId?: string,
+      recipientExternalUserId?: string,
+      offset?: number,
+      limit?: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPayoutsResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listPayouts(
+        dateFrom,
+        dateTo,
+        statuses,
+        currencies,
+        payoutTypes,
+        mandateId,
+        senderAccountId,
+        recipientAccountId,
+        recipientUserId,
+        recipientExternalUserId,
+        offset,
+        limit,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.listPayouts']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Update InstitutionID and SenderType for Mandate
+     * @param {SetMandateInstitutionRequest} updateRequest request body for updating mandate institutionId and senderType
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async setMandateInstitution(
+      updateRequest: SetMandateInstitutionRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SetMandateInstitutionResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.setMandateInstitution(updateRequest, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.setMandateInstitution']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Submit authorization checklist items
+     * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async submitAuthChecklist(
+      submitAuthChecklistRequest: SubmitAuthChecklistRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SubmitAuthChecklistResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.submitAuthChecklist(
+        submitAuthChecklistRequest,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.submitAuthChecklist']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Update payment
+     * @param {string} paymentId payment id
+     * @param {UpdatePaymentRequest} updatePaymentRequest request body for updating payment
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updatePayment(
+      paymentId: string,
+      updatePaymentRequest: UpdatePaymentRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.updatePayment(paymentId, updatePaymentRequest, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.updatePayment']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Update a payment user
+     * @param {string} paymentUserId
+     * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updatePaymentUser(
+      paymentUserId: string,
+      updatePaymentUserRequest: UpdatePaymentUserRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentUser>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.updatePaymentUser(
+        paymentUserId,
+        updatePaymentUserRequest,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.updatePaymentUser']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * [DEPRECATED] Update the status of a test manual payment
+     * @param {string} paymentId The test payment ID
+     * @param {UpdateTestPaymentStatusRequest} paymentStatus Request body for updating the test manual payment status
+     * @param {*} [options] Override http request option.
+     * @deprecated
+     * @throws {RequiredError}
+     */
+    async updateTestPaymentStatus(
+      paymentId: string,
+      paymentStatus: UpdateTestPaymentStatusRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.updateTestPaymentStatus(
+        paymentId,
+        paymentStatus,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.updateTestPaymentStatus']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+  };
+};
+
+/**
+ * PaymentApi - factory interface
+ * @export
+ */
+export const PaymentApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+  const localVarFp = PaymentApiFp(configuration);
+  return {
+    /**
+     * Allows a customer to authorize a specific mandate
+     * @param {string} mandateId The mandate_id that is being authorized
+     * @param {AuthorizeMandateRequest} authorizeMandateRequest request body for authorizing a mandate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    authorizeMandate(
+      mandateId: string,
+      authorizeMandateRequest: AuthorizeMandateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<GetMandateResponse> {
+      return localVarFp
+        .authorizeMandate(mandateId, authorizeMandateRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Cancel a payment link
+     * @param {string} paymentLinkId The payment link id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    cancelPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentLinkResponse> {
+      return localVarFp.cancelPaymentLink(paymentLinkId, options).then((request) => request(axios, basePath));
+    },
+    /**
+     * Cancel Payout by payout_id
+     * @param {string} payoutId payout id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    cancelPayout(payoutId: string, options?: RawAxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse> {
+      return localVarFp.cancelPayout(payoutId, options).then((request) => request(axios, basePath));
+    },
+    /**
+     * Complete a KCP payment
+     * @param {CompleteKcpPaymentRequest} completeKcpPaymentRequest Parameters from the KCP SDK callback to complete the payment
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    completeKcpPayment(
+      completeKcpPaymentRequest: CompleteKcpPaymentRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<CompleteKcpPaymentResponse> {
+      return localVarFp
+        .completeKcpPayment(completeKcpPaymentRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * CREATE Mandate
+     * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createMandate(
+      createMandateRequest: CreateMandateRequest,
+      idempotencyKey?: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<CreateMandateResponse> {
+      return localVarFp
+        .createMandate(createMandateRequest, idempotencyKey, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Create mandate for an existing sender account
+     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createMandateForExistingSender(
+      idempotencyKey: string,
+      createMandateRequest: CreateMandateWithSenderAccountRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<CreateMandateResponse> {
+      return localVarFp
+        .createMandateForExistingSender(idempotencyKey, createMandateRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Create new Payment
+     * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
+     * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPayment(
+      createPaymentRequest: CreatePaymentRequest,
+      idempotencyKey?: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PaymentResponse> {
+      return localVarFp
+        .createPayment(createPaymentRequest, idempotencyKey, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * create payment account
+     * @param {CreatePaymentAccountRequest} createPaymentAccountRequest request body for creating payment account
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentAccount(
+      createPaymentAccountRequest: CreatePaymentAccountRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PaymentAccountDetails> {
+      return localVarFp
+        .createPaymentAccount(createPaymentAccountRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Create payment link
+     * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentLink(
+      createPaymentLinkRequest: CreatePaymentLinkRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PaymentLinkResponse> {
+      return localVarFp
+        .createPaymentLink(createPaymentLinkRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Create a Payment Method for a user
+     * @param {string} paymentUserId Payment User ID
+     * @param {CreatePaymentMethodRequest} createPaymentMethodRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentMethod(
+      paymentUserId: string,
+      createPaymentMethodRequest: CreatePaymentMethodRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PaymentMethodResponse> {
+      return localVarFp
+        .createPaymentMethod(paymentUserId, createPaymentMethodRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Create a payment user
+     * @param {CreatePaymentUserRequest} createPaymentUserRequest request body for creating payment user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPaymentUser(
+      createPaymentUserRequest: CreatePaymentUserRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PaymentUser> {
+      return localVarFp
+        .createPaymentUser(createPaymentUserRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Create a scheduled payout
+     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createScheduledPayout(
+      idempotencyKey: string,
+      createScheduledPayoutRequest: CreateScheduledPayoutRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PayoutSnapshotResponse> {
+      return localVarFp
+        .createScheduledPayout(idempotencyKey, createScheduledPayoutRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * delete payment account
+     * @param {string} paymentAccountId The payment account id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    deletePaymentAccount(paymentAccountId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+      return localVarFp.deletePaymentAccount(paymentAccountId, options).then((request) => request(axios, basePath));
+    },
+    /**
+     * Download the balance statement for the ledger (CSV)
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<string>} [currencies] The currencies to filter for
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    downloadBalanceStatement(
+      dateFrom?: string,
+      dateTo?: string,
+      currencies?: Array<string>,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<DownloadBalanceStatementResponse> {
+      return localVarFp
+        .downloadBalanceStatement(dateFrom, dateTo, currencies, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Get Mandate details by mandate_id
+     * @param {string} mandateId mandate id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getMandate(mandateId: string, options?: RawAxiosRequestConfig): AxiosPromise<GetMandateResponse> {
+      return localVarFp.getMandate(mandateId, options).then((request) => request(axios, basePath));
+    },
+    /**
+     * Get Mandate Authorization by mandate id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getMandateAuth(options?: RawAxiosRequestConfig): AxiosPromise<GetMandateAuthResponse> {
+      return localVarFp.getMandateAuth(options).then((request) => request(axios, basePath));
+    },
+    /**
+     * Get link to launch FV Link UI in mandate authorization mode
+     * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getMandateAuthLink(
+      getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<GetMandateAuthLinkResponse> {
+      return localVarFp
+        .getMandateAuthLink(getMandateAuthLinkRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Get Payment details by payment_id
+     * @param {string} paymentId payment id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPayment(paymentId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentResponse> {
+      return localVarFp.getPayment(paymentId, options).then((request) => request(axios, basePath));
+    },
+    /**
+     * Get payment link
+     * @param {string} paymentLinkId The payment link id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentLinkResponse> {
+      return localVarFp.getPaymentLink(paymentLinkId, options).then((request) => request(axios, basePath));
+    },
+    /**
+     * Get a payment method
+     * @param {string} paymentMethodId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPaymentMethod(paymentMethodId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentMethodResponse> {
+      return localVarFp.getPaymentMethod(paymentMethodId, options).then((request) => request(axios, basePath));
+    },
+    /**
+     * Get a payment user
+     * @param {string} paymentUserId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPaymentUser(paymentUserId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentUser> {
+      return localVarFp.getPaymentUser(paymentUserId, options).then((request) => request(axios, basePath));
+    },
+    /**
+     * Get payout by payout_id
+     * @param {string} payoutId payout id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getPayoutById(payoutId: string, options?: RawAxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse> {
+      return localVarFp.getPayoutById(payoutId, options).then((request) => request(axios, basePath));
+    },
+    /**
+     * List mandates details
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListDetokenizedMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
+     * @param {ListDetokenizedMandatesSenderTypeEnum} [senderType] The sender type of the mandate
+     * @param {string} [userId] The user_id the mandate was setup for
+     * @param {string} [institutionId] The institution the mandate was executed against
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listDetokenizedMandates(
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListDetokenizedMandatesStatusesEnum>,
+      senderType?: ListDetokenizedMandatesSenderTypeEnum,
+      userId?: string,
+      institutionId?: string,
+      offset?: number,
+      limit?: number,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ListMandatesResponse> {
+      return localVarFp
+        .listDetokenizedMandates(dateFrom, dateTo, statuses, senderType, userId, institutionId, offset, limit, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * List Disputes
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListDisputesStatusesEnum>} [statuses] The dispute statuses to filter for, comma separated
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listDisputes(
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListDisputesStatusesEnum>,
+      offset?: number,
+      limit?: number,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ListDisputesResponse> {
+      return localVarFp
+        .listDisputes(dateFrom, dateTo, statuses, offset, limit, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * List mandates
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
+     * @param {ListMandatesSenderTypeEnum} [senderType] The sender type of the mandate
+     * @param {string} [userId] The user_id the mandate was setup for
+     * @param {string} [institutionId] The institution the mandate was executed against
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listMandates(
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListMandatesStatusesEnum>,
+      senderType?: ListMandatesSenderTypeEnum,
+      userId?: string,
+      institutionId?: string,
+      offset?: number,
+      limit?: number,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ListMandatesResponse> {
+      return localVarFp
+        .listMandates(dateFrom, dateTo, statuses, senderType, userId, institutionId, offset, limit, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Get payment account by user id
+     * @param {string} paymentUserId The payment user id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPaymentAccounts(
+      paymentUserId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ListPaymentAccountsResponse> {
+      return localVarFp.listPaymentAccounts(paymentUserId, options).then((request) => request(axios, basePath));
+    },
+    /**
+     * Get payment account for customer app
+     * @param {ListPaymentAccountsWithEnrichedDataAccountTypeEnum} [accountType] The account_type to filter for
+     * @param {Array<string>} [currencies] The currencies to filter for
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPaymentAccountsWithEnrichedData(
+      accountType?: ListPaymentAccountsWithEnrichedDataAccountTypeEnum,
+      currencies?: Array<string>,
+      offset?: number,
+      limit?: number,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ListPaymentAccountsWithEnrichedDataResponse> {
+      return localVarFp
+        .listPaymentAccountsWithEnrichedData(accountType, currencies, offset, limit, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * List Payment Methods for a User
+     * @param {string} paymentUserId Payment User Id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPaymentMethods(
+      paymentUserId: string,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ListPaymentMethodsResponse> {
+      return localVarFp.listPaymentMethods(paymentUserId, options).then((request) => request(axios, basePath));
+    },
+    /**
+     * List Payments
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListPaymentsStatusesEnum>} [statuses] The payment statuses to filter for, comma separated
+     * @param {ListPaymentsSenderTypeEnum} [senderType] The sender type of the mandate
+     * @param {string} [userId] The user_id the mandate was setup for
+     * @param {string} [institutionId] The institution the mandate was executed against
+     * @param {ListPaymentsPaymentTypeEnum} [paymentType] Deprecated - The type of payment
+     * @param {Array<ListPaymentsPaymentTypesEnum>} [paymentTypes]
+     * @param {string} [mandateId] The mandate the payment belongs to
+     * @param {string} [currency] Deprecated - The currency the payment is made in
+     * @param {Array<string>} [currencies]
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPayments(
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListPaymentsStatusesEnum>,
+      senderType?: ListPaymentsSenderTypeEnum,
+      userId?: string,
+      institutionId?: string,
+      paymentType?: ListPaymentsPaymentTypeEnum,
+      paymentTypes?: Array<ListPaymentsPaymentTypesEnum>,
+      mandateId?: string,
+      currency?: string,
+      currencies?: Array<string>,
+      offset?: number,
+      limit?: number,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ListPaymentsResponse> {
+      return localVarFp
+        .listPayments(
+          dateFrom,
+          dateTo,
+          statuses,
+          senderType,
+          userId,
+          institutionId,
+          paymentType,
+          paymentTypes,
+          mandateId,
+          currency,
+          currencies,
+          offset,
+          limit,
+          options,
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * List payouts
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListPayoutsStatusesEnum>} [statuses] The payout statuses to filter for, comma separated
+     * @param {Array<string>} [currencies]
+     * @param {Array<ListPayoutsPayoutTypesEnum>} [payoutTypes]
+     * @param {string} [mandateId]
+     * @param {string} [senderAccountId]
+     * @param {string} [recipientAccountId]
+     * @param {string} [recipientUserId]
+     * @param {string} [recipientExternalUserId]
+     * @param {number} [offset] Default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listPayouts(
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListPayoutsStatusesEnum>,
+      currencies?: Array<string>,
+      payoutTypes?: Array<ListPayoutsPayoutTypesEnum>,
+      mandateId?: string,
+      senderAccountId?: string,
+      recipientAccountId?: string,
+      recipientUserId?: string,
+      recipientExternalUserId?: string,
+      offset?: number,
+      limit?: number,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ListPayoutsResponse> {
+      return localVarFp
+        .listPayouts(
+          dateFrom,
+          dateTo,
+          statuses,
+          currencies,
+          payoutTypes,
+          mandateId,
+          senderAccountId,
+          recipientAccountId,
+          recipientUserId,
+          recipientExternalUserId,
+          offset,
+          limit,
+          options,
+        )
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Update InstitutionID and SenderType for Mandate
+     * @param {SetMandateInstitutionRequest} updateRequest request body for updating mandate institutionId and senderType
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    setMandateInstitution(
+      updateRequest: SetMandateInstitutionRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<SetMandateInstitutionResponse> {
+      return localVarFp.setMandateInstitution(updateRequest, options).then((request) => request(axios, basePath));
+    },
+    /**
+     * Submit authorization checklist items
+     * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    submitAuthChecklist(
+      submitAuthChecklistRequest: SubmitAuthChecklistRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<SubmitAuthChecklistResponse> {
+      return localVarFp
+        .submitAuthChecklist(submitAuthChecklistRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Update payment
+     * @param {string} paymentId payment id
+     * @param {UpdatePaymentRequest} updatePaymentRequest request body for updating payment
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updatePayment(
+      paymentId: string,
+      updatePaymentRequest: UpdatePaymentRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PaymentResponse> {
+      return localVarFp
+        .updatePayment(paymentId, updatePaymentRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Update a payment user
+     * @param {string} paymentUserId
+     * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updatePaymentUser(
+      paymentUserId: string,
+      updatePaymentUserRequest: UpdatePaymentUserRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PaymentUser> {
+      return localVarFp
+        .updatePaymentUser(paymentUserId, updatePaymentUserRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * [DEPRECATED] Update the status of a test manual payment
+     * @param {string} paymentId The test payment ID
+     * @param {UpdateTestPaymentStatusRequest} paymentStatus Request body for updating the test manual payment status
+     * @param {*} [options] Override http request option.
+     * @deprecated
+     * @throws {RequiredError}
+     */
+    updateTestPaymentStatus(
+      paymentId: string,
+      paymentStatus: UpdateTestPaymentStatusRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .updateTestPaymentStatus(paymentId, paymentStatus, options)
+        .then((request) => request(axios, basePath));
+    },
+  };
+};
+
+/**
+ * PaymentApi - interface
+ * @export
+ * @interface PaymentApi
+ */
+export interface PaymentApiInterface {
+  /**
+   * Allows a customer to authorize a specific mandate
+   * @param {string} mandateId The mandate_id that is being authorized
+   * @param {AuthorizeMandateRequest} authorizeMandateRequest request body for authorizing a mandate
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  authorizeMandate(
+    mandateId: string,
+    authorizeMandateRequest: AuthorizeMandateRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<GetMandateResponse>;
+
+  /**
+   * Cancel a payment link
+   * @param {string} paymentLinkId The payment link id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  cancelPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentLinkResponse>;
+
+  /**
+   * Cancel Payout by payout_id
+   * @param {string} payoutId payout id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  cancelPayout(payoutId: string, options?: RawAxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse>;
+
+  /**
+   * Complete a KCP payment
+   * @param {CompleteKcpPaymentRequest} completeKcpPaymentRequest Parameters from the KCP SDK callback to complete the payment
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  completeKcpPayment(
+    completeKcpPaymentRequest: CompleteKcpPaymentRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<CompleteKcpPaymentResponse>;
+
+  /**
+   * CREATE Mandate
+   * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
+   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  createMandate(
+    createMandateRequest: CreateMandateRequest,
+    idempotencyKey?: string,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<CreateMandateResponse>;
+
+  /**
+   * Create mandate for an existing sender account
+   * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+   * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  createMandateForExistingSender(
+    idempotencyKey: string,
+    createMandateRequest: CreateMandateWithSenderAccountRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<CreateMandateResponse>;
+
+  /**
+   * Create new Payment
+   * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
+   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  createPayment(
+    createPaymentRequest: CreatePaymentRequest,
+    idempotencyKey?: string,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<PaymentResponse>;
+
+  /**
+   * create payment account
+   * @param {CreatePaymentAccountRequest} createPaymentAccountRequest request body for creating payment account
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  createPaymentAccount(
+    createPaymentAccountRequest: CreatePaymentAccountRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<PaymentAccountDetails>;
+
+  /**
+   * Create payment link
+   * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  createPaymentLink(
+    createPaymentLinkRequest: CreatePaymentLinkRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<PaymentLinkResponse>;
+
+  /**
+   * Create a Payment Method for a user
+   * @param {string} paymentUserId Payment User ID
+   * @param {CreatePaymentMethodRequest} createPaymentMethodRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  createPaymentMethod(
+    paymentUserId: string,
+    createPaymentMethodRequest: CreatePaymentMethodRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<PaymentMethodResponse>;
+
+  /**
+   * Create a payment user
+   * @param {CreatePaymentUserRequest} createPaymentUserRequest request body for creating payment user
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  createPaymentUser(
+    createPaymentUserRequest: CreatePaymentUserRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<PaymentUser>;
+
+  /**
+   * Create a scheduled payout
+   * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+   * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  createScheduledPayout(
+    idempotencyKey: string,
+    createScheduledPayoutRequest: CreateScheduledPayoutRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<PayoutSnapshotResponse>;
+
+  /**
+   * delete payment account
+   * @param {string} paymentAccountId The payment account id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  deletePaymentAccount(paymentAccountId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+
+  /**
+   * Download the balance statement for the ledger (CSV)
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<string>} [currencies] The currencies to filter for
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  downloadBalanceStatement(
+    dateFrom?: string,
+    dateTo?: string,
+    currencies?: Array<string>,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<DownloadBalanceStatementResponse>;
+
+  /**
+   * Get Mandate details by mandate_id
+   * @param {string} mandateId mandate id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  getMandate(mandateId: string, options?: RawAxiosRequestConfig): AxiosPromise<GetMandateResponse>;
+
+  /**
+   * Get Mandate Authorization by mandate id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  getMandateAuth(options?: RawAxiosRequestConfig): AxiosPromise<GetMandateAuthResponse>;
+
+  /**
+   * Get link to launch FV Link UI in mandate authorization mode
+   * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  getMandateAuthLink(
+    getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<GetMandateAuthLinkResponse>;
+
+  /**
+   * Get Payment details by payment_id
+   * @param {string} paymentId payment id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  getPayment(paymentId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentResponse>;
+
+  /**
+   * Get payment link
+   * @param {string} paymentLinkId The payment link id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  getPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentLinkResponse>;
+
+  /**
+   * Get a payment method
+   * @param {string} paymentMethodId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  getPaymentMethod(paymentMethodId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentMethodResponse>;
+
+  /**
+   * Get a payment user
+   * @param {string} paymentUserId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  getPaymentUser(paymentUserId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentUser>;
+
+  /**
+   * Get payout by payout_id
+   * @param {string} payoutId payout id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  getPayoutById(payoutId: string, options?: RawAxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse>;
+
+  /**
+   * List mandates details
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<ListDetokenizedMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
+   * @param {ListDetokenizedMandatesSenderTypeEnum} [senderType] The sender type of the mandate
+   * @param {string} [userId] The user_id the mandate was setup for
+   * @param {string} [institutionId] The institution the mandate was executed against
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  listDetokenizedMandates(
+    dateFrom?: string,
+    dateTo?: string,
+    statuses?: Array<ListDetokenizedMandatesStatusesEnum>,
+    senderType?: ListDetokenizedMandatesSenderTypeEnum,
+    userId?: string,
+    institutionId?: string,
+    offset?: number,
+    limit?: number,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<ListMandatesResponse>;
+
+  /**
+   * List Disputes
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<ListDisputesStatusesEnum>} [statuses] The dispute statuses to filter for, comma separated
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  listDisputes(
+    dateFrom?: string,
+    dateTo?: string,
+    statuses?: Array<ListDisputesStatusesEnum>,
+    offset?: number,
+    limit?: number,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<ListDisputesResponse>;
+
+  /**
+   * List mandates
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<ListMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
+   * @param {ListMandatesSenderTypeEnum} [senderType] The sender type of the mandate
+   * @param {string} [userId] The user_id the mandate was setup for
+   * @param {string} [institutionId] The institution the mandate was executed against
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  listMandates(
+    dateFrom?: string,
+    dateTo?: string,
+    statuses?: Array<ListMandatesStatusesEnum>,
+    senderType?: ListMandatesSenderTypeEnum,
+    userId?: string,
+    institutionId?: string,
+    offset?: number,
+    limit?: number,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<ListMandatesResponse>;
+
+  /**
+   * Get payment account by user id
+   * @param {string} paymentUserId The payment user id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  listPaymentAccounts(
+    paymentUserId: string,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<ListPaymentAccountsResponse>;
+
+  /**
+   * Get payment account for customer app
+   * @param {ListPaymentAccountsWithEnrichedDataAccountTypeEnum} [accountType] The account_type to filter for
+   * @param {Array<string>} [currencies] The currencies to filter for
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  listPaymentAccountsWithEnrichedData(
+    accountType?: ListPaymentAccountsWithEnrichedDataAccountTypeEnum,
+    currencies?: Array<string>,
+    offset?: number,
+    limit?: number,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<ListPaymentAccountsWithEnrichedDataResponse>;
+
+  /**
+   * List Payment Methods for a User
+   * @param {string} paymentUserId Payment User Id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  listPaymentMethods(paymentUserId: string, options?: RawAxiosRequestConfig): AxiosPromise<ListPaymentMethodsResponse>;
+
+  /**
+   * List Payments
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<ListPaymentsStatusesEnum>} [statuses] The payment statuses to filter for, comma separated
+   * @param {ListPaymentsSenderTypeEnum} [senderType] The sender type of the mandate
+   * @param {string} [userId] The user_id the mandate was setup for
+   * @param {string} [institutionId] The institution the mandate was executed against
+   * @param {ListPaymentsPaymentTypeEnum} [paymentType] Deprecated - The type of payment
+   * @param {Array<ListPaymentsPaymentTypesEnum>} [paymentTypes]
+   * @param {string} [mandateId] The mandate the payment belongs to
+   * @param {string} [currency] Deprecated - The currency the payment is made in
+   * @param {Array<string>} [currencies]
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  listPayments(
+    dateFrom?: string,
+    dateTo?: string,
+    statuses?: Array<ListPaymentsStatusesEnum>,
+    senderType?: ListPaymentsSenderTypeEnum,
+    userId?: string,
+    institutionId?: string,
+    paymentType?: ListPaymentsPaymentTypeEnum,
+    paymentTypes?: Array<ListPaymentsPaymentTypesEnum>,
+    mandateId?: string,
+    currency?: string,
+    currencies?: Array<string>,
+    offset?: number,
+    limit?: number,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<ListPaymentsResponse>;
+
+  /**
+   * List payouts
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<ListPayoutsStatusesEnum>} [statuses] The payout statuses to filter for, comma separated
+   * @param {Array<string>} [currencies]
+   * @param {Array<ListPayoutsPayoutTypesEnum>} [payoutTypes]
+   * @param {string} [mandateId]
+   * @param {string} [senderAccountId]
+   * @param {string} [recipientAccountId]
+   * @param {string} [recipientUserId]
+   * @param {string} [recipientExternalUserId]
+   * @param {number} [offset] Default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  listPayouts(
+    dateFrom?: string,
+    dateTo?: string,
+    statuses?: Array<ListPayoutsStatusesEnum>,
+    currencies?: Array<string>,
+    payoutTypes?: Array<ListPayoutsPayoutTypesEnum>,
+    mandateId?: string,
+    senderAccountId?: string,
+    recipientAccountId?: string,
+    recipientUserId?: string,
+    recipientExternalUserId?: string,
+    offset?: number,
+    limit?: number,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<ListPayoutsResponse>;
+
+  /**
+   * Update InstitutionID and SenderType for Mandate
+   * @param {SetMandateInstitutionRequest} updateRequest request body for updating mandate institutionId and senderType
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  setMandateInstitution(
+    updateRequest: SetMandateInstitutionRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<SetMandateInstitutionResponse>;
+
+  /**
+   * Submit authorization checklist items
+   * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  submitAuthChecklist(
+    submitAuthChecklistRequest: SubmitAuthChecklistRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<SubmitAuthChecklistResponse>;
+
+  /**
+   * Update payment
+   * @param {string} paymentId payment id
+   * @param {UpdatePaymentRequest} updatePaymentRequest request body for updating payment
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  updatePayment(
+    paymentId: string,
+    updatePaymentRequest: UpdatePaymentRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<PaymentResponse>;
+
+  /**
+   * Update a payment user
+   * @param {string} paymentUserId
+   * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  updatePaymentUser(
+    paymentUserId: string,
+    updatePaymentUserRequest: UpdatePaymentUserRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<PaymentUser>;
+
+  /**
+   * [DEPRECATED] Update the status of a test manual payment
+   * @param {string} paymentId The test payment ID
+   * @param {UpdateTestPaymentStatusRequest} paymentStatus Request body for updating the test manual payment status
+   * @param {*} [options] Override http request option.
+   * @deprecated
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  updateTestPaymentStatus(
+    paymentId: string,
+    paymentStatus: UpdateTestPaymentStatusRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<void>;
+}
+
+/**
+ * PaymentApi - object-oriented interface
+ * @export
+ * @class PaymentApi
+ * @extends {BaseAPI}
+ */
+export class PaymentApi extends BaseAPI implements PaymentApiInterface {
+  /**
+   * Allows a customer to authorize a specific mandate
+   * @param {string} mandateId The mandate_id that is being authorized
+   * @param {AuthorizeMandateRequest} authorizeMandateRequest request body for authorizing a mandate
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public authorizeMandate(
+    mandateId: string,
+    authorizeMandateRequest: AuthorizeMandateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentApiFp(this.configuration)
+      .authorizeMandate(mandateId, authorizeMandateRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Cancel a payment link
+   * @param {string} paymentLinkId The payment link id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public cancelPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .cancelPaymentLink(paymentLinkId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Cancel Payout by payout_id
+   * @param {string} payoutId payout id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public cancelPayout(payoutId: string, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .cancelPayout(payoutId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Complete a KCP payment
+   * @param {CompleteKcpPaymentRequest} completeKcpPaymentRequest Parameters from the KCP SDK callback to complete the payment
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public completeKcpPayment(completeKcpPaymentRequest: CompleteKcpPaymentRequest, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .completeKcpPayment(completeKcpPaymentRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * CREATE Mandate
+   * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
+   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public createMandate(
+    createMandateRequest: CreateMandateRequest,
+    idempotencyKey?: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentApiFp(this.configuration)
+      .createMandate(createMandateRequest, idempotencyKey, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Create mandate for an existing sender account
+   * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+   * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public createMandateForExistingSender(
+    idempotencyKey: string,
+    createMandateRequest: CreateMandateWithSenderAccountRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentApiFp(this.configuration)
+      .createMandateForExistingSender(idempotencyKey, createMandateRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Create new Payment
+   * @param {CreatePaymentRequest} createPaymentRequest request body for creating payment
+   * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public createPayment(
+    createPaymentRequest: CreatePaymentRequest,
+    idempotencyKey?: string,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentApiFp(this.configuration)
+      .createPayment(createPaymentRequest, idempotencyKey, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * create payment account
+   * @param {CreatePaymentAccountRequest} createPaymentAccountRequest request body for creating payment account
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public createPaymentAccount(
+    createPaymentAccountRequest: CreatePaymentAccountRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentApiFp(this.configuration)
+      .createPaymentAccount(createPaymentAccountRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Create payment link
+   * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public createPaymentLink(createPaymentLinkRequest: CreatePaymentLinkRequest, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .createPaymentLink(createPaymentLinkRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Create a Payment Method for a user
+   * @param {string} paymentUserId Payment User ID
+   * @param {CreatePaymentMethodRequest} createPaymentMethodRequest
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public createPaymentMethod(
+    paymentUserId: string,
+    createPaymentMethodRequest: CreatePaymentMethodRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentApiFp(this.configuration)
+      .createPaymentMethod(paymentUserId, createPaymentMethodRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Create a payment user
+   * @param {CreatePaymentUserRequest} createPaymentUserRequest request body for creating payment user
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public createPaymentUser(createPaymentUserRequest: CreatePaymentUserRequest, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .createPaymentUser(createPaymentUserRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Create a scheduled payout
+   * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+   * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public createScheduledPayout(
+    idempotencyKey: string,
+    createScheduledPayoutRequest: CreateScheduledPayoutRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentApiFp(this.configuration)
+      .createScheduledPayout(idempotencyKey, createScheduledPayoutRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * delete payment account
+   * @param {string} paymentAccountId The payment account id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public deletePaymentAccount(paymentAccountId: string, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .deletePaymentAccount(paymentAccountId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Download the balance statement for the ledger (CSV)
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<string>} [currencies] The currencies to filter for
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public downloadBalanceStatement(
+    dateFrom?: string,
+    dateTo?: string,
+    currencies?: Array<string>,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentApiFp(this.configuration)
+      .downloadBalanceStatement(dateFrom, dateTo, currencies, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get Mandate details by mandate_id
+   * @param {string} mandateId mandate id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public getMandate(mandateId: string, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .getMandate(mandateId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get Mandate Authorization by mandate id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public getMandateAuth(options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .getMandateAuth(options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get link to launch FV Link UI in mandate authorization mode
+   * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public getMandateAuthLink(getMandateAuthLinkRequest: GetMandateAuthLinkRequest, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .getMandateAuthLink(getMandateAuthLinkRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get Payment details by payment_id
+   * @param {string} paymentId payment id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public getPayment(paymentId: string, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .getPayment(paymentId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get payment link
+   * @param {string} paymentLinkId The payment link id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public getPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .getPaymentLink(paymentLinkId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get a payment method
+   * @param {string} paymentMethodId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public getPaymentMethod(paymentMethodId: string, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .getPaymentMethod(paymentMethodId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get a payment user
+   * @param {string} paymentUserId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public getPaymentUser(paymentUserId: string, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .getPaymentUser(paymentUserId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get payout by payout_id
+   * @param {string} payoutId payout id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public getPayoutById(payoutId: string, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .getPayoutById(payoutId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * List mandates details
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<ListDetokenizedMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
+   * @param {ListDetokenizedMandatesSenderTypeEnum} [senderType] The sender type of the mandate
+   * @param {string} [userId] The user_id the mandate was setup for
+   * @param {string} [institutionId] The institution the mandate was executed against
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public listDetokenizedMandates(
+    dateFrom?: string,
+    dateTo?: string,
+    statuses?: Array<ListDetokenizedMandatesStatusesEnum>,
+    senderType?: ListDetokenizedMandatesSenderTypeEnum,
+    userId?: string,
+    institutionId?: string,
+    offset?: number,
+    limit?: number,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentApiFp(this.configuration)
+      .listDetokenizedMandates(dateFrom, dateTo, statuses, senderType, userId, institutionId, offset, limit, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * List Disputes
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<ListDisputesStatusesEnum>} [statuses] The dispute statuses to filter for, comma separated
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public listDisputes(
+    dateFrom?: string,
+    dateTo?: string,
+    statuses?: Array<ListDisputesStatusesEnum>,
+    offset?: number,
+    limit?: number,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentApiFp(this.configuration)
+      .listDisputes(dateFrom, dateTo, statuses, offset, limit, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * List mandates
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<ListMandatesStatusesEnum>} [statuses] The mandate statuses to filter for, comma separated
+   * @param {ListMandatesSenderTypeEnum} [senderType] The sender type of the mandate
+   * @param {string} [userId] The user_id the mandate was setup for
+   * @param {string} [institutionId] The institution the mandate was executed against
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public listMandates(
+    dateFrom?: string,
+    dateTo?: string,
+    statuses?: Array<ListMandatesStatusesEnum>,
+    senderType?: ListMandatesSenderTypeEnum,
+    userId?: string,
+    institutionId?: string,
+    offset?: number,
+    limit?: number,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentApiFp(this.configuration)
+      .listMandates(dateFrom, dateTo, statuses, senderType, userId, institutionId, offset, limit, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get payment account by user id
+   * @param {string} paymentUserId The payment user id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public listPaymentAccounts(paymentUserId: string, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .listPaymentAccounts(paymentUserId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Get payment account for customer app
+   * @param {ListPaymentAccountsWithEnrichedDataAccountTypeEnum} [accountType] The account_type to filter for
+   * @param {Array<string>} [currencies] The currencies to filter for
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public listPaymentAccountsWithEnrichedData(
+    accountType?: ListPaymentAccountsWithEnrichedDataAccountTypeEnum,
+    currencies?: Array<string>,
+    offset?: number,
+    limit?: number,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentApiFp(this.configuration)
+      .listPaymentAccountsWithEnrichedData(accountType, currencies, offset, limit, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * List Payment Methods for a User
+   * @param {string} paymentUserId Payment User Id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public listPaymentMethods(paymentUserId: string, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .listPaymentMethods(paymentUserId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * List Payments
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<ListPaymentsStatusesEnum>} [statuses] The payment statuses to filter for, comma separated
+   * @param {ListPaymentsSenderTypeEnum} [senderType] The sender type of the mandate
+   * @param {string} [userId] The user_id the mandate was setup for
+   * @param {string} [institutionId] The institution the mandate was executed against
+   * @param {ListPaymentsPaymentTypeEnum} [paymentType] Deprecated - The type of payment
+   * @param {Array<ListPaymentsPaymentTypesEnum>} [paymentTypes]
+   * @param {string} [mandateId] The mandate the payment belongs to
+   * @param {string} [currency] Deprecated - The currency the payment is made in
+   * @param {Array<string>} [currencies]
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public listPayments(
+    dateFrom?: string,
+    dateTo?: string,
+    statuses?: Array<ListPaymentsStatusesEnum>,
+    senderType?: ListPaymentsSenderTypeEnum,
+    userId?: string,
+    institutionId?: string,
+    paymentType?: ListPaymentsPaymentTypeEnum,
+    paymentTypes?: Array<ListPaymentsPaymentTypesEnum>,
+    mandateId?: string,
+    currency?: string,
+    currencies?: Array<string>,
+    offset?: number,
+    limit?: number,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentApiFp(this.configuration)
+      .listPayments(
+        dateFrom,
+        dateTo,
+        statuses,
+        senderType,
+        userId,
+        institutionId,
+        paymentType,
+        paymentTypes,
+        mandateId,
+        currency,
+        currencies,
+        offset,
+        limit,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * List payouts
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<ListPayoutsStatusesEnum>} [statuses] The payout statuses to filter for, comma separated
+   * @param {Array<string>} [currencies]
+   * @param {Array<ListPayoutsPayoutTypesEnum>} [payoutTypes]
+   * @param {string} [mandateId]
+   * @param {string} [senderAccountId]
+   * @param {string} [recipientAccountId]
+   * @param {string} [recipientUserId]
+   * @param {string} [recipientExternalUserId]
+   * @param {number} [offset] Default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public listPayouts(
+    dateFrom?: string,
+    dateTo?: string,
+    statuses?: Array<ListPayoutsStatusesEnum>,
+    currencies?: Array<string>,
+    payoutTypes?: Array<ListPayoutsPayoutTypesEnum>,
+    mandateId?: string,
+    senderAccountId?: string,
+    recipientAccountId?: string,
+    recipientUserId?: string,
+    recipientExternalUserId?: string,
+    offset?: number,
+    limit?: number,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentApiFp(this.configuration)
+      .listPayouts(
+        dateFrom,
+        dateTo,
+        statuses,
+        currencies,
+        payoutTypes,
+        mandateId,
+        senderAccountId,
+        recipientAccountId,
+        recipientUserId,
+        recipientExternalUserId,
+        offset,
+        limit,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Update InstitutionID and SenderType for Mandate
+   * @param {SetMandateInstitutionRequest} updateRequest request body for updating mandate institutionId and senderType
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public setMandateInstitution(updateRequest: SetMandateInstitutionRequest, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .setMandateInstitution(updateRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Submit authorization checklist items
+   * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public submitAuthChecklist(submitAuthChecklistRequest: SubmitAuthChecklistRequest, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .submitAuthChecklist(submitAuthChecklistRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Update payment
+   * @param {string} paymentId payment id
+   * @param {UpdatePaymentRequest} updatePaymentRequest request body for updating payment
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public updatePayment(paymentId: string, updatePaymentRequest: UpdatePaymentRequest, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .updatePayment(paymentId, updatePaymentRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Update a payment user
+   * @param {string} paymentUserId
+   * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public updatePaymentUser(
+    paymentUserId: string,
+    updatePaymentUserRequest: UpdatePaymentUserRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentApiFp(this.configuration)
+      .updatePaymentUser(paymentUserId, updatePaymentUserRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * [DEPRECATED] Update the status of a test manual payment
+   * @param {string} paymentId The test payment ID
+   * @param {UpdateTestPaymentStatusRequest} paymentStatus Request body for updating the test manual payment status
+   * @param {*} [options] Override http request option.
+   * @deprecated
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public updateTestPaymentStatus(
+    paymentId: string,
+    paymentStatus: UpdateTestPaymentStatusRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentApiFp(this.configuration)
+      .updateTestPaymentStatus(paymentId, paymentStatus, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+}
+
+/**
+ * @export
+ */
+export const ListDetokenizedMandatesStatusesEnum = {
+  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
+  Authorizing: 'AUTHORIZING',
+  Processing: 'PROCESSING',
+  Submitted: 'SUBMITTED',
+  Succeeded: 'SUCCEEDED',
+  Failed: 'FAILED',
+  Revoked: 'REVOKED',
+  ReadyToSubmit: 'READY_TO_SUBMIT',
+  Closed: 'CLOSED',
+  Cancelled: 'CANCELLED',
+} as const;
+export type ListDetokenizedMandatesStatusesEnum =
+  (typeof ListDetokenizedMandatesStatusesEnum)[keyof typeof ListDetokenizedMandatesStatusesEnum];
+/**
+ * @export
+ */
+export const ListDetokenizedMandatesSenderTypeEnum = {
+  Individual: 'INDIVIDUAL',
+  Business: 'BUSINESS',
+} as const;
+export type ListDetokenizedMandatesSenderTypeEnum =
+  (typeof ListDetokenizedMandatesSenderTypeEnum)[keyof typeof ListDetokenizedMandatesSenderTypeEnum];
+/**
+ * @export
+ */
+export const ListDisputesStatusesEnum = {
+  Unknown: 'UNKNOWN',
+  Undefended: 'UNDEFENDED',
+  ActionRequired: 'ACTION_REQUIRED',
+  Processing: 'PROCESSING',
+  Accepted: 'ACCEPTED',
+  Lost: 'LOST',
+  Won: 'WON',
+} as const;
+export type ListDisputesStatusesEnum = (typeof ListDisputesStatusesEnum)[keyof typeof ListDisputesStatusesEnum];
+/**
+ * @export
+ */
+export const ListMandatesStatusesEnum = {
+  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
+  Authorizing: 'AUTHORIZING',
+  Processing: 'PROCESSING',
+  Submitted: 'SUBMITTED',
+  Succeeded: 'SUCCEEDED',
+  Failed: 'FAILED',
+  Revoked: 'REVOKED',
+  ReadyToSubmit: 'READY_TO_SUBMIT',
+  Closed: 'CLOSED',
+  Cancelled: 'CANCELLED',
+} as const;
+export type ListMandatesStatusesEnum = (typeof ListMandatesStatusesEnum)[keyof typeof ListMandatesStatusesEnum];
+/**
+ * @export
+ */
+export const ListMandatesSenderTypeEnum = {
+  Individual: 'INDIVIDUAL',
+  Business: 'BUSINESS',
+} as const;
+export type ListMandatesSenderTypeEnum = (typeof ListMandatesSenderTypeEnum)[keyof typeof ListMandatesSenderTypeEnum];
+/**
+ * @export
+ */
+export const ListPaymentAccountsWithEnrichedDataAccountTypeEnum = {
+  ExternalAccount: 'EXTERNAL_ACCOUNT',
+  SettlementAccount: 'SETTLEMENT_ACCOUNT',
+} as const;
+export type ListPaymentAccountsWithEnrichedDataAccountTypeEnum =
+  (typeof ListPaymentAccountsWithEnrichedDataAccountTypeEnum)[keyof typeof ListPaymentAccountsWithEnrichedDataAccountTypeEnum];
+/**
+ * @export
+ */
+export const ListPaymentsStatusesEnum = {
+  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
+  Authorizing: 'AUTHORIZING',
+  Processing: 'PROCESSING',
+  Submitted: 'SUBMITTED',
+  Executed: 'EXECUTED',
+  Failed: 'FAILED',
+  Revoked: 'REVOKED',
+  Cancelled: 'CANCELLED',
+  Created: 'CREATED',
+} as const;
+export type ListPaymentsStatusesEnum = (typeof ListPaymentsStatusesEnum)[keyof typeof ListPaymentsStatusesEnum];
+/**
+ * @export
+ */
+export const ListPaymentsSenderTypeEnum = {
+  Individual: 'INDIVIDUAL',
+  Business: 'BUSINESS',
+} as const;
+export type ListPaymentsSenderTypeEnum = (typeof ListPaymentsSenderTypeEnum)[keyof typeof ListPaymentsSenderTypeEnum];
+/**
+ * @export
+ */
+export const ListPaymentsPaymentTypeEnum = {
+  Mandate: 'MANDATE',
+  Single: 'SINGLE',
+  Card: 'CARD',
+  Manual: 'MANUAL',
+  Wallet: 'WALLET',
+} as const;
+export type ListPaymentsPaymentTypeEnum =
+  (typeof ListPaymentsPaymentTypeEnum)[keyof typeof ListPaymentsPaymentTypeEnum];
+/**
+ * @export
+ */
+export const ListPaymentsPaymentTypesEnum = {
+  Mandate: 'MANDATE',
+  Single: 'SINGLE',
+  Card: 'CARD',
+  Manual: 'MANUAL',
+  Wallet: 'WALLET',
+} as const;
+export type ListPaymentsPaymentTypesEnum =
+  (typeof ListPaymentsPaymentTypesEnum)[keyof typeof ListPaymentsPaymentTypesEnum];
+/**
+ * @export
+ */
+export const ListPayoutsStatusesEnum = {
+  Executed: 'EXECUTED',
+  Created: 'CREATED',
+  Processing: 'PROCESSING',
+  ProcessingFunds: 'PROCESSING_FUNDS',
+  Cancelled: 'CANCELLED',
+  Failed: 'FAILED',
+  Funded: 'FUNDED',
+  Submitted: 'SUBMITTED',
+} as const;
+export type ListPayoutsStatusesEnum = (typeof ListPayoutsStatusesEnum)[keyof typeof ListPayoutsStatusesEnum];
+/**
+ * @export
+ */
+export const ListPayoutsPayoutTypesEnum = {
+  Manual: 'MANUAL',
+  Scheduled: 'SCHEDULED',
+  Settlement: 'SETTLEMENT',
+} as const;
+export type ListPayoutsPayoutTypesEnum = (typeof ListPayoutsPayoutTypesEnum)[keyof typeof ListPayoutsPayoutTypesEnum];
 
 /**
  * PublicApi - axios parameter creator
