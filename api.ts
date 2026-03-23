@@ -162,6 +162,12 @@ export interface Account {
   statement_balance?: CurrencyAmount;
   /**
    *
+   * @type {CurrencyAmount}
+   * @memberof Account
+   */
+  ledger_balance?: CurrencyAmount;
+  /**
+   *
    * @type {boolean}
    * @memberof Account
    */
