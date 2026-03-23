@@ -29,8 +29,7 @@ The Payment API enables you to create payment links for checkout, initiate payme
 
 | Class | Key Methods |
 |-------|-------------|
-| `CustomerApi` | `createPayment`, `getPayment`, `createMandate`, `getMandate`, `authorizeMandate`, `createPaymentUser`, `createPaymentAccount`, `listPaymentAccounts` |
-| `DefaultApi` | `createPaymentLink`, `getPaymentLink`, `cancelPaymentLink`, `createScheduledPayout`, `getPayoutById`, `createPaymentMethod` |
+| `PaymentApi` | `createPaymentLink`, `getPaymentLink`, `cancelPaymentLink`, `createScheduledPayout`, `getPayoutById`, `createPaymentMethod`, `createPayment`, `getPayment`, `createMandate`, `getMandate`, `authorizeMandate`, `createPaymentUser`, `createPaymentAccount`, `listPaymentAccounts` |
 
 ### Payment Flow (End-to-End)
 
@@ -69,19 +68,19 @@ const customerAccessToken = customerTokenResp.data.access_token;
 **Payment mode** – For one-time payments. Requires `amount` (minor units, e.g. 10000 = 100.00 HKD), `currency`, `sender`, `payment_details`, and `link_customizations` with `redirect_uri`:
 
 ```typescript
-import { DefaultApi } from '@finverse/sdk-typescript';
+import { Configuration, PaymentApi } from '@finverse/sdk-typescript';
 import crypto from 'crypto';
 
 const configuration = new Configuration({
   basePath: apiHost,
   accessToken: customerAccessToken,
 });
-const defaultApi = new DefaultApi(configuration);
+const paymentApi = new PaymentApi(configuration);
 
 const uniqueReferenceId = crypto.randomUUID();
 const callbackUrl = process.env.CALLBACK_URL; // e.g. https://yoursite.com/callback
 
-const createResp = await defaultApi.createPaymentLink({
+const createResp = await paymentApi.createPaymentLink({
   mode: "PAYMENT",
   amount: 10000,  // 100.00 HKD
   currency: "HKD",
@@ -110,7 +109,7 @@ const paymentUrl = createResp.data.url;
 **Setup mode** – For saving payment methods (e.g. Click to Pay). Do **not** pass `amount`:
 
 ```typescript
-const createResp = await defaultApi.createPaymentLink({
+const createResp = await paymentApi.createPaymentLink({
   mode: "SETUP",
   currency: "HKD",
   unique_reference_id: uniqueReferenceId,
@@ -143,7 +142,7 @@ Redirect the user to `paymentUrl`. **Use HTTP 303** so the browser follows with 
 When Finverse redirects back, read `payment_link_id` and `unique_reference_id` from query params. Verify they match your stored values, then poll until `session_status` is `COMPLETE`:
 
 ```typescript
-import { DefaultApi } from '@finverse/sdk-typescript';
+import { Configuration, PaymentApi } from '@finverse/sdk-typescript';
 
 const paymentLinkId = req.query.payment_link_id as string;  // from callback URL
 const uniqueReferenceId = req.query.unique_reference_id as string;
@@ -155,14 +154,14 @@ const configuration = new Configuration({
   basePath: apiHost,
   accessToken: customerAccessToken,
 });
-const defaultApi = new DefaultApi(configuration);
+const paymentApi = new PaymentApi(configuration);
 
 const POLL_INTERVAL_MS = 2000;
 const POLL_TIMEOUT_MS = 30000;
 const startTime = Date.now();
 
 while (Date.now() - startTime < POLL_TIMEOUT_MS) {
-  const getResp = await defaultApi.getPaymentLink(paymentLinkId);
+  const getResp = await paymentApi.getPaymentLink(paymentLinkId);
   const sessionStatus = getResp.data.session_status;
 
   if (sessionStatus === "COMPLETE") {
@@ -187,7 +186,7 @@ The Data API enables you to retrieve financial data: accounts, transactions, sta
 
 | Class | Key Methods |
 |-------|-------------|
-| `LoginIdentityApi` | `getLoginIdentity`, `listAccounts`, `getAccount`, `getAccountNumber`, `listTransactionsByLoginIdentityId`, `listTransactionsByAccountId`, `getStatements`, `getStatement`, `getBalanceHistory`, `getIdentity`, `getIncomeEstimateByLoginIdentityId`, `listCardDetails`, ` refreshLoginIdentity` |
+| `LoginIdentityApi` | `getLoginIdentity`, `listAccounts`, `getAccount`, `getAccountNumber`, `listTransactionsByLoginIdentityId`, `listTransactionsByAccountId`, `getStatements`, `getStatement`, `getBalanceHistory`, `getIdentity`, `getIncomeEstimateByLoginIdentityId`, `listCardDetails`, `refreshLoginIdentity` |
 
 ### Data Retrieval Flow (End-to-End)
 
@@ -196,9 +195,9 @@ The Data API enables you to retrieve financial data: accounts, transactions, sta
 ```typescript
 import { Configuration, PublicApi } from '@finverse/sdk-typescript';
 
-const apiHost = "https://api.prod.finverse.net";
-const clientId = process.env.FINVERSE_CLIENTID;
-const clientSecret = process.env.FINVERSE_SECRET;
+const apiHost = process.env.FINVERSE_BASE_URL ?? "https://api.prod.finverse.net";
+const clientId = process.env.FINVERSE_CLIENT_ID;
+const clientSecret = process.env.FINVERSE_CLIENT_SECRET;
 const redirectUri = process.env.REDIRECT_URI;
 
 const configuration = new Configuration({ basePath: apiHost });
@@ -214,7 +213,7 @@ const customerAccessToken = customerTokenResp.data.access_token;
 #### 2. Link New Institution: Obtain Link Token and Link URL
 
 ```typescript
-import { CustomerApi } from '@finverse/sdk-typescript';
+import { Configuration, LinkApi } from '@finverse/sdk-typescript';
 
 const userId = "someUserId";
 const state = "someUniqueState";
@@ -222,7 +221,7 @@ const linkConfig = new Configuration({
   basePath: apiHost,
   accessToken: customerAccessToken,
 });
-const linkTokenResp = await new CustomerApi(linkConfig).generateLinkToken({
+const linkTokenResp = await new LinkApi(linkConfig).generateLinkToken({
   client_id: clientId,
   user_id: userId,
   redirect_uri: redirectUri,
@@ -238,11 +237,11 @@ console.log("linkUrl:", linkTokenResp.data.link_url);
 #### 3. Finalize Linking: Exchange Code for Login Identity Access Token
 
 ```typescript
-import { LinkApi } from '@finverse/sdk-typescript';
+import { LinkApi, TokenGrantTypeEnum } from '@finverse/sdk-typescript';
 
 const code = "obtainAfterLink"; // from Finverse Link UI callback
 const loginIdentityTokenResp = await new LinkApi(linkConfig).token(
-  "authorization_code",
+  TokenGrantTypeEnum.AuthorizationCode,
   code,
   clientId,
   redirectUri,
@@ -253,7 +252,7 @@ const loginIdentityToken = loginIdentityTokenResp.data.access_token;
 #### 4. Retrieve data: Get Login Identity
 
 ```typescript
-import { LoginIdentityApi } from '@finverse/sdk-typescript';
+import { Configuration, LoginIdentityApi } from '@finverse/sdk-typescript';
 
 const dataConfig = new Configuration({
   basePath: apiHost,
@@ -406,13 +405,16 @@ When required parameters are missing, the SDK throws errors. Wrap API calls in t
 Create a `Configuration` once per token/context and reuse it for multiple API calls:
 
 ```typescript
+import { Configuration, LinkApi, PaymentApi } from '@finverse/sdk-typescript';
+
 const config = new Configuration({
   basePath: apiHost,
   accessToken: customerAccessToken,
 });
-const customerApi = new CustomerApi(config);
-const linkTokenResp = await customerApi.generateLinkToken({ ... });
-const paymentResp = await customerApi.createPayment(paymentRequest);
+const linkApi = new LinkApi(config);
+const paymentApi = new PaymentApi(config);
+const linkTokenResp = await linkApi.generateLinkToken({ ... });
+const paymentResp = await paymentApi.createPayment(paymentRequest);
 ```
 
 ### Client secret: never commit, server-side only
@@ -425,8 +427,8 @@ const paymentResp = await customerApi.createPayment(paymentRequest);
 
 ```typescript
 // ✅ Correct: Load from environment (server-side only)
-const clientId = process.env.FINVERSE_CLIENTID;
-const clientSecret = process.env.FINVERSE_SECRET;  // Never log, never send to client
+const clientId = process.env.FINVERSE_CLIENT_ID;
+const clientSecret = process.env.FINVERSE_CLIENT_SECRET;  // Never log, never send to client
 const redirectUri = process.env.REDIRECT_URI;
 ```
 
@@ -434,18 +436,18 @@ const redirectUri = process.env.REDIRECT_URI;
 
 For payment and mandate operations, use idempotency keys to safely retry requests without creating duplicate payments. If a request fails due to network issues, you can retry with the same key—the API will return the original result instead of creating a duplicate.
 
-**Methods that support idempotency keys:** `createPayment`, `createMandate`, `createMandateForExistingSender` (DefaultApi), `createScheduledPayout` (DefaultApi).
+**Methods that support idempotency keys:** `createPayment`, `createMandate`, `createMandateForExistingSender`, and `createScheduledPayout` on `PaymentApi`.
 
 ```typescript
-import { CustomerApi } from '@finverse/sdk-typescript';
+import { PaymentApi } from '@finverse/sdk-typescript';
 import crypto from 'crypto';
 
 // Generate a unique key per logical operation (e.g., per checkout or mandate setup)
 const idempotencyKey = crypto.randomUUID();
 
 // Safe to retry—same key returns same result
-await new CustomerApi(config).createPayment(paymentRequest, idempotencyKey);
-await new CustomerApi(config).createMandate(mandateRequest, idempotencyKey);
+await new PaymentApi(config).createPayment(paymentRequest, idempotencyKey);
+await new PaymentApi(config).createMandate(mandateRequest, idempotencyKey);
 ```
 
 **Best practices:**
