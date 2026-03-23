@@ -8892,6 +8892,12 @@ export interface SelectPaymentMethodRequest {
    * @memberof SelectPaymentMethodRequest
    */
   is_mobile?: boolean;
+  /**
+   * Optional Finverse institution ID (passed through when selecting KCP manual payment flow)
+   * @type {string}
+   * @memberof SelectPaymentMethodRequest
+   */
+  institution_id?: string;
 }
 
 export const SelectPaymentMethodRequestPaymentMethodTypeEnum = {
