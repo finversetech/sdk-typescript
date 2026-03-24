@@ -12890,6 +12890,43 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Cancel a payment method
+     * @param {string} paymentMethodId The payment method id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    cancelPaymentMethod: async (paymentMethodId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'paymentMethodId' is not null or undefined
+      assertParamExists('cancelPaymentMethod', 'paymentMethodId', paymentMethodId);
+      const localVarPath = `/payment_methods/{paymentMethodId}/cancel`.replace(
+        `{${'paymentMethodId'}}`,
+        encodeURIComponent(String(paymentMethodId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Cancel Payout by payout_id
      * @param {string} payoutId payout id
      * @param {*} [options] Override http request option.
@@ -14592,6 +14629,28 @@ export const PaymentApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
+     * Cancel a payment method
+     * @param {string} paymentMethodId The payment method id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async cancelPaymentMethod(
+      paymentMethodId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaymentMethodResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.cancelPaymentMethod(paymentMethodId, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.cancelPaymentMethod']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
      * Cancel Payout by payout_id
      * @param {string} payoutId payout id
      * @param {*} [options] Override http request option.
@@ -15563,6 +15622,15 @@ export const PaymentApiFactory = function (configuration?: Configuration, basePa
       return localVarFp.cancelPaymentLink(paymentLinkId, options).then((request) => request(axios, basePath));
     },
     /**
+     * Cancel a payment method
+     * @param {string} paymentMethodId The payment method id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    cancelPaymentMethod(paymentMethodId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentMethodResponse> {
+      return localVarFp.cancelPaymentMethod(paymentMethodId, options).then((request) => request(axios, basePath));
+    },
+    /**
      * Cancel Payout by payout_id
      * @param {string} payoutId payout id
      * @param {*} [options] Override http request option.
@@ -16143,6 +16211,15 @@ export interface PaymentApiInterface {
   cancelPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentLinkResponse>;
 
   /**
+   * Cancel a payment method
+   * @param {string} paymentMethodId The payment method id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  cancelPaymentMethod(paymentMethodId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentMethodResponse>;
+
+  /**
    * Cancel Payout by payout_id
    * @param {string} payoutId payout id
    * @param {*} [options] Override http request option.
@@ -16652,6 +16729,19 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
   public cancelPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
       .cancelPaymentLink(paymentLinkId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Cancel a payment method
+   * @param {string} paymentMethodId The payment method id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public cancelPaymentMethod(paymentMethodId: string, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .cancelPaymentMethod(paymentMethodId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
