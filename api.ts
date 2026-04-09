@@ -7326,6 +7326,18 @@ export interface PaymentProcessorDetails {
    */
   scheme?: string;
   /**
+   * Virtual account number issued by the processor (e.g. KCP manual virtual account payments).
+   * @type {string}
+   * @memberof PaymentProcessorDetails
+   */
+  virtual_account_number?: string;
+  /**
+   * Bank code for the virtual account without a BK prefix (e.g. KCP manual virtual account payments).
+   * @type {string}
+   * @memberof PaymentProcessorDetails
+   */
+  virtual_account_bank_code?: string;
+  /**
    *
    * @type {PaymentProcessorResult}
    * @memberof PaymentProcessorDetails
