@@ -2654,7 +2654,7 @@ export interface FVBill {
    * @type {boolean}
    * @memberof FVBill
    */
-  is_finverse_autopay_eligible?: boolean;
+  is_finverse_autopay_eligible: boolean;
 }
 
 export const FVBillStatusEnum = {
@@ -3330,7 +3330,7 @@ export interface GetBillResponse {
    * @type {boolean}
    * @memberof GetBillResponse
    */
-  is_finverse_autopay_eligible?: boolean;
+  is_finverse_autopay_eligible: boolean;
   /**
    *
    * @type {Array<PaymentResponse>}
