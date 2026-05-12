@@ -780,6 +780,154 @@ export interface BankTransferDetails {
 /**
  *
  * @export
+ * @interface BillDetails
+ */
+export interface BillDetails {
+  /**
+   *
+   * @type {number}
+   * @memberof BillDetails
+   */
+  total_amount_due?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof BillDetails
+   */
+  total_amount_due_raw?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof BillDetails
+   */
+  currency?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof BillDetails
+   */
+  description?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof BillDetails
+   */
+  bill_reference_id?: string;
+}
+/**
+ *
+ * @export
+ * @interface BillIntegrationMetadata
+ */
+export interface BillIntegrationMetadata {
+  /**
+   *
+   * @type {string}
+   * @memberof BillIntegrationMetadata
+   */
+  integration_id?: string;
+  /**
+   *
+   * @type {BillRapidstorMetadata}
+   * @memberof BillIntegrationMetadata
+   */
+  rapidstor_metadata?: BillRapidstorMetadata;
+}
+/**
+ *
+ * @export
+ * @interface BillRapidstorMetadata
+ */
+export interface BillRapidstorMetadata {
+  /**
+   *
+   * @type {string}
+   * @memberof BillRapidstorMetadata
+   */
+  corp_code?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof BillRapidstorMetadata
+   */
+  s_location_code?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof BillRapidstorMetadata
+   */
+  tenant_id?: string;
+  /**
+   *
+   * @type {number}
+   * @memberof BillRapidstorMetadata
+   */
+  i_anniv_days?: number;
+  /**
+   *
+   * @type {string}
+   * @memberof BillRapidstorMetadata
+   */
+  tenant_default_currency?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof BillRapidstorMetadata
+   */
+  s_unit_name?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof BillRapidstorMetadata
+   */
+  account_token?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof BillRapidstorMetadata
+   */
+  ledger_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof BillRapidstorMetadata
+   */
+  unit_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof BillRapidstorMetadata
+   */
+  i_lease_num?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof BillRapidstorMetadata
+   */
+  d_sched_out?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof BillRapidstorMetadata
+   */
+  unit_type_id?: string;
+}
+/**
+ *
+ * @export
+ * @interface BillSenderDetails
+ */
+export interface BillSenderDetails {
+  /**
+   *
+   * @type {string}
+   * @memberof BillSenderDetails
+   */
+  name?: string;
+}
+/**
+ *
+ * @export
  * @interface CardAccount
  */
 export interface CardAccount {
@@ -2402,6 +2550,126 @@ export interface ErrorResponse {
 /**
  *
  * @export
+ * @interface FVBill
+ */
+export interface FVBill {
+  /**
+   *
+   * @type {string}
+   * @memberof FVBill
+   */
+  bill_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof FVBill
+   */
+  external_bill_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof FVBill
+   */
+  user_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof FVBill
+   */
+  external_user_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof FVBill
+   */
+  customer_app_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof FVBill
+   */
+  bill_date?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof FVBill
+   */
+  due_date?: string | null;
+  /**
+   *
+   * @type {BillIntegrationMetadata}
+   * @memberof FVBill
+   */
+  integration_metadata?: BillIntegrationMetadata;
+  /**
+   *
+   * @type {BillDetails}
+   * @memberof FVBill
+   */
+  details?: BillDetails;
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof FVBill
+   */
+  metadata?: { [key: string]: string };
+  /**
+   *
+   * @type {string}
+   * @memberof FVBill
+   */
+  status?: FVBillStatusEnum;
+  /**
+   *
+   * @type {string}
+   * @memberof FVBill
+   */
+  integration_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof FVBill
+   */
+  payment_id?: string;
+  /**
+   *
+   * @type {BillSenderDetails}
+   * @memberof FVBill
+   */
+  sender_details?: BillSenderDetails;
+  /**
+   *
+   * @type {string}
+   * @memberof FVBill
+   */
+  created_at?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof FVBill
+   */
+  updated_at?: string | null;
+  /**
+   *
+   * @type {boolean}
+   * @memberof FVBill
+   */
+  is_finverse_autopay_eligible?: boolean;
+}
+
+export const FVBillStatusEnum = {
+  Unknown: 'UNKNOWN',
+  Unpaid: 'UNPAID',
+  Paid: 'PAID',
+  Cancelled: 'CANCELLED',
+  Failed: 'FAILED',
+} as const;
+
+export type FVBillStatusEnum = (typeof FVBillStatusEnum)[keyof typeof FVBillStatusEnum];
+
+/**
+ *
+ * @export
  * @interface FVCard
  */
 export interface FVCard {
@@ -2954,6 +3222,132 @@ export const GetBalanceHistoryResponseSourceEnum = {
 
 export type GetBalanceHistoryResponseSourceEnum =
   (typeof GetBalanceHistoryResponseSourceEnum)[keyof typeof GetBalanceHistoryResponseSourceEnum];
+
+/**
+ *
+ * @export
+ * @interface GetBillResponse
+ */
+export interface GetBillResponse {
+  /**
+   *
+   * @type {string}
+   * @memberof GetBillResponse
+   */
+  bill_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof GetBillResponse
+   */
+  external_bill_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof GetBillResponse
+   */
+  user_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof GetBillResponse
+   */
+  external_user_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof GetBillResponse
+   */
+  customer_app_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof GetBillResponse
+   */
+  bill_date?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof GetBillResponse
+   */
+  due_date?: string | null;
+  /**
+   *
+   * @type {BillIntegrationMetadata}
+   * @memberof GetBillResponse
+   */
+  integration_metadata?: BillIntegrationMetadata;
+  /**
+   *
+   * @type {BillDetails}
+   * @memberof GetBillResponse
+   */
+  details?: BillDetails;
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof GetBillResponse
+   */
+  metadata?: { [key: string]: string };
+  /**
+   *
+   * @type {string}
+   * @memberof GetBillResponse
+   */
+  status?: GetBillResponseStatusEnum;
+  /**
+   *
+   * @type {string}
+   * @memberof GetBillResponse
+   */
+  integration_id?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof GetBillResponse
+   */
+  payment_id?: string;
+  /**
+   *
+   * @type {BillSenderDetails}
+   * @memberof GetBillResponse
+   */
+  sender_details?: BillSenderDetails;
+  /**
+   *
+   * @type {string}
+   * @memberof GetBillResponse
+   */
+  created_at?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof GetBillResponse
+   */
+  updated_at?: string | null;
+  /**
+   *
+   * @type {boolean}
+   * @memberof GetBillResponse
+   */
+  is_finverse_autopay_eligible?: boolean;
+  /**
+   *
+   * @type {Array<PaymentResponse>}
+   * @memberof GetBillResponse
+   */
+  payments?: Array<PaymentResponse>;
+}
+
+export const GetBillResponseStatusEnum = {
+  Unknown: 'UNKNOWN',
+  Unpaid: 'UNPAID',
+  Paid: 'PAID',
+  Cancelled: 'CANCELLED',
+  Failed: 'FAILED',
+} as const;
+
+export type GetBillResponseStatusEnum = (typeof GetBillResponseStatusEnum)[keyof typeof GetBillResponseStatusEnum];
 
 /**
  *
@@ -4602,6 +4996,25 @@ export interface ListAccountsResponse {
    * @memberof ListAccountsResponse
    */
   institution?: InstitutionShort;
+}
+/**
+ *
+ * @export
+ * @interface ListBillsResponse
+ */
+export interface ListBillsResponse {
+  /**
+   *
+   * @type {Array<FVBill>}
+   * @memberof ListBillsResponse
+   */
+  bills?: Array<FVBill>;
+  /**
+   * Whether additional bills exist beyond this page for the same query.
+   * @type {boolean}
+   * @memberof ListBillsResponse
+   */
+  has_more: boolean;
 }
 /**
  *
@@ -13484,6 +13897,40 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Get a bill by ID
+     * @param {string} billId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getBill: async (billId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'billId' is not null or undefined
+      assertParamExists('getBill', 'billId', billId);
+      const localVarPath = `/bills/{billId}`.replace(`{${'billId'}}`, encodeURIComponent(String(billId)));
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * Get Mandate details by mandate_id
      * @param {string} mandateId mandate id
      * @param {*} [options] Override http request option.
@@ -13761,6 +14208,89 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * List bills
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListBillsStatusesEnum>} [statuses] Bill statuses to filter for, comma separated
+     * @param {string} [userId]
+     * @param {string} [externalUserId]
+     * @param {Array<string>} [currencies]
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listBills: async (
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListBillsStatusesEnum>,
+      userId?: string,
+      externalUserId?: string,
+      currencies?: Array<string>,
+      offset?: number,
+      limit?: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/bills`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (dateFrom !== undefined) {
+        localVarQueryParameter['date_from'] =
+          (dateFrom as any) instanceof Date ? (dateFrom as any).toISOString().substring(0, 10) : dateFrom;
+      }
+
+      if (dateTo !== undefined) {
+        localVarQueryParameter['date_to'] =
+          (dateTo as any) instanceof Date ? (dateTo as any).toISOString().substring(0, 10) : dateTo;
+      }
+
+      if (statuses) {
+        localVarQueryParameter['statuses'] = statuses.join(COLLECTION_FORMATS.csv);
+      }
+
+      if (userId !== undefined) {
+        localVarQueryParameter['user_id'] = userId;
+      }
+
+      if (externalUserId !== undefined) {
+        localVarQueryParameter['external_user_id'] = externalUserId;
+      }
+
+      if (currencies) {
+        localVarQueryParameter['currencies'] = currencies.join(COLLECTION_FORMATS.csv);
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter['offset'] = offset;
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter['limit'] = limit;
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -14969,6 +15499,28 @@ export const PaymentApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
+     * Get a bill by ID
+     * @param {string} billId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getBill(
+      billId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetBillResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getBill(billId, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.getBill']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
      * Get Mandate details by mandate_id
      * @param {string} mandateId mandate id
      * @param {*} [options] Override http request option.
@@ -15134,6 +15686,52 @@ export const PaymentApiFp = function (configuration?: Configuration) {
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap['PaymentApi.getPayoutById']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * List bills
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListBillsStatusesEnum>} [statuses] Bill statuses to filter for, comma separated
+     * @param {string} [userId]
+     * @param {string} [externalUserId]
+     * @param {Array<string>} [currencies]
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async listBills(
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListBillsStatusesEnum>,
+      userId?: string,
+      externalUserId?: string,
+      currencies?: Array<string>,
+      offset?: number,
+      limit?: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListBillsResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listBills(
+        dateFrom,
+        dateTo,
+        statuses,
+        userId,
+        externalUserId,
+        currencies,
+        offset,
+        limit,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.listBills']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -15815,6 +16413,15 @@ export const PaymentApiFactory = function (configuration?: Configuration, basePa
         .then((request) => request(axios, basePath));
     },
     /**
+     * Get a bill by ID
+     * @param {string} billId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getBill(billId: string, options?: RawAxiosRequestConfig): AxiosPromise<GetBillResponse> {
+      return localVarFp.getBill(billId, options).then((request) => request(axios, basePath));
+    },
+    /**
      * Get Mandate details by mandate_id
      * @param {string} mandateId mandate id
      * @param {*} [options] Override http request option.
@@ -15889,6 +16496,34 @@ export const PaymentApiFactory = function (configuration?: Configuration, basePa
      */
     getPayoutById(payoutId: string, options?: RawAxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse> {
       return localVarFp.getPayoutById(payoutId, options).then((request) => request(axios, basePath));
+    },
+    /**
+     * List bills
+     * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+     * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+     * @param {Array<ListBillsStatusesEnum>} [statuses] Bill statuses to filter for, comma separated
+     * @param {string} [userId]
+     * @param {string} [externalUserId]
+     * @param {Array<string>} [currencies]
+     * @param {number} [offset] default is 0
+     * @param {number} [limit] default is 500, max is 1000
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    listBills(
+      dateFrom?: string,
+      dateTo?: string,
+      statuses?: Array<ListBillsStatusesEnum>,
+      userId?: string,
+      externalUserId?: string,
+      currencies?: Array<string>,
+      offset?: number,
+      limit?: number,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ListBillsResponse> {
+      return localVarFp
+        .listBills(dateFrom, dateTo, statuses, userId, externalUserId, currencies, offset, limit, options)
+        .then((request) => request(axios, basePath));
     },
     /**
      * List mandates details
@@ -16384,6 +17019,15 @@ export interface PaymentApiInterface {
   ): AxiosPromise<DownloadBalanceStatementResponse>;
 
   /**
+   * Get a bill by ID
+   * @param {string} billId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  getBill(billId: string, options?: RawAxiosRequestConfig): AxiosPromise<GetBillResponse>;
+
+  /**
    * Get Mandate details by mandate_id
    * @param {string} mandateId mandate id
    * @param {*} [options] Override http request option.
@@ -16456,6 +17100,32 @@ export interface PaymentApiInterface {
    * @memberof PaymentApiInterface
    */
   getPayoutById(payoutId: string, options?: RawAxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse>;
+
+  /**
+   * List bills
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<ListBillsStatusesEnum>} [statuses] Bill statuses to filter for, comma separated
+   * @param {string} [userId]
+   * @param {string} [externalUserId]
+   * @param {Array<string>} [currencies]
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  listBills(
+    dateFrom?: string,
+    dateTo?: string,
+    statuses?: Array<ListBillsStatusesEnum>,
+    userId?: string,
+    externalUserId?: string,
+    currencies?: Array<string>,
+    offset?: number,
+    limit?: number,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<ListBillsResponse>;
 
   /**
    * List mandates details
@@ -16949,6 +17619,19 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
   }
 
   /**
+   * Get a bill by ID
+   * @param {string} billId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public getBill(billId: string, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .getBill(billId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
    * Get Mandate details by mandate_id
    * @param {string} mandateId mandate id
    * @param {*} [options] Override http request option.
@@ -17048,6 +17731,36 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
   public getPayoutById(payoutId: string, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
       .getPayoutById(payoutId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * List bills
+   * @param {string} [dateFrom] ISO format (YYYY-MM-DD)
+   * @param {string} [dateTo] ISO format (YYYY-MM-DD)
+   * @param {Array<ListBillsStatusesEnum>} [statuses] Bill statuses to filter for, comma separated
+   * @param {string} [userId]
+   * @param {string} [externalUserId]
+   * @param {Array<string>} [currencies]
+   * @param {number} [offset] default is 0
+   * @param {number} [limit] default is 500, max is 1000
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public listBills(
+    dateFrom?: string,
+    dateTo?: string,
+    statuses?: Array<ListBillsStatusesEnum>,
+    userId?: string,
+    externalUserId?: string,
+    currencies?: Array<string>,
+    offset?: number,
+    limit?: number,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentApiFp(this.configuration)
+      .listBills(dateFrom, dateTo, statuses, userId, externalUserId, currencies, offset, limit, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -17368,6 +18081,17 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
   }
 }
 
+/**
+ * @export
+ */
+export const ListBillsStatusesEnum = {
+  Unknown: 'UNKNOWN',
+  Unpaid: 'UNPAID',
+  Paid: 'PAID',
+  Cancelled: 'CANCELLED',
+  Failed: 'FAILED',
+} as const;
+export type ListBillsStatusesEnum = (typeof ListBillsStatusesEnum)[keyof typeof ListBillsStatusesEnum];
 /**
  * @export
  */
