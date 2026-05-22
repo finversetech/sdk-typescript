@@ -616,6 +616,12 @@ export interface AvailablePaymentMethod {
    * @memberof AvailablePaymentMethod
    */
   payment_method_provider?: string;
+  /**
+   * Ordered list of payment method brands, e.g. VISA, MASTERCARD, DISCOVER
+   * @type {Array<string>}
+   * @memberof AvailablePaymentMethod
+   */
+  payment_methods_list?: Array<string>;
 }
 /**
  *
@@ -752,7 +758,7 @@ export interface BalanceHistory {
    */
   date: string;
   /**
-   * The end of day balance for this account on this specific date
+   *
    * @type {number}
    * @memberof BalanceHistory
    */
@@ -788,19 +794,13 @@ export interface BillDetails {
    * @type {number}
    * @memberof BillDetails
    */
-  total_amount_due?: number;
+  total_amount_due: number;
   /**
    *
    * @type {string}
    * @memberof BillDetails
    */
-  total_amount_due_raw?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof BillDetails
-   */
-  currency?: string;
+  currency: string;
   /**
    *
    * @type {string}
@@ -812,7 +812,7 @@ export interface BillDetails {
    * @type {string}
    * @memberof BillDetails
    */
-  bill_reference_id?: string;
+  bill_reference_id: string;
 }
 /**
  *
@@ -825,7 +825,7 @@ export interface BillIntegrationMetadata {
    * @type {string}
    * @memberof BillIntegrationMetadata
    */
-  integration_id?: string;
+  integration_id: string;
   /**
    *
    * @type {BillRapidstorMetadata}
@@ -844,73 +844,73 @@ export interface BillRapidstorMetadata {
    * @type {string}
    * @memberof BillRapidstorMetadata
    */
-  corp_code?: string;
+  corp_code: string;
   /**
    *
    * @type {string}
    * @memberof BillRapidstorMetadata
    */
-  s_location_code?: string;
+  s_location_code: string;
   /**
    *
    * @type {string}
    * @memberof BillRapidstorMetadata
    */
-  tenant_id?: string;
+  tenant_id: string;
   /**
    *
    * @type {number}
    * @memberof BillRapidstorMetadata
    */
-  i_anniv_days?: number;
+  i_anniv_days: number;
   /**
    *
    * @type {string}
    * @memberof BillRapidstorMetadata
    */
-  tenant_default_currency?: string;
+  tenant_default_currency: string;
   /**
    *
    * @type {string}
    * @memberof BillRapidstorMetadata
    */
-  s_unit_name?: string;
+  s_unit_name: string;
   /**
    *
    * @type {string}
    * @memberof BillRapidstorMetadata
    */
-  account_token?: string;
+  account_token: string;
   /**
    *
    * @type {string}
    * @memberof BillRapidstorMetadata
    */
-  ledger_id?: string;
+  ledger_id: string;
   /**
    *
    * @type {string}
    * @memberof BillRapidstorMetadata
    */
-  unit_id?: string;
+  unit_id: string;
   /**
    *
    * @type {string}
    * @memberof BillRapidstorMetadata
    */
-  i_lease_num?: string;
+  i_lease_num: string;
   /**
    *
    * @type {string}
    * @memberof BillRapidstorMetadata
    */
-  d_sched_out?: string;
+  d_sched_out: string;
   /**
    *
    * @type {string}
    * @memberof BillRapidstorMetadata
    */
-  unit_type_id?: string;
+  unit_type_id: string;
 }
 /**
  *
@@ -923,7 +923,7 @@ export interface BillSenderDetails {
    * @type {string}
    * @memberof BillSenderDetails
    */
-  name?: string;
+  name: string;
 }
 /**
  *
@@ -1124,7 +1124,7 @@ export interface CardFvLinkResponse {
 
 export const CardFvLinkResponseStatusEnum = {
   Unknown: 'UNKNOWN',
-  Processing: 'PROCESSING',
+  Created: 'CREATED',
   Succeeded: 'SUCCEEDED',
   Cancelled: 'CANCELLED',
   Failed: 'FAILED',
@@ -1816,19 +1816,6 @@ export type CreatePaymentAccountRequestAccountTypeEnum =
 /**
  *
  * @export
- * @interface CreatePaymentInstructionResponse
- */
-export interface CreatePaymentInstructionResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof CreatePaymentInstructionResponse
-   */
-  payment_instruction_id?: string;
-}
-/**
- *
- * @export
  * @interface CreatePaymentLinkRequest
  */
 export interface CreatePaymentLinkRequest {
@@ -2159,93 +2146,6 @@ export interface CurrencyAmount {
 /**
  *
  * @export
- * @interface CustomerPaymentInstruction
- */
-export interface CustomerPaymentInstruction {
-  /**
-   * A id of the user of this payment, need to equal to userId when creating link
-   * @type {string}
-   * @memberof CustomerPaymentInstruction
-   */
-  user_id: string;
-  /**
-   * Type of payment is being created, please check Documentation on which payment type is supported in each institution
-   * @type {string}
-   * @memberof CustomerPaymentInstruction
-   */
-  type: CustomerPaymentInstructionTypeEnum;
-  /**
-   * The recipient name
-   * @type {string}
-   * @memberof CustomerPaymentInstruction
-   */
-  recipient_name?: string;
-  /**
-   * The recipient account Id
-   * @type {string}
-   * @memberof CustomerPaymentInstruction
-   */
-  recipient_account_id?: string;
-  /**
-   * The sender name
-   * @type {string}
-   * @memberof CustomerPaymentInstruction
-   */
-  sender_name?: string;
-  /**
-   * The sender account Id
-   * @type {string}
-   * @memberof CustomerPaymentInstruction
-   */
-  sender_account_id?: string;
-  /**
-   * When the payment should start
-   * @type {string}
-   * @memberof CustomerPaymentInstruction
-   */
-  start_date?: string | null;
-  /**
-   * When the payment should stop
-   * @type {string}
-   * @memberof CustomerPaymentInstruction
-   */
-  end_date?: string | null;
-  /**
-   * The currency for the payment
-   * @type {string}
-   * @memberof CustomerPaymentInstruction
-   */
-  currency?: string;
-  /**
-   * The payment amount
-   * @type {number}
-   * @memberof CustomerPaymentInstruction
-   */
-  amount?: number;
-  /**
-   * How often the payment should be executed
-   * @type {string}
-   * @memberof CustomerPaymentInstruction
-   */
-  frequency?: string;
-  /**
-   * Related remarks about this instruction
-   * @type {string}
-   * @memberof CustomerPaymentInstruction
-   */
-  remarks?: string;
-}
-
-export const CustomerPaymentInstructionTypeEnum = {
-  DebitAuthorization: 'DEBIT_AUTHORIZATION',
-} as const;
-
-export type CustomerPaymentInstructionTypeEnum =
-  (typeof CustomerPaymentInstructionTypeEnum)[keyof typeof CustomerPaymentInstructionTypeEnum];
-
-/**
- *
- * @export
  * @interface DeleteLoginIdentityResponse
  */
 export interface DeleteLoginIdentityResponse {
@@ -2558,55 +2458,55 @@ export interface FVBill {
    * @type {string}
    * @memberof FVBill
    */
-  bill_id?: string;
+  bill_id: string;
   /**
    *
    * @type {string}
    * @memberof FVBill
    */
-  external_bill_id?: string;
+  external_bill_id: string;
   /**
    *
    * @type {string}
    * @memberof FVBill
    */
-  user_id?: string;
+  user_id: string;
   /**
    *
    * @type {string}
    * @memberof FVBill
    */
-  external_user_id?: string;
+  external_user_id: string;
   /**
    *
    * @type {string}
    * @memberof FVBill
    */
-  customer_app_id?: string;
+  customer_app_id: string;
   /**
    *
    * @type {string}
    * @memberof FVBill
    */
-  bill_date?: string | null;
+  bill_date: string | null;
   /**
    *
    * @type {string}
    * @memberof FVBill
    */
-  due_date?: string | null;
+  due_date: string | null;
   /**
    *
    * @type {BillIntegrationMetadata}
    * @memberof FVBill
    */
-  integration_metadata?: BillIntegrationMetadata;
+  integration_metadata: BillIntegrationMetadata;
   /**
    *
    * @type {BillDetails}
    * @memberof FVBill
    */
-  details?: BillDetails;
+  details: BillDetails;
   /**
    *
    * @type {{ [key: string]: string; }}
@@ -2618,37 +2518,31 @@ export interface FVBill {
    * @type {string}
    * @memberof FVBill
    */
-  status?: FVBillStatusEnum;
+  status: FVBillStatusEnum;
   /**
    *
    * @type {string}
    * @memberof FVBill
    */
-  integration_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof FVBill
-   */
-  payment_id?: string;
+  integration_id: string;
   /**
    *
    * @type {BillSenderDetails}
    * @memberof FVBill
    */
-  sender_details?: BillSenderDetails;
+  sender_details: BillSenderDetails;
   /**
    *
    * @type {string}
    * @memberof FVBill
    */
-  created_at?: string | null;
+  created_at: string | null;
   /**
    *
    * @type {string}
    * @memberof FVBill
    */
-  updated_at?: string | null;
+  updated_at: string | null;
   /**
    *
    * @type {boolean}
@@ -2719,7 +2613,7 @@ export interface FVCard {
 
 export const FVCardStatusEnum = {
   Unknown: 'UNKNOWN',
-  Processing: 'PROCESSING',
+  Created: 'CREATED',
   Succeeded: 'SUCCEEDED',
   Cancelled: 'CANCELLED',
   Failed: 'FAILED',
@@ -3234,55 +3128,55 @@ export interface GetBillResponse {
    * @type {string}
    * @memberof GetBillResponse
    */
-  bill_id?: string;
+  bill_id: string;
   /**
    *
    * @type {string}
    * @memberof GetBillResponse
    */
-  external_bill_id?: string;
+  external_bill_id: string;
   /**
    *
    * @type {string}
    * @memberof GetBillResponse
    */
-  user_id?: string;
+  user_id: string;
   /**
    *
    * @type {string}
    * @memberof GetBillResponse
    */
-  external_user_id?: string;
+  external_user_id: string;
   /**
    *
    * @type {string}
    * @memberof GetBillResponse
    */
-  customer_app_id?: string;
+  customer_app_id: string;
   /**
    *
    * @type {string}
    * @memberof GetBillResponse
    */
-  bill_date?: string | null;
+  bill_date: string | null;
   /**
    *
    * @type {string}
    * @memberof GetBillResponse
    */
-  due_date?: string | null;
+  due_date: string | null;
   /**
    *
    * @type {BillIntegrationMetadata}
    * @memberof GetBillResponse
    */
-  integration_metadata?: BillIntegrationMetadata;
+  integration_metadata: BillIntegrationMetadata;
   /**
    *
    * @type {BillDetails}
    * @memberof GetBillResponse
    */
-  details?: BillDetails;
+  details: BillDetails;
   /**
    *
    * @type {{ [key: string]: string; }}
@@ -3294,37 +3188,31 @@ export interface GetBillResponse {
    * @type {string}
    * @memberof GetBillResponse
    */
-  status?: GetBillResponseStatusEnum;
+  status: GetBillResponseStatusEnum;
   /**
    *
    * @type {string}
    * @memberof GetBillResponse
    */
-  integration_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof GetBillResponse
-   */
-  payment_id?: string;
+  integration_id: string;
   /**
    *
    * @type {BillSenderDetails}
    * @memberof GetBillResponse
    */
-  sender_details?: BillSenderDetails;
+  sender_details: BillSenderDetails;
   /**
    *
    * @type {string}
    * @memberof GetBillResponse
    */
-  created_at?: string | null;
+  created_at: string | null;
   /**
    *
    * @type {string}
    * @memberof GetBillResponse
    */
-  updated_at?: string | null;
+  updated_at: string | null;
   /**
    *
    * @type {boolean}
@@ -3336,7 +3224,7 @@ export interface GetBillResponse {
    * @type {Array<PaymentResponse>}
    * @memberof GetBillResponse
    */
-  payments?: Array<PaymentResponse>;
+  payments: Array<PaymentResponse>;
 }
 
 export const GetBillResponseStatusEnum = {
@@ -3732,19 +3620,6 @@ export const GetMandateSenderUserTypeEnum = {
 export type GetMandateSenderUserTypeEnum =
   (typeof GetMandateSenderUserTypeEnum)[keyof typeof GetMandateSenderUserTypeEnum];
 
-/**
- *
- * @export
- * @interface GetPaymentInstructionsResponse
- */
-export interface GetPaymentInstructionsResponse {
-  /**
-   *
-   * @type {PaymentInstruction}
-   * @memberof GetPaymentInstructionsResponse
-   */
-  payment_instruction?: PaymentInstruction;
-}
 /**
  *
  * @export
@@ -4157,7 +4032,7 @@ export interface IdentityPhoneNumber {
  */
 export interface IncomeEstimate {
   /**
-   * Income amount
+   *
    * @type {number}
    * @memberof IncomeEstimate
    */
@@ -5008,7 +4883,7 @@ export interface ListBillsResponse {
    * @type {Array<FVBill>}
    * @memberof ListBillsResponse
    */
-  bills?: Array<FVBill>;
+  bills: Array<FVBill>;
   /**
    * Whether additional bills exist beyond this page for the same query.
    * @type {boolean}
@@ -6755,134 +6630,6 @@ export const PaymentInfoPaymentsSupportedEnum = {
 
 export type PaymentInfoPaymentsSupportedEnum =
   (typeof PaymentInfoPaymentsSupportedEnum)[keyof typeof PaymentInfoPaymentsSupportedEnum];
-
-/**
- *
- * @export
- * @interface PaymentInstruction
- */
-export interface PaymentInstruction {
-  /**
-   * An id of the this payment
-   * @type {string}
-   * @memberof PaymentInstruction
-   */
-  payment_instruction_id?: string;
-  /**
-   * An id of the user of this payment, need to equal to userId when creating link
-   * @type {string}
-   * @memberof PaymentInstruction
-   */
-  user_id?: string;
-  /**
-   * An id that links this payment to a specific Login Identity
-   * @type {string}
-   * @memberof PaymentInstruction
-   */
-  login_identity_id?: string;
-  /**
-   * Type of payment that was created, please check Documentation on which payment type is supported in each institution
-   * @type {string}
-   * @memberof PaymentInstruction
-   */
-  type?: PaymentInstructionTypeEnum;
-  /**
-   * The recipient name
-   * @type {string}
-   * @memberof PaymentInstruction
-   */
-  recipient_name?: string;
-  /**
-   * The recipient account Id
-   * @type {string}
-   * @memberof PaymentInstruction
-   */
-  recipient_account_id?: string;
-  /**
-   * The sender name
-   * @type {string}
-   * @memberof PaymentInstruction
-   */
-  sender_name?: string;
-  /**
-   *
-   * @type {PaymentAccount}
-   * @memberof PaymentInstruction
-   */
-  sender_account?: PaymentAccount;
-  /**
-   * The sender account Id
-   * @type {string}
-   * @memberof PaymentInstruction
-   */
-  sender_account_id?: string;
-  /**
-   * When the payment should start
-   * @type {string}
-   * @memberof PaymentInstruction
-   */
-  start_date?: string | null;
-  /**
-   * When the payment should stop
-   * @type {string}
-   * @memberof PaymentInstruction
-   */
-  end_date?: string | null;
-  /**
-   * The currency for the payment
-   * @type {string}
-   * @memberof PaymentInstruction
-   */
-  currency?: string;
-  /**
-   * The payment amount
-   * @type {number}
-   * @memberof PaymentInstruction
-   */
-  amount?: number;
-  /**
-   * How often the payment should be executed
-   * @type {string}
-   * @memberof PaymentInstruction
-   */
-  frequency?: string;
-  /**
-   * Related remarks about this instruction
-   * @type {string}
-   * @memberof PaymentInstruction
-   */
-  remarks?: string;
-  /**
-   * Status of the payment
-   * @type {string}
-   * @memberof PaymentInstruction
-   */
-  status?: string;
-  /**
-   * Reference identification returned by institution
-   * @type {string}
-   * @memberof PaymentInstruction
-   */
-  reference_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentInstruction
-   */
-  last_update?: string;
-  /**
-   * Extra information collected for this payment instruction
-   * @type {object}
-   * @memberof PaymentInstruction
-   */
-  info?: object;
-}
-
-export const PaymentInstructionTypeEnum = {
-  DebitAuthorization: 'DEBIT_AUTHORIZATION',
-} as const;
-
-export type PaymentInstructionTypeEnum = (typeof PaymentInstructionTypeEnum)[keyof typeof PaymentInstructionTypeEnum];
 
 /**
  *
@@ -10144,46 +9891,6 @@ export interface UserMessage {
 export const CustomerApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
-     * Create a new payment instruction to be used when linking to perform new payment
-     * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createPaymentInstruction: async (
-      paymentInstruction: CustomerPaymentInstruction,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'paymentInstruction' is not null or undefined
-      assertParamExists('createPaymentInstruction', 'paymentInstruction', paymentInstruction);
-      const localVarPath = `/payments/instruction`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(paymentInstruction, localVarRequestOptions, configuration);
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
      * Get a specific institution by institutionId
      * @param {string} institutionId The institution id
      * @param {*} [options] Override http request option.
@@ -10227,47 +9934,6 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
      */
     getInstitutionsForCustomer: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/institutions/customer`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-     * [DEPRECATED] Get payment instructions by payment_instruction_id
-     * @param {string} paymentInstructionId The id of a payment instruction
-     * @param {*} [options] Override http request option.
-     * @deprecated
-     * @throws {RequiredError}
-     */
-    getPaymentInstruction: async (
-      paymentInstructionId: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'paymentInstructionId' is not null or undefined
-      assertParamExists('getPaymentInstruction', 'paymentInstructionId', paymentInstructionId);
-      const localVarPath = `/payments/instruction/{paymentInstructionId}`.replace(
-        `{${'paymentInstructionId'}}`,
-        encodeURIComponent(String(paymentInstructionId)),
-      );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -10397,28 +10063,6 @@ export const CustomerApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = CustomerApiAxiosParamCreator(configuration);
   return {
     /**
-     * Create a new payment instruction to be used when linking to perform new payment
-     * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async createPaymentInstruction(
-      paymentInstruction: CustomerPaymentInstruction,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CreatePaymentInstructionResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createPaymentInstruction(paymentInstruction, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.createPaymentInstruction']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
      * Get a specific institution by institutionId
      * @param {string} institutionId The institution id
      * @param {*} [options] Override http request option.
@@ -10452,29 +10096,6 @@ export const CustomerApiFp = function (configuration?: Configuration) {
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap['CustomerApi.getInstitutionsForCustomer']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
-     * [DEPRECATED] Get payment instructions by payment_instruction_id
-     * @param {string} paymentInstructionId The id of a payment instruction
-     * @param {*} [options] Override http request option.
-     * @deprecated
-     * @throws {RequiredError}
-     */
-    async getPaymentInstruction(
-      paymentInstructionId: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GetPaymentInstructionsResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getPaymentInstruction(paymentInstructionId, options);
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['CustomerApi.getPaymentInstruction']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -10550,20 +10171,6 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
   const localVarFp = CustomerApiFp(configuration);
   return {
     /**
-     * Create a new payment instruction to be used when linking to perform new payment
-     * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createPaymentInstruction(
-      paymentInstruction: CustomerPaymentInstruction,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<CreatePaymentInstructionResponse> {
-      return localVarFp
-        .createPaymentInstruction(paymentInstruction, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
      * Get a specific institution by institutionId
      * @param {string} institutionId The institution id
      * @param {*} [options] Override http request option.
@@ -10579,21 +10186,6 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
      */
     getInstitutionsForCustomer(options?: RawAxiosRequestConfig): AxiosPromise<Array<Institution>> {
       return localVarFp.getInstitutionsForCustomer(options).then((request) => request(axios, basePath));
-    },
-    /**
-     * [DEPRECATED] Get payment instructions by payment_instruction_id
-     * @param {string} paymentInstructionId The id of a payment instruction
-     * @param {*} [options] Override http request option.
-     * @deprecated
-     * @throws {RequiredError}
-     */
-    getPaymentInstruction(
-      paymentInstructionId: string,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<GetPaymentInstructionsResponse> {
-      return localVarFp
-        .getPaymentInstruction(paymentInstructionId, options)
-        .then((request) => request(axios, basePath));
     },
     /**
      * Get a list of institutions
@@ -10634,18 +10226,6 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
  */
 export interface CustomerApiInterface {
   /**
-   * Create a new payment instruction to be used when linking to perform new payment
-   * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  createPaymentInstruction(
-    paymentInstruction: CustomerPaymentInstruction,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<CreatePaymentInstructionResponse>;
-
-  /**
    * Get a specific institution by institutionId
    * @param {string} institutionId The institution id
    * @param {*} [options] Override http request option.
@@ -10661,19 +10241,6 @@ export interface CustomerApiInterface {
    * @memberof CustomerApiInterface
    */
   getInstitutionsForCustomer(options?: RawAxiosRequestConfig): AxiosPromise<Array<Institution>>;
-
-  /**
-   * [DEPRECATED] Get payment instructions by payment_instruction_id
-   * @param {string} paymentInstructionId The id of a payment instruction
-   * @param {*} [options] Override http request option.
-   * @deprecated
-   * @throws {RequiredError}
-   * @memberof CustomerApiInterface
-   */
-  getPaymentInstruction(
-    paymentInstructionId: string,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<GetPaymentInstructionsResponse>;
 
   /**
    * Get a list of institutions
@@ -10711,19 +10278,6 @@ export interface CustomerApiInterface {
  */
 export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   /**
-   * Create a new payment instruction to be used when linking to perform new payment
-   * @param {CustomerPaymentInstruction} paymentInstruction Request body for starting a new Link
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public createPaymentInstruction(paymentInstruction: CustomerPaymentInstruction, options?: RawAxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .createPaymentInstruction(paymentInstruction, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
    * Get a specific institution by institutionId
    * @param {string} institutionId The institution id
    * @param {*} [options] Override http request option.
@@ -10745,20 +10299,6 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   public getInstitutionsForCustomer(options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
       .getInstitutionsForCustomer(options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * [DEPRECATED] Get payment instructions by payment_instruction_id
-   * @param {string} paymentInstructionId The id of a payment instruction
-   * @param {*} [options] Override http request option.
-   * @deprecated
-   * @throws {RequiredError}
-   * @memberof CustomerApi
-   */
-  public getPaymentInstruction(paymentInstructionId: string, options?: RawAxiosRequestConfig) {
-    return CustomerApiFp(this.configuration)
-      .getPaymentInstruction(paymentInstructionId, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
