@@ -2084,43 +2084,6 @@ export type CreateRecipientAccountAccountTypeEnum =
 /**
  *
  * @export
- * @interface CreateScheduledPayoutRequest
- */
-export interface CreateScheduledPayoutRequest {
-  /**
-   * Amount to be paid, in currency\'s smallest unit or “minor unit”, as defined in ISO 4217. For example, HKD 100.01 is represented as amount = 10001 (minor unit = cents). For currencies without minor units (e.g. VND, JPY), the amount is represented as is, without modification. For example, VND 15101 is represented as amount = 15101.
-   * @type {number}
-   * @memberof CreateScheduledPayoutRequest
-   */
-  amount: number;
-  /**
-   * The currency code as defined in ISO 4217.
-   * @type {string}
-   * @memberof CreateScheduledPayoutRequest
-   */
-  currency: string;
-  /**
-   *
-   * @type {PayoutDetails}
-   * @memberof CreateScheduledPayoutRequest
-   */
-  payment_details: PayoutDetails;
-  /**
-   *
-   * @type {MandateRecipientRequest}
-   * @memberof CreateScheduledPayoutRequest
-   */
-  recipient_account: MandateRecipientRequest;
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof CreateScheduledPayoutRequest
-   */
-  metadata?: { [key: string]: string };
-}
-/**
- *
- * @export
  * @interface CurrencyAmount
  */
 export interface CurrencyAmount {
@@ -13293,57 +13256,6 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
-     * Create a scheduled payout
-     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createScheduledPayout: async (
-      idempotencyKey: string,
-      createScheduledPayoutRequest: CreateScheduledPayoutRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'idempotencyKey' is not null or undefined
-      assertParamExists('createScheduledPayout', 'idempotencyKey', idempotencyKey);
-      // verify required parameter 'createScheduledPayoutRequest' is not null or undefined
-      assertParamExists('createScheduledPayout', 'createScheduledPayoutRequest', createScheduledPayoutRequest);
-      const localVarPath = `/payouts/scheduled`;
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication Oauth2 required
-      // oauth required
-      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
-
-      localVarHeaderParameter['Content-Type'] = 'application/json';
-
-      if (idempotencyKey != null) {
-        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
-      }
-      setSearchParams(localVarUrlObj, localVarQueryParameter);
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        createScheduledPayoutRequest,
-        localVarRequestOptions,
-        configuration,
-      );
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
      * delete payment account
      * @param {string} paymentAccountId The payment account id
      * @param {*} [options] Override http request option.
@@ -15085,34 +14997,6 @@ export const PaymentApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
-     * Create a scheduled payout
-     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async createScheduledPayout(
-      idempotencyKey: string,
-      createScheduledPayoutRequest: CreateScheduledPayoutRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutSnapshotResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createScheduledPayout(
-        idempotencyKey,
-        createScheduledPayoutRequest,
-        options,
-      );
-      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-      const localVarOperationServerBasePath =
-        operationServerMap['PaymentApi.createScheduledPayout']?.[localVarOperationServerIndex]?.url;
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, localVarOperationServerBasePath || basePath);
-    },
-    /**
      * delete payment account
      * @param {string} paymentAccountId The payment account id
      * @param {*} [options] Override http request option.
@@ -16107,22 +15991,6 @@ export const PaymentApiFactory = function (configuration?: Configuration, basePa
         .then((request) => request(axios, basePath));
     },
     /**
-     * Create a scheduled payout
-     * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-     * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createScheduledPayout(
-      idempotencyKey: string,
-      createScheduledPayoutRequest: CreateScheduledPayoutRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PayoutSnapshotResponse> {
-      return localVarFp
-        .createScheduledPayout(idempotencyKey, createScheduledPayoutRequest, options)
-        .then((request) => request(axios, basePath));
-    },
-    /**
      * delete payment account
      * @param {string} paymentAccountId The payment account id
      * @param {*} [options] Override http request option.
@@ -16753,20 +16621,6 @@ export interface PaymentApiInterface {
   ): AxiosPromise<PaymentUser>;
 
   /**
-   * Create a scheduled payout
-   * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-   * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof PaymentApiInterface
-   */
-  createScheduledPayout(
-    idempotencyKey: string,
-    createScheduledPayoutRequest: CreateScheduledPayoutRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<PayoutSnapshotResponse>;
-
-  /**
    * delete payment account
    * @param {string} paymentAccountId The payment account id
    * @param {*} [options] Override http request option.
@@ -17369,24 +17223,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
   public createPaymentUser(createPaymentUserRequest: CreatePaymentUserRequest, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
       .createPaymentUser(createPaymentUserRequest, options)
-      .then((request) => request(this.axios, this.basePath));
-  }
-
-  /**
-   * Create a scheduled payout
-   * @param {string} idempotencyKey A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
-   * @param {CreateScheduledPayoutRequest} createScheduledPayoutRequest Request body containing information to create scheduled payout
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof PaymentApi
-   */
-  public createScheduledPayout(
-    idempotencyKey: string,
-    createScheduledPayoutRequest: CreateScheduledPayoutRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return PaymentApiFp(this.configuration)
-      .createScheduledPayout(idempotencyKey, createScheduledPayoutRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
