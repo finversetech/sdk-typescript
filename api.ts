@@ -2039,6 +2039,74 @@ export type CreatePaymentUserRequestUserTypeEnum =
 /**
  *
  * @export
+ * @interface CreatePayoutDetails
+ */
+export interface CreatePayoutDetails {
+  /**
+   * A description for the payout
+   * @type {string}
+   * @memberof CreatePayoutDetails
+   */
+  description: string;
+  /**
+   * Any reference ID provided by the customer for this payout
+   * @type {string}
+   * @memberof CreatePayoutDetails
+   */
+  external_transaction_reference: string;
+}
+/**
+ *
+ * @export
+ * @interface CreatePayoutRequest
+ */
+export interface CreatePayoutRequest {
+  /**
+   * The payout amount, in the minor unit of the currency
+   * @type {number}
+   * @memberof CreatePayoutRequest
+   */
+  amount: number;
+  /**
+   * ISO 4217 currency code of the payout
+   * @type {string}
+   * @memberof CreatePayoutRequest
+   */
+  currency: string;
+  /**
+   * If true, the payout is immediately submitted for processing. If false, the payout is created in CREATED status and must be confirmed via POST /payouts/{payoutId}/confirm before it is processed.
+   * @type {boolean}
+   * @memberof CreatePayoutRequest
+   */
+  confirm: boolean;
+  /**
+   *
+   * @type {CreatePayoutDetails}
+   * @memberof CreatePayoutRequest
+   */
+  payment_details: CreatePayoutDetails;
+  /**
+   *
+   * @type {PayoutAccountRef}
+   * @memberof CreatePayoutRequest
+   */
+  sender_account: PayoutAccountRef;
+  /**
+   *
+   * @type {PayoutAccountRef}
+   * @memberof CreatePayoutRequest
+   */
+  recipient_account: PayoutAccountRef;
+  /**
+   * Up to 20 metadata key-value pairs
+   * @type {{ [key: string]: string; }}
+   * @memberof CreatePayoutRequest
+   */
+  metadata?: { [key: string]: string };
+}
+/**
+ *
+ * @export
  * @interface CreateRecipientAccount
  */
 export interface CreateRecipientAccount {
@@ -8058,6 +8126,19 @@ export type PaymentUserWithoutEmailUserTypeEnum =
 /**
  *
  * @export
+ * @interface PayoutAccountRef
+ */
+export interface PayoutAccountRef {
+  /**
+   * The payment account id
+   * @type {string}
+   * @memberof PayoutAccountRef
+   */
+  account_id: string;
+}
+/**
+ *
+ * @export
  * @interface PayoutDetails
  */
 export interface PayoutDetails {
@@ -8294,6 +8375,7 @@ export const PayoutSnapshotResponseTypeEnum = {
   Manual: 'MANUAL',
   Scheduled: 'SCHEDULED',
   Settlement: 'SETTLEMENT',
+  OnDemand: 'ON_DEMAND',
 } as const;
 
 export type PayoutSnapshotResponseTypeEnum =
@@ -12936,6 +13018,43 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       };
     },
     /**
+     * Confirm a payout that was created with confirm = false, submitting it for processing
+     * @param {string} payoutId payout id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    confirmPayout: async (payoutId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'payoutId' is not null or undefined
+      assertParamExists('confirmPayout', 'payoutId', payoutId);
+      const localVarPath = `/payouts/{payoutId}/confirm`.replace(
+        `{${'payoutId'}}`,
+        encodeURIComponent(String(payoutId)),
+      );
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
      * CREATE Mandate
      * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
      * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
@@ -13249,6 +13368,53 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
         localVarRequestOptions,
         configuration,
       );
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+     * Create a payout
+     * @param {string} idempotencyKey A random key provided by the customer, per unique payout. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {CreatePayoutRequest} createPayoutRequest Request body containing information to create a payout
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPayout: async (
+      idempotencyKey: string,
+      createPayoutRequest: CreatePayoutRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'idempotencyKey' is not null or undefined
+      assertParamExists('createPayout', 'idempotencyKey', idempotencyKey);
+      // verify required parameter 'createPayoutRequest' is not null or undefined
+      assertParamExists('createPayout', 'createPayoutRequest', createPayoutRequest);
+      const localVarPath = `/payouts`;
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication Oauth2 required
+      // oauth required
+      await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      if (idempotencyKey != null) {
+        localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
+      }
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+      localVarRequestOptions.data = serializeDataIfNeeded(createPayoutRequest, localVarRequestOptions, configuration);
 
       return {
         url: toPathString(localVarUrlObj),
@@ -14816,6 +14982,28 @@ export const PaymentApiFp = function (configuration?: Configuration) {
         )(axios, localVarOperationServerBasePath || basePath);
     },
     /**
+     * Confirm a payout that was created with confirm = false, submitting it for processing
+     * @param {string} payoutId payout id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async confirmPayout(
+      payoutId: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutSnapshotResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.confirmPayout(payoutId, options);
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.confirmPayout']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
      * CREATE Mandate
      * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
      * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
@@ -14988,6 +15176,34 @@ export const PaymentApiFp = function (configuration?: Configuration) {
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap['PaymentApi.createPaymentUser']?.[localVarOperationServerIndex]?.url;
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, localVarOperationServerBasePath || basePath);
+    },
+    /**
+     * Create a payout
+     * @param {string} idempotencyKey A random key provided by the customer, per unique payout. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {CreatePayoutRequest} createPayoutRequest Request body containing information to create a payout
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createPayout(
+      idempotencyKey: string,
+      createPayoutRequest: CreatePayoutRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PayoutSnapshotResponse>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createPayout(
+        idempotencyKey,
+        createPayoutRequest,
+        options,
+      );
+      const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+      const localVarOperationServerBasePath =
+        operationServerMap['PaymentApi.createPayout']?.[localVarOperationServerIndex]?.url;
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -15885,6 +16101,15 @@ export const PaymentApiFactory = function (configuration?: Configuration, basePa
         .then((request) => request(axios, basePath));
     },
     /**
+     * Confirm a payout that was created with confirm = false, submitting it for processing
+     * @param {string} payoutId payout id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    confirmPayout(payoutId: string, options?: RawAxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse> {
+      return localVarFp.confirmPayout(payoutId, options).then((request) => request(axios, basePath));
+    },
+    /**
      * CREATE Mandate
      * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
      * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
@@ -15988,6 +16213,22 @@ export const PaymentApiFactory = function (configuration?: Configuration, basePa
     ): AxiosPromise<PaymentUser> {
       return localVarFp
         .createPaymentUser(createPaymentUserRequest, options)
+        .then((request) => request(axios, basePath));
+    },
+    /**
+     * Create a payout
+     * @param {string} idempotencyKey A random key provided by the customer, per unique payout. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+     * @param {CreatePayoutRequest} createPayoutRequest Request body containing information to create a payout
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createPayout(
+      idempotencyKey: string,
+      createPayoutRequest: CreatePayoutRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PayoutSnapshotResponse> {
+      return localVarFp
+        .createPayout(idempotencyKey, createPayoutRequest, options)
         .then((request) => request(axios, basePath));
     },
     /**
@@ -16529,6 +16770,15 @@ export interface PaymentApiInterface {
   ): AxiosPromise<CompleteKcpPaymentResponse>;
 
   /**
+   * Confirm a payout that was created with confirm = false, submitting it for processing
+   * @param {string} payoutId payout id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  confirmPayout(payoutId: string, options?: RawAxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse>;
+
+  /**
    * CREATE Mandate
    * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
    * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
@@ -16619,6 +16869,20 @@ export interface PaymentApiInterface {
     createPaymentUserRequest: CreatePaymentUserRequest,
     options?: RawAxiosRequestConfig,
   ): AxiosPromise<PaymentUser>;
+
+  /**
+   * Create a payout
+   * @param {string} idempotencyKey A random key provided by the customer, per unique payout. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+   * @param {CreatePayoutRequest} createPayoutRequest Request body containing information to create a payout
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApiInterface
+   */
+  createPayout(
+    idempotencyKey: string,
+    createPayoutRequest: CreatePayoutRequest,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<PayoutSnapshotResponse>;
 
   /**
    * delete payment account
@@ -17113,6 +17377,19 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
   }
 
   /**
+   * Confirm a payout that was created with confirm = false, submitting it for processing
+   * @param {string} payoutId payout id
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public confirmPayout(payoutId: string, options?: RawAxiosRequestConfig) {
+    return PaymentApiFp(this.configuration)
+      .confirmPayout(payoutId, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
    * CREATE Mandate
    * @param {CreateMandateRequest} createMandateRequest request body for creating mandate
    * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
@@ -17223,6 +17500,24 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
   public createPaymentUser(createPaymentUserRequest: CreatePaymentUserRequest, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
       .createPaymentUser(createPaymentUserRequest, options)
+      .then((request) => request(this.axios, this.basePath));
+  }
+
+  /**
+   * Create a payout
+   * @param {string} idempotencyKey A random key provided by the customer, per unique payout. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
+   * @param {CreatePayoutRequest} createPayoutRequest Request body containing information to create a payout
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PaymentApi
+   */
+  public createPayout(
+    idempotencyKey: string,
+    createPayoutRequest: CreatePayoutRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return PaymentApiFp(this.configuration)
+      .createPayout(idempotencyKey, createPayoutRequest, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
@@ -17917,6 +18212,7 @@ export const ListPayoutsPayoutTypesEnum = {
   Manual: 'MANUAL',
   Scheduled: 'SCHEDULED',
   Settlement: 'SETTLEMENT',
+  OnDemand: 'ON_DEMAND',
 } as const;
 export type ListPayoutsPayoutTypesEnum = (typeof ListPayoutsPayoutTypesEnum)[keyof typeof ListPayoutsPayoutTypesEnum];
 
