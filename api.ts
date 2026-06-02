@@ -4468,6 +4468,34 @@ export interface JWKSKey {
   x5c?: Array<string>;
 }
 /**
+ * KCP virtual account metadata
+ * @export
+ * @interface KcpVaMetadata
+ */
+export interface KcpVaMetadata {
+  /**
+   * Cash receipt type; \"0\" = income tax deduction (for individuals), \"1\" = proof of expenditure (for businesses)
+   * @type {string}
+   * @memberof KcpVaMetadata
+   */
+  va_receipt_gubn: KcpVaMetadataVaReceiptGubnEnum;
+  /**
+   * ID number for cash receipt issuance
+   * @type {string}
+   * @memberof KcpVaMetadata
+   */
+  va_taxno: string;
+}
+
+export const KcpVaMetadataVaReceiptGubnEnum = {
+  _0: '0',
+  _1: '1',
+} as const;
+
+export type KcpVaMetadataVaReceiptGubnEnum =
+  (typeof KcpVaMetadataVaReceiptGubnEnum)[keyof typeof KcpVaMetadataVaReceiptGubnEnum];
+
+/**
  *
  * @export
  * @interface LineItem
@@ -9115,6 +9143,12 @@ export interface SelectPaymentMethodRequest {
    * @memberof SelectPaymentMethodRequest
    */
   institution_id?: string;
+  /**
+   *
+   * @type {KcpVaMetadata}
+   * @memberof SelectPaymentMethodRequest
+   */
+  kcp_va_metadata?: KcpVaMetadata;
 }
 
 export const SelectPaymentMethodRequestPaymentMethodTypeEnum = {
