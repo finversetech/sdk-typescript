@@ -8220,6 +8220,12 @@ export interface PayoutReferences {
    * @memberof PayoutReferences
    */
   recipient_reference?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutReferences
+   */
+  finverse_transaction_reference?: string;
 }
 /**
  *
