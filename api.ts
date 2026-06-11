@@ -4236,10 +4236,10 @@ export interface Institution {
   login_url?: string;
   /**
    *
-   * @type {object}
+   * @type {LoginDetails}
    * @memberof Institution
    */
-  login_details: object;
+  login_details?: LoginDetails;
   /**
    *
    * @type {Array<LoginMethod>}
@@ -5175,6 +5175,31 @@ export interface LoginAction {
    * @memberof LoginAction
    */
   buttons?: Array<UserButton>;
+}
+/**
+ *
+ * @export
+ * @interface LoginDetails
+ */
+export interface LoginDetails {
+  /**
+   *
+   * @type {string}
+   * @memberof LoginDetails
+   */
+  info_message?: string;
+  /**
+   *
+   * @type {boolean}
+   * @memberof LoginDetails
+   */
+  secret_required?: boolean;
+  /**
+   *
+   * @type {boolean}
+   * @memberof LoginDetails
+   */
+  refresh_supported?: boolean;
 }
 /**
  *
