@@ -8275,6 +8275,12 @@ export interface PayoutSnapshotDetails {
    * @type {string}
    * @memberof PayoutSnapshotDetails
    */
+  external_transaction_reference?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutSnapshotDetails
+   */
   mandate_id?: string;
   /**
    *
