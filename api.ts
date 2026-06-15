@@ -290,6 +290,21 @@ export interface ActionRequest {
   action_id: string;
 }
 /**
+ * Raw Adyen /payments or /payments/details JSON response; passed directly to Drop-in actions.resolve()
+ * @export
+ * @interface AdyenCardSetupPaymentResponse
+ */
+export interface AdyenCardSetupPaymentResponse {
+  [key: string]: any;
+
+  /**
+   *
+   * @type {FrontendFvErrorModel}
+   * @memberof AdyenCardSetupPaymentResponse
+   */
+  error?: FrontendFvErrorModel;
+}
+/**
  *
  * @export
  * @interface AllProductStatus
@@ -2878,6 +2893,31 @@ export interface FpsQrCodeResponse {
    * @memberof FpsQrCodeResponse
    */
   qr_code: string;
+}
+/**
+ * Finverse error details surfaced to the frontend; absent on success and action-required outcomes
+ * @export
+ * @interface FrontendFvErrorModel
+ */
+export interface FrontendFvErrorModel {
+  /**
+   * Finverse error code
+   * @type {string}
+   * @memberof FrontendFvErrorModel
+   */
+  error_code: string;
+  /**
+   * Short human-readable error message
+   * @type {string}
+   * @memberof FrontendFvErrorModel
+   */
+  message: string;
+  /**
+   * Human-readable error detail safe for display to the end user
+   * @type {string}
+   * @memberof FrontendFvErrorModel
+   */
+  display_details: string;
 }
 /**
  *
@@ -15957,7 +15997,7 @@ export const PaymentApiFp = function (configuration?: Configuration) {
     async submitAdyenCardSetupPayment(
       submitAdyenCardSetupPaymentRequest: { [key: string]: any },
       options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any }>> {
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AdyenCardSetupPaymentResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.submitAdyenCardSetupPayment(
         submitAdyenCardSetupPaymentRequest,
         options,
@@ -15982,7 +16022,7 @@ export const PaymentApiFp = function (configuration?: Configuration) {
     async submitAdyenCardSetupPaymentDetails(
       submitAdyenCardSetupPaymentDetailsRequest: { [key: string]: any },
       options?: RawAxiosRequestConfig,
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: any }>> {
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AdyenCardSetupPaymentResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.submitAdyenCardSetupPaymentDetails(
         submitAdyenCardSetupPaymentDetailsRequest,
         options,
@@ -16696,7 +16736,7 @@ export const PaymentApiFactory = function (configuration?: Configuration, basePa
     submitAdyenCardSetupPayment(
       submitAdyenCardSetupPaymentRequest: { [key: string]: any },
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<{ [key: string]: any }> {
+    ): AxiosPromise<AdyenCardSetupPaymentResponse> {
       return localVarFp
         .submitAdyenCardSetupPayment(submitAdyenCardSetupPaymentRequest, options)
         .then((request) => request(axios, basePath));
@@ -16710,7 +16750,7 @@ export const PaymentApiFactory = function (configuration?: Configuration, basePa
     submitAdyenCardSetupPaymentDetails(
       submitAdyenCardSetupPaymentDetailsRequest: { [key: string]: any },
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<{ [key: string]: any }> {
+    ): AxiosPromise<AdyenCardSetupPaymentResponse> {
       return localVarFp
         .submitAdyenCardSetupPaymentDetails(submitAdyenCardSetupPaymentDetailsRequest, options)
         .then((request) => request(axios, basePath));
@@ -17300,7 +17340,7 @@ export interface PaymentApiInterface {
   submitAdyenCardSetupPayment(
     submitAdyenCardSetupPaymentRequest: { [key: string]: any },
     options?: RawAxiosRequestConfig,
-  ): AxiosPromise<{ [key: string]: any }>;
+  ): AxiosPromise<AdyenCardSetupPaymentResponse>;
 
   /**
    * Submit Adyen card setup payment details (proxy to Adyen /payments/details with Drop-in state.data from onAdditionalDetails)
@@ -17312,7 +17352,7 @@ export interface PaymentApiInterface {
   submitAdyenCardSetupPaymentDetails(
     submitAdyenCardSetupPaymentDetailsRequest: { [key: string]: any },
     options?: RawAxiosRequestConfig,
-  ): AxiosPromise<{ [key: string]: any }>;
+  ): AxiosPromise<AdyenCardSetupPaymentResponse>;
 
   /**
    * Submit authorization checklist items
