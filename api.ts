@@ -5984,6 +5984,12 @@ export interface MandateRecipientAccount {
    * @memberof MandateRecipientAccount
    */
   account_type: MandateRecipientAccountAccountTypeEnum;
+  /**
+   * Optional reference identifier for the settlement account. Only applicable to settlement accounts.
+   * @type {string}
+   * @memberof MandateRecipientAccount
+   */
+  settlement_account_reference?: string;
 }
 
 export const MandateRecipientAccountAccountTypeEnum = {
