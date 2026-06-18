@@ -6353,6 +6353,12 @@ export interface PaymentAccountDetails {
    */
   legal_entity_name?: string;
   /**
+   * Optional reference identifier for the settlement account. Only applicable to settlement accounts.
+   * @type {string}
+   * @memberof PaymentAccountDetails
+   */
+  settlement_account_reference?: string;
+  /**
    * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 20 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
    * @type {{ [key: string]: string; }}
    * @memberof PaymentAccountDetails
@@ -6470,6 +6476,12 @@ export interface PaymentAccountDetailsWithEnrichedData {
    * @memberof PaymentAccountDetailsWithEnrichedData
    */
   legal_entity_name?: string;
+  /**
+   * Optional reference identifier for the settlement account. Only applicable to settlement accounts.
+   * @type {string}
+   * @memberof PaymentAccountDetailsWithEnrichedData
+   */
+  settlement_account_reference?: string;
   /**
    * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 20 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
    * @type {{ [key: string]: string; }}
