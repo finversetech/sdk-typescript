@@ -8309,6 +8309,18 @@ export interface PayoutReferences {
    * @memberof PayoutReferences
    */
   finverse_transaction_reference?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutReferences
+   */
+  bank_transaction_reference?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PayoutReferences
+   */
+  bank_additional_reference?: string;
 }
 /**
  *
