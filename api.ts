@@ -5774,12 +5774,6 @@ export interface MandateDetailsRequest {
    * @memberof MandateDetailsRequest
    */
   description?: string;
-  /**
-   * A bank specific reference, what the end user may see
-   * @type {string}
-   * @memberof MandateDetailsRequest
-   */
-  mandate_bank_reference?: string;
 }
 /**
  *
