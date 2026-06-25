@@ -1976,10 +1976,10 @@ export interface CreatePaymentRequest {
   payment_method_id?: string;
   /**
    *
-   * @type {PaymentDetails2}
+   * @type {PaymentDetailsRequest}
    * @memberof CreatePaymentRequest
    */
-  payment_details: PaymentDetails2;
+  payment_details: PaymentDetailsRequest;
   /**
    *
    * @type {{ [key: string]: string; }}
@@ -6568,67 +6568,6 @@ export interface PaymentDetails {
 /**
  *
  * @export
- * @interface PaymentDetails2
- */
-export interface PaymentDetails2 {
-  /**
-   * The transaction description provided to banks, which banks will show to their customers.
-   * @type {string}
-   * @memberof PaymentDetails2
-   */
-  description?: string;
-  /**
-   * ID of the mandate this pament is referring to.
-   * @type {string}
-   * @memberof PaymentDetails2
-   */
-  mandate_id?: string;
-  /**
-   * Deprecated: Customer\'s ID for this transaction
-   * @type {string}
-   * @memberof PaymentDetails2
-   */
-  transaction_reference_id?: string;
-  /**
-   * Customer reference for this transaction
-   * @type {string}
-   * @memberof PaymentDetails2
-   */
-  external_transaction_reference?: string;
-  /**
-   *
-   * @type {PaymentDetailsReferences}
-   * @memberof PaymentDetails2
-   */
-  references?: PaymentDetailsReferences;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentDetails2
-   */
-  processor_entity_name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentDetails2
-   */
-  collection_entity_name?: string;
-  /**
-   *
-   * @type {PaymentProcessorDetails}
-   * @memberof PaymentDetails2
-   */
-  processor_details?: PaymentProcessorDetails;
-  /**
-   * The recurring payment mode
-   * @type {string}
-   * @memberof PaymentDetails2
-   */
-  recurring_payment_mode?: string;
-}
-/**
- *
- * @export
  * @interface PaymentDetailsReferences
  */
 export interface PaymentDetailsReferences {
@@ -6650,6 +6589,104 @@ export interface PaymentDetailsReferences {
    * @memberof PaymentDetailsReferences
    */
   bank_transaction_reference?: string;
+}
+/**
+ *
+ * @export
+ * @interface PaymentDetailsRequest
+ */
+export interface PaymentDetailsRequest {
+  /**
+   * The transaction description provided to banks, which banks will show to their customers.
+   * @type {string}
+   * @memberof PaymentDetailsRequest
+   */
+  description?: string;
+  /**
+   * ID of the mandate this payment is referring to.
+   * @type {string}
+   * @memberof PaymentDetailsRequest
+   */
+  mandate_id?: string;
+  /**
+   * Deprecated: Customer\'s ID for this transaction
+   * @type {string}
+   * @memberof PaymentDetailsRequest
+   */
+  transaction_reference_id?: string;
+  /**
+   * Customer reference for this transaction
+   * @type {string}
+   * @memberof PaymentDetailsRequest
+   */
+  external_transaction_reference?: string;
+  /**
+   * The recurring payment mode
+   * @type {string}
+   * @memberof PaymentDetailsRequest
+   */
+  recurring_payment_mode?: string;
+}
+/**
+ *
+ * @export
+ * @interface PaymentDetailsResponse
+ */
+export interface PaymentDetailsResponse {
+  /**
+   * The transaction description provided to banks, which banks will show to their customers.
+   * @type {string}
+   * @memberof PaymentDetailsResponse
+   */
+  description?: string;
+  /**
+   * ID of the mandate this payment is referring to.
+   * @type {string}
+   * @memberof PaymentDetailsResponse
+   */
+  mandate_id?: string;
+  /**
+   * Deprecated: Customer\'s ID for this transaction
+   * @type {string}
+   * @memberof PaymentDetailsResponse
+   */
+  transaction_reference_id?: string;
+  /**
+   * Customer reference for this transaction
+   * @type {string}
+   * @memberof PaymentDetailsResponse
+   */
+  external_transaction_reference?: string;
+  /**
+   *
+   * @type {PaymentDetailsReferences}
+   * @memberof PaymentDetailsResponse
+   */
+  references?: PaymentDetailsReferences;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentDetailsResponse
+   */
+  processor_entity_name?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof PaymentDetailsResponse
+   */
+  collection_entity_name?: string;
+  /**
+   *
+   * @type {PaymentProcessorDetails}
+   * @memberof PaymentDetailsResponse
+   */
+  processor_details?: PaymentProcessorDetails;
+  /**
+   * The recurring payment mode
+   * @type {string}
+   * @memberof PaymentDetailsResponse
+   */
+  recurring_payment_mode?: string;
 }
 /**
  *
@@ -7739,10 +7776,10 @@ export interface PaymentResponse {
   payment_method_id?: string;
   /**
    *
-   * @type {PaymentDetails2}
+   * @type {PaymentDetailsResponse}
    * @memberof PaymentResponse
    */
-  payment_details?: PaymentDetails2;
+  payment_details?: PaymentDetailsResponse;
   /**
    *
    * @type {MandateRecipient}
