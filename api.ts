@@ -5411,6 +5411,12 @@ export interface LoginIdentity {
    */
   last_session_id?: string;
   /**
+   * stable id for the hashed bank username, used to track unique end-user online-banking accounts
+   * @type {string}
+   * @memberof LoginIdentity
+   */
+  username_hash_id?: string;
+  /**
    *
    * @type {RefreshData}
    * @memberof LoginIdentity
