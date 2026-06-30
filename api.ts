@@ -9293,6 +9293,12 @@ export interface SelectPaymentMethodRequest {
    * @memberof SelectPaymentMethodRequest
    */
   kcp_va_metadata?: KcpVaMetadata;
+  /**
+   * Locale for the payment processor\'s hosted checkout UI (e.g. en-US, zh-TW, ko-KR), mapped from the Finverse Link language. Optional; the processor falls back to its default if omitted.
+   * @type {string}
+   * @memberof SelectPaymentMethodRequest
+   */
+  locale?: string;
 }
 
 export const SelectPaymentMethodRequestPaymentMethodTypeEnum = {
