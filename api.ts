@@ -1636,10 +1636,10 @@ export interface CreateMandateResponse {
   recipient_account?: MandateRecipientAccount;
   /**
    *
-   * @type {GetMandateSender}
+   * @type {CreateMandateSenderResponse}
    * @memberof CreateMandateResponse
    */
-  sender: GetMandateSender;
+  sender: CreateMandateSenderResponse;
   /**
    *
    * @type {MandateSenderAccount}
@@ -1733,6 +1733,58 @@ export const CreateMandateSenderUserTypeEnum = {
 
 export type CreateMandateSenderUserTypeEnum =
   (typeof CreateMandateSenderUserTypeEnum)[keyof typeof CreateMandateSenderUserTypeEnum];
+
+/**
+ *
+ * @export
+ * @interface CreateMandateSenderResponse
+ */
+export interface CreateMandateSenderResponse {
+  /**
+   * A unique identifier generated after creating sender
+   * @type {string}
+   * @memberof CreateMandateSenderResponse
+   */
+  user_id: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CreateMandateSenderResponse
+   */
+  name?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof CreateMandateSenderResponse
+   */
+  email?: string;
+  /**
+   * Customer App\'s user ID, representing the end-user making the payment.
+   * @type {string}
+   * @memberof CreateMandateSenderResponse
+   */
+  external_user_id: string;
+  /**
+   * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
+   * @type {string}
+   * @memberof CreateMandateSenderResponse
+   */
+  user_type: CreateMandateSenderResponseUserTypeEnum;
+  /**
+   * Sender details which will be used for fraud checking.
+   * @type {Array<SenderDetail>}
+   * @memberof CreateMandateSenderResponse
+   */
+  user_details?: Array<SenderDetail>;
+}
+
+export const CreateMandateSenderResponseUserTypeEnum = {
+  Individual: 'INDIVIDUAL',
+  Business: 'BUSINESS',
+} as const;
+
+export type CreateMandateSenderResponseUserTypeEnum =
+  (typeof CreateMandateSenderResponseUserTypeEnum)[keyof typeof CreateMandateSenderResponseUserTypeEnum];
 
 /**
  *
