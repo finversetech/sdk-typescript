@@ -8428,12 +8428,6 @@ export interface PayoutSnapshotDetails {
    * @type {string}
    * @memberof PayoutSnapshotDetails
    */
-  transaction_reference_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutSnapshotDetails
-   */
   external_transaction_reference?: string;
   /**
    *
