@@ -7668,6 +7668,12 @@ export interface PaymentMethodResponse {
    */
   payment_method_type?: string;
   /**
+   * Whether the payment method is live (true) or a test payment method (false), based on its payment rail. Absent if the payment rail is unknown.
+   * @type {boolean}
+   * @memberof PaymentMethodResponse
+   */
+  live?: boolean | null;
+  /**
    *
    * @type {GetMandateResponse}
    * @memberof PaymentMethodResponse
@@ -7784,6 +7790,12 @@ export interface PaymentResponse {
    * @memberof PaymentResponse
    */
   payment_id?: string;
+  /**
+   * Whether the payment is live (true) or a test payment (false), based on its payment rail. Absent if the payment rail is unknown.
+   * @type {boolean}
+   * @memberof PaymentResponse
+   */
+  live?: boolean | null;
   /**
    * Amount to be paid, in currency\'s smallest unit or “minor unit”, as defined in ISO 4217. For example, HKD 100.01 is represented as amount = 10001 (minor unit = cents). For currencies without minor units (e.g. VND, JPY), the amount is represented as is, without modification. For example, VND 15101 is represented as amount = 15101.
    * @type {number}
