@@ -602,11 +602,11 @@ export interface AvailablePaymentMethod {
    */
   payment_account_id?: string;
   /**
-   * The payment method type, possible values CARD, MANDATE and MANUAL
-   * @type {string}
+   *
+   * @type {PaymentType}
    * @memberof AvailablePaymentMethod
    */
-  payment_method_type?: string;
+  payment_method_type?: PaymentType;
   /**
    * The payment method subtype, e.g., EDDA_HK, CARD_GENERIC etc
    * @type {string}
@@ -638,6 +638,7 @@ export interface AvailablePaymentMethod {
    */
   payment_methods_list?: Array<string>;
 }
+
 /**
  *
  * @export
@@ -1113,10 +1114,10 @@ export interface CardFvLinkDetails {
 export interface CardFvLinkResponse {
   /**
    *
-   * @type {string}
+   * @type {CardStatus}
    * @memberof CardFvLinkResponse
    */
-  status?: CardFvLinkResponseStatusEnum;
+  status?: CardStatus;
   /**
    *
    * @type {CardFvLinkDetails}
@@ -1137,17 +1138,6 @@ export interface CardFvLinkResponse {
   error?: FvEmbeddedErrorModel;
 }
 
-export const CardFvLinkResponseStatusEnum = {
-  Unknown: 'UNKNOWN',
-  Created: 'CREATED',
-  Succeeded: 'SUCCEEDED',
-  Cancelled: 'CANCELLED',
-  Failed: 'FAILED',
-} as const;
-
-export type CardFvLinkResponseStatusEnum =
-  (typeof CardFvLinkResponseStatusEnum)[keyof typeof CardFvLinkResponseStatusEnum];
-
 /**
  *
  * @export
@@ -1161,6 +1151,22 @@ export interface CardRecipient {
    */
   name?: string;
 }
+/**
+ * Card status
+ * @export
+ * @enum {string}
+ */
+
+export const CardStatus = {
+  Unknown: 'UNKNOWN',
+  Created: 'CREATED',
+  Succeeded: 'SUCCEEDED',
+  Cancelled: 'CANCELLED',
+  Failed: 'FAILED',
+} as const;
+
+export type CardStatus = (typeof CardStatus)[keyof typeof CardStatus];
+
 /**
  *
  * @export
@@ -1617,11 +1623,11 @@ export interface CreateMandateResponse {
    */
   payment_method_id?: string;
   /**
-   * Mandate status
-   * @type {string}
+   *
+   * @type {MandateStatus}
    * @memberof CreateMandateResponse
    */
-  status: CreateMandateResponseStatusEnum;
+  status: MandateStatus;
   /**
    *
    * @type {MandateRecipient}
@@ -1671,22 +1677,6 @@ export interface CreateMandateResponse {
    */
   error?: FvEmbeddedErrorModel;
 }
-
-export const CreateMandateResponseStatusEnum = {
-  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
-  Authorizing: 'AUTHORIZING',
-  Processing: 'PROCESSING',
-  Submitted: 'SUBMITTED',
-  Succeeded: 'SUCCEEDED',
-  Failed: 'FAILED',
-  Revoked: 'REVOKED',
-  ReadyToSubmit: 'READY_TO_SUBMIT',
-  Closed: 'CLOSED',
-  Cancelled: 'CANCELLED',
-} as const;
-
-export type CreateMandateResponseStatusEnum =
-  (typeof CreateMandateResponseStatusEnum)[keyof typeof CreateMandateResponseStatusEnum];
 
 /**
  *
@@ -1988,19 +1978,11 @@ export interface CreatePaymentMethodRequest {
   integration_metadata?: PaymentMethodIntegrationMetadata;
   /**
    *
-   * @type {string}
+   * @type {PaymentMethodType}
    * @memberof CreatePaymentMethodRequest
    */
-  payment_method_type: CreatePaymentMethodRequestPaymentMethodTypeEnum;
+  payment_method_type: PaymentMethodType;
 }
-
-export const CreatePaymentMethodRequestPaymentMethodTypeEnum = {
-  Card: 'CARD',
-  Mandate: 'MANDATE',
-} as const;
-
-export type CreatePaymentMethodRequestPaymentMethodTypeEnum =
-  (typeof CreatePaymentMethodRequestPaymentMethodTypeEnum)[keyof typeof CreatePaymentMethodRequestPaymentMethodTypeEnum];
 
 /**
  *
@@ -2678,11 +2660,11 @@ export interface FVCard {
    */
   updated_at?: string;
   /**
-   * Card Status
-   * @type {string}
+   *
+   * @type {CardStatus}
    * @memberof FVCard
    */
-  status?: FVCardStatusEnum;
+  status?: CardStatus;
   /**
    *
    * @type {FvEmbeddedErrorModel}
@@ -2708,16 +2690,6 @@ export interface FVCard {
    */
   risk_data?: RiskData;
 }
-
-export const FVCardStatusEnum = {
-  Unknown: 'UNKNOWN',
-  Created: 'CREATED',
-  Succeeded: 'SUCCEEDED',
-  Cancelled: 'CANCELLED',
-  Failed: 'FAILED',
-} as const;
-
-export type FVCardStatusEnum = (typeof FVCardStatusEnum)[keyof typeof FVCardStatusEnum];
 
 /**
  *
@@ -3629,11 +3601,11 @@ export interface GetMandateResponse {
    */
   payment_method_id?: string;
   /**
-   * Mandate Status
-   * @type {string}
+   *
+   * @type {MandateStatus}
    * @memberof GetMandateResponse
    */
-  status: GetMandateResponseStatusEnum;
+  status: MandateStatus;
   /**
    *
    * @type {MandateRecipient}
@@ -3683,19 +3655,6 @@ export interface GetMandateResponse {
    */
   metadata?: { [key: string]: string };
 }
-
-export const GetMandateResponseStatusEnum = {
-  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
-  Authorizing: 'AUTHORIZING',
-  Processing: 'PROCESSING',
-  Submitted: 'SUBMITTED',
-  Succeeded: 'SUCCEEDED',
-  Failed: 'FAILED',
-  Revoked: 'REVOKED',
-} as const;
-
-export type GetMandateResponseStatusEnum =
-  (typeof GetMandateResponseStatusEnum)[keyof typeof GetMandateResponseStatusEnum];
 
 /**
  *
@@ -6160,6 +6119,27 @@ export interface MandateSenderAccountRequest {
   account_id: string;
 }
 /**
+ * Mandate status
+ * @export
+ * @enum {string}
+ */
+
+export const MandateStatus = {
+  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
+  Authorizing: 'AUTHORIZING',
+  Processing: 'PROCESSING',
+  Submitted: 'SUBMITTED',
+  Succeeded: 'SUCCEEDED',
+  Failed: 'FAILED',
+  Revoked: 'REVOKED',
+  ReadyToSubmit: 'READY_TO_SUBMIT',
+  Closed: 'CLOSED',
+  Cancelled: 'CANCELLED',
+} as const;
+
+export type MandateStatus = (typeof MandateStatus)[keyof typeof MandateStatus];
+
+/**
  *
  * @export
  * @interface ManualPaymentConfirmationRequest
@@ -6186,26 +6166,11 @@ export interface ManualPaymentConfirmationResponse {
   payment_id?: string;
   /**
    *
-   * @type {string}
+   * @type {PaymentStatus}
    * @memberof ManualPaymentConfirmationResponse
    */
-  status?: ManualPaymentConfirmationResponseStatusEnum;
+  status?: PaymentStatus;
 }
-
-export const ManualPaymentConfirmationResponseStatusEnum = {
-  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
-  Authorizing: 'AUTHORIZING',
-  Processing: 'PROCESSING',
-  Submitted: 'SUBMITTED',
-  Executed: 'EXECUTED',
-  Failed: 'FAILED',
-  Revoked: 'REVOKED',
-  Cancelled: 'CANCELLED',
-  Created: 'CREATED',
-} as const;
-
-export type ManualPaymentConfirmationResponseStatusEnum =
-  (typeof ManualPaymentConfirmationResponseStatusEnum)[keyof typeof ManualPaymentConfirmationResponseStatusEnum];
 
 /**
  *
@@ -6773,16 +6738,16 @@ export interface PaymentFvLinkResponse {
   payment_id?: string;
   /**
    *
-   * @type {string}
+   * @type {PaymentStatus}
    * @memberof PaymentFvLinkResponse
    */
-  status?: PaymentFvLinkResponseStatusEnum;
+  status?: PaymentStatus;
   /**
    *
-   * @type {string}
+   * @type {PaymentType}
    * @memberof PaymentFvLinkResponse
    */
-  type?: PaymentFvLinkResponseTypeEnum;
+  type?: PaymentType;
   /**
    *
    * @type {PaymentFvLinkDetails}
@@ -6802,31 +6767,6 @@ export interface PaymentFvLinkResponse {
    */
   skip_polling: boolean;
 }
-
-export const PaymentFvLinkResponseStatusEnum = {
-  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
-  Authorizing: 'AUTHORIZING',
-  Processing: 'PROCESSING',
-  Submitted: 'SUBMITTED',
-  Executed: 'EXECUTED',
-  Failed: 'FAILED',
-  Revoked: 'REVOKED',
-  Cancelled: 'CANCELLED',
-  Created: 'CREATED',
-} as const;
-
-export type PaymentFvLinkResponseStatusEnum =
-  (typeof PaymentFvLinkResponseStatusEnum)[keyof typeof PaymentFvLinkResponseStatusEnum];
-export const PaymentFvLinkResponseTypeEnum = {
-  Mandate: 'MANDATE',
-  Single: 'SINGLE',
-  Card: 'CARD',
-  Manual: 'MANUAL',
-  Wallet: 'WALLET',
-} as const;
-
-export type PaymentFvLinkResponseTypeEnum =
-  (typeof PaymentFvLinkResponseTypeEnum)[keyof typeof PaymentFvLinkResponseTypeEnum];
 
 /**
  *
@@ -7181,10 +7121,10 @@ export interface PaymentMethodFvLinkResponse {
   payment_method_id?: string;
   /**
    *
-   * @type {string}
+   * @type {PaymentMethodType}
    * @memberof PaymentMethodFvLinkResponse
    */
-  payment_method_type?: string;
+  payment_method_type?: PaymentMethodType;
   /**
    *
    * @type {string}
@@ -7204,6 +7144,7 @@ export interface PaymentMethodFvLinkResponse {
    */
   card?: CardFvLinkResponse;
 }
+
 /**
  *
  * @export
@@ -7619,11 +7560,11 @@ export interface PaymentMethodOverview {
    */
   payment_confirmation_speed?: string;
   /**
-   * The payment method type, possible values CARD, MANDATE and MANUAL
-   * @type {string}
+   *
+   * @type {PaymentType}
    * @memberof PaymentMethodOverview
    */
-  payment_method_type?: string;
+  payment_method_type?: PaymentType;
   /**
    * The payment method subtype, e.g., EDDA_HK, CARD_GENERIC etc
    * @type {string}
@@ -7649,6 +7590,7 @@ export interface PaymentMethodOverview {
    */
   supported_currencies?: Array<string>;
 }
+
 /**
  *
  * @export
@@ -7663,10 +7605,10 @@ export interface PaymentMethodResponse {
   payment_method_id?: string;
   /**
    *
-   * @type {string}
+   * @type {PaymentMethodType}
    * @memberof PaymentMethodResponse
    */
-  payment_method_type?: string;
+  payment_method_type?: PaymentMethodType;
   /**
    * Whether the payment method is live (true) or a test payment method (false), based on its payment rail. Absent if the payment rail is unknown.
    * @type {boolean}
@@ -7692,6 +7634,20 @@ export interface PaymentMethodResponse {
    */
   integration_metadata?: PaymentMethodIntegrationMetadataResponse;
 }
+
+/**
+ * The payment method type
+ * @export
+ * @enum {string}
+ */
+
+export const PaymentMethodType = {
+  Card: 'CARD',
+  Mandate: 'MANDATE',
+} as const;
+
+export type PaymentMethodType = (typeof PaymentMethodType)[keyof typeof PaymentMethodType];
+
 /**
  *
  * @export
@@ -7821,11 +7777,11 @@ export interface PaymentResponse {
    */
   currency?: string;
   /**
-   * Indicates whether this is a mandate-based payment or one-off direct payment to an account. Possible values - MANDATE, SINGLE
-   * @type {string}
+   *
+   * @type {PaymentType}
    * @memberof PaymentResponse
    */
-  type?: PaymentResponseTypeEnum;
+  type?: PaymentType;
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
@@ -7833,11 +7789,11 @@ export interface PaymentResponse {
    */
   updated_at?: string;
   /**
-   * Possible values - CREATED, AUTHORIZED, SUBMITTED, EXECUTED, FAILED, REJECTED, CANCELLED.
-   * @type {string}
+   *
+   * @type {PaymentStatus}
    * @memberof PaymentResponse
    */
-  status?: PaymentResponseStatusEnum;
+  status?: PaymentStatus;
   /**
    * ID of the payment method this pament is referring to.
    * @type {string}
@@ -7906,29 +7862,6 @@ export interface PaymentResponse {
   payment_method?: PaymentSnapshotPaymentMethod;
 }
 
-export const PaymentResponseTypeEnum = {
-  Mandate: 'MANDATE',
-  Single: 'SINGLE',
-  Card: 'CARD',
-  Manual: 'MANUAL',
-  Wallet: 'WALLET',
-} as const;
-
-export type PaymentResponseTypeEnum = (typeof PaymentResponseTypeEnum)[keyof typeof PaymentResponseTypeEnum];
-export const PaymentResponseStatusEnum = {
-  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
-  Authorizing: 'AUTHORIZING',
-  Processing: 'PROCESSING',
-  Submitted: 'SUBMITTED',
-  Executed: 'EXECUTED',
-  Failed: 'FAILED',
-  Revoked: 'REVOKED',
-  Cancelled: 'CANCELLED',
-  Created: 'CREATED',
-} as const;
-
-export type PaymentResponseStatusEnum = (typeof PaymentResponseStatusEnum)[keyof typeof PaymentResponseStatusEnum];
-
 /**
  *
  * @export
@@ -7980,10 +7913,10 @@ export interface PaymentSetupOptions {
   mandate_details?: MandateDetailsForPaymentLink;
   /**
    *
-   * @type {Array<string>}
+   * @type {Array<PaymentType>}
    * @memberof PaymentSetupOptions
    */
-  payment_method_types?: Array<PaymentSetupOptionsPaymentMethodTypesEnum>;
+  payment_method_types?: Array<PaymentType>;
   /**
    *
    * @type {RecipientAccountFilters}
@@ -8011,16 +7944,6 @@ export const PaymentSetupOptionsFuturePaymentsEnum = {
 
 export type PaymentSetupOptionsFuturePaymentsEnum =
   (typeof PaymentSetupOptionsFuturePaymentsEnum)[keyof typeof PaymentSetupOptionsFuturePaymentsEnum];
-export const PaymentSetupOptionsPaymentMethodTypesEnum = {
-  Mandate: 'MANDATE',
-  Single: 'SINGLE',
-  Card: 'CARD',
-  Manual: 'MANUAL',
-  Wallet: 'WALLET',
-} as const;
-
-export type PaymentSetupOptionsPaymentMethodTypesEnum =
-  (typeof PaymentSetupOptionsPaymentMethodTypesEnum)[keyof typeof PaymentSetupOptionsPaymentMethodTypesEnum];
 
 /**
  *
@@ -8042,10 +7965,10 @@ export interface PaymentSetupOptionsRequest {
   mandate_details?: MandateDetailsForPaymentLinkRequest;
   /**
    *
-   * @type {Array<string>}
+   * @type {Array<PaymentType>}
    * @memberof PaymentSetupOptionsRequest
    */
-  payment_method_types?: Array<PaymentSetupOptionsRequestPaymentMethodTypesEnum>;
+  payment_method_types?: Array<PaymentType>;
   /**
    *
    * @type {RecipientAccountFilters}
@@ -8073,16 +7996,6 @@ export const PaymentSetupOptionsRequestFuturePaymentsEnum = {
 
 export type PaymentSetupOptionsRequestFuturePaymentsEnum =
   (typeof PaymentSetupOptionsRequestFuturePaymentsEnum)[keyof typeof PaymentSetupOptionsRequestFuturePaymentsEnum];
-export const PaymentSetupOptionsRequestPaymentMethodTypesEnum = {
-  Mandate: 'MANDATE',
-  Single: 'SINGLE',
-  Card: 'CARD',
-  Manual: 'MANUAL',
-  Wallet: 'WALLET',
-} as const;
-
-export type PaymentSetupOptionsRequestPaymentMethodTypesEnum =
-  (typeof PaymentSetupOptionsRequestPaymentMethodTypesEnum)[keyof typeof PaymentSetupOptionsRequestPaymentMethodTypesEnum];
 
 /**
  *
@@ -8160,6 +8073,42 @@ export interface PaymentSnapshotPaymentMethodWallet {
    */
   risk_data?: RiskData;
 }
+/**
+ * Payment status
+ * @export
+ * @enum {string}
+ */
+
+export const PaymentStatus = {
+  AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
+  Authorizing: 'AUTHORIZING',
+  Processing: 'PROCESSING',
+  Submitted: 'SUBMITTED',
+  Executed: 'EXECUTED',
+  Failed: 'FAILED',
+  Revoked: 'REVOKED',
+  Cancelled: 'CANCELLED',
+  Created: 'CREATED',
+} as const;
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus];
+
+/**
+ * Indicates whether this is a mandate-based payment or one-off direct payment to an account
+ * @export
+ * @enum {string}
+ */
+
+export const PaymentType = {
+  Mandate: 'MANDATE',
+  Single: 'SINGLE',
+  Card: 'CARD',
+  Manual: 'MANUAL',
+  Wallet: 'WALLET',
+} as const;
+
+export type PaymentType = (typeof PaymentType)[keyof typeof PaymentType];
+
 /**
  *
  * @export
@@ -9322,11 +9271,11 @@ export interface SelectPaymentMethodRequest {
    */
   payment_account_id: string;
   /**
-   * The type of payment method to select
-   * @type {string}
+   *
+   * @type {PaymentType}
    * @memberof SelectPaymentMethodRequest
    */
-  payment_method_type: SelectPaymentMethodRequestPaymentMethodTypeEnum;
+  payment_method_type: PaymentType;
   /**
    *
    * @type {string}
@@ -9359,16 +9308,6 @@ export interface SelectPaymentMethodRequest {
   locale?: string;
 }
 
-export const SelectPaymentMethodRequestPaymentMethodTypeEnum = {
-  Mandate: 'MANDATE',
-  Single: 'SINGLE',
-  Card: 'CARD',
-  Manual: 'MANUAL',
-  Wallet: 'WALLET',
-} as const;
-
-export type SelectPaymentMethodRequestPaymentMethodTypeEnum =
-  (typeof SelectPaymentMethodRequestPaymentMethodTypeEnum)[keyof typeof SelectPaymentMethodRequestPaymentMethodTypeEnum];
 export const SelectPaymentMethodRequestSenderTypeEnum = {
   Individual: 'INDIVIDUAL',
   Business: 'BUSINESS',
