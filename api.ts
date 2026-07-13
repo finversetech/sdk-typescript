@@ -942,6 +942,22 @@ export interface BillSenderDetails {
   name: string;
 }
 /**
+ * Bill status
+ * @export
+ * @enum {string}
+ */
+
+export const BillStatus = {
+  Unknown: 'UNKNOWN',
+  Unpaid: 'UNPAID',
+  Paid: 'PAID',
+  Cancelled: 'CANCELLED',
+  Failed: 'FAILED',
+} as const;
+
+export type BillStatus = (typeof BillStatus)[keyof typeof BillStatus];
+
+/**
  *
  * @export
  * @interface CardAccount
@@ -1069,6 +1085,21 @@ export interface CardDetails {
    */
   card_total?: CardTotal;
 }
+/**
+ * The funding source of the card
+ * @export
+ * @enum {string}
+ */
+
+export const CardFundingType = {
+  Unknown: 'UNKNOWN',
+  Credit: 'CREDIT',
+  Debit: 'DEBIT',
+  Prepaid: 'PREPAID',
+} as const;
+
+export type CardFundingType = (typeof CardFundingType)[keyof typeof CardFundingType];
+
 /**
  *
  * @export
@@ -1499,22 +1530,12 @@ export interface CreateCardRequestCardDetails {
    */
   country?: string;
   /**
-   * The funding source of the card
-   * @type {string}
+   *
+   * @type {CardFundingType}
    * @memberof CreateCardRequestCardDetails
    */
-  funding?: CreateCardRequestCardDetailsFundingEnum;
+  funding?: CardFundingType;
 }
-
-export const CreateCardRequestCardDetailsFundingEnum = {
-  Unknown: 'UNKNOWN',
-  Credit: 'CREDIT',
-  Debit: 'DEBIT',
-  Prepaid: 'PREPAID',
-} as const;
-
-export type CreateCardRequestCardDetailsFundingEnum =
-  (typeof CreateCardRequestCardDetailsFundingEnum)[keyof typeof CreateCardRequestCardDetailsFundingEnum];
 
 /**
  *
@@ -1895,11 +1916,11 @@ export interface CreatePaymentLinkRequest {
    */
   link_customizations?: PaymentLinkCustomizations;
   /**
-   * The payment link mode
-   * @type {string}
+   *
+   * @type {PaymentLinkMode}
    * @memberof CreatePaymentLinkRequest
    */
-  mode: CreatePaymentLinkRequestModeEnum;
+  mode: PaymentLinkMode;
   /**
    *
    * @type {PaymentLinkDetails}
@@ -1943,14 +1964,6 @@ export interface CreatePaymentLinkRequest {
    */
   integration_metadata?: IntegrationMetadataRequest;
 }
-
-export const CreatePaymentLinkRequestModeEnum = {
-  Payment: 'PAYMENT',
-  Setup: 'SETUP',
-} as const;
-
-export type CreatePaymentLinkRequestModeEnum =
-  (typeof CreatePaymentLinkRequestModeEnum)[keyof typeof CreatePaymentLinkRequestModeEnum];
 
 /**
  *
@@ -2333,11 +2346,11 @@ export interface DisputeResponse {
    */
   is_defendable?: boolean | null;
   /**
-   * The status of the dispute
-   * @type {string}
+   *
+   * @type {DisputeStatus}
    * @memberof DisputeResponse
    */
-  dispute_status?: DisputeResponseDisputeStatusEnum;
+  dispute_status?: DisputeStatus;
   /**
    * The status of the dispute at the payment processor
    * @type {string}
@@ -2376,19 +2389,6 @@ export interface DisputeResponse {
   updated_at?: string;
 }
 
-export const DisputeResponseDisputeStatusEnum = {
-  Unknown: 'UNKNOWN',
-  Undefended: 'UNDEFENDED',
-  ActionRequired: 'ACTION_REQUIRED',
-  Processing: 'PROCESSING',
-  Accepted: 'ACCEPTED',
-  Lost: 'LOST',
-  Won: 'WON',
-} as const;
-
-export type DisputeResponseDisputeStatusEnum =
-  (typeof DisputeResponseDisputeStatusEnum)[keyof typeof DisputeResponseDisputeStatusEnum];
-
 /**
  *
  * @export
@@ -2402,6 +2402,24 @@ export interface DisputeResponseCardDetails {
    */
   brand?: string;
 }
+/**
+ * The status of the dispute
+ * @export
+ * @enum {string}
+ */
+
+export const DisputeStatus = {
+  Unknown: 'UNKNOWN',
+  Undefended: 'UNDEFENDED',
+  ActionRequired: 'ACTION_REQUIRED',
+  Processing: 'PROCESSING',
+  Accepted: 'ACCEPTED',
+  Lost: 'LOST',
+  Won: 'WON',
+} as const;
+
+export type DisputeStatus = (typeof DisputeStatus)[keyof typeof DisputeStatus];
+
 /**
  *
  * @export
@@ -2595,10 +2613,10 @@ export interface FVBill {
   metadata?: { [key: string]: string };
   /**
    *
-   * @type {string}
+   * @type {BillStatus}
    * @memberof FVBill
    */
-  status: FVBillStatusEnum;
+  status: BillStatus;
   /**
    *
    * @type {string}
@@ -2630,16 +2648,6 @@ export interface FVBill {
    */
   is_finverse_autopay_eligible: boolean;
 }
-
-export const FVBillStatusEnum = {
-  Unknown: 'UNKNOWN',
-  Unpaid: 'UNPAID',
-  Paid: 'PAID',
-  Cancelled: 'CANCELLED',
-  Failed: 'FAILED',
-} as const;
-
-export type FVBillStatusEnum = (typeof FVBillStatusEnum)[keyof typeof FVBillStatusEnum];
 
 /**
  *
@@ -2746,11 +2754,11 @@ export interface FVCardDetails {
    */
   fingerprint?: string;
   /**
-   * The funding source of the card
-   * @type {string}
+   *
+   * @type {CardFundingType}
    * @memberof FVCardDetails
    */
-  funding?: FVCardDetailsFundingEnum;
+  funding?: CardFundingType;
   /**
    *
    * @type {string}
@@ -2794,15 +2802,6 @@ export interface FVCardDetails {
    */
   is_commercial?: boolean | null;
 }
-
-export const FVCardDetailsFundingEnum = {
-  Unknown: 'UNKNOWN',
-  Credit: 'CREDIT',
-  Debit: 'DEBIT',
-  Prepaid: 'PREPAID',
-} as const;
-
-export type FVCardDetailsFundingEnum = (typeof FVCardDetailsFundingEnum)[keyof typeof FVCardDetailsFundingEnum];
 
 /**
  *
@@ -2943,6 +2942,19 @@ export interface FrontendFvErrorModel {
    */
   display_details: string;
 }
+/**
+ * The type of future_payments that customer want to use. Possible values: AUTOPAY or CLICK_TO_PAY
+ * @export
+ * @enum {string}
+ */
+
+export const FuturePaymentsMode = {
+  Autopay: 'AUTOPAY',
+  ClickToPay: 'CLICK_TO_PAY',
+} as const;
+
+export type FuturePaymentsMode = (typeof FuturePaymentsMode)[keyof typeof FuturePaymentsMode];
+
 /**
  *
  * @export
@@ -3280,10 +3292,10 @@ export interface GetBillResponse {
   metadata?: { [key: string]: string };
   /**
    *
-   * @type {string}
+   * @type {BillStatus}
    * @memberof GetBillResponse
    */
-  status: GetBillResponseStatusEnum;
+  status: BillStatus;
   /**
    *
    * @type {string}
@@ -3321,16 +3333,6 @@ export interface GetBillResponse {
    */
   payments: Array<PaymentResponse>;
 }
-
-export const GetBillResponseStatusEnum = {
-  Unknown: 'UNKNOWN',
-  Unpaid: 'UNPAID',
-  Paid: 'PAID',
-  Cancelled: 'CANCELLED',
-  Failed: 'FAILED',
-} as const;
-
-export type GetBillResponseStatusEnum = (typeof GetBillResponseStatusEnum)[keyof typeof GetBillResponseStatusEnum];
 
 /**
  *
@@ -6867,6 +6869,19 @@ export interface PaymentLinkDetails {
   external_transaction_reference: string;
 }
 /**
+ * The payment link mode
+ * @export
+ * @enum {string}
+ */
+
+export const PaymentLinkMode = {
+  Payment: 'PAYMENT',
+  Setup: 'SETUP',
+} as const;
+
+export type PaymentLinkMode = (typeof PaymentLinkMode)[keyof typeof PaymentLinkMode];
+
+/**
  *
  * @export
  * @interface PaymentLinkResponse
@@ -6897,11 +6912,11 @@ export interface PaymentLinkResponse {
    */
   link_customizations?: PaymentLinkCustomizations;
   /**
-   * The payment link mode
-   * @type {string}
+   *
+   * @type {PaymentLinkMode}
    * @memberof PaymentLinkResponse
    */
-  mode?: PaymentLinkResponseModeEnum;
+  mode?: PaymentLinkMode;
   /**
    *
    * @type {PaymentLinkDetails}
@@ -6939,17 +6954,17 @@ export interface PaymentLinkResponse {
    */
   url?: string;
   /**
-   * The status of payment link
-   * @type {string}
+   *
+   * @type {PaymentLinkStatus}
    * @memberof PaymentLinkResponse
    */
-  status?: PaymentLinkResponseStatusEnum;
+  status?: PaymentLinkStatus;
   /**
-   * The session status of payment link
-   * @type {string}
+   *
+   * @type {PaymentLinkSessionStatus}
    * @memberof PaymentLinkResponse
    */
-  session_status?: PaymentLinkResponseSessionStatusEnum;
+  session_status?: PaymentLinkSessionStatus;
   /**
    * Timestamp of when the payment link was created in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
@@ -6987,30 +7002,6 @@ export interface PaymentLinkResponse {
    */
   integration_metadata?: IntegrationMetadataResponse;
 }
-
-export const PaymentLinkResponseModeEnum = {
-  Payment: 'PAYMENT',
-} as const;
-
-export type PaymentLinkResponseModeEnum =
-  (typeof PaymentLinkResponseModeEnum)[keyof typeof PaymentLinkResponseModeEnum];
-export const PaymentLinkResponseStatusEnum = {
-  Created: 'CREATED',
-  Paid: 'PAID',
-  Expired: 'EXPIRED',
-} as const;
-
-export type PaymentLinkResponseStatusEnum =
-  (typeof PaymentLinkResponseStatusEnum)[keyof typeof PaymentLinkResponseStatusEnum];
-export const PaymentLinkResponseSessionStatusEnum = {
-  Open: 'OPEN',
-  Processing: 'PROCESSING',
-  Complete: 'COMPLETE',
-  Failed: 'FAILED',
-} as const;
-
-export type PaymentLinkResponseSessionStatusEnum =
-  (typeof PaymentLinkResponseSessionStatusEnum)[keyof typeof PaymentLinkResponseSessionStatusEnum];
 
 /**
  *
@@ -7068,6 +7059,35 @@ export interface PaymentLinkSenderResponse {
    */
   user_id?: string;
 }
+/**
+ * The session status of payment link
+ * @export
+ * @enum {string}
+ */
+
+export const PaymentLinkSessionStatus = {
+  Open: 'OPEN',
+  Processing: 'PROCESSING',
+  Complete: 'COMPLETE',
+  Failed: 'FAILED',
+} as const;
+
+export type PaymentLinkSessionStatus = (typeof PaymentLinkSessionStatus)[keyof typeof PaymentLinkSessionStatus];
+
+/**
+ * The status of payment link
+ * @export
+ * @enum {string}
+ */
+
+export const PaymentLinkStatus = {
+  Created: 'CREATED',
+  Paid: 'PAID',
+  Expired: 'EXPIRED',
+} as const;
+
+export type PaymentLinkStatus = (typeof PaymentLinkStatus)[keyof typeof PaymentLinkStatus];
+
 /**
  *
  * @export
@@ -7900,11 +7920,11 @@ export type PaymentScheduleFrequencyEnum =
  */
 export interface PaymentSetupOptions {
   /**
-   * The type of future_payments that customer want to use. Possible values: AUTOPAY or CLICK_TO_PAY
-   * @type {string}
+   *
+   * @type {FuturePaymentsMode}
    * @memberof PaymentSetupOptions
    */
-  future_payments?: PaymentSetupOptionsFuturePaymentsEnum;
+  future_payments?: FuturePaymentsMode;
   /**
    *
    * @type {MandateDetailsForPaymentLink}
@@ -7937,14 +7957,6 @@ export interface PaymentSetupOptions {
   recurring_payment_mode?: string;
 }
 
-export const PaymentSetupOptionsFuturePaymentsEnum = {
-  Autopay: 'AUTOPAY',
-  ClickToPay: 'CLICK_TO_PAY',
-} as const;
-
-export type PaymentSetupOptionsFuturePaymentsEnum =
-  (typeof PaymentSetupOptionsFuturePaymentsEnum)[keyof typeof PaymentSetupOptionsFuturePaymentsEnum];
-
 /**
  *
  * @export
@@ -7952,11 +7964,11 @@ export type PaymentSetupOptionsFuturePaymentsEnum =
  */
 export interface PaymentSetupOptionsRequest {
   /**
-   * The type of future_payments that customer want to use. Possible values: AUTOPAY or CLICK_TO_PAY
-   * @type {string}
+   *
+   * @type {FuturePaymentsMode}
    * @memberof PaymentSetupOptionsRequest
    */
-  future_payments?: PaymentSetupOptionsRequestFuturePaymentsEnum;
+  future_payments?: FuturePaymentsMode;
   /**
    *
    * @type {MandateDetailsForPaymentLinkRequest}
@@ -7988,14 +8000,6 @@ export interface PaymentSetupOptionsRequest {
    */
   recurring_payment_mode?: string;
 }
-
-export const PaymentSetupOptionsRequestFuturePaymentsEnum = {
-  Autopay: 'AUTOPAY',
-  ClickToPay: 'CLICK_TO_PAY',
-} as const;
-
-export type PaymentSetupOptionsRequestFuturePaymentsEnum =
-  (typeof PaymentSetupOptionsRequestFuturePaymentsEnum)[keyof typeof PaymentSetupOptionsRequestFuturePaymentsEnum];
 
 /**
  *
@@ -8435,16 +8439,16 @@ export interface PayoutSnapshotResponse {
   payout_id?: string;
   /**
    *
-   * @type {string}
+   * @type {PayoutStatus}
    * @memberof PayoutSnapshotResponse
    */
-  status?: PayoutSnapshotResponseStatusEnum;
+  status?: PayoutStatus;
   /**
    *
-   * @type {string}
+   * @type {PayoutType}
    * @memberof PayoutSnapshotResponse
    */
-  type?: PayoutSnapshotResponseTypeEnum;
+  type?: PayoutType;
   /**
    *
    * @type {string}
@@ -8537,7 +8541,13 @@ export interface PayoutSnapshotResponse {
   error?: FvEmbeddedErrorModel;
 }
 
-export const PayoutSnapshotResponseStatusEnum = {
+/**
+ * Payout status
+ * @export
+ * @enum {string}
+ */
+
+export const PayoutStatus = {
   Executed: 'EXECUTED',
   Created: 'CREATED',
   Processing: 'PROCESSING',
@@ -8548,17 +8558,22 @@ export const PayoutSnapshotResponseStatusEnum = {
   Submitted: 'SUBMITTED',
 } as const;
 
-export type PayoutSnapshotResponseStatusEnum =
-  (typeof PayoutSnapshotResponseStatusEnum)[keyof typeof PayoutSnapshotResponseStatusEnum];
-export const PayoutSnapshotResponseTypeEnum = {
+export type PayoutStatus = (typeof PayoutStatus)[keyof typeof PayoutStatus];
+
+/**
+ * Payout type
+ * @export
+ * @enum {string}
+ */
+
+export const PayoutType = {
   Manual: 'MANUAL',
   Scheduled: 'SCHEDULED',
   Settlement: 'SETTLEMENT',
   OnDemand: 'ON_DEMAND',
 } as const;
 
-export type PayoutSnapshotResponseTypeEnum =
-  (typeof PayoutSnapshotResponseTypeEnum)[keyof typeof PayoutSnapshotResponseTypeEnum];
+export type PayoutType = (typeof PayoutType)[keyof typeof PayoutType];
 
 /**
  *
