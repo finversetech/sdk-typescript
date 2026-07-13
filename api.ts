@@ -223,6 +223,19 @@ export interface AccountNumber {
   raw: string;
 }
 /**
+ * Type of account number. Possible values: LOCAL, IBAN
+ * @export
+ * @enum {string}
+ */
+
+export const AccountNumberType = {
+  Local: 'LOCAL',
+  Iban: 'IBAN',
+} as const;
+
+export type AccountNumberType = (typeof AccountNumberType)[keyof typeof AccountNumberType];
+
+/**
  *
  * @export
  * @interface AccountType
@@ -716,11 +729,11 @@ export interface BadRequestModelV2 {
  */
 export interface BadRequestModelV2Error {
   /**
-   * The error type
-   * @type {string}
+   *
+   * @type {FinverseErrorCategory}
    * @memberof BadRequestModelV2Error
    */
-  type: BadRequestModelV2ErrorTypeEnum;
+  type: FinverseErrorCategory;
   /**
    *
    * @type {string}
@@ -752,14 +765,6 @@ export interface BadRequestModelV2Error {
    */
   request_id: string;
 }
-
-export const BadRequestModelV2ErrorTypeEnum = {
-  LinkError: 'LINK_ERROR',
-  ApiError: 'API_ERROR',
-} as const;
-
-export type BadRequestModelV2ErrorTypeEnum =
-  (typeof BadRequestModelV2ErrorTypeEnum)[keyof typeof BadRequestModelV2ErrorTypeEnum];
 
 /**
  *
@@ -1724,11 +1729,11 @@ export interface CreateMandateSender {
    */
   external_user_id?: string;
   /**
-   * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
-   * @type {string}
+   *
+   * @type {PaymentUserType}
    * @memberof CreateMandateSender
    */
-  user_type?: CreateMandateSenderUserTypeEnum;
+  user_type?: PaymentUserType;
   /**
    * Sender details which will be used for fraud checking.
    * @type {Array<SenderDetail>}
@@ -1736,14 +1741,6 @@ export interface CreateMandateSender {
    */
   user_details?: Array<SenderDetail>;
 }
-
-export const CreateMandateSenderUserTypeEnum = {
-  Individual: 'INDIVIDUAL',
-  Business: 'BUSINESS',
-} as const;
-
-export type CreateMandateSenderUserTypeEnum =
-  (typeof CreateMandateSenderUserTypeEnum)[keyof typeof CreateMandateSenderUserTypeEnum];
 
 /**
  *
@@ -1776,11 +1773,11 @@ export interface CreateMandateSenderResponse {
    */
   external_user_id: string;
   /**
-   * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
-   * @type {string}
+   *
+   * @type {PaymentUserType}
    * @memberof CreateMandateSenderResponse
    */
-  user_type: CreateMandateSenderResponseUserTypeEnum;
+  user_type: PaymentUserType;
   /**
    * Sender details which will be used for fraud checking.
    * @type {Array<SenderDetail>}
@@ -1788,14 +1785,6 @@ export interface CreateMandateSenderResponse {
    */
   user_details?: Array<SenderDetail>;
 }
-
-export const CreateMandateSenderResponseUserTypeEnum = {
-  Individual: 'INDIVIDUAL',
-  Business: 'BUSINESS',
-} as const;
-
-export type CreateMandateSenderResponseUserTypeEnum =
-  (typeof CreateMandateSenderResponseUserTypeEnum)[keyof typeof CreateMandateSenderResponseUserTypeEnum];
 
 /**
  *
@@ -2054,10 +2043,10 @@ export interface CreatePaymentUserRequest {
   external_user_id: string;
   /**
    *
-   * @type {string}
+   * @type {PaymentUserType}
    * @memberof CreatePaymentUserRequest
    */
-  user_type?: CreatePaymentUserRequestUserTypeEnum;
+  user_type?: PaymentUserType;
   /**
    *
    * @type {string}
@@ -2089,14 +2078,6 @@ export interface CreatePaymentUserRequest {
    */
   integration_metadata?: IntegrationMetadataPaymentUserRequest;
 }
-
-export const CreatePaymentUserRequestUserTypeEnum = {
-  Individual: 'INDIVIDUAL',
-  Business: 'BUSINESS',
-} as const;
-
-export type CreatePaymentUserRequestUserTypeEnum =
-  (typeof CreatePaymentUserRequestUserTypeEnum)[keyof typeof CreatePaymentUserRequestUserTypeEnum];
 
 /**
  *
@@ -2885,10 +2866,10 @@ export interface Fee {
   currency?: string;
   /**
    *
-   * @type {string}
+   * @type {FeePaidBy}
    * @memberof Fee
    */
-  paid_by?: FeePaidByEnum;
+  paid_by?: FeePaidBy;
   /**
    * The payment account Id
    * @type {string}
@@ -2897,12 +2878,31 @@ export interface Fee {
   paid_by_account_id?: string;
 }
 
-export const FeePaidByEnum = {
+/**
+ * Who pays the fee
+ * @export
+ * @enum {string}
+ */
+
+export const FeePaidBy = {
   Recipient: 'RECIPIENT',
   Sender: 'SENDER',
 } as const;
 
-export type FeePaidByEnum = (typeof FeePaidByEnum)[keyof typeof FeePaidByEnum];
+export type FeePaidBy = (typeof FeePaidBy)[keyof typeof FeePaidBy];
+
+/**
+ * The error type
+ * @export
+ * @enum {string}
+ */
+
+export const FinverseErrorCategory = {
+  LinkError: 'LINK_ERROR',
+  ApiError: 'API_ERROR',
+} as const;
+
+export type FinverseErrorCategory = (typeof FinverseErrorCategory)[keyof typeof FinverseErrorCategory];
 
 /**
  *
@@ -2962,11 +2962,11 @@ export type FuturePaymentsMode = (typeof FuturePaymentsMode)[keyof typeof Future
  */
 export interface FvEmbeddedErrorModel {
   /**
-   * The error type
-   * @type {string}
+   *
+   * @type {FinverseErrorCategory}
    * @memberof FvEmbeddedErrorModel
    */
-  type: FvEmbeddedErrorModelTypeEnum;
+  type: FinverseErrorCategory;
   /**
    *
    * @type {string}
@@ -2987,14 +2987,6 @@ export interface FvEmbeddedErrorModel {
   details: string;
 }
 
-export const FvEmbeddedErrorModelTypeEnum = {
-  LinkError: 'LINK_ERROR',
-  ApiError: 'API_ERROR',
-} as const;
-
-export type FvEmbeddedErrorModelTypeEnum =
-  (typeof FvEmbeddedErrorModelTypeEnum)[keyof typeof FvEmbeddedErrorModelTypeEnum];
-
 /**
  *
  * @export
@@ -3002,11 +2994,11 @@ export type FvEmbeddedErrorModelTypeEnum =
  */
 export interface FvErrorModel {
   /**
-   * The error type
-   * @type {string}
+   *
+   * @type {FinverseErrorCategory}
    * @memberof FvErrorModel
    */
-  type: FvErrorModelTypeEnum;
+  type: FinverseErrorCategory;
   /**
    *
    * @type {string}
@@ -3039,13 +3031,6 @@ export interface FvErrorModel {
   request_id: string;
 }
 
-export const FvErrorModelTypeEnum = {
-  LinkError: 'LINK_ERROR',
-  ApiError: 'API_ERROR',
-} as const;
-
-export type FvErrorModelTypeEnum = (typeof FvErrorModelTypeEnum)[keyof typeof FvErrorModelTypeEnum];
-
 /**
  *
  * @export
@@ -3053,11 +3038,11 @@ export type FvErrorModelTypeEnum = (typeof FvErrorModelTypeEnum)[keyof typeof Fv
  */
 export interface FvErrorModelV2 {
   /**
-   * The error type
-   * @type {string}
+   *
+   * @type {FinverseErrorCategory}
    * @memberof FvErrorModelV2
    */
-  type: FvErrorModelV2TypeEnum;
+  type: FinverseErrorCategory;
   /**
    *
    * @type {string}
@@ -3083,13 +3068,6 @@ export interface FvErrorModelV2 {
    */
   request_id: string;
 }
-
-export const FvErrorModelV2TypeEnum = {
-  LinkError: 'LINK_ERROR',
-  ApiError: 'API_ERROR',
-} as const;
-
-export type FvErrorModelV2TypeEnum = (typeof FvErrorModelV2TypeEnum)[keyof typeof FvErrorModelV2TypeEnum];
 
 /**
  *
@@ -3512,11 +3490,11 @@ export interface GetMandateAuthResponse {
    */
   institution_id: string;
   /**
-   * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
-   * @type {string}
+   *
+   * @type {PaymentUserType}
    * @memberof GetMandateAuthResponse
    */
-  sender_type?: GetMandateAuthResponseSenderTypeEnum;
+  sender_type?: PaymentUserType;
   /**
    * Checklist of the authorization factors needed to complete Mandate authorization
    * @type {Array<AuthChecklistFactor>}
@@ -3564,13 +3542,6 @@ export const GetMandateAuthResponseMandateStatusEnum = {
 
 export type GetMandateAuthResponseMandateStatusEnum =
   (typeof GetMandateAuthResponseMandateStatusEnum)[keyof typeof GetMandateAuthResponseMandateStatusEnum];
-export const GetMandateAuthResponseSenderTypeEnum = {
-  Individual: 'INDIVIDUAL',
-  Business: 'BUSINESS',
-} as const;
-
-export type GetMandateAuthResponseSenderTypeEnum =
-  (typeof GetMandateAuthResponseSenderTypeEnum)[keyof typeof GetMandateAuthResponseSenderTypeEnum];
 
 /**
  *
@@ -3683,11 +3654,11 @@ export interface GetMandateSender {
    */
   external_user_id: string;
   /**
-   * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
-   * @type {string}
+   *
+   * @type {PaymentUserType}
    * @memberof GetMandateSender
    */
-  user_type: GetMandateSenderUserTypeEnum;
+  user_type: PaymentUserType;
   /**
    * Sender details which will be used for fraud checking.
    * @type {Array<SenderDetail>}
@@ -3695,14 +3666,6 @@ export interface GetMandateSender {
    */
   user_details?: Array<SenderDetail>;
 }
-
-export const GetMandateSenderUserTypeEnum = {
-  Individual: 'INDIVIDUAL',
-  Business: 'BUSINESS',
-} as const;
-
-export type GetMandateSenderUserTypeEnum =
-  (typeof GetMandateSenderUserTypeEnum)[keyof typeof GetMandateSenderUserTypeEnum];
 
 /**
  *
@@ -5992,11 +5955,11 @@ export interface MandateRecipientAccount {
    */
   account_id: string;
   /**
-   * Type of recipient account.
-   * @type {string}
+   *
+   * @type {PaymentAccountType}
    * @memberof MandateRecipientAccount
    */
-  account_type: MandateRecipientAccountAccountTypeEnum;
+  account_type: PaymentAccountType;
   /**
    * Optional reference identifier for the settlement account. Only applicable to settlement accounts.
    * @type {string}
@@ -6004,14 +5967,6 @@ export interface MandateRecipientAccount {
    */
   settlement_account_reference?: string;
 }
-
-export const MandateRecipientAccountAccountTypeEnum = {
-  ExternalAccount: 'EXTERNAL_ACCOUNT',
-  SettlementAccount: 'SETTLEMENT_ACCOUNT',
-} as const;
-
-export type MandateRecipientAccountAccountTypeEnum =
-  (typeof MandateRecipientAccountAccountTypeEnum)[keyof typeof MandateRecipientAccountAccountTypeEnum];
 
 /**
  *
@@ -6063,11 +6018,11 @@ export interface MandateSenderAccount {
    */
   account_number_masked?: string;
   /**
-   * Type of sender account.
-   * @type {string}
+   *
+   * @type {PaymentAccountType}
    * @memberof MandateSenderAccount
    */
-  account_type?: MandateSenderAccountAccountTypeEnum;
+  account_type?: PaymentAccountType;
   /**
    * Finverse Institution ID for the sender’s institution.
    * @type {string}
@@ -6099,13 +6054,6 @@ export interface MandateSenderAccount {
    */
   metadata?: { [key: string]: string };
 }
-
-export const MandateSenderAccountAccountTypeEnum = {
-  ExternalAccount: 'EXTERNAL_ACCOUNT',
-} as const;
-
-export type MandateSenderAccountAccountTypeEnum =
-  (typeof MandateSenderAccountAccountTypeEnum)[keyof typeof MandateSenderAccountAccountTypeEnum];
 
 /**
  *
@@ -6312,11 +6260,11 @@ export interface PaymentAccountDetails {
    */
   account_number_masked?: string;
   /**
-   * Type of payment account.
-   * @type {string}
+   *
+   * @type {PaymentAccountType}
    * @memberof PaymentAccountDetails
    */
-  account_type?: PaymentAccountDetailsAccountTypeEnum;
+  account_type?: PaymentAccountType;
   /**
    * Accountholder name of the payment account
    * @type {string}
@@ -6403,14 +6351,6 @@ export interface PaymentAccountDetails {
   updated_at?: string;
 }
 
-export const PaymentAccountDetailsAccountTypeEnum = {
-  ExternalAccount: 'EXTERNAL_ACCOUNT',
-  SettlementAccount: 'SETTLEMENT_ACCOUNT',
-} as const;
-
-export type PaymentAccountDetailsAccountTypeEnum =
-  (typeof PaymentAccountDetailsAccountTypeEnum)[keyof typeof PaymentAccountDetailsAccountTypeEnum];
-
 /**
  *
  * @export
@@ -6436,11 +6376,11 @@ export interface PaymentAccountDetailsWithEnrichedData {
    */
   account_number_masked?: string;
   /**
-   * Type of payment account.
-   * @type {string}
+   *
+   * @type {PaymentAccountType}
    * @memberof PaymentAccountDetailsWithEnrichedData
    */
-  account_type?: PaymentAccountDetailsWithEnrichedDataAccountTypeEnum;
+  account_type?: PaymentAccountType;
   /**
    * Accountholder name of the payment account
    * @type {string}
@@ -6533,13 +6473,18 @@ export interface PaymentAccountDetailsWithEnrichedData {
   payment_method_overview?: PaymentMethodOverview;
 }
 
-export const PaymentAccountDetailsWithEnrichedDataAccountTypeEnum = {
+/**
+ * Type of payment account
+ * @export
+ * @enum {string}
+ */
+
+export const PaymentAccountType = {
   ExternalAccount: 'EXTERNAL_ACCOUNT',
   SettlementAccount: 'SETTLEMENT_ACCOUNT',
 } as const;
 
-export type PaymentAccountDetailsWithEnrichedDataAccountTypeEnum =
-  (typeof PaymentAccountDetailsWithEnrichedDataAccountTypeEnum)[keyof typeof PaymentAccountDetailsWithEnrichedDataAccountTypeEnum];
+export type PaymentAccountType = (typeof PaymentAccountType)[keyof typeof PaymentAccountType];
 
 /**
  *
@@ -8175,10 +8120,10 @@ export interface PaymentUser {
   user_id?: string;
   /**
    *
-   * @type {string}
+   * @type {PaymentUserType}
    * @memberof PaymentUser
    */
-  user_type?: PaymentUserUserTypeEnum;
+  user_type?: PaymentUserType;
   /**
    * Whether the user has given consent for autopay
    * @type {boolean}
@@ -8193,12 +8138,18 @@ export interface PaymentUser {
   integration_metadata?: IntegrationMetadataResponse;
 }
 
-export const PaymentUserUserTypeEnum = {
+/**
+ * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
+ * @export
+ * @enum {string}
+ */
+
+export const PaymentUserType = {
   Individual: 'INDIVIDUAL',
   Business: 'BUSINESS',
 } as const;
 
-export type PaymentUserUserTypeEnum = (typeof PaymentUserUserTypeEnum)[keyof typeof PaymentUserUserTypeEnum];
+export type PaymentUserType = (typeof PaymentUserType)[keyof typeof PaymentUserType];
 
 /**
  *
@@ -8262,10 +8213,10 @@ export interface PaymentUserWithoutEmail {
   user_id?: string;
   /**
    *
-   * @type {string}
+   * @type {PaymentUserType}
    * @memberof PaymentUserWithoutEmail
    */
-  user_type?: PaymentUserWithoutEmailUserTypeEnum;
+  user_type?: PaymentUserType;
   /**
    * Whether the user has given consent for autopay
    * @type {boolean}
@@ -8279,14 +8230,6 @@ export interface PaymentUserWithoutEmail {
    */
   integration_metadata?: IntegrationMetadataResponse;
 }
-
-export const PaymentUserWithoutEmailUserTypeEnum = {
-  Individual: 'INDIVIDUAL',
-  Business: 'BUSINESS',
-} as const;
-
-export type PaymentUserWithoutEmailUserTypeEnum =
-  (typeof PaymentUserWithoutEmailUserTypeEnum)[keyof typeof PaymentUserWithoutEmailUserTypeEnum];
 
 /**
  *
@@ -8967,11 +8910,11 @@ export interface RecipientAccountFilters {
  */
 export interface RecipientAccountNumber {
   /**
-   * Type of account number. Possible values: LOCAL, IBAN
-   * @type {string}
+   *
+   * @type {AccountNumberType}
    * @memberof RecipientAccountNumber
    */
-  type: RecipientAccountNumberTypeEnum;
+  type: AccountNumberType;
   /**
    * Account number value
    * @type {string}
@@ -8985,14 +8928,6 @@ export interface RecipientAccountNumber {
    */
   number_plaintext?: string | null;
 }
-
-export const RecipientAccountNumberTypeEnum = {
-  Local: 'LOCAL',
-  Iban: 'IBAN',
-} as const;
-
-export type RecipientAccountNumberTypeEnum =
-  (typeof RecipientAccountNumberTypeEnum)[keyof typeof RecipientAccountNumberTypeEnum];
 
 /**
  *
@@ -9019,11 +8954,11 @@ export interface RecipientAccountResponse {
    */
   account_number?: RecipientAccountNumber;
   /**
-   * Type of recipient account.
-   * @type {string}
+   *
+   * @type {PaymentAccountType}
    * @memberof RecipientAccountResponse
    */
-  account_type?: RecipientAccountResponseAccountTypeEnum;
+  account_type?: PaymentAccountType;
   /**
    * List of currencies supported by the recipient account
    * @type {Array<string>}
@@ -9055,14 +8990,6 @@ export interface RecipientAccountResponse {
    */
   branch_code?: string;
 }
-
-export const RecipientAccountResponseAccountTypeEnum = {
-  ExternalAccount: 'EXTERNAL_ACCOUNT',
-  SettlementAccount: 'SETTLEMENT_ACCOUNT',
-} as const;
-
-export type RecipientAccountResponseAccountTypeEnum =
-  (typeof RecipientAccountResponseAccountTypeEnum)[keyof typeof RecipientAccountResponseAccountTypeEnum];
 
 /**
  *
@@ -9293,10 +9220,10 @@ export interface SelectPaymentMethodRequest {
   payment_method_type: PaymentType;
   /**
    *
-   * @type {string}
+   * @type {PaymentUserType}
    * @memberof SelectPaymentMethodRequest
    */
-  sender_type?: SelectPaymentMethodRequestSenderTypeEnum;
+  sender_type?: PaymentUserType;
   /**
    * Whether the user is on mobile device (only makes a difference if payment_method_provider is KCP)
    * @type {boolean}
@@ -9322,14 +9249,6 @@ export interface SelectPaymentMethodRequest {
    */
   locale?: string;
 }
-
-export const SelectPaymentMethodRequestSenderTypeEnum = {
-  Individual: 'INDIVIDUAL',
-  Business: 'BUSINESS',
-} as const;
-
-export type SelectPaymentMethodRequestSenderTypeEnum =
-  (typeof SelectPaymentMethodRequestSenderTypeEnum)[keyof typeof SelectPaymentMethodRequestSenderTypeEnum];
 
 /**
  *
@@ -9983,19 +9902,11 @@ export interface UpdatePaymentUserRequest {
   next_bill_update?: string | null;
   /**
    *
-   * @type {string}
+   * @type {PaymentUserType}
    * @memberof UpdatePaymentUserRequest
    */
-  user_type?: UpdatePaymentUserRequestUserTypeEnum | null;
+  user_type?: PaymentUserType;
 }
-
-export const UpdatePaymentUserRequestUserTypeEnum = {
-  Individual: 'INDIVIDUAL',
-  Business: 'BUSINESS',
-} as const;
-
-export type UpdatePaymentUserRequestUserTypeEnum =
-  (typeof UpdatePaymentUserRequestUserTypeEnum)[keyof typeof UpdatePaymentUserRequestUserTypeEnum];
 
 /**
  *
