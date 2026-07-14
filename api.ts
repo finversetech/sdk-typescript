@@ -3472,11 +3472,11 @@ export interface GetMandateAuthResponse {
    */
   mandate_id: string;
   /**
-   * Mandate status
-   * @type {string}
+   *
+   * @type {MandateStatus}
    * @memberof GetMandateAuthResponse
    */
-  mandate_status: GetMandateAuthResponseMandateStatusEnum;
+  mandate_status: MandateStatus;
   /**
    * Merchant account ID assigned by Finverse
    * @type {string}
@@ -3532,16 +3532,6 @@ export interface GetMandateAuthResponse {
    */
   recipient?: MandateRecipient;
 }
-
-export const GetMandateAuthResponseMandateStatusEnum = {
-  Created: 'CREATED',
-  Processing: 'PROCESSING',
-  Submitted: 'SUBMITTED',
-  Error: 'ERROR',
-} as const;
-
-export type GetMandateAuthResponseMandateStatusEnum =
-  (typeof GetMandateAuthResponseMandateStatusEnum)[keyof typeof GetMandateAuthResponseMandateStatusEnum];
 
 /**
  *
@@ -5900,10 +5890,10 @@ export interface MandateFvLinkResponse {
   institution_id?: string;
   /**
    *
-   * @type {string}
+   * @type {MandateStatus}
    * @memberof MandateFvLinkResponse
    */
-  mandate_status?: string;
+  mandate_status?: MandateStatus;
   /**
    *
    * @type {MandateRecipient}
@@ -5929,6 +5919,7 @@ export interface MandateFvLinkResponse {
    */
   mandate_details?: MandateFvLinkDetails;
 }
+
 /**
  *
  * @export
@@ -9518,11 +9509,11 @@ export interface SubmitAuthChecklistResponse {
    */
   auth_checklist: Array<AuthChecklistFactor>;
   /**
-   * Mandate status
-   * @type {string}
+   *
+   * @type {MandateStatus}
    * @memberof SubmitAuthChecklistResponse
    */
-  mandate_status: SubmitAuthChecklistResponseMandateStatusEnum;
+  mandate_status: MandateStatus;
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
@@ -9530,16 +9521,6 @@ export interface SubmitAuthChecklistResponse {
    */
   last_update: string;
 }
-
-export const SubmitAuthChecklistResponseMandateStatusEnum = {
-  Created: 'CREATED',
-  Processing: 'PROCESSING',
-  Submitted: 'SUBMITTED',
-  Error: 'ERROR',
-} as const;
-
-export type SubmitAuthChecklistResponseMandateStatusEnum =
-  (typeof SubmitAuthChecklistResponseMandateStatusEnum)[keyof typeof SubmitAuthChecklistResponseMandateStatusEnum];
 
 /**
  *
