@@ -198,6 +198,23 @@ export interface Account {
   metadata: { [key: string]: string };
 }
 /**
+ * Account category
+ * @export
+ * @enum {string}
+ */
+
+export const AccountCategory = {
+  Unknown: 'UNKNOWN',
+  Deposit: 'DEPOSIT',
+  Card: 'CARD',
+  Investment: 'INVESTMENT',
+  Loan: 'LOAN',
+  Other: 'OTHER',
+} as const;
+
+export type AccountCategory = (typeof AccountCategory)[keyof typeof AccountCategory];
+
+/**
  *
  * @export
  * @interface AccountNumber
@@ -243,10 +260,10 @@ export type AccountNumberType = (typeof AccountNumberType)[keyof typeof AccountN
 export interface AccountType {
   /**
    *
-   * @type {string}
+   * @type {AccountCategory}
    * @memberof AccountType
    */
-  type?: AccountTypeTypeEnum;
+  type?: AccountCategory;
   /**
    *
    * @type {string}
@@ -255,15 +272,6 @@ export interface AccountType {
   subtype?: AccountTypeSubtypeEnum;
 }
 
-export const AccountTypeTypeEnum = {
-  Deposit: 'DEPOSIT',
-  Card: 'CARD',
-  Investment: 'INVESTMENT',
-  Loan: 'LOAN',
-  Unknown: 'UNKNOWN',
-} as const;
-
-export type AccountTypeTypeEnum = (typeof AccountTypeTypeEnum)[keyof typeof AccountTypeTypeEnum];
 export const AccountTypeSubtypeEnum = {
   Current: 'CURRENT',
   Savings: 'SAVINGS',
@@ -560,6 +568,38 @@ export const AuthChecklistOptionsSubmittedByEnum = {
 
 export type AuthChecklistOptionsSubmittedByEnum =
   (typeof AuthChecklistOptionsSubmittedByEnum)[keyof typeof AuthChecklistOptionsSubmittedByEnum];
+
+/**
+ *
+ * @export
+ * @interface AuthenticationStatus
+ */
+export interface AuthenticationStatus {
+  /**
+   *
+   * @type {LoginIdentityAuthStatus}
+   * @memberof AuthenticationStatus
+   */
+  status?: LoginIdentityAuthStatus;
+  /**
+   * The detailed event name
+   * @type {string}
+   * @memberof AuthenticationStatus
+   */
+  status_details?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof AuthenticationStatus
+   */
+  last_update?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof AuthenticationStatus
+   */
+  last_successful_update?: string | null;
+}
 
 /**
  *
@@ -5288,10 +5328,10 @@ export interface LoginIdentity {
   billing_details?: LoginIdentityBillingDetails;
   /**
    *
-   * @type {string}
+   * @type {LoginIdentityStatus}
    * @memberof LoginIdentity
    */
-  status?: string;
+  status?: LoginIdentityStatus;
   /**
    *
    * @type {LoginIdentityStatusDetails}
@@ -5306,10 +5346,10 @@ export interface LoginIdentity {
   product_status?: AllProductStatus;
   /**
    *
-   * @type {ProductStatus}
+   * @type {AuthenticationStatus}
    * @memberof LoginIdentity
    */
-  authentication_status?: ProductStatus;
+  authentication_status?: AuthenticationStatus;
   /**
    *
    * @type {LoginIdentityError}
@@ -5336,10 +5376,10 @@ export interface LoginIdentity {
   webhook?: string;
   /**
    *
-   * @type {string}
+   * @type {LoginIdentitySessionStatus}
    * @memberof LoginIdentity
    */
-  session_status?: string;
+  session_status?: LoginIdentitySessionStatus;
   /**
    *
    * @type {string}
@@ -5389,6 +5429,25 @@ export interface LoginIdentity {
    */
   refresh?: RefreshData;
 }
+
+/**
+ * Login identity authentication status
+ * @export
+ * @enum {string}
+ */
+
+export const LoginIdentityAuthStatus = {
+  Unknown: 'UNKNOWN',
+  Linking: 'LINKING',
+  Authenticating: 'AUTHENTICATING',
+  Authenticated: 'AUTHENTICATED',
+  AuthenticateFailed: 'AUTHENTICATE_FAILED',
+  AuthenticationTemporarilyUnavailableForInstitution: 'AUTHENTICATION_TEMPORARILY_UNAVAILABLE_FOR_INSTITUTION',
+  AuthenticationTooManyAttempts: 'AUTHENTICATION_TOO_MANY_ATTEMPTS',
+} as const;
+
+export type LoginIdentityAuthStatus = (typeof LoginIdentityAuthStatus)[keyof typeof LoginIdentityAuthStatus];
+
 /**
  *
  * @export
@@ -5453,6 +5512,21 @@ export interface LoginIdentityLoginMethodsAvailable {
   haveSecret?: boolean;
 }
 /**
+ * Login identity session status
+ * @export
+ * @enum {string}
+ */
+
+export const LoginIdentitySessionStatus = {
+  Unknown: 'UNKNOWN',
+  InProgress: 'IN_PROGRESS',
+  Completed: 'COMPLETED',
+  Unlinked: 'UNLINKED',
+} as const;
+
+export type LoginIdentitySessionStatus = (typeof LoginIdentitySessionStatus)[keyof typeof LoginIdentitySessionStatus];
+
+/**
  *
  * @export
  * @interface LoginIdentityShort
@@ -5466,10 +5540,10 @@ export interface LoginIdentityShort {
   login_identity_id?: string;
   /**
    *
-   * @type {string}
+   * @type {LoginIdentityStatus}
    * @memberof LoginIdentityShort
    */
-  status?: string;
+  status?: LoginIdentityStatus;
   /**
    *
    * @type {string}
@@ -5477,6 +5551,32 @@ export interface LoginIdentityShort {
    */
   last_session_id?: string;
 }
+
+/**
+ * Login identity status
+ * @export
+ * @enum {string}
+ */
+
+export const LoginIdentityStatus = {
+  Unknown: 'UNKNOWN',
+  Error: 'ERROR',
+  Linking: 'LINKING',
+  Authenticating: 'AUTHENTICATING',
+  ConnectionComplete: 'CONNECTION_COMPLETE',
+  ConnectionInProgress: 'CONNECTION_IN_PROGRESS',
+  DataRetrievalInProgress: 'DATA_RETRIEVAL_IN_PROGRESS',
+  DataAvailable: 'DATA_AVAILABLE',
+  DataRetrievalPartiallySuccessful: 'DATA_RETRIEVAL_PARTIALLY_SUCCESSFUL',
+  DataRetrievalComplete: 'DATA_RETRIEVAL_COMPLETE',
+  Refreshing: 'REFRESHING',
+  Unlinked: 'UNLINKED',
+  UnlinkSucceeded: 'UNLINK_SUCCEEDED',
+  UnlinkFailed: 'UNLINK_FAILED',
+} as const;
+
+export type LoginIdentityStatus = (typeof LoginIdentityStatus)[keyof typeof LoginIdentityStatus];
+
 /**
  *
  * @export
@@ -8710,17 +8810,36 @@ export interface ProcessorRiskData {
   shopper_locale?: string;
 }
 /**
+ * Health status of a login identity product
+ * @export
+ * @enum {string}
+ */
+
+export const ProductHealthStatus = {
+  Unknown: 'UNKNOWN',
+  InProgress: 'IN_PROGRESS',
+  Success: 'SUCCESS',
+  Warning: 'WARNING',
+  Error: 'ERROR',
+  NotSupported: 'NOT_SUPPORTED',
+  NotAvailable: 'NOT_AVAILABLE',
+  TemporarilyUnavailableForInstitution: 'TEMPORARILY_UNAVAILABLE_FOR_INSTITUTION',
+} as const;
+
+export type ProductHealthStatus = (typeof ProductHealthStatus)[keyof typeof ProductHealthStatus];
+
+/**
  *
  * @export
  * @interface ProductStatus
  */
 export interface ProductStatus {
   /**
-   * The current health of this product
-   * @type {string}
+   *
+   * @type {ProductHealthStatus}
    * @memberof ProductStatus
    */
-  status?: string;
+  status?: ProductHealthStatus;
   /**
    * The detailed event name
    * @type {string}
@@ -8740,6 +8859,7 @@ export interface ProductStatus {
    */
   last_successful_update?: string | null;
 }
+
 /**
  *
  * @export
