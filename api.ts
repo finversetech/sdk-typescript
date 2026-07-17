@@ -198,6 +198,23 @@ export interface Account {
   metadata: { [key: string]: string };
 }
 /**
+ * Account category
+ * @export
+ * @enum {string}
+ */
+
+export const AccountCategory = {
+  Unknown: 'UNKNOWN',
+  Deposit: 'DEPOSIT',
+  Card: 'CARD',
+  Investment: 'INVESTMENT',
+  Loan: 'LOAN',
+  Other: 'OTHER',
+} as const;
+
+export type AccountCategory = (typeof AccountCategory)[keyof typeof AccountCategory];
+
+/**
  *
  * @export
  * @interface AccountNumber
@@ -243,10 +260,10 @@ export type AccountNumberType = (typeof AccountNumberType)[keyof typeof AccountN
 export interface AccountType {
   /**
    *
-   * @type {string}
+   * @type {AccountCategory}
    * @memberof AccountType
    */
-  type?: AccountTypeTypeEnum;
+  type?: AccountCategory;
   /**
    *
    * @type {string}
@@ -255,15 +272,6 @@ export interface AccountType {
   subtype?: AccountTypeSubtypeEnum;
 }
 
-export const AccountTypeTypeEnum = {
-  Deposit: 'DEPOSIT',
-  Card: 'CARD',
-  Investment: 'INVESTMENT',
-  Loan: 'LOAN',
-  Unknown: 'UNKNOWN',
-} as const;
-
-export type AccountTypeTypeEnum = (typeof AccountTypeTypeEnum)[keyof typeof AccountTypeTypeEnum];
 export const AccountTypeSubtypeEnum = {
   Current: 'CURRENT',
   Savings: 'SAVINGS',
@@ -564,6 +572,38 @@ export type AuthChecklistOptionsSubmittedByEnum =
 /**
  *
  * @export
+ * @interface AuthenticationStatus
+ */
+export interface AuthenticationStatus {
+  /**
+   *
+   * @type {LoginIdentityAuthStatus}
+   * @memberof AuthenticationStatus
+   */
+  status?: LoginIdentityAuthStatus;
+  /**
+   * The detailed event name
+   * @type {string}
+   * @memberof AuthenticationStatus
+   */
+  status_details?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof AuthenticationStatus
+   */
+  last_update?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof AuthenticationStatus
+   */
+  last_successful_update?: string | null;
+}
+
+/**
+ *
+ * @export
  * @interface AuthorizeMandateRequest
  */
 export interface AuthorizeMandateRequest {
@@ -619,7 +659,7 @@ export interface AvailablePaymentMethod {
    * @type {PaymentType}
    * @memberof AvailablePaymentMethod
    */
-  payment_method_type?: PaymentType;
+  payment_method_type: PaymentType;
   /**
    * The payment method subtype, e.g., EDDA_HK, CARD_GENERIC etc
    * @type {string}
@@ -973,7 +1013,7 @@ export interface CardAccount {
    * @type {string}
    * @memberof CardAccount
    */
-  account_id?: string;
+  account_id: string;
   /**
    *
    * @type {string}
@@ -1153,7 +1193,7 @@ export interface CardFvLinkResponse {
    * @type {CardStatus}
    * @memberof CardFvLinkResponse
    */
-  status?: CardStatus;
+  status: CardStatus;
   /**
    *
    * @type {CardFvLinkDetails}
@@ -1185,7 +1225,7 @@ export interface CardRecipient {
    * @type {string}
    * @memberof CardRecipient
    */
-  name?: string;
+  name: string;
 }
 /**
  * Card status
@@ -2228,7 +2268,7 @@ export interface DeleteLoginIdentityResponse {
    * @type {boolean}
    * @memberof DeleteLoginIdentityResponse
    */
-  success?: boolean;
+  success: boolean;
 }
 /**
  *
@@ -2241,19 +2281,19 @@ export interface DisputeResponse {
    * @type {string}
    * @memberof DisputeResponse
    */
-  dispute_id?: string;
+  dispute_id: string;
   /**
    * Amount to be disputed, in currency\'s smallest unit or “minor unit”, as defined in ISO 4217. For example, HKD 100.01 is represented as amount = 10001 (minor unit = cents). For currencies without minor units (e.g. VND, JPY), the amount is represented as is, without modification. For example, VND 15101 is represented as amount = 15101.
    * @type {number}
    * @memberof DisputeResponse
    */
-  amount?: number;
+  amount: number;
   /**
    * The currency of the balance
    * @type {string}
    * @memberof DisputeResponse
    */
-  currency?: string;
+  currency: string;
   /**
    * The name of the last event for this dispute
    * @type {string}
@@ -2331,7 +2371,7 @@ export interface DisputeResponse {
    * @type {DisputeStatus}
    * @memberof DisputeResponse
    */
-  dispute_status?: DisputeStatus;
+  dispute_status: DisputeStatus;
   /**
    * The status of the dispute at the payment processor
    * @type {string}
@@ -2653,7 +2693,7 @@ export interface FVCard {
    * @type {CardStatus}
    * @memberof FVCard
    */
-  status?: CardStatus;
+  status: CardStatus;
   /**
    *
    * @type {FvEmbeddedErrorModel}
@@ -2863,7 +2903,7 @@ export interface Fee {
    * @type {string}
    * @memberof Fee
    */
-  currency?: string;
+  currency: string;
   /**
    *
    * @type {FeePaidBy}
@@ -3191,7 +3231,7 @@ export interface GetBalanceHistoryResponse {
    * @type {string}
    * @memberof GetBalanceHistoryResponse
    */
-  source?: GetBalanceHistoryResponseSourceEnum;
+  source: GetBalanceHistoryResponseSourceEnum;
 }
 
 export const GetBalanceHistoryResponseSourceEnum = {
@@ -4329,7 +4369,7 @@ export interface InstitutionShort {
    * @type {string}
    * @memberof InstitutionShort
    */
-  institution_id?: string;
+  institution_id: string;
   /**
    *
    * @type {Array<string>}
@@ -5081,7 +5121,7 @@ export interface ListPaymentsResponse {
    * @type {Array<PaymentResponse>}
    * @memberof ListPaymentsResponse
    */
-  payments?: Array<PaymentResponse>;
+  payments: Array<PaymentResponse>;
   /**
    *
    * @type {number}
@@ -5243,7 +5283,7 @@ export interface LoginIdentity {
    * @type {string}
    * @memberof LoginIdentity
    */
-  login_identity_id?: string;
+  login_identity_id: string;
   /**
    *
    * @type {string}
@@ -5288,10 +5328,10 @@ export interface LoginIdentity {
   billing_details?: LoginIdentityBillingDetails;
   /**
    *
-   * @type {string}
+   * @type {LoginIdentityStatus}
    * @memberof LoginIdentity
    */
-  status?: string;
+  status: LoginIdentityStatus;
   /**
    *
    * @type {LoginIdentityStatusDetails}
@@ -5306,10 +5346,10 @@ export interface LoginIdentity {
   product_status?: AllProductStatus;
   /**
    *
-   * @type {ProductStatus}
+   * @type {AuthenticationStatus}
    * @memberof LoginIdentity
    */
-  authentication_status?: ProductStatus;
+  authentication_status?: AuthenticationStatus;
   /**
    *
    * @type {LoginIdentityError}
@@ -5336,10 +5376,10 @@ export interface LoginIdentity {
   webhook?: string;
   /**
    *
-   * @type {string}
+   * @type {LoginIdentitySessionStatus}
    * @memberof LoginIdentity
    */
-  session_status?: string;
+  session_status?: LoginIdentitySessionStatus;
   /**
    *
    * @type {string}
@@ -5389,6 +5429,25 @@ export interface LoginIdentity {
    */
   refresh?: RefreshData;
 }
+
+/**
+ * Login identity authentication status
+ * @export
+ * @enum {string}
+ */
+
+export const LoginIdentityAuthStatus = {
+  Unknown: 'UNKNOWN',
+  Linking: 'LINKING',
+  Authenticating: 'AUTHENTICATING',
+  Authenticated: 'AUTHENTICATED',
+  AuthenticateFailed: 'AUTHENTICATE_FAILED',
+  AuthenticationTemporarilyUnavailableForInstitution: 'AUTHENTICATION_TEMPORARILY_UNAVAILABLE_FOR_INSTITUTION',
+  AuthenticationTooManyAttempts: 'AUTHENTICATION_TOO_MANY_ATTEMPTS',
+} as const;
+
+export type LoginIdentityAuthStatus = (typeof LoginIdentityAuthStatus)[keyof typeof LoginIdentityAuthStatus];
+
 /**
  *
  * @export
@@ -5453,6 +5512,21 @@ export interface LoginIdentityLoginMethodsAvailable {
   haveSecret?: boolean;
 }
 /**
+ * Login identity session status
+ * @export
+ * @enum {string}
+ */
+
+export const LoginIdentitySessionStatus = {
+  Unknown: 'UNKNOWN',
+  InProgress: 'IN_PROGRESS',
+  Completed: 'COMPLETED',
+  Unlinked: 'UNLINKED',
+} as const;
+
+export type LoginIdentitySessionStatus = (typeof LoginIdentitySessionStatus)[keyof typeof LoginIdentitySessionStatus];
+
+/**
  *
  * @export
  * @interface LoginIdentityShort
@@ -5463,13 +5537,13 @@ export interface LoginIdentityShort {
    * @type {string}
    * @memberof LoginIdentityShort
    */
-  login_identity_id?: string;
+  login_identity_id: string;
   /**
    *
-   * @type {string}
+   * @type {LoginIdentityStatus}
    * @memberof LoginIdentityShort
    */
-  status?: string;
+  status: LoginIdentityStatus;
   /**
    *
    * @type {string}
@@ -5477,6 +5551,32 @@ export interface LoginIdentityShort {
    */
   last_session_id?: string;
 }
+
+/**
+ * Login identity status
+ * @export
+ * @enum {string}
+ */
+
+export const LoginIdentityStatus = {
+  Unknown: 'UNKNOWN',
+  Error: 'ERROR',
+  Linking: 'LINKING',
+  Authenticating: 'AUTHENTICATING',
+  ConnectionComplete: 'CONNECTION_COMPLETE',
+  ConnectionInProgress: 'CONNECTION_IN_PROGRESS',
+  DataRetrievalInProgress: 'DATA_RETRIEVAL_IN_PROGRESS',
+  DataAvailable: 'DATA_AVAILABLE',
+  DataRetrievalPartiallySuccessful: 'DATA_RETRIEVAL_PARTIALLY_SUCCESSFUL',
+  DataRetrievalComplete: 'DATA_RETRIEVAL_COMPLETE',
+  Refreshing: 'REFRESHING',
+  Unlinked: 'UNLINKED',
+  UnlinkSucceeded: 'UNLINK_SUCCEEDED',
+  UnlinkFailed: 'UNLINK_FAILED',
+} as const;
+
+export type LoginIdentityStatus = (typeof LoginIdentityStatus)[keyof typeof LoginIdentityStatus];
+
 /**
  *
  * @export
@@ -5893,7 +5993,7 @@ export interface MandateFvLinkResponse {
    * @type {MandateStatus}
    * @memberof MandateFvLinkResponse
    */
-  mandate_status?: MandateStatus;
+  mandate_status: MandateStatus;
   /**
    *
    * @type {MandateRecipient}
@@ -6013,7 +6113,7 @@ export interface MandateSenderAccount {
    * @type {PaymentAccountType}
    * @memberof MandateSenderAccount
    */
-  account_type?: PaymentAccountType;
+  account_type: PaymentAccountType;
   /**
    * Finverse Institution ID for the sender’s institution.
    * @type {string}
@@ -6237,7 +6337,7 @@ export interface PaymentAccountDetails {
    * @type {string}
    * @memberof PaymentAccountDetails
    */
-  account_id?: string;
+  account_id: string;
   /**
    *
    * @type {RecipientAccountNumber}
@@ -6255,7 +6355,7 @@ export interface PaymentAccountDetails {
    * @type {PaymentAccountType}
    * @memberof PaymentAccountDetails
    */
-  account_type?: PaymentAccountType;
+  account_type: PaymentAccountType;
   /**
    * Accountholder name of the payment account
    * @type {string}
@@ -6353,7 +6453,7 @@ export interface PaymentAccountDetailsWithEnrichedData {
    * @type {string}
    * @memberof PaymentAccountDetailsWithEnrichedData
    */
-  account_id?: string;
+  account_id: string;
   /**
    *
    * @type {RecipientAccountNumber}
@@ -6371,7 +6471,7 @@ export interface PaymentAccountDetailsWithEnrichedData {
    * @type {PaymentAccountType}
    * @memberof PaymentAccountDetailsWithEnrichedData
    */
-  account_type?: PaymentAccountType;
+  account_type: PaymentAccountType;
   /**
    * Accountholder name of the payment account
    * @type {string}
@@ -6679,13 +6779,13 @@ export interface PaymentFvLinkResponse {
    * @type {PaymentStatus}
    * @memberof PaymentFvLinkResponse
    */
-  status?: PaymentStatus;
+  status: PaymentStatus;
   /**
    *
    * @type {PaymentType}
    * @memberof PaymentFvLinkResponse
    */
-  type?: PaymentType;
+  type: PaymentType;
   /**
    *
    * @type {PaymentFvLinkDetails}
@@ -6828,19 +6928,19 @@ export interface PaymentLinkResponse {
    * @type {string}
    * @memberof PaymentLinkResponse
    */
-  payment_link_id?: string;
+  payment_link_id: string;
   /**
    * The amount of the payment. Expressed in currency\'s smallest unit or “minor unit”, as defined in ISO 4217.
    * @type {number}
    * @memberof PaymentLinkResponse
    */
-  amount?: number;
+  amount: number;
   /**
    *
    * @type {string}
    * @memberof PaymentLinkResponse
    */
-  currency?: string;
+  currency: string;
   /**
    *
    * @type {PaymentLinkCustomizations}
@@ -6852,7 +6952,7 @@ export interface PaymentLinkResponse {
    * @type {PaymentLinkMode}
    * @memberof PaymentLinkResponse
    */
-  mode?: PaymentLinkMode;
+  mode: PaymentLinkMode;
   /**
    *
    * @type {PaymentLinkDetails}
@@ -6894,13 +6994,13 @@ export interface PaymentLinkResponse {
    * @type {PaymentLinkStatus}
    * @memberof PaymentLinkResponse
    */
-  status?: PaymentLinkStatus;
+  status: PaymentLinkStatus;
   /**
    *
    * @type {PaymentLinkSessionStatus}
    * @memberof PaymentLinkResponse
    */
-  session_status?: PaymentLinkSessionStatus;
+  session_status: PaymentLinkSessionStatus;
   /**
    * Timestamp of when the payment link was created in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
@@ -7074,13 +7174,13 @@ export interface PaymentMethodFvLinkResponse {
    * @type {string}
    * @memberof PaymentMethodFvLinkResponse
    */
-  payment_method_id?: string;
+  payment_method_id: string;
   /**
    *
    * @type {PaymentMethodType}
    * @memberof PaymentMethodFvLinkResponse
    */
-  payment_method_type?: PaymentMethodType;
+  payment_method_type: PaymentMethodType;
   /**
    *
    * @type {string}
@@ -7558,13 +7658,13 @@ export interface PaymentMethodResponse {
    * @type {string}
    * @memberof PaymentMethodResponse
    */
-  payment_method_id?: string;
+  payment_method_id: string;
   /**
    *
    * @type {PaymentMethodType}
    * @memberof PaymentMethodResponse
    */
-  payment_method_type?: PaymentMethodType;
+  payment_method_type: PaymentMethodType;
   /**
    * Whether the payment method is live (true) or a test payment method (false), based on its payment rail. Absent if the payment rail is unknown.
    * @type {boolean}
@@ -7701,7 +7801,7 @@ export interface PaymentResponse {
    * @type {string}
    * @memberof PaymentResponse
    */
-  payment_id?: string;
+  payment_id: string;
   /**
    * Whether the payment is live (true) or a test payment (false), based on its payment rail. Absent if the payment rail is unknown.
    * @type {boolean}
@@ -7731,13 +7831,13 @@ export interface PaymentResponse {
    * @type {string}
    * @memberof PaymentResponse
    */
-  currency?: string;
+  currency: string;
   /**
    *
    * @type {PaymentType}
    * @memberof PaymentResponse
    */
-  type?: PaymentType;
+  type: PaymentType;
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    * @type {string}
@@ -7749,7 +7849,7 @@ export interface PaymentResponse {
    * @type {PaymentStatus}
    * @memberof PaymentResponse
    */
-  status?: PaymentStatus;
+  status: PaymentStatus;
   /**
    * ID of the payment method this pament is referring to.
    * @type {string}
@@ -8108,7 +8208,7 @@ export interface PaymentUser {
    * @type {string}
    * @memberof PaymentUser
    */
-  user_id?: string;
+  user_id: string;
   /**
    *
    * @type {PaymentUserType}
@@ -8201,7 +8301,7 @@ export interface PaymentUserWithoutEmail {
    * @type {string}
    * @memberof PaymentUserWithoutEmail
    */
-  user_id?: string;
+  user_id: string;
   /**
    *
    * @type {PaymentUserType}
@@ -8370,19 +8470,19 @@ export interface PayoutSnapshotResponse {
    * @type {string}
    * @memberof PayoutSnapshotResponse
    */
-  payout_id?: string;
+  payout_id: string;
   /**
    *
    * @type {PayoutStatus}
    * @memberof PayoutSnapshotResponse
    */
-  status?: PayoutStatus;
+  status: PayoutStatus;
   /**
    *
    * @type {PayoutType}
    * @memberof PayoutSnapshotResponse
    */
-  type?: PayoutType;
+  type: PayoutType;
   /**
    *
    * @type {string}
@@ -8424,13 +8524,13 @@ export interface PayoutSnapshotResponse {
    * @type {number}
    * @memberof PayoutSnapshotResponse
    */
-  amount?: number;
+  amount: number;
   /**
    *
    * @type {string}
    * @memberof PayoutSnapshotResponse
    */
-  currency?: string;
+  currency: string;
   /**
    *
    * @type {MandateRecipient}
@@ -8710,17 +8810,36 @@ export interface ProcessorRiskData {
   shopper_locale?: string;
 }
 /**
+ * Health status of a login identity product
+ * @export
+ * @enum {string}
+ */
+
+export const ProductHealthStatus = {
+  Unknown: 'UNKNOWN',
+  InProgress: 'IN_PROGRESS',
+  Success: 'SUCCESS',
+  Warning: 'WARNING',
+  Error: 'ERROR',
+  NotSupported: 'NOT_SUPPORTED',
+  NotAvailable: 'NOT_AVAILABLE',
+  TemporarilyUnavailableForInstitution: 'TEMPORARILY_UNAVAILABLE_FOR_INSTITUTION',
+} as const;
+
+export type ProductHealthStatus = (typeof ProductHealthStatus)[keyof typeof ProductHealthStatus];
+
+/**
  *
  * @export
  * @interface ProductStatus
  */
 export interface ProductStatus {
   /**
-   * The current health of this product
-   * @type {string}
+   *
+   * @type {ProductHealthStatus}
    * @memberof ProductStatus
    */
-  status?: string;
+  status: ProductHealthStatus;
   /**
    * The detailed event name
    * @type {string}
@@ -8740,6 +8859,7 @@ export interface ProductStatus {
    */
   last_successful_update?: string | null;
 }
+
 /**
  *
  * @export
@@ -9408,7 +9528,7 @@ export interface Statement {
    * @type {string}
    * @memberof Statement
    */
-  id?: string;
+  id: string;
   /**
    * YYYY-MM-DD
    * @type {string}
@@ -9439,7 +9559,7 @@ export interface StatementLink {
    * @type {string}
    * @memberof StatementLink
    */
-  url?: string;
+  url: string;
   /**
    * expiry of the signedURL
    * @type {string}
@@ -9451,7 +9571,7 @@ export interface StatementLink {
    * @type {string}
    * @memberof StatementLink
    */
-  statement_id?: string;
+  statement_id: string;
 }
 /**
  *
@@ -9614,13 +9734,13 @@ export interface Transaction {
    * @type {string}
    * @memberof Transaction
    */
-  transaction_id?: string;
+  transaction_id: string;
   /**
    *
    * @type {string}
    * @memberof Transaction
    */
-  account_id?: string;
+  account_id: string;
   /**
    *
    * @type {string}
@@ -9802,7 +9922,7 @@ export interface TransactionLimitsResponse {
    * @type {number}
    * @memberof TransactionLimitsResponse
    */
-  max_transaction_amount?: number;
+  max_transaction_amount: number;
   /**
    * The maximum amount of money that can be transferred in a single transaction under this mandate set by the payer. Expressed in currency\'s smallest unit or “minor unit”, as defined in ISO 4217.
    * @type {number}

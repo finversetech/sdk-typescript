@@ -1,4 +1,4 @@
-import { GetBalanceHistoryResponse } from '../../api';
+import { GetBalanceHistoryResponse, GetBalanceHistoryResponseSourceEnum } from '../../api';
 
 import { getAccounts } from './account';
 
@@ -15,5 +15,6 @@ export function getBalanceHistory(): GetBalanceHistoryResponse {
     ],
     institution: accountData.institution,
     login_identity: accountData.login_identity,
+    source: GetBalanceHistoryResponseSourceEnum.Institution,
   };
 }
