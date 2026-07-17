@@ -1,4 +1,4 @@
-import { ListAccountsResponse } from '../../api';
+import { ListAccountsResponse, LoginIdentityStatus } from '../../api';
 
 export function getAccounts() {
   return {
@@ -100,7 +100,7 @@ export function getAccounts() {
     },
     login_identity: {
       login_identity_id: '01F7MP3J3H485QSDQC0FS15KE7',
-      status: 'DATA_RETRIEVAL_COMPLETE',
+      status: LoginIdentityStatus.DataRetrievalComplete,
     },
   };
 }
