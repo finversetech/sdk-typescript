@@ -6113,7 +6113,7 @@ export interface MandateSenderAccount {
    * @type {PaymentAccountType}
    * @memberof MandateSenderAccount
    */
-  account_type: PaymentAccountType;
+  account_type?: PaymentAccountType;
   /**
    * Finverse Institution ID for the sender’s institution.
    * @type {string}
@@ -7735,17 +7735,23 @@ export interface PaymentProcessorDetails {
    */
   scheme?: string;
   /**
-   * Virtual account number issued by the processor (e.g. KCP manual virtual account payments).
+   * Virtual account number issued by the processor (applicable to KCP manual virtual account payments).
    * @type {string}
    * @memberof PaymentProcessorDetails
    */
   virtual_account_number?: string;
   /**
-   * Bank code for the virtual account without a BK prefix (e.g. KCP manual virtual account payments).
+   * Bank code for the virtual account without a \"BK\"/\"B\" prefix (applicable to KCP manual virtual account payments).
    * @type {string}
    * @memberof PaymentProcessorDetails
    */
   virtual_account_bank_code?: string;
+  /**
+   * Bank code of the payer\'s bank without a \"BK\"/\"B\" prefix (applicable to KCP bank transfer payments).
+   * @type {string}
+   * @memberof PaymentProcessorDetails
+   */
+  bank_code?: string;
   /**
    *
    * @type {PaymentProcessorResult}
