@@ -9159,7 +9159,7 @@ export interface RefreshLoginIdentityLinkCustomizations {
    */
   ui_mode?: RefreshLoginIdentityLinkCustomizationsUiModeEnum;
   /**
-   * Required if ui_mode is redirect or auto_redirect
+   * Required if user_present is true, or if ui_mode is redirect or auto_redirect
    * @type {string}
    * @memberof RefreshLoginIdentityLinkCustomizations
    */
@@ -9204,7 +9204,7 @@ export type RefreshLoginIdentityLinkCustomizationsUiModeEnum =
  */
 export interface RefreshLoginIdentityRequest {
   /**
-   * Indicate whether the user is present in this flow. If the user is not present, only institutions that do not require 2fa can be refreshed
+   * Indicate whether the user is present in this flow. If the user is not present, only institutions that do not require 2fa can be refreshed. If true, link_customizations.redirect_uri is required
    * @type {boolean}
    * @memberof RefreshLoginIdentityRequest
    */
