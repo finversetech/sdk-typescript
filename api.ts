@@ -7815,6 +7815,12 @@ export interface PaymentResponse {
    */
   live?: boolean | null;
   /**
+   *
+   * @type {PaymentSubtype}
+   * @memberof PaymentResponse
+   */
+  subtype?: PaymentSubtype;
+  /**
    * Amount to be paid, in currency\'s smallest unit or “minor unit”, as defined in ISO 4217. For example, HKD 100.01 is represented as amount = 10001 (minor unit = cents). For currencies without minor units (e.g. VND, JPY), the amount is represented as is, without modification. For example, VND 15101 is represented as amount = 15101.
    * @type {number}
    * @memberof PaymentResponse
@@ -8138,6 +8144,28 @@ export const PaymentStatus = {
 } as const;
 
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus];
+
+/**
+ * The payment subtype, derived from the payment\'s rail. Absent if the payment rail is unknown.
+ * @export
+ * @enum {string}
+ */
+
+export const PaymentSubtype = {
+  FpsHk: 'FPS_HK',
+  PaynowSg: 'PAYNOW_SG',
+  EgiroSg: 'EGIRO_SG',
+  EddaHk: 'EDDA_HK',
+  CardKr: 'CARD_KR',
+  CardGeneric: 'CARD_GENERIC',
+  WalletGeneric: 'WALLET_GENERIC',
+  GocardlessGeneric: 'GOCARDLESS_GENERIC',
+  ManualGeneric: 'MANUAL_GENERIC',
+  ManualKr: 'MANUAL_KR',
+  BankpayKr: 'BANKPAY_KR',
+} as const;
+
+export type PaymentSubtype = (typeof PaymentSubtype)[keyof typeof PaymentSubtype];
 
 /**
  * Indicates whether this is a mandate-based payment or one-off direct payment to an account
@@ -9159,7 +9187,7 @@ export interface RefreshLoginIdentityLinkCustomizations {
    */
   ui_mode?: RefreshLoginIdentityLinkCustomizationsUiModeEnum;
   /**
-   * Required if ui_mode is redirect or auto_redirect
+   * Required if user_present is true, or if ui_mode is redirect or auto_redirect
    * @type {string}
    * @memberof RefreshLoginIdentityLinkCustomizations
    */
@@ -9204,7 +9232,7 @@ export type RefreshLoginIdentityLinkCustomizationsUiModeEnum =
  */
 export interface RefreshLoginIdentityRequest {
   /**
-   * Indicate whether the user is present in this flow. If the user is not present, only institutions that do not require 2fa can be refreshed
+   * Indicate whether the user is present in this flow. If the user is not present, only institutions that do not require 2fa can be refreshed. If true, link_customizations.redirect_uri is required
    * @type {boolean}
    * @memberof RefreshLoginIdentityRequest
    */
@@ -9547,6 +9575,12 @@ export interface Statement {
    * @memberof Statement
    */
   name?: string;
+  /**
+   * name of the statement file
+   * @type {string}
+   * @memberof Statement
+   */
+  file_name?: string;
   /**
    *
    * @type {string}
