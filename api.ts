@@ -3617,12 +3617,6 @@ export interface GetMandateResponse {
   recipient: MandateRecipient;
   /**
    *
-   * @type {MandateRecipientAccount}
-   * @memberof GetMandateResponse
-   */
-  recipient_account?: MandateRecipientAccount;
-  /**
-   *
    * @type {GetMandateSender}
    * @memberof GetMandateResponse
    */
@@ -3657,6 +3651,12 @@ export interface GetMandateResponse {
    * @memberof GetMandateResponse
    */
   metadata?: { [key: string]: string };
+  /**
+   *
+   * @type {MandateRecipientAccount}
+   * @memberof GetMandateResponse
+   */
+  recipient_account?: MandateRecipientAccount;
 }
 
 /**
@@ -5745,6 +5745,86 @@ export type MandateAuthLinkCustomizationsUiModeEnum =
 /**
  *
  * @export
+ * @interface MandateBase
+ */
+export interface MandateBase {
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof MandateBase
+   */
+  created_at?: string;
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof MandateBase
+   */
+  updated_at: string;
+  /**
+   * Finverse Mandate ID (ULID)
+   * @type {string}
+   * @memberof MandateBase
+   */
+  mandate_id: string;
+  /**
+   * Finverse Payment Method ID (ULID)
+   * @type {string}
+   * @memberof MandateBase
+   */
+  payment_method_id?: string;
+  /**
+   *
+   * @type {MandateStatus}
+   * @memberof MandateBase
+   */
+  status: MandateStatus;
+  /**
+   *
+   * @type {MandateRecipient}
+   * @memberof MandateBase
+   */
+  recipient: MandateRecipient;
+  /**
+   *
+   * @type {GetMandateSender}
+   * @memberof MandateBase
+   */
+  sender: GetMandateSender;
+  /**
+   *
+   * @type {MandateSenderAccount}
+   * @memberof MandateBase
+   */
+  sender_account?: MandateSenderAccount;
+  /**
+   *
+   * @type {MandateDetailsResponse}
+   * @memberof MandateBase
+   */
+  mandate_details: MandateDetailsResponse;
+  /**
+   *
+   * @type {Array<Fee>}
+   * @memberof MandateBase
+   */
+  fees?: Array<Fee>;
+  /**
+   *
+   * @type {FvEmbeddedErrorModel}
+   * @memberof MandateBase
+   */
+  error?: FvEmbeddedErrorModel;
+  /**
+   * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 20 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
+   * @type {{ [key: string]: string; }}
+   * @memberof MandateBase
+   */
+  metadata?: { [key: string]: string };
+}
+
+/**
+ *
+ * @export
  * @interface MandateDetailsForPaymentLink
  */
 export interface MandateDetailsForPaymentLink {
@@ -7600,6 +7680,92 @@ export interface PaymentMethodIntegrationMetadataStripeMetadataCustomer {
 /**
  *
  * @export
+ * @interface PaymentMethodMandate
+ */
+export interface PaymentMethodMandate {
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof PaymentMethodMandate
+   */
+  created_at?: string;
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   * @type {string}
+   * @memberof PaymentMethodMandate
+   */
+  updated_at: string;
+  /**
+   * Finverse Mandate ID (ULID)
+   * @type {string}
+   * @memberof PaymentMethodMandate
+   */
+  mandate_id: string;
+  /**
+   * Finverse Payment Method ID (ULID)
+   * @type {string}
+   * @memberof PaymentMethodMandate
+   */
+  payment_method_id?: string;
+  /**
+   *
+   * @type {MandateStatus}
+   * @memberof PaymentMethodMandate
+   */
+  status: MandateStatus;
+  /**
+   *
+   * @type {MandateRecipient}
+   * @memberof PaymentMethodMandate
+   */
+  recipient: MandateRecipient;
+  /**
+   *
+   * @type {GetMandateSender}
+   * @memberof PaymentMethodMandate
+   */
+  sender: GetMandateSender;
+  /**
+   *
+   * @type {MandateSenderAccount}
+   * @memberof PaymentMethodMandate
+   */
+  sender_account?: MandateSenderAccount;
+  /**
+   *
+   * @type {MandateDetailsResponse}
+   * @memberof PaymentMethodMandate
+   */
+  mandate_details: MandateDetailsResponse;
+  /**
+   *
+   * @type {Array<Fee>}
+   * @memberof PaymentMethodMandate
+   */
+  fees?: Array<Fee>;
+  /**
+   *
+   * @type {FvEmbeddedErrorModel}
+   * @memberof PaymentMethodMandate
+   */
+  error?: FvEmbeddedErrorModel;
+  /**
+   * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 20 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
+   * @type {{ [key: string]: string; }}
+   * @memberof PaymentMethodMandate
+   */
+  metadata?: { [key: string]: string };
+  /**
+   *
+   * @type {PaymentMethodRecipientAccount}
+   * @memberof PaymentMethodMandate
+   */
+  recipient_account?: PaymentMethodRecipientAccount;
+}
+
+/**
+ *
+ * @export
  * @interface PaymentMethodOverview
  */
 export interface PaymentMethodOverview {
@@ -7645,6 +7811,38 @@ export interface PaymentMethodOverview {
    * @memberof PaymentMethodOverview
    */
   supported_currencies?: Array<string>;
+}
+
+/**
+ *
+ * @export
+ * @interface PaymentMethodRecipientAccount
+ */
+export interface PaymentMethodRecipientAccount {
+  /**
+   * Merchant account ID assigned by Finverse
+   * @type {string}
+   * @memberof PaymentMethodRecipientAccount
+   */
+  account_id: string;
+  /**
+   *
+   * @type {PaymentAccountType}
+   * @memberof PaymentMethodRecipientAccount
+   */
+  account_type: PaymentAccountType;
+  /**
+   * Optional reference identifier for the settlement account. Only applicable to settlement accounts.
+   * @type {string}
+   * @memberof PaymentMethodRecipientAccount
+   */
+  settlement_account_reference?: string;
+  /**
+   * The business units the payment account belongs to
+   * @type {Array<string>}
+   * @memberof PaymentMethodRecipientAccount
+   */
+  business_units?: Array<string>;
 }
 
 /**
@@ -7814,6 +8012,12 @@ export interface PaymentResponse {
    * @memberof PaymentResponse
    */
   live?: boolean | null;
+  /**
+   *
+   * @type {PaymentSubtype}
+   * @memberof PaymentResponse
+   */
+  subtype?: PaymentSubtype;
   /**
    * Amount to be paid, in currency\'s smallest unit or “minor unit”, as defined in ISO 4217. For example, HKD 100.01 is represented as amount = 10001 (minor unit = cents). For currencies without minor units (e.g. VND, JPY), the amount is represented as is, without modification. For example, VND 15101 is represented as amount = 15101.
    * @type {number}
@@ -8138,6 +8342,28 @@ export const PaymentStatus = {
 } as const;
 
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus];
+
+/**
+ * The payment subtype, derived from the payment\'s rail. Absent if the payment rail is unknown.
+ * @export
+ * @enum {string}
+ */
+
+export const PaymentSubtype = {
+  FpsHk: 'FPS_HK',
+  PaynowSg: 'PAYNOW_SG',
+  EgiroSg: 'EGIRO_SG',
+  EddaHk: 'EDDA_HK',
+  CardKr: 'CARD_KR',
+  CardGeneric: 'CARD_GENERIC',
+  WalletGeneric: 'WALLET_GENERIC',
+  GocardlessGeneric: 'GOCARDLESS_GENERIC',
+  ManualGeneric: 'MANUAL_GENERIC',
+  ManualKr: 'MANUAL_KR',
+  BankpayKr: 'BANKPAY_KR',
+} as const;
+
+export type PaymentSubtype = (typeof PaymentSubtype)[keyof typeof PaymentSubtype];
 
 /**
  * Indicates whether this is a mandate-based payment or one-off direct payment to an account
@@ -9159,7 +9385,7 @@ export interface RefreshLoginIdentityLinkCustomizations {
    */
   ui_mode?: RefreshLoginIdentityLinkCustomizationsUiModeEnum;
   /**
-   * Required if ui_mode is redirect or auto_redirect
+   * Required if user_present is true, or if ui_mode is redirect or auto_redirect
    * @type {string}
    * @memberof RefreshLoginIdentityLinkCustomizations
    */
@@ -9204,7 +9430,7 @@ export type RefreshLoginIdentityLinkCustomizationsUiModeEnum =
  */
 export interface RefreshLoginIdentityRequest {
   /**
-   * Indicate whether the user is present in this flow. If the user is not present, only institutions that do not require 2fa can be refreshed
+   * Indicate whether the user is present in this flow. If the user is not present, only institutions that do not require 2fa can be refreshed. If true, link_customizations.redirect_uri is required
    * @type {boolean}
    * @memberof RefreshLoginIdentityRequest
    */
@@ -9547,6 +9773,12 @@ export interface Statement {
    * @memberof Statement
    */
   name?: string;
+  /**
+   * name of the statement file
+   * @type {string}
+   * @memberof Statement
+   */
+  file_name?: string;
   /**
    *
    * @type {string}
