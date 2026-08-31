@@ -28,179 +28,49 @@ import {
   serializeDataIfNeeded,
   toPathString,
   createRequestFunction,
+  replaceWithSerializableTypeIfNeeded,
 } from './common';
 import type { RequestArgs } from './base';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
-/**
- *
- * @export
- * @interface AccessTokenResponse
- */
 export interface AccessTokenResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof AccessTokenResponse
-   */
   access_token: string;
-  /**
-   *
-   * @type {string}
-   * @memberof AccessTokenResponse
-   */
   login_identity_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof AccessTokenResponse
-   */
   token_type: string;
   /**
    * seconds
-   * @type {number}
-   * @memberof AccessTokenResponse
    */
   expires_in: number;
-  /**
-   *
-   * @type {string}
-   * @memberof AccessTokenResponse
-   */
   refresh_token: string;
-  /**
-   *
-   * @type {string}
-   * @memberof AccessTokenResponse
-   */
   issued_at: string;
 }
-/**
- *
- * @export
- * @interface Account
- */
 export interface Account {
-  /**
-   *
-   * @type {string}
-   * @memberof Account
-   */
   account_id: string;
   /**
    * The SHA3-256 hash of the account number, salted with the loginIdentityId
-   * @type {string}
-   * @memberof Account
    */
   group_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Account
-   */
   account_holder_name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Account
-   */
   account_name: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Account
-   */
   account_nickname?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Account
-   */
   account_sub_type?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Account
-   */
   account_number_masked?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Account
-   */
   country?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Account
-   */
   created_at?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Account
-   */
   updated_at?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Account
-   */
   account_currency?: string;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof Account
-   */
   balance?: CurrencyAmount;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof Account
-   */
   statement_balance?: CurrencyAmount;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof Account
-   */
   ledger_balance?: CurrencyAmount;
-  /**
-   *
-   * @type {boolean}
-   * @memberof Account
-   */
   is_parent: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof Account
-   */
   is_closed: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof Account
-   */
   is_excluded: boolean;
-  /**
-   *
-   * @type {AccountType}
-   * @memberof Account
-   */
   account_type?: AccountType;
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof Account
-   */
   metadata: { [key: string]: string };
 }
 /**
  * Account category
- * @export
- * @enum {string}
  */
 
 export const AccountCategory = {
@@ -214,35 +84,13 @@ export const AccountCategory = {
 
 export type AccountCategory = (typeof AccountCategory)[keyof typeof AccountCategory];
 
-/**
- *
- * @export
- * @interface AccountNumber
- */
 export interface AccountNumber {
-  /**
-   *
-   * @type {string}
-   * @memberof AccountNumber
-   */
   account_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof AccountNumber
-   */
   number?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof AccountNumber
-   */
   raw: string;
 }
 /**
  * Type of account number. Possible values: LOCAL, IBAN
- * @export
- * @enum {string}
  */
 
 export const AccountNumberType = {
@@ -252,23 +100,8 @@ export const AccountNumberType = {
 
 export type AccountNumberType = (typeof AccountNumberType)[keyof typeof AccountNumberType];
 
-/**
- *
- * @export
- * @interface AccountType
- */
 export interface AccountType {
-  /**
-   *
-   * @type {AccountCategory}
-   * @memberof AccountType
-   */
   type?: AccountCategory;
-  /**
-   *
-   * @type {string}
-   * @memberof AccountType
-   */
   subtype?: AccountTypeSubtypeEnum;
 }
 
@@ -291,215 +124,75 @@ export const AccountTypeSubtypeEnum = {
 
 export type AccountTypeSubtypeEnum = (typeof AccountTypeSubtypeEnum)[keyof typeof AccountTypeSubtypeEnum];
 
-/**
- *
- * @export
- * @interface ActionRequest
- */
 export interface ActionRequest {
-  /**
-   *
-   * @type {EncryptedPayload}
-   * @memberof ActionRequest
-   */
   encrypted_credentials: EncryptedPayload;
   /**
    * The action id
-   * @type {string}
-   * @memberof ActionRequest
    */
   action_id: string;
 }
 /**
  * Raw Adyen /payments or /payments/details JSON response; passed directly to Drop-in actions.resolve()
- * @export
- * @interface AdyenCardSetupPaymentResponse
  */
 export interface AdyenCardSetupPaymentResponse {
   [key: string]: any;
 
-  /**
-   *
-   * @type {FrontendFvErrorModel}
-   * @memberof AdyenCardSetupPaymentResponse
-   */
   error?: FrontendFvErrorModel;
 }
-/**
- *
- * @export
- * @interface AllProductStatus
- */
 export interface AllProductStatus {
-  /**
-   *
-   * @type {ProductStatus}
-   * @memberof AllProductStatus
-   */
   accounts?: ProductStatus;
-  /**
-   *
-   * @type {ProductStatus}
-   * @memberof AllProductStatus
-   */
   online_transactions?: ProductStatus;
-  /**
-   *
-   * @type {ProductStatus}
-   * @memberof AllProductStatus
-   */
   statements?: ProductStatus;
-  /**
-   *
-   * @type {ProductStatus}
-   * @memberof AllProductStatus
-   */
   historical_transactions?: ProductStatus;
-  /**
-   *
-   * @type {ProductStatus}
-   * @memberof AllProductStatus
-   */
   account_numbers?: ProductStatus;
-  /**
-   *
-   * @type {ProductStatus}
-   * @memberof AllProductStatus
-   */
   identity?: ProductStatus;
-  /**
-   *
-   * @type {ProductStatus}
-   * @memberof AllProductStatus
-   */
   balance_history?: ProductStatus;
-  /**
-   *
-   * @type {ProductStatus}
-   * @memberof AllProductStatus
-   */
   payments?: ProductStatus;
-  /**
-   *
-   * @type {ProductStatus}
-   * @memberof AllProductStatus
-   */
   income_estimation?: ProductStatus;
-  /**
-   *
-   * @type {ProductStatus}
-   * @memberof AllProductStatus
-   */
   card_details?: ProductStatus;
 }
-/**
- *
- * @export
- * @interface ApiLinkRequest
- */
 export interface ApiLinkRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof ApiLinkRequest
-   */
   institution_id: string;
   /**
    * Identifier for end user
-   * @type {string}
-   * @memberof ApiLinkRequest
    */
   user_id: string;
   /**
    * this is a mandatory field
-   * @type {boolean}
-   * @memberof ApiLinkRequest
    */
   consent: boolean | null;
   /**
    * products that are requested
-   * @type {Array<string>}
-   * @memberof ApiLinkRequest
    */
   products_requested: Array<string>;
-  /**
-   *
-   * @type {boolean}
-   * @memberof ApiLinkRequest
-   */
   store_credentials: boolean;
-  /**
-   *
-   * @type {EncryptedPayload}
-   * @memberof ApiLinkRequest
-   */
   encrypted_credentials: EncryptedPayload;
-  /**
-   *
-   * @type {string}
-   * @memberof ApiLinkRequest
-   */
   payment_instruction_id?: string;
 }
-/**
- *
- * @export
- * @interface ApiRelinkRequest
- */
 export interface ApiRelinkRequest {
-  /**
-   *
-   * @type {boolean}
-   * @memberof ApiRelinkRequest
-   */
   store_credential?: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof ApiRelinkRequest
-   */
   consent: boolean;
-  /**
-   *
-   * @type {EncryptedPayload}
-   * @memberof ApiRelinkRequest
-   */
   encrypted_credentials: EncryptedPayload;
 }
-/**
- *
- * @export
- * @interface AuthChecklistFactor
- */
 export interface AuthChecklistFactor {
   /**
    * Type of authorization factor
-   * @type {string}
-   * @memberof AuthChecklistFactor
    */
   type: AuthChecklistFactorTypeEnum;
   /**
    * Allows grouping similar checklist item types together
-   * @type {string}
-   * @memberof AuthChecklistFactor
    */
   group_id: string;
   /**
    * Indicates whether authorization factor is known to be required at this time.  Possible values are YES, NO, OPTIONAL
-   * @type {string}
-   * @memberof AuthChecklistFactor
    */
   required: AuthChecklistFactorRequiredEnum;
   /**
    * Helper text that applies to a specific checklist item
-   * @type {string}
-   * @memberof AuthChecklistFactor
    */
   helper_text?: string;
   /**
    * Array of the options accepted for a specific authorization factor
-   * @type {Array<AuthChecklistOptions>}
-   * @memberof AuthChecklistFactor
    */
   options: Array<AuthChecklistOptions>;
 }
@@ -522,34 +215,21 @@ export const AuthChecklistFactorRequiredEnum = {
 export type AuthChecklistFactorRequiredEnum =
   (typeof AuthChecklistFactorRequiredEnum)[keyof typeof AuthChecklistFactorRequiredEnum];
 
-/**
- *
- * @export
- * @interface AuthChecklistOptions
- */
 export interface AuthChecklistOptions {
   /**
    * Name of authorization factor. Possible values are INSTITUTION_CREDENTIALS_LOGIN, INSTITUTION_OAUTH_LOGIN,
-   * @type {string}
-   * @memberof AuthChecklistOptions
    */
   name: AuthChecklistOptionsNameEnum;
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ) for when the authorization factor was submitted to Finverse
-   * @type {string}
-   * @memberof AuthChecklistOptions
    */
   submitted_at?: string | null;
   /**
    * Indicates who submitted the authorization factor to Finverse. Possible values are CUSTOMER_APP, FINVERSE_LINK
-   * @type {string}
-   * @memberof AuthChecklistOptions
    */
   submitted_by?: AuthChecklistOptionsSubmittedByEnum;
   /**
    * Redirect to bank for authentication
-   * @type {string}
-   * @memberof AuthChecklistOptions
    */
   redirect_url?: string;
 }
@@ -569,67 +249,29 @@ export const AuthChecklistOptionsSubmittedByEnum = {
 export type AuthChecklistOptionsSubmittedByEnum =
   (typeof AuthChecklistOptionsSubmittedByEnum)[keyof typeof AuthChecklistOptionsSubmittedByEnum];
 
-/**
- *
- * @export
- * @interface AuthenticationStatus
- */
 export interface AuthenticationStatus {
-  /**
-   *
-   * @type {LoginIdentityAuthStatus}
-   * @memberof AuthenticationStatus
-   */
   status?: LoginIdentityAuthStatus;
   /**
    * The detailed event name
-   * @type {string}
-   * @memberof AuthenticationStatus
    */
   status_details?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof AuthenticationStatus
-   */
   last_update?: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof AuthenticationStatus
-   */
   last_successful_update?: string | null;
 }
 
-/**
- *
- * @export
- * @interface AuthorizeMandateRequest
- */
 export interface AuthorizeMandateRequest {
   /**
    * Whether a consent was provided by the enduser to authorize a mandate
-   * @type {boolean}
-   * @memberof AuthorizeMandateRequest
    */
   enduser_consent: boolean;
 }
-/**
- *
- * @export
- * @interface AutopayEnrollmentConfiguration
- */
 export interface AutopayEnrollmentConfiguration {
   /**
    * Indicate whether the autopay enrollment screen should be prompted to the end user
-   * @type {boolean}
-   * @memberof AutopayEnrollmentConfiguration
    */
   display_enrollment_screen: boolean;
   /**
    * Indicate what value should be prefilled on the autopay enrollment screen. Required when display_enrollment_screen is true; optional when display_enrollment_screen is false.
-   * @type {string}
-   * @memberof AutopayEnrollmentConfiguration
    */
   enrollment_prefill_value?: AutopayEnrollmentConfigurationEnrollmentPrefillValueEnum;
 }
@@ -642,354 +284,98 @@ export const AutopayEnrollmentConfigurationEnrollmentPrefillValueEnum = {
 export type AutopayEnrollmentConfigurationEnrollmentPrefillValueEnum =
   (typeof AutopayEnrollmentConfigurationEnrollmentPrefillValueEnum)[keyof typeof AutopayEnrollmentConfigurationEnrollmentPrefillValueEnum];
 
-/**
- *
- * @export
- * @interface AvailablePaymentMethod
- */
 export interface AvailablePaymentMethod {
-  /**
-   *
-   * @type {string}
-   * @memberof AvailablePaymentMethod
-   */
   payment_account_id?: string;
-  /**
-   *
-   * @type {PaymentType}
-   * @memberof AvailablePaymentMethod
-   */
   payment_method_type: PaymentType;
   /**
    * The payment method subtype, e.g., EDDA_HK, CARD_GENERIC etc
-   * @type {string}
-   * @memberof AvailablePaymentMethod
    */
   payment_method_subtype?: string;
-  /**
-   *
-   * @type {boolean}
-   * @memberof AvailablePaymentMethod
-   */
   recurring: boolean;
-  /**
-   *
-   * @type {string}
-   * @memberof AvailablePaymentMethod
-   */
   fee?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof AvailablePaymentMethod
-   */
   payment_method_provider?: string;
   /**
    * Ordered list of payment method brands, e.g. VISA, MASTERCARD, DISCOVER
-   * @type {Array<string>}
-   * @memberof AvailablePaymentMethod
    */
   payment_methods_list?: Array<string>;
 }
 
-/**
- *
- * @export
- * @interface AvailablePaymentMethodsFvLinkResponse
- */
 export interface AvailablePaymentMethodsFvLinkResponse {
-  /**
-   *
-   * @type {Array<AvailablePaymentMethod>}
-   * @memberof AvailablePaymentMethodsFvLinkResponse
-   */
   available_payment_methods?: Array<AvailablePaymentMethod>;
 }
-/**
- *
- * @export
- * @interface BadRequestModel
- */
 export interface BadRequestModel {
-  /**
-   *
-   * @type {BadRequestModelError}
-   * @memberof BadRequestModel
-   */
   error?: BadRequestModelError;
 }
-/**
- *
- * @export
- * @interface BadRequestModelError
- */
 export interface BadRequestModelError {
-  /**
-   *
-   * @type {number}
-   * @memberof BadRequestModelError
-   */
   code?: number;
-  /**
-   *
-   * @type {string}
-   * @memberof BadRequestModelError
-   */
   name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof BadRequestModelError
-   */
   message?: string;
   /**
    * A link to visit for further action
-   * @type {string}
-   * @memberof BadRequestModelError
    */
   link?: string;
 }
-/**
- *
- * @export
- * @interface BadRequestModelV2
- */
 export interface BadRequestModelV2 {
-  /**
-   *
-   * @type {BadRequestModelV2Error}
-   * @memberof BadRequestModelV2
-   */
   error?: BadRequestModelV2Error;
 }
-/**
- *
- * @export
- * @interface BadRequestModelV2Error
- */
 export interface BadRequestModelV2Error {
-  /**
-   *
-   * @type {FinverseErrorCategory}
-   * @memberof BadRequestModelV2Error
-   */
   type: FinverseErrorCategory;
-  /**
-   *
-   * @type {string}
-   * @memberof BadRequestModelV2Error
-   */
   error_code: string;
-  /**
-   *
-   * @type {number}
-   * @memberof BadRequestModelV2Error
-   */
   code: number;
-  /**
-   *
-   * @type {string}
-   * @memberof BadRequestModelV2Error
-   */
   message: string;
-  /**
-   *
-   * @type {string}
-   * @memberof BadRequestModelV2Error
-   */
   details?: string;
   /**
    * The request_id provided in the request header
-   * @type {string}
-   * @memberof BadRequestModelV2Error
    */
   request_id: string;
 }
 
-/**
- *
- * @export
- * @interface BalanceHistory
- */
 export interface BalanceHistory {
   /**
    * The date the balance was recorded
-   * @type {string}
-   * @memberof BalanceHistory
    */
   date: string;
-  /**
-   *
-   * @type {number}
-   * @memberof BalanceHistory
-   */
   amount: number;
   /**
    * The currency the balance
-   * @type {string}
-   * @memberof BalanceHistory
    */
   currency: string;
 }
-/**
- *
- * @export
- * @interface BankTransferDetails
- */
 export interface BankTransferDetails {
   /**
    * The transfer type
-   * @type {string}
-   * @memberof BankTransferDetails
    */
   transfer_type?: string;
 }
-/**
- *
- * @export
- * @interface BillDetails
- */
 export interface BillDetails {
-  /**
-   *
-   * @type {number}
-   * @memberof BillDetails
-   */
   total_amount_due: number;
-  /**
-   *
-   * @type {string}
-   * @memberof BillDetails
-   */
   currency: string;
-  /**
-   *
-   * @type {string}
-   * @memberof BillDetails
-   */
   description?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof BillDetails
-   */
   bill_reference_id: string;
 }
-/**
- *
- * @export
- * @interface BillIntegrationMetadata
- */
 export interface BillIntegrationMetadata {
-  /**
-   *
-   * @type {string}
-   * @memberof BillIntegrationMetadata
-   */
   integration_id: string;
-  /**
-   *
-   * @type {BillRapidstorMetadata}
-   * @memberof BillIntegrationMetadata
-   */
   rapidstor_metadata?: BillRapidstorMetadata;
 }
-/**
- *
- * @export
- * @interface BillRapidstorMetadata
- */
 export interface BillRapidstorMetadata {
-  /**
-   *
-   * @type {string}
-   * @memberof BillRapidstorMetadata
-   */
   corp_code: string;
-  /**
-   *
-   * @type {string}
-   * @memberof BillRapidstorMetadata
-   */
   s_location_code: string;
-  /**
-   *
-   * @type {string}
-   * @memberof BillRapidstorMetadata
-   */
   tenant_id: string;
-  /**
-   *
-   * @type {number}
-   * @memberof BillRapidstorMetadata
-   */
   i_anniv_days: number;
-  /**
-   *
-   * @type {string}
-   * @memberof BillRapidstorMetadata
-   */
   tenant_default_currency: string;
-  /**
-   *
-   * @type {string}
-   * @memberof BillRapidstorMetadata
-   */
   s_unit_name: string;
-  /**
-   *
-   * @type {string}
-   * @memberof BillRapidstorMetadata
-   */
   account_token: string;
-  /**
-   *
-   * @type {string}
-   * @memberof BillRapidstorMetadata
-   */
   ledger_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof BillRapidstorMetadata
-   */
   unit_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof BillRapidstorMetadata
-   */
   i_lease_num: string;
-  /**
-   *
-   * @type {string}
-   * @memberof BillRapidstorMetadata
-   */
   d_sched_out: string;
-  /**
-   *
-   * @type {string}
-   * @memberof BillRapidstorMetadata
-   */
   unit_type_id: string;
 }
-/**
- *
- * @export
- * @interface BillSenderDetails
- */
 export interface BillSenderDetails {
-  /**
-   *
-   * @type {string}
-   * @memberof BillSenderDetails
-   */
   name: string;
 }
 /**
  * Bill status
- * @export
- * @enum {string}
  */
 
 export const BillStatus = {
@@ -1002,138 +388,49 @@ export const BillStatus = {
 
 export type BillStatus = (typeof BillStatus)[keyof typeof BillStatus];
 
-/**
- *
- * @export
- * @interface CardAccount
- */
 export interface CardAccount {
   /**
    * Account this card is associated with
-   * @type {string}
-   * @memberof CardAccount
    */
   account_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CardAccount
-   */
   account_name?: string;
   /**
    * Masked Account number of the card account
-   * @type {string}
-   * @memberof CardAccount
    */
   account_number_masked?: string;
-  /**
-   *
-   * @type {AccountType}
-   * @memberof CardAccount
-   */
   account_type?: AccountType;
   /**
    * The statement payment due date
-   * @type {string}
-   * @memberof CardAccount
    */
   statement_payment_due_date?: string;
   /**
    * The next payment due date
-   * @type {string}
-   * @memberof CardAccount
    */
   next_payment_due_date?: string;
   /**
    * The statement date
-   * @type {string}
-   * @memberof CardAccount
    */
   statement_date?: string;
   /**
    * The date of the last payment
-   * @type {string}
-   * @memberof CardAccount
    */
   last_payment_date?: string;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CardAccount
-   */
   last_payment_amount?: CurrencyAmount;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CardAccount
-   */
   current_balance?: CurrencyAmount;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CardAccount
-   */
   payment_due_amount?: CurrencyAmount;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CardAccount
-   */
   statement_due_amount?: CurrencyAmount;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CardAccount
-   */
   total_credit_limit?: CurrencyAmount;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CardAccount
-   */
   available_credit_limit?: CurrencyAmount;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CardAccount
-   */
   minimum_payment_due?: CurrencyAmount;
-  /**
-   *
-   * @type {Array<GenericAmount>}
-   * @memberof CardAccount
-   */
   rewards_balances?: Array<GenericAmount>;
-  /**
-   *
-   * @type {string}
-   * @memberof CardAccount
-   */
   updated_at?: string;
 }
-/**
- *
- * @export
- * @interface CardDetails
- */
 export interface CardDetails {
-  /**
-   *
-   * @type {Array<CardAccount>}
-   * @memberof CardDetails
-   */
   card_accounts?: Array<CardAccount>;
-  /**
-   *
-   * @type {CardTotal}
-   * @memberof CardDetails
-   */
   card_total?: CardTotal;
 }
 /**
  * The funding source of the card
- * @export
- * @enum {string}
  */
 
 export const CardFundingType = {
@@ -1145,92 +442,40 @@ export const CardFundingType = {
 
 export type CardFundingType = (typeof CardFundingType)[keyof typeof CardFundingType];
 
-/**
- *
- * @export
- * @interface CardFvLinkDetails
- */
 export interface CardFvLinkDetails {
   /**
    * The credit card brand
-   * @type {string}
-   * @memberof CardFvLinkDetails
    */
   brand?: string;
   /**
    * Last 4 digits of the credit card number
-   * @type {string}
-   * @memberof CardFvLinkDetails
    */
   last4?: string;
   /**
    * The credit card expiry month
-   * @type {number}
-   * @memberof CardFvLinkDetails
    */
   expiry_month?: number;
   /**
    * The credit card expiry year
-   * @type {number}
-   * @memberof CardFvLinkDetails
    */
   expiry_year?: number;
-  /**
-   *
-   * @type {string}
-   * @memberof CardFvLinkDetails
-   */
   collection_entity_name?: string;
 }
-/**
- *
- * @export
- * @interface CardFvLinkResponse
- */
 export interface CardFvLinkResponse {
-  /**
-   *
-   * @type {CardStatus}
-   * @memberof CardFvLinkResponse
-   */
   status: CardStatus;
-  /**
-   *
-   * @type {CardFvLinkDetails}
-   * @memberof CardFvLinkResponse
-   */
   card_details?: CardFvLinkDetails;
-  /**
-   *
-   * @type {CardRecipient}
-   * @memberof CardFvLinkResponse
-   */
   recipient?: CardRecipient;
-  /**
-   *
-   * @type {FvEmbeddedErrorModel}
-   * @memberof CardFvLinkResponse
-   */
   error?: FvEmbeddedErrorModel;
 }
 
-/**
- *
- * @export
- * @interface CardRecipient
- */
 export interface CardRecipient {
   /**
    * Merchant account name
-   * @type {string}
-   * @memberof CardRecipient
    */
   name: string;
 }
 /**
  * Card status
- * @export
- * @enum {string}
  */
 
 export const CardStatus = {
@@ -1243,193 +488,68 @@ export const CardStatus = {
 
 export type CardStatus = (typeof CardStatus)[keyof typeof CardStatus];
 
-/**
- *
- * @export
- * @interface CardTotal
- */
 export interface CardTotal {
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CardTotal
-   */
   current_balance?: CurrencyAmount;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CardTotal
-   */
   payment_due_amount?: CurrencyAmount;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CardTotal
-   */
   statement_due_amount?: CurrencyAmount;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CardTotal
-   */
   total_credit_limit?: CurrencyAmount;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CardTotal
-   */
   available_credit_limit?: CurrencyAmount;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof CardTotal
-   */
   minimum_payment_due?: CurrencyAmount;
-  /**
-   *
-   * @type {Array<GenericAmount>}
-   * @memberof CardTotal
-   */
   rewards_balances?: Array<GenericAmount>;
-  /**
-   *
-   * @type {string}
-   * @memberof CardTotal
-   */
   updated_at?: string;
 }
-/**
- *
- * @export
- * @interface CategoryPredictions
- */
 export interface CategoryPredictions {
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof CategoryPredictions
-   */
   categories?: Array<string>;
-  /**
-   *
-   * @type {string}
-   * @memberof CategoryPredictions
-   */
   source?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CategoryPredictions
-   */
   source_id?: string;
 }
-/**
- *
- * @export
- * @interface ChangePaymentMethodFvLinkResponse
- */
 export interface ChangePaymentMethodFvLinkResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof ChangePaymentMethodFvLinkResponse
-   */
   redirect_url?: string;
 }
-/**
- *
- * @export
- * @interface CompleteKcpPaymentRequest
- */
 export interface CompleteKcpPaymentRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof CompleteKcpPaymentRequest
-   */
   lang?: string;
   /**
    * Result code, \"0000\" if the payment is successful
-   * @type {string}
-   * @memberof CompleteKcpPaymentRequest
    */
   res_cd?: string;
   /**
    * Result message
-   * @type {string}
-   * @memberof CompleteKcpPaymentRequest
    */
   res_msg?: string;
   /**
    * Buyer\'s mail
-   * @type {string}
-   * @memberof CompleteKcpPaymentRequest
    */
   buyr_mail?: string;
   /**
    * Transaction code
-   * @type {string}
-   * @memberof CompleteKcpPaymentRequest
    */
   tran_cd: string;
   /**
    * Trace number
-   * @type {string}
-   * @memberof CompleteKcpPaymentRequest
    */
   trace_no?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CompleteKcpPaymentRequest
-   */
   ret_pay_method?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CompleteKcpPaymentRequest
-   */
   use_pay_method?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CompleteKcpPaymentRequest
-   */
   enc_data: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CompleteKcpPaymentRequest
-   */
   enc_info: string;
   /**
    * FV Payment ID
-   * @type {string}
-   * @memberof CompleteKcpPaymentRequest
    */
   ordr_idxx: string;
   /**
    * Card payment method
-   * @type {string}
-   * @memberof CompleteKcpPaymentRequest
    */
   card_pay_method?: string;
   /**
    * If card point is used
-   * @type {string}
-   * @memberof CompleteKcpPaymentRequest
    */
   card_point_use?: CompleteKcpPaymentRequestCardPointUseEnum;
   /**
    * KCP select card code
-   * @type {string}
-   * @memberof CompleteKcpPaymentRequest
    */
   kcp_select_card_code?: string;
   /**
    * In the format of \"[FV Payment ID]|[Amount]\"
-   * @type {string}
-   * @memberof CompleteKcpPaymentRequest
    */
   ordr_chk?: string;
 }
@@ -1442,74 +562,28 @@ export const CompleteKcpPaymentRequestCardPointUseEnum = {
 export type CompleteKcpPaymentRequestCardPointUseEnum =
   (typeof CompleteKcpPaymentRequestCardPointUseEnum)[keyof typeof CompleteKcpPaymentRequestCardPointUseEnum];
 
-/**
- *
- * @export
- * @interface CompleteKcpPaymentResponse
- */
 export interface CompleteKcpPaymentResponse {
   /**
    * retryUrl from the token\'s claims
-   * @type {string}
-   * @memberof CompleteKcpPaymentResponse
    */
   redirect: string;
 }
-/**
- *
- * @export
- * @interface CompositeStatementLink
- */
 export interface CompositeStatementLink {
   /**
    * signedURL to download statement
-   * @type {string}
-   * @memberof CompositeStatementLink
    */
   url: string;
   /**
    * expiry of the signedURL
-   * @type {string}
-   * @memberof CompositeStatementLink
    */
   expiry: string;
 }
-/**
- *
- * @export
- * @interface ConfirmPaymentResponse
- */
 export interface ConfirmPaymentResponse {
-  /**
-   *
-   * @type {boolean}
-   * @memberof ConfirmPaymentResponse
-   */
   success: boolean;
 }
-/**
- *
- * @export
- * @interface CreateCardRequest
- */
 export interface CreateCardRequest {
-  /**
-   *
-   * @type {CreateCardRequestCardDetails}
-   * @memberof CreateCardRequest
-   */
   card_details: CreateCardRequestCardDetails;
-  /**
-   *
-   * @type {MandateRecipientRequest}
-   * @memberof CreateCardRequest
-   */
   recipient_account: MandateRecipientRequest;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateCardRequest
-   */
   status: CreateCardRequestStatusEnum;
 }
 
@@ -1520,133 +594,40 @@ export const CreateCardRequestStatusEnum = {
 export type CreateCardRequestStatusEnum =
   (typeof CreateCardRequestStatusEnum)[keyof typeof CreateCardRequestStatusEnum];
 
-/**
- *
- * @export
- * @interface CreateCardRequestCardDetails
- */
 export interface CreateCardRequestCardDetails {
-  /**
-   *
-   * @type {string}
-   * @memberof CreateCardRequestCardDetails
-   */
   brand: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateCardRequestCardDetails
-   */
   last4: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateCardRequestCardDetails
-   */
   currency: string;
-  /**
-   *
-   * @type {number}
-   * @memberof CreateCardRequestCardDetails
-   */
   expiry_month?: number;
-  /**
-   *
-   * @type {number}
-   * @memberof CreateCardRequestCardDetails
-   */
   expiry_year?: number;
   /**
    * First 6 digits of the credit card number
-   * @type {string}
-   * @memberof CreateCardRequestCardDetails
    */
   card_bin?: string;
   /**
    * The card number alias
-   * @type {string}
-   * @memberof CreateCardRequestCardDetails
    */
   card_number_alias?: string;
   /**
    * The issuer country
-   * @type {string}
-   * @memberof CreateCardRequestCardDetails
    */
   country?: string;
-  /**
-   *
-   * @type {CardFundingType}
-   * @memberof CreateCardRequestCardDetails
-   */
   funding?: CardFundingType;
 }
 
-/**
- *
- * @export
- * @interface CreateMandateRequest
- */
 export interface CreateMandateRequest {
-  /**
-   *
-   * @type {MandateRecipientRequest}
-   * @memberof CreateMandateRequest
-   */
   recipient_account: MandateRecipientRequest;
-  /**
-   *
-   * @type {CreateMandateSender}
-   * @memberof CreateMandateRequest
-   */
   sender: CreateMandateSender;
-  /**
-   *
-   * @type {MandateDetailsRequest}
-   * @memberof CreateMandateRequest
-   */
   mandate_details: MandateDetailsRequest;
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof CreateMandateRequest
-   */
   metadata?: { [key: string]: string };
 }
-/**
- *
- * @export
- * @interface CreateMandateRequestWithDdaReference
- */
 export interface CreateMandateRequestWithDdaReference {
-  /**
-   *
-   * @type {MandateRecipientRequest}
-   * @memberof CreateMandateRequestWithDdaReference
-   */
   recipient_account: MandateRecipientRequest;
-  /**
-   *
-   * @type {MandateSenderAccountRequest}
-   * @memberof CreateMandateRequestWithDdaReference
-   */
   sender_account: MandateSenderAccountRequest;
-  /**
-   *
-   * @type {MandateDetailsRequestWithDdaReference}
-   * @memberof CreateMandateRequestWithDdaReference
-   */
   mandate_details: MandateDetailsRequestWithDdaReference;
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof CreateMandateRequestWithDdaReference
-   */
   metadata?: { [key: string]: string };
   /**
    * The mandate status
-   * @type {string}
-   * @memberof CreateMandateRequestWithDdaReference
    */
   status: CreateMandateRequestWithDdaReferenceStatusEnum;
 }
@@ -1658,258 +639,101 @@ export const CreateMandateRequestWithDdaReferenceStatusEnum = {
 export type CreateMandateRequestWithDdaReferenceStatusEnum =
   (typeof CreateMandateRequestWithDdaReferenceStatusEnum)[keyof typeof CreateMandateRequestWithDdaReferenceStatusEnum];
 
-/**
- *
- * @export
- * @interface CreateMandateResponse
- */
 export interface CreateMandateResponse {
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof CreateMandateResponse
    */
   created_at?: string;
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof CreateMandateResponse
    */
   updated_at: string;
   /**
    * Finverse Mandate ID (ULID)
-   * @type {string}
-   * @memberof CreateMandateResponse
    */
   mandate_id: string;
   /**
    * Finverse Payment Method ID (ULID)
-   * @type {string}
-   * @memberof CreateMandateResponse
    */
   payment_method_id?: string;
-  /**
-   *
-   * @type {MandateStatus}
-   * @memberof CreateMandateResponse
-   */
   status: MandateStatus;
-  /**
-   *
-   * @type {MandateRecipient}
-   * @memberof CreateMandateResponse
-   */
   recipient: MandateRecipient;
-  /**
-   *
-   * @type {MandateRecipientAccount}
-   * @memberof CreateMandateResponse
-   */
   recipient_account?: MandateRecipientAccount;
-  /**
-   *
-   * @type {CreateMandateSenderResponse}
-   * @memberof CreateMandateResponse
-   */
   sender: CreateMandateSenderResponse;
-  /**
-   *
-   * @type {MandateSenderAccount}
-   * @memberof CreateMandateResponse
-   */
   sender_account?: MandateSenderAccount;
-  /**
-   *
-   * @type {MandateDetailsResponse}
-   * @memberof CreateMandateResponse
-   */
   mandate_details: MandateDetailsResponse;
-  /**
-   *
-   * @type {Array<Fee>}
-   * @memberof CreateMandateResponse
-   */
   fees?: Array<Fee>;
   /**
    * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 20 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
-   * @type {{ [key: string]: string; }}
-   * @memberof CreateMandateResponse
    */
   metadata?: { [key: string]: string };
-  /**
-   *
-   * @type {FvEmbeddedErrorModel}
-   * @memberof CreateMandateResponse
-   */
   error?: FvEmbeddedErrorModel;
 }
 
-/**
- *
- * @export
- * @interface CreateMandateSender
- */
 export interface CreateMandateSender {
-  /**
-   *
-   * @type {string}
-   * @memberof CreateMandateSender
-   */
   name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateMandateSender
-   */
   email: string;
   /**
    * Customer App\'s user ID, representing the end-user making the payment.
-   * @type {string}
-   * @memberof CreateMandateSender
    */
   external_user_id?: string;
-  /**
-   *
-   * @type {PaymentUserType}
-   * @memberof CreateMandateSender
-   */
   user_type?: PaymentUserType;
   /**
    * Sender details which will be used for fraud checking.
-   * @type {Array<SenderDetail>}
-   * @memberof CreateMandateSender
    */
   user_details?: Array<SenderDetail>;
 }
 
-/**
- *
- * @export
- * @interface CreateMandateSenderResponse
- */
 export interface CreateMandateSenderResponse {
   /**
    * A unique identifier generated after creating sender
-   * @type {string}
-   * @memberof CreateMandateSenderResponse
    */
   user_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateMandateSenderResponse
-   */
   name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateMandateSenderResponse
-   */
   email?: string;
   /**
    * Customer App\'s user ID, representing the end-user making the payment.
-   * @type {string}
-   * @memberof CreateMandateSenderResponse
    */
   external_user_id: string;
-  /**
-   *
-   * @type {PaymentUserType}
-   * @memberof CreateMandateSenderResponse
-   */
   user_type: PaymentUserType;
   /**
    * Sender details which will be used for fraud checking.
-   * @type {Array<SenderDetail>}
-   * @memberof CreateMandateSenderResponse
    */
   user_details?: Array<SenderDetail>;
 }
 
-/**
- *
- * @export
- * @interface CreateMandateWithSenderAccountRequest
- */
 export interface CreateMandateWithSenderAccountRequest {
-  /**
-   *
-   * @type {MandateRecipientRequest}
-   * @memberof CreateMandateWithSenderAccountRequest
-   */
   recipient_account: MandateRecipientRequest;
-  /**
-   *
-   * @type {MandateSenderAccountRequest}
-   * @memberof CreateMandateWithSenderAccountRequest
-   */
   sender_account: MandateSenderAccountRequest;
-  /**
-   *
-   * @type {MandateDetailsRequest}
-   * @memberof CreateMandateWithSenderAccountRequest
-   */
   mandate_details: MandateDetailsRequest;
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof CreateMandateWithSenderAccountRequest
-   */
   metadata?: { [key: string]: string };
 }
-/**
- *
- * @export
- * @interface CreatePaymentAccountRequest
- */
 export interface CreatePaymentAccountRequest {
-  /**
-   *
-   * @type {RecipientAccountNumber}
-   * @memberof CreatePaymentAccountRequest
-   */
   account_number?: RecipientAccountNumber;
   /**
    * Masked account number of the payment account. Optional for EXTERNAL_ACCOUNT type. Can be provided when account_number is not available. Only one of account_number or account_number_masked can be provided.
-   * @type {string}
-   * @memberof CreatePaymentAccountRequest
    */
   account_number_masked?: string;
   /**
    * Type of payment account. Currently only allow creating external account.
-   * @type {string}
-   * @memberof CreatePaymentAccountRequest
    */
   account_type: CreatePaymentAccountRequestAccountTypeEnum;
   /**
    * Accountholder name of the payment account
-   * @type {string}
-   * @memberof CreatePaymentAccountRequest
    */
   accountholder_name: string;
   /**
    * List of currencies supported by the payment account
-   * @type {Array<string>}
-   * @memberof CreatePaymentAccountRequest
    */
   currencies?: Array<string>;
   /**
    * Finverse Institution ID for the payment institution.
-   * @type {string}
-   * @memberof CreatePaymentAccountRequest
    */
   institution_id: string;
   /**
    * A unique identifier generated after creating user (Finverse Payment User ID)
-   * @type {string}
-   * @memberof CreatePaymentAccountRequest
    */
   user_id: string;
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof CreatePaymentAccountRequest
-   */
   metadata?: { [key: string]: string };
 }
 
@@ -1920,307 +744,107 @@ export const CreatePaymentAccountRequestAccountTypeEnum = {
 export type CreatePaymentAccountRequestAccountTypeEnum =
   (typeof CreatePaymentAccountRequestAccountTypeEnum)[keyof typeof CreatePaymentAccountRequestAccountTypeEnum];
 
-/**
- *
- * @export
- * @interface CreatePaymentLinkRequest
- */
 export interface CreatePaymentLinkRequest {
   /**
    * The amount of the payment. Expressed in currency\'s smallest unit or “minor unit”, as defined in ISO 4217.
-   * @type {number}
-   * @memberof CreatePaymentLinkRequest
    */
   amount?: number;
-  /**
-   *
-   * @type {string}
-   * @memberof CreatePaymentLinkRequest
-   */
   currency: string;
-  /**
-   *
-   * @type {PaymentLinkCustomizations}
-   * @memberof CreatePaymentLinkRequest
-   */
   link_customizations?: PaymentLinkCustomizations;
-  /**
-   *
-   * @type {PaymentLinkMode}
-   * @memberof CreatePaymentLinkRequest
-   */
   mode: PaymentLinkMode;
-  /**
-   *
-   * @type {PaymentLinkDetails}
-   * @memberof CreatePaymentLinkRequest
-   */
   payment_details?: PaymentLinkDetails;
-  /**
-   *
-   * @type {PaymentLinkSender}
-   * @memberof CreatePaymentLinkRequest
-   */
   sender: PaymentLinkSender;
   /**
    * Unique reference id to identifying the payment to be collected.
-   * @type {string}
-   * @memberof CreatePaymentLinkRequest
    */
   unique_reference_id: string;
-  /**
-   *
-   * @type {PaymentSetupOptionsRequest}
-   * @memberof CreatePaymentLinkRequest
-   */
   payment_setup_options?: PaymentSetupOptionsRequest;
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof CreatePaymentLinkRequest
-   */
   metadata?: { [key: string]: string };
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof CreatePaymentLinkRequest
-   */
   payment_metadata?: { [key: string]: string };
-  /**
-   *
-   * @type {IntegrationMetadataRequest}
-   * @memberof CreatePaymentLinkRequest
-   */
   integration_metadata?: IntegrationMetadataRequest;
 }
 
-/**
- *
- * @export
- * @interface CreatePaymentMethodRequest
- */
 export interface CreatePaymentMethodRequest {
-  /**
-   *
-   * @type {CreateCardRequest}
-   * @memberof CreatePaymentMethodRequest
-   */
   card?: CreateCardRequest;
-  /**
-   *
-   * @type {CreateMandateRequestWithDdaReference}
-   * @memberof CreatePaymentMethodRequest
-   */
   mandate?: CreateMandateRequestWithDdaReference;
-  /**
-   *
-   * @type {PaymentMethodIntegrationMetadata}
-   * @memberof CreatePaymentMethodRequest
-   */
   integration_metadata?: PaymentMethodIntegrationMetadata;
-  /**
-   *
-   * @type {PaymentMethodType}
-   * @memberof CreatePaymentMethodRequest
-   */
   payment_method_type: PaymentMethodType;
 }
 
-/**
- *
- * @export
- * @interface CreatePaymentRequest
- */
 export interface CreatePaymentRequest {
   /**
    * Amount to be paid, in currency\'s smallest unit or “minor unit”, as defined in ISO 4217. For example, HKD 100.01 is represented as amount = 10001 (minor unit = cents). For currencies without minor units (e.g. VND, JPY), the amount is represented as is, without modification. For example, VND 15101 is represented as amount = 15101.
-   * @type {number}
-   * @memberof CreatePaymentRequest
    */
   amount: number;
   /**
    * The currency code as defined in ISO 4217.
-   * @type {string}
-   * @memberof CreatePaymentRequest
    */
   currency: string;
   /**
    * ID of the payment method this pament is referring to.
-   * @type {string}
-   * @memberof CreatePaymentRequest
    */
   payment_method_id?: string;
-  /**
-   *
-   * @type {PaymentDetailsRequest}
-   * @memberof CreatePaymentRequest
-   */
   payment_details: PaymentDetailsRequest;
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof CreatePaymentRequest
-   */
   metadata?: { [key: string]: string };
 }
-/**
- *
- * @export
- * @interface CreatePaymentUserRequest
- */
 export interface CreatePaymentUserRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof CreatePaymentUserRequest
-   */
   name: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreatePaymentUserRequest
-   */
   external_user_id: string;
-  /**
-   *
-   * @type {PaymentUserType}
-   * @memberof CreatePaymentUserRequest
-   */
   user_type?: PaymentUserType;
-  /**
-   *
-   * @type {string}
-   * @memberof CreatePaymentUserRequest
-   */
   email?: string;
-  /**
-   *
-   * @type {Array<SenderDetail>}
-   * @memberof CreatePaymentUserRequest
-   */
   user_details?: Array<SenderDetail>;
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof CreatePaymentUserRequest
-   */
   metadata?: { [key: string]: string };
-  /**
-   *
-   * @type {boolean}
-   * @memberof CreatePaymentUserRequest
-   */
   autopay_consent?: boolean;
-  /**
-   *
-   * @type {IntegrationMetadataPaymentUserRequest}
-   * @memberof CreatePaymentUserRequest
-   */
   integration_metadata?: IntegrationMetadataPaymentUserRequest;
 }
 
-/**
- *
- * @export
- * @interface CreatePayoutDetails
- */
 export interface CreatePayoutDetails {
   /**
    * A description for the payout
-   * @type {string}
-   * @memberof CreatePayoutDetails
    */
   description: string;
   /**
    * Any reference ID provided by the customer for this payout
-   * @type {string}
-   * @memberof CreatePayoutDetails
    */
   external_transaction_reference: string;
 }
-/**
- *
- * @export
- * @interface CreatePayoutRequest
- */
 export interface CreatePayoutRequest {
   /**
    * The payout amount, in the minor unit of the currency
-   * @type {number}
-   * @memberof CreatePayoutRequest
    */
   amount: number;
   /**
    * ISO 4217 currency code of the payout
-   * @type {string}
-   * @memberof CreatePayoutRequest
    */
   currency: string;
   /**
    * If true, the payout is immediately submitted for processing. If false, the payout is created in CREATED status and must be confirmed via POST /payouts/{payoutId}/confirm before it is processed.
-   * @type {boolean}
-   * @memberof CreatePayoutRequest
    */
   confirm: boolean;
-  /**
-   *
-   * @type {CreatePayoutDetails}
-   * @memberof CreatePayoutRequest
-   */
   payment_details: CreatePayoutDetails;
-  /**
-   *
-   * @type {PayoutAccountRef}
-   * @memberof CreatePayoutRequest
-   */
   sender_account: PayoutAccountRef;
-  /**
-   *
-   * @type {PayoutAccountRef}
-   * @memberof CreatePayoutRequest
-   */
   recipient_account: PayoutAccountRef;
   /**
    * Up to 20 metadata key-value pairs
-   * @type {{ [key: string]: string; }}
-   * @memberof CreatePayoutRequest
    */
   metadata?: { [key: string]: string };
 }
-/**
- *
- * @export
- * @interface CreateRecipientAccount
- */
 export interface CreateRecipientAccount {
   /**
    * Accountholder name of the recipient\'s account
-   * @type {string}
-   * @memberof CreateRecipientAccount
    */
   accountholder_name: string;
-  /**
-   *
-   * @type {RecipientAccountNumber}
-   * @memberof CreateRecipientAccount
-   */
   account_number: RecipientAccountNumber;
   /**
    * Type of recipient account.
-   * @type {string}
-   * @memberof CreateRecipientAccount
    */
   account_type: CreateRecipientAccountAccountTypeEnum;
   /**
    * List of currencies supported by the recipient account
-   * @type {Array<string>}
-   * @memberof CreateRecipientAccount
    */
   currencies: Array<string>;
   /**
    * Finverse Institution ID for the recipient’s institution.
-   * @type {string}
-   * @memberof CreateRecipientAccount
    */
   institution_id: string;
 }
@@ -2232,201 +856,98 @@ export const CreateRecipientAccountAccountTypeEnum = {
 export type CreateRecipientAccountAccountTypeEnum =
   (typeof CreateRecipientAccountAccountTypeEnum)[keyof typeof CreateRecipientAccountAccountTypeEnum];
 
-/**
- *
- * @export
- * @interface CurrencyAmount
- */
 export interface CurrencyAmount {
-  /**
-   *
-   * @type {string}
-   * @memberof CurrencyAmount
-   */
   currency?: string;
-  /**
-   *
-   * @type {number}
-   * @memberof CurrencyAmount
-   */
   value: number;
-  /**
-   *
-   * @type {string}
-   * @memberof CurrencyAmount
-   */
   raw?: string;
 }
-/**
- *
- * @export
- * @interface DeleteLoginIdentityResponse
- */
 export interface DeleteLoginIdentityResponse {
-  /**
-   *
-   * @type {boolean}
-   * @memberof DeleteLoginIdentityResponse
-   */
   success: boolean;
 }
-/**
- *
- * @export
- * @interface DisputeResponse
- */
 export interface DisputeResponse {
   /**
    * The dispute id
-   * @type {string}
-   * @memberof DisputeResponse
    */
   dispute_id: string;
   /**
    * Amount to be disputed, in currency\'s smallest unit or “minor unit”, as defined in ISO 4217. For example, HKD 100.01 is represented as amount = 10001 (minor unit = cents). For currencies without minor units (e.g. VND, JPY), the amount is represented as is, without modification. For example, VND 15101 is represented as amount = 15101.
-   * @type {number}
-   * @memberof DisputeResponse
    */
   amount: number;
   /**
    * The currency of the balance
-   * @type {string}
-   * @memberof DisputeResponse
    */
   currency: string;
   /**
    * The name of the last event for this dispute
-   * @type {string}
-   * @memberof DisputeResponse
    */
   last_event_name?: string;
   /**
    * The payment id
-   * @type {string}
-   * @memberof DisputeResponse
    */
   payment_id?: string;
   /**
    * The payment processor handling the dispute
-   * @type {string}
-   * @memberof DisputeResponse
    */
   payment_processor?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof DisputeResponse
-   */
   payment_processor_merchant_reference?: string;
   /**
    * The payment reference for the disputed transaction
-   * @type {string}
-   * @memberof DisputeResponse
    */
   payment_reference?: string;
   /**
    * The payment processor\'s payment reference
-   * @type {string}
-   * @memberof DisputeResponse
    */
   payment_processor_payment_reference?: string;
-  /**
-   *
-   * @type {DisputeResponseCardDetails}
-   * @memberof DisputeResponse
-   */
   card_details?: DisputeResponseCardDetails;
   /**
    * The payment processor\'s dispute reference
-   * @type {string}
-   * @memberof DisputeResponse
    */
   payment_processor_dispute_reference?: string;
   /**
    * The reason for the dispute as provided by the payment processor
-   * @type {string}
-   * @memberof DisputeResponse
    */
   payment_processor_dispute_reason?: string;
   /**
    * Acquirer Reference Number
-   * @type {string}
-   * @memberof DisputeResponse
    */
   arn?: string;
   /**
    * The dispute code from the payment processor
-   * @type {string}
-   * @memberof DisputeResponse
    */
   payment_processor_dispute_code?: string;
   /**
    * Whether the dispute is defendable
-   * @type {boolean}
-   * @memberof DisputeResponse
    */
   is_defendable?: boolean | null;
-  /**
-   *
-   * @type {DisputeStatus}
-   * @memberof DisputeResponse
-   */
   dispute_status: DisputeStatus;
   /**
    * The status of the dispute at the payment processor
-   * @type {string}
-   * @memberof DisputeResponse
    */
   payment_processor_dispute_status?: string;
   /**
    * Whether the dispute was automatically defended
-   * @type {boolean}
-   * @memberof DisputeResponse
    */
   is_auto_defended?: boolean | null;
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof DisputeResponse
    */
   defense_period_deadline?: string | null;
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof DisputeResponse
-   */
   issuer_comments?: { [key: string]: string };
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof DisputeResponse
    */
   created_at?: string;
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof DisputeResponse
    */
   updated_at?: string;
 }
 
-/**
- *
- * @export
- * @interface DisputeResponseCardDetails
- */
 export interface DisputeResponseCardDetails {
-  /**
-   *
-   * @type {string}
-   * @memberof DisputeResponseCardDetails
-   */
   brand?: string;
 }
 /**
  * The status of the dispute
- * @export
- * @enum {string}
  */
 
 export const DisputeStatus = {
@@ -2441,487 +962,172 @@ export const DisputeStatus = {
 
 export type DisputeStatus = (typeof DisputeStatus)[keyof typeof DisputeStatus];
 
-/**
- *
- * @export
- * @interface DownloadBalanceStatementResponse
- */
 export interface DownloadBalanceStatementResponse {
   /**
    * Signed URL to download the CSV from
-   * @type {string}
-   * @memberof DownloadBalanceStatementResponse
    */
   download_url: string;
 }
-/**
- *
- * @export
- * @interface EncryptedPayload
- */
 export interface EncryptedPayload {
   /**
    * The credential payload encrypted with AES (base64)
-   * @type {string}
-   * @memberof EncryptedPayload
    */
   ciphertext: string;
   /**
    * The 16 byte IV used w/ AES (base64)
-   * @type {string}
-   * @memberof EncryptedPayload
    */
   initializationVector: string;
   /**
    * The MAC to verify AES decryption validity
-   * @type {string}
-   * @memberof EncryptedPayload
    */
   messageAuthenticationCode: string;
   /**
    * The AES key encrypted with an RSA pubkey (base64)
-   * @type {string}
-   * @memberof EncryptedPayload
    */
   envelopeEncryptionKey: string;
   /**
    * The identifier of the public key used to encrypt the AES key
-   * @type {string}
-   * @memberof EncryptedPayload
    */
   keyId: string;
 }
-/**
- *
- * @export
- * @interface ErrBodyModel
- */
 export interface ErrBodyModel {
-  /**
-   *
-   * @type {FvErrorModel}
-   * @memberof ErrBodyModel
-   */
   error?: FvErrorModel;
 }
-/**
- *
- * @export
- * @interface ErrBodyModelV2
- */
 export interface ErrBodyModelV2 {
-  /**
-   *
-   * @type {FvErrorModelV2}
-   * @memberof ErrBodyModelV2
-   */
   error?: FvErrorModelV2;
 }
-/**
- *
- * @export
- * @interface ErrorResponse
- */
 export interface ErrorResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof ErrorResponse
-   */
   err?: string;
-  /**
-   *
-   * @type {number}
-   * @memberof ErrorResponse
-   */
   http_status_code?: number;
-  /**
-   *
-   * @type {string}
-   * @memberof ErrorResponse
-   */
   status_text?: string;
-  /**
-   *
-   * @type {number}
-   * @memberof ErrorResponse
-   */
   app_code?: number;
-  /**
-   *
-   * @type {string}
-   * @memberof ErrorResponse
-   */
   error_category?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof ErrorResponse
-   */
   error_text?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof ErrorResponse
-   */
   request_id?: string;
 }
-/**
- *
- * @export
- * @interface FVBill
- */
 export interface FVBill {
-  /**
-   *
-   * @type {string}
-   * @memberof FVBill
-   */
   bill_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof FVBill
-   */
   external_bill_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof FVBill
-   */
   user_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof FVBill
-   */
   external_user_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof FVBill
-   */
   customer_app_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof FVBill
-   */
   bill_date: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof FVBill
-   */
   due_date: string | null;
-  /**
-   *
-   * @type {BillIntegrationMetadata}
-   * @memberof FVBill
-   */
   integration_metadata: BillIntegrationMetadata;
-  /**
-   *
-   * @type {BillDetails}
-   * @memberof FVBill
-   */
   details: BillDetails;
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof FVBill
-   */
   metadata?: { [key: string]: string };
-  /**
-   *
-   * @type {BillStatus}
-   * @memberof FVBill
-   */
   status: BillStatus;
-  /**
-   *
-   * @type {string}
-   * @memberof FVBill
-   */
   integration_id: string;
-  /**
-   *
-   * @type {BillSenderDetails}
-   * @memberof FVBill
-   */
   sender_details: BillSenderDetails;
-  /**
-   *
-   * @type {string}
-   * @memberof FVBill
-   */
   created_at: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof FVBill
-   */
   updated_at: string | null;
-  /**
-   *
-   * @type {boolean}
-   * @memberof FVBill
-   */
   is_finverse_autopay_eligible: boolean;
 }
 
-/**
- *
- * @export
- * @interface FVCard
- */
 export interface FVCard {
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof FVCard
    */
   created_at?: string;
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof FVCard
    */
   updated_at?: string;
-  /**
-   *
-   * @type {CardStatus}
-   * @memberof FVCard
-   */
   status: CardStatus;
-  /**
-   *
-   * @type {FvEmbeddedErrorModel}
-   * @memberof FVCard
-   */
   error?: FvEmbeddedErrorModel;
-  /**
-   *
-   * @type {FVCardDetails}
-   * @memberof FVCard
-   */
   card_details?: FVCardDetails;
-  /**
-   *
-   * @type {MandateRecipientAccount}
-   * @memberof FVCard
-   */
   recipient_account?: MandateRecipientAccount;
-  /**
-   *
-   * @type {RiskData}
-   * @memberof FVCard
-   */
   risk_data?: RiskData;
 }
 
-/**
- *
- * @export
- * @interface FVCardDetails
- */
 export interface FVCardDetails {
   /**
    * The credit card brand
-   * @type {string}
-   * @memberof FVCardDetails
    */
   brand?: string;
   /**
    * Last 4 digits of the credit card number
-   * @type {string}
-   * @memberof FVCardDetails
    */
   last4?: string;
   /**
    * The credit card expiry month
-   * @type {number}
-   * @memberof FVCardDetails
    */
   expiry_month?: number;
   /**
    * The credit card expiry year
-   * @type {number}
-   * @memberof FVCardDetails
    */
   expiry_year?: number;
-  /**
-   *
-   * @type {string}
-   * @memberof FVCardDetails
-   */
   processor_entity_name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof FVCardDetails
-   */
   collection_entity_name?: string;
   /**
    * The issuer country
-   * @type {string}
-   * @memberof FVCardDetails
    */
   country?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof FVCardDetails
-   */
   fingerprint?: string;
-  /**
-   *
-   * @type {CardFundingType}
-   * @memberof FVCardDetails
-   */
   funding?: CardFundingType;
-  /**
-   *
-   * @type {string}
-   * @memberof FVCardDetails
-   */
   finverse_authorization_reference?: string;
-  /**
-   *
-   * @type {FVCardProcessorDetails}
-   * @memberof FVCardDetails
-   */
   processor_details?: FVCardProcessorDetails;
   /**
    * The recurring payment mode
-   * @type {string}
-   * @memberof FVCardDetails
    */
   recurring_payment_mode?: string;
   /**
    * The acquirer authorization reference
-   * @type {string}
-   * @memberof FVCardDetails
    */
   acquirer_authorization_reference?: string;
   /**
    * The brand product name
-   * @type {string}
-   * @memberof FVCardDetails
    */
   brand_product_name?: string;
   /**
    * The card number alias
-   * @type {string}
-   * @memberof FVCardDetails
    */
   card_number_alias?: string;
   /**
    * Whether the card is a commercial card
-   * @type {boolean}
-   * @memberof FVCardDetails
    */
   is_commercial?: boolean | null;
 }
 
-/**
- *
- * @export
- * @interface FVCardProcessorDetails
- */
 export interface FVCardProcessorDetails {
-  /**
-   *
-   * @type {string}
-   * @memberof FVCardProcessorDetails
-   */
   auth_code?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof FVCardProcessorDetails
-   */
   processor_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof FVCardProcessorDetails
-   */
   processor_reference?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof FVCardProcessorDetails
-   */
   token_id?: string;
   /**
    * The network transaction reference
-   * @type {string}
-   * @memberof FVCardProcessorDetails
    */
   network_transaction_reference?: string;
 }
-/**
- *
- * @export
- * @interface FVWalletDetails
- */
 export interface FVWalletDetails {
   /**
    * The wallet brand
-   * @type {string}
-   * @memberof FVWalletDetails
    */
   brand?: string;
   /**
    * The brand product name
-   * @type {string}
-   * @memberof FVWalletDetails
    */
   brand_product_name?: string;
   /**
    * The issuer country
-   * @type {string}
-   * @memberof FVWalletDetails
    */
   country?: string;
 }
-/**
- *
- * @export
- * @interface Fee
- */
 export interface Fee {
   /**
    * The amount of fee for a single transaction. Expressed in currency\'s smallest unit or “minor unit”, as defined in ISO 4217.
-   * @type {number}
-   * @memberof Fee
    */
   amount: number;
-  /**
-   *
-   * @type {string}
-   * @memberof Fee
-   */
   currency: string;
-  /**
-   *
-   * @type {FeePaidBy}
-   * @memberof Fee
-   */
   paid_by?: FeePaidBy;
   /**
    * The payment account Id
-   * @type {string}
-   * @memberof Fee
    */
   paid_by_account_id?: string;
 }
 
 /**
  * Who pays the fee
- * @export
- * @enum {string}
  */
 
 export const FeePaidBy = {
@@ -2933,8 +1139,6 @@ export type FeePaidBy = (typeof FeePaidBy)[keyof typeof FeePaidBy];
 
 /**
  * The error type
- * @export
- * @enum {string}
  */
 
 export const FinverseErrorCategory = {
@@ -2944,48 +1148,31 @@ export const FinverseErrorCategory = {
 
 export type FinverseErrorCategory = (typeof FinverseErrorCategory)[keyof typeof FinverseErrorCategory];
 
-/**
- *
- * @export
- * @interface FpsQrCodeResponse
- */
 export interface FpsQrCodeResponse {
   /**
    * The FPS QR code in base64
-   * @type {string}
-   * @memberof FpsQrCodeResponse
    */
   qr_code: string;
 }
 /**
  * Finverse error details surfaced to the frontend; absent on success and action-required outcomes
- * @export
- * @interface FrontendFvErrorModel
  */
 export interface FrontendFvErrorModel {
   /**
    * Finverse error code
-   * @type {string}
-   * @memberof FrontendFvErrorModel
    */
   error_code: string;
   /**
    * Short human-readable error message
-   * @type {string}
-   * @memberof FrontendFvErrorModel
    */
   message: string;
   /**
    * Human-readable error detail safe for display to the end user
-   * @type {string}
-   * @memberof FrontendFvErrorModel
    */
   display_details: string;
 }
 /**
  * The type of future_payments that customer want to use. Possible values: AUTOPAY or CLICK_TO_PAY
- * @export
- * @enum {string}
  */
 
 export const FuturePaymentsMode = {
@@ -2995,242 +1182,58 @@ export const FuturePaymentsMode = {
 
 export type FuturePaymentsMode = (typeof FuturePaymentsMode)[keyof typeof FuturePaymentsMode];
 
-/**
- *
- * @export
- * @interface FvEmbeddedErrorModel
- */
 export interface FvEmbeddedErrorModel {
-  /**
-   *
-   * @type {FinverseErrorCategory}
-   * @memberof FvEmbeddedErrorModel
-   */
   type: FinverseErrorCategory;
-  /**
-   *
-   * @type {string}
-   * @memberof FvEmbeddedErrorModel
-   */
   error_code: string;
-  /**
-   *
-   * @type {string}
-   * @memberof FvEmbeddedErrorModel
-   */
   message: string;
-  /**
-   *
-   * @type {string}
-   * @memberof FvEmbeddedErrorModel
-   */
   details: string;
 }
 
-/**
- *
- * @export
- * @interface FvErrorModel
- */
 export interface FvErrorModel {
-  /**
-   *
-   * @type {FinverseErrorCategory}
-   * @memberof FvErrorModel
-   */
   type: FinverseErrorCategory;
-  /**
-   *
-   * @type {string}
-   * @memberof FvErrorModel
-   */
   error_code: string;
-  /**
-   *
-   * @type {string}
-   * @memberof FvErrorModel
-   */
   code: string;
-  /**
-   *
-   * @type {string}
-   * @memberof FvErrorModel
-   */
   message: string;
-  /**
-   *
-   * @type {string}
-   * @memberof FvErrorModel
-   */
   details: string;
   /**
    * The request_id provided in the request header
-   * @type {string}
-   * @memberof FvErrorModel
    */
   request_id: string;
 }
 
-/**
- *
- * @export
- * @interface FvErrorModelV2
- */
 export interface FvErrorModelV2 {
-  /**
-   *
-   * @type {FinverseErrorCategory}
-   * @memberof FvErrorModelV2
-   */
   type: FinverseErrorCategory;
-  /**
-   *
-   * @type {string}
-   * @memberof FvErrorModelV2
-   */
   error_code: string;
-  /**
-   *
-   * @type {string}
-   * @memberof FvErrorModelV2
-   */
   message: string;
-  /**
-   *
-   * @type {string}
-   * @memberof FvErrorModelV2
-   */
   details: string;
   /**
    * The request_id provided in the request header
-   * @type {string}
-   * @memberof FvErrorModelV2
    */
   request_id: string;
 }
 
-/**
- *
- * @export
- * @interface GenericAmount
- */
 export interface GenericAmount {
-  /**
-   *
-   * @type {string}
-   * @memberof GenericAmount
-   */
   unit?: string;
-  /**
-   *
-   * @type {number}
-   * @memberof GenericAmount
-   */
   value: number;
-  /**
-   *
-   * @type {string}
-   * @memberof GenericAmount
-   */
   raw?: string;
 }
-/**
- *
- * @export
- * @interface GetAccountNumberResponse
- */
 export interface GetAccountNumberResponse {
-  /**
-   *
-   * @type {AccountNumber}
-   * @memberof GetAccountNumberResponse
-   */
   account_number?: AccountNumber;
-  /**
-   *
-   * @type {Account}
-   * @memberof GetAccountNumberResponse
-   */
   account?: Account;
-  /**
-   *
-   * @type {LoginIdentityShort}
-   * @memberof GetAccountNumberResponse
-   */
   login_identity?: LoginIdentityShort;
-  /**
-   *
-   * @type {InstitutionShort}
-   * @memberof GetAccountNumberResponse
-   */
   institution?: InstitutionShort;
-  /**
-   *
-   * @type {Array<PaymentDetails>}
-   * @memberof GetAccountNumberResponse
-   */
   payment_details?: Array<PaymentDetails>;
 }
-/**
- *
- * @export
- * @interface GetAccountResponse
- */
 export interface GetAccountResponse {
-  /**
-   *
-   * @type {Account}
-   * @memberof GetAccountResponse
-   */
   account?: Account;
-  /**
-   *
-   * @type {LoginIdentityShort}
-   * @memberof GetAccountResponse
-   */
   login_identity?: LoginIdentityShort;
-  /**
-   *
-   * @type {InstitutionShort}
-   * @memberof GetAccountResponse
-   */
   institution?: InstitutionShort;
 }
-/**
- *
- * @export
- * @interface GetBalanceHistoryResponse
- */
 export interface GetBalanceHistoryResponse {
-  /**
-   *
-   * @type {Account}
-   * @memberof GetBalanceHistoryResponse
-   */
   account?: Account;
-  /**
-   *
-   * @type {LoginIdentityShort}
-   * @memberof GetBalanceHistoryResponse
-   */
   login_identity?: LoginIdentityShort;
-  /**
-   *
-   * @type {InstitutionShort}
-   * @memberof GetBalanceHistoryResponse
-   */
   institution?: InstitutionShort;
-  /**
-   *
-   * @type {Array<BalanceHistory>}
-   * @memberof GetBalanceHistoryResponse
-   */
   balance_history?: Array<BalanceHistory>;
-  /**
-   *
-   * @type {string}
-   * @memberof GetBalanceHistoryResponse
-   */
   source: GetBalanceHistoryResponseSourceEnum;
 }
 
@@ -3242,253 +1245,65 @@ export const GetBalanceHistoryResponseSourceEnum = {
 export type GetBalanceHistoryResponseSourceEnum =
   (typeof GetBalanceHistoryResponseSourceEnum)[keyof typeof GetBalanceHistoryResponseSourceEnum];
 
-/**
- *
- * @export
- * @interface GetBillResponse
- */
 export interface GetBillResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof GetBillResponse
-   */
   bill_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof GetBillResponse
-   */
   external_bill_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof GetBillResponse
-   */
   user_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof GetBillResponse
-   */
   external_user_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof GetBillResponse
-   */
   customer_app_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof GetBillResponse
-   */
   bill_date: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof GetBillResponse
-   */
   due_date: string | null;
-  /**
-   *
-   * @type {BillIntegrationMetadata}
-   * @memberof GetBillResponse
-   */
   integration_metadata: BillIntegrationMetadata;
-  /**
-   *
-   * @type {BillDetails}
-   * @memberof GetBillResponse
-   */
   details: BillDetails;
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof GetBillResponse
-   */
   metadata?: { [key: string]: string };
-  /**
-   *
-   * @type {BillStatus}
-   * @memberof GetBillResponse
-   */
   status: BillStatus;
-  /**
-   *
-   * @type {string}
-   * @memberof GetBillResponse
-   */
   integration_id: string;
-  /**
-   *
-   * @type {BillSenderDetails}
-   * @memberof GetBillResponse
-   */
   sender_details: BillSenderDetails;
-  /**
-   *
-   * @type {string}
-   * @memberof GetBillResponse
-   */
   created_at: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof GetBillResponse
-   */
   updated_at: string | null;
-  /**
-   *
-   * @type {boolean}
-   * @memberof GetBillResponse
-   */
   is_finverse_autopay_eligible: boolean;
-  /**
-   *
-   * @type {Array<PaymentResponse>}
-   * @memberof GetBillResponse
-   */
   payments: Array<PaymentResponse>;
 }
 
-/**
- *
- * @export
- * @interface GetIdentityResponse
- */
 export interface GetIdentityResponse {
-  /**
-   *
-   * @type {Identity}
-   * @memberof GetIdentityResponse
-   */
   identity?: Identity;
-  /**
-   *
-   * @type {LoginIdentityShort}
-   * @memberof GetIdentityResponse
-   */
   login_identity?: LoginIdentityShort;
-  /**
-   *
-   * @type {InstitutionShort}
-   * @memberof GetIdentityResponse
-   */
   institution?: InstitutionShort;
 }
-/**
- *
- * @export
- * @interface GetJWKSResponse
- */
 export interface GetJWKSResponse {
-  /**
-   *
-   * @type {Array<JWKSKey>}
-   * @memberof GetJWKSResponse
-   */
   keys?: Array<JWKSKey>;
 }
-/**
- *
- * @export
- * @interface GetLineItemsForDisplayResponseV2
- */
 export interface GetLineItemsForDisplayResponseV2 {
-  /**
-   *
-   * @type {Array<LineItem>}
-   * @memberof GetLineItemsForDisplayResponseV2
-   */
   line_items?: Array<LineItem>;
 }
-/**
- *
- * @export
- * @interface GetLoginIdentityByIdResponse
- */
 export interface GetLoginIdentityByIdResponse {
-  /**
-   *
-   * @type {LoginIdentity}
-   * @memberof GetLoginIdentityByIdResponse
-   */
   login_identity?: LoginIdentity;
-  /**
-   *
-   * @type {InstitutionShort}
-   * @memberof GetLoginIdentityByIdResponse
-   */
   institution?: InstitutionShort;
 }
-/**
- *
- * @export
- * @interface GetLoginIdentityHistoryResponse
- */
 export interface GetLoginIdentityHistoryResponse {
-  /**
-   *
-   * @type {LoginIdentity}
-   * @memberof GetLoginIdentityHistoryResponse
-   */
   login_identity?: LoginIdentity;
-  /**
-   *
-   * @type {Array<LoginIdentityStatusDetails>}
-   * @memberof GetLoginIdentityHistoryResponse
-   */
   status_history?: Array<LoginIdentityStatusDetails>;
 }
-/**
- *
- * @export
- * @interface GetMandateAuthLinkRequest
- */
 export interface GetMandateAuthLinkRequest {
   /**
    * Mandate ID
-   * @type {string}
-   * @memberof GetMandateAuthLinkRequest
    */
   mandate_id: string;
-  /**
-   *
-   * @type {MandateAuthLinkCustomizations}
-   * @memberof GetMandateAuthLinkRequest
-   */
   link_customizations: MandateAuthLinkCustomizations;
 }
-/**
- *
- * @export
- * @interface GetMandateAuthLinkResponse
- */
 export interface GetMandateAuthLinkResponse {
   /**
    * Short-lived access-token to interact with Finverse Link
-   * @type {string}
-   * @memberof GetMandateAuthLinkResponse
    */
   access_token: string;
   /**
    * Access token validity duration (in seconds)
-   * @type {number}
-   * @memberof GetMandateAuthLinkResponse
    */
   expires_in: number;
   /**
    * URL to launch Finverse Link to authorize the mandate
-   * @type {string}
-   * @memberof GetMandateAuthLinkResponse
    */
   link_url: string;
-  /**
-   *
-   * @type {string}
-   * @memberof GetMandateAuthLinkResponse
-   */
   token_type: GetMandateAuthLinkResponseTokenTypeEnum;
 }
 
@@ -3499,822 +1314,214 @@ export const GetMandateAuthLinkResponseTokenTypeEnum = {
 export type GetMandateAuthLinkResponseTokenTypeEnum =
   (typeof GetMandateAuthLinkResponseTokenTypeEnum)[keyof typeof GetMandateAuthLinkResponseTokenTypeEnum];
 
-/**
- *
- * @export
- * @interface GetMandateAuthResponse
- */
 export interface GetMandateAuthResponse {
   /**
    * Finverse Mandate ID
-   * @type {string}
-   * @memberof GetMandateAuthResponse
    */
   mandate_id: string;
-  /**
-   *
-   * @type {MandateStatus}
-   * @memberof GetMandateAuthResponse
-   */
   mandate_status: MandateStatus;
   /**
    * Merchant account ID assigned by Finverse
-   * @type {string}
-   * @memberof GetMandateAuthResponse
    */
   recipient_account_id: string;
   /**
    * Finverse Institution ID. Only returned if institution_id was included in the request.
-   * @type {string}
-   * @memberof GetMandateAuthResponse
    */
   institution_id: string;
-  /**
-   *
-   * @type {PaymentUserType}
-   * @memberof GetMandateAuthResponse
-   */
   sender_type?: PaymentUserType;
   /**
    * Checklist of the authorization factors needed to complete Mandate authorization
-   * @type {Array<AuthChecklistFactor>}
-   * @memberof GetMandateAuthResponse
    */
   auth_checklist: Array<AuthChecklistFactor>;
-  /**
-   *
-   * @type {MandateAuthEncryptionInfo}
-   * @memberof GetMandateAuthResponse
-   */
   encryption_info: MandateAuthEncryptionInfo;
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof GetMandateAuthResponse
    */
   last_update: string;
-  /**
-   *
-   * @type {FvEmbeddedErrorModel}
-   * @memberof GetMandateAuthResponse
-   */
   error?: FvEmbeddedErrorModel;
-  /**
-   *
-   * @type {MandateDetailsResponse}
-   * @memberof GetMandateAuthResponse
-   */
   mandate_details?: MandateDetailsResponse;
-  /**
-   *
-   * @type {MandateRecipient}
-   * @memberof GetMandateAuthResponse
-   */
   recipient?: MandateRecipient;
 }
 
-/**
- *
- * @export
- * @interface GetMandateResponse
- */
 export interface GetMandateResponse {
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof GetMandateResponse
    */
   created_at?: string;
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof GetMandateResponse
    */
   updated_at: string;
   /**
    * Finverse Mandate ID (ULID)
-   * @type {string}
-   * @memberof GetMandateResponse
    */
   mandate_id: string;
   /**
    * Finverse Payment Method ID (ULID)
-   * @type {string}
-   * @memberof GetMandateResponse
    */
   payment_method_id?: string;
-  /**
-   *
-   * @type {MandateStatus}
-   * @memberof GetMandateResponse
-   */
   status: MandateStatus;
-  /**
-   *
-   * @type {MandateRecipient}
-   * @memberof GetMandateResponse
-   */
   recipient: MandateRecipient;
-  /**
-   *
-   * @type {MandateRecipientAccount}
-   * @memberof GetMandateResponse
-   */
-  recipient_account?: MandateRecipientAccount;
-  /**
-   *
-   * @type {GetMandateSender}
-   * @memberof GetMandateResponse
-   */
   sender: GetMandateSender;
-  /**
-   *
-   * @type {MandateSenderAccount}
-   * @memberof GetMandateResponse
-   */
   sender_account?: MandateSenderAccount;
-  /**
-   *
-   * @type {MandateDetailsResponse}
-   * @memberof GetMandateResponse
-   */
   mandate_details: MandateDetailsResponse;
-  /**
-   *
-   * @type {Array<Fee>}
-   * @memberof GetMandateResponse
-   */
   fees?: Array<Fee>;
-  /**
-   *
-   * @type {FvEmbeddedErrorModel}
-   * @memberof GetMandateResponse
-   */
   error?: FvEmbeddedErrorModel;
   /**
    * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 20 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
-   * @type {{ [key: string]: string; }}
-   * @memberof GetMandateResponse
    */
   metadata?: { [key: string]: string };
+  recipient_account?: MandateRecipientAccount;
 }
 
-/**
- *
- * @export
- * @interface GetMandateSender
- */
 export interface GetMandateSender {
   /**
    * A unique identifier generated after creating sender
-   * @type {string}
-   * @memberof GetMandateSender
    */
   user_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof GetMandateSender
-   */
   name?: string;
   /**
    * Customer App\'s user ID, representing the end-user making the payment.
-   * @type {string}
-   * @memberof GetMandateSender
    */
   external_user_id: string;
-  /**
-   *
-   * @type {PaymentUserType}
-   * @memberof GetMandateSender
-   */
   user_type: PaymentUserType;
   /**
    * Sender details which will be used for fraud checking.
-   * @type {Array<SenderDetail>}
-   * @memberof GetMandateSender
    */
   user_details?: Array<SenderDetail>;
 }
 
-/**
- *
- * @export
- * @interface GetPaymentUserResponse
- */
 export interface GetPaymentUserResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof GetPaymentUserResponse
-   */
   payment_user_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof GetPaymentUserResponse
-   */
   customer_app_id: string;
   /**
    * The user\'s current autopay value
-   * @type {boolean}
-   * @memberof GetPaymentUserResponse
    */
   autopay_consent: boolean;
   /**
    * This indicates the value that the user\'s pre-set selection should be. If this is a new user, the value will be set to true by default, else it will be the user\'s current autopay value.
-   * @type {boolean}
-   * @memberof GetPaymentUserResponse
    */
   autopay_prefill: boolean;
 }
-/**
- *
- * @export
- * @interface GetStatementLinkResponse
- */
 export interface GetStatementLinkResponse {
-  /**
-   *
-   * @type {Array<StatementLink>}
-   * @memberof GetStatementLinkResponse
-   */
   statement_links?: Array<StatementLink>;
 }
-/**
- *
- * @export
- * @interface GetStatementsResponse
- */
 export interface GetStatementsResponse {
-  /**
-   *
-   * @type {Array<Statement>}
-   * @memberof GetStatementsResponse
-   */
   statements?: Array<Statement>;
-  /**
-   *
-   * @type {LoginIdentityShort}
-   * @memberof GetStatementsResponse
-   */
   login_identity?: LoginIdentityShort;
-  /**
-   *
-   * @type {InstitutionShort}
-   * @memberof GetStatementsResponse
-   */
   institution?: InstitutionShort;
 }
-/**
- *
- * @export
- * @interface Identity
- */
 export interface Identity {
-  /**
-   *
-   * @type {Array<IdentityName>}
-   * @memberof Identity
-   */
   names?: Array<IdentityName>;
-  /**
-   *
-   * @type {Array<IdentityAddress>}
-   * @memberof Identity
-   */
   addresses?: Array<IdentityAddress>;
-  /**
-   *
-   * @type {Array<IdentityEmail>}
-   * @memberof Identity
-   */
   emails?: Array<IdentityEmail>;
-  /**
-   *
-   * @type {Array<IdentityPhoneNumber>}
-   * @memberof Identity
-   */
   phone_numbers?: Array<IdentityPhoneNumber>;
-  /**
-   *
-   * @type {Array<IdentityDateOfBirth>}
-   * @memberof Identity
-   */
   date_of_births?: Array<IdentityDateOfBirth>;
 }
-/**
- *
- * @export
- * @interface IdentityAddress
- */
 export interface IdentityAddress {
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityAddress
-   */
   raw?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityAddress
-   */
   full_address?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityAddress
-   */
   unit_number?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityAddress
-   */
   floor_number?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityAddress
-   */
   building_name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityAddress
-   */
   street_number?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityAddress
-   */
   street_name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityAddress
-   */
   city?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityAddress
-   */
   district?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityAddress
-   */
   ward?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityAddress
-   */
   street_address?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityAddress
-   */
   province?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityAddress
-   */
   country?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityAddress
-   */
   postal_code?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityAddress
-   */
   source?: string;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof IdentityAddress
-   */
   source_ids?: Array<string>;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof IdentityAddress
-   */
   account_ids?: Array<string>;
 }
-/**
- *
- * @export
- * @interface IdentityDateOfBirth
- */
 export interface IdentityDateOfBirth {
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityDateOfBirth
-   */
   raw?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityDateOfBirth
-   */
   date_of_birth?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityDateOfBirth
-   */
   masked_date_of_birth?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityDateOfBirth
-   */
   source?: string;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof IdentityDateOfBirth
-   */
   source_ids?: Array<string>;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof IdentityDateOfBirth
-   */
   account_ids?: Array<string>;
 }
-/**
- *
- * @export
- * @interface IdentityEmail
- */
 export interface IdentityEmail {
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityEmail
-   */
   raw?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityEmail
-   */
   email?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityEmail
-   */
   masked_email?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityEmail
-   */
   source?: string;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof IdentityEmail
-   */
   source_ids?: Array<string>;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof IdentityEmail
-   */
   account_ids?: Array<string>;
 }
-/**
- *
- * @export
- * @interface IdentityName
- */
 export interface IdentityName {
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityName
-   */
   raw?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityName
-   */
   full_name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityName
-   */
   first_name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityName
-   */
   last_name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityName
-   */
   other_name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityName
-   */
   source?: string;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof IdentityName
-   */
   source_ids?: Array<string>;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof IdentityName
-   */
   account_ids?: Array<string>;
 }
-/**
- *
- * @export
- * @interface IdentityPhoneNumber
- */
 export interface IdentityPhoneNumber {
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityPhoneNumber
-   */
   raw?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityPhoneNumber
-   */
   mobile_phone?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityPhoneNumber
-   */
   other_phone?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityPhoneNumber
-   */
   masked_phone?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof IdentityPhoneNumber
-   */
   source?: string;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof IdentityPhoneNumber
-   */
   source_ids?: Array<string>;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof IdentityPhoneNumber
-   */
   account_ids?: Array<string>;
 }
-/**
- *
- * @export
- * @interface IncomeEstimate
- */
 export interface IncomeEstimate {
-  /**
-   *
-   * @type {number}
-   * @memberof IncomeEstimate
-   */
   amount: number;
   /**
    * Currency
-   * @type {string}
-   * @memberof IncomeEstimate
    */
   currency: string;
 }
-/**
- *
- * @export
- * @interface IncomeResponse
- */
 export interface IncomeResponse {
-  /**
-   *
-   * @type {Array<SingleSourceIncome>}
-   * @memberof IncomeResponse
-   */
   income: Array<SingleSourceIncome>;
-  /**
-   *
-   * @type {LoginIdentityShort}
-   * @memberof IncomeResponse
-   */
   login_identity: LoginIdentityShort;
-  /**
-   *
-   * @type {InstitutionShort}
-   * @memberof IncomeResponse
-   */
   institution: InstitutionShort;
 }
-/**
- *
- * @export
- * @interface IncomeStream
- */
 export interface IncomeStream {
   /**
    * Account this income estimate is associated with
-   * @type {string}
-   * @memberof IncomeStream
    */
   account_id: string;
-  /**
-   *
-   * @type {IncomeEstimate}
-   * @memberof IncomeStream
-   */
   estimated_monthly_income?: IncomeEstimate;
   /**
    * Number of transactions counted towards income
-   * @type {number}
-   * @memberof IncomeStream
    */
   transaction_count: number;
-  /**
-   *
-   * @type {Array<MonthlyIncomeEstimate>}
-   * @memberof IncomeStream
-   */
   monthly_history: Array<MonthlyIncomeEstimate>;
 }
-/**
- *
- * @export
- * @interface IncomeTotal
- */
 export interface IncomeTotal {
-  /**
-   *
-   * @type {IncomeEstimate}
-   * @memberof IncomeTotal
-   */
   estimated_monthly_income?: IncomeEstimate;
   /**
    * Number of transactions counted towards income
-   * @type {number}
-   * @memberof IncomeTotal
    */
   transaction_count: number;
-  /**
-   *
-   * @type {Array<MonthlyIncomeEstimate>}
-   * @memberof IncomeTotal
-   */
   monthly_history: Array<MonthlyIncomeEstimate>;
 }
-/**
- *
- * @export
- * @interface Institution
- */
 export interface Institution {
-  /**
-   *
-   * @type {string}
-   * @memberof Institution
-   */
   institution_id: string;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof Institution
-   */
   countries: Array<string>;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof Institution
-   */
   tags?: Array<InstitutionTagsEnum>;
-  /**
-   *
-   * @type {string}
-   * @memberof Institution
-   */
   institution_type: InstitutionInstitutionTypeEnum;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof Institution
-   */
   products_supported: Array<InstitutionProductsSupportedEnum>;
-  /**
-   *
-   * @type {string}
-   * @memberof Institution
-   */
   parent_institution_name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Institution
-   */
   institution_name: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Institution
-   */
   portal_name?: string;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof Institution
-   */
   user_type: Array<InstitutionUserTypeEnum>;
-  /**
-   *
-   * @type {string}
-   * @memberof Institution
-   */
   status: InstitutionStatusEnum;
-  /**
-   *
-   * @type {object}
-   * @memberof Institution
-   */
   status_details?: object;
-  /**
-   *
-   * @type {string}
-   * @memberof Institution
-   */
   login_url?: string;
-  /**
-   *
-   * @type {LoginDetails}
-   * @memberof Institution
-   */
   login_details?: LoginDetails;
-  /**
-   *
-   * @type {Array<LoginMethod>}
-   * @memberof Institution
-   */
   login_methods?: Array<LoginMethod>;
-  /**
-   *
-   * @type {PaymentInfo}
-   * @memberof Institution
-   */
   payment_info?: PaymentInfo;
-  /**
-   *
-   * @type {string}
-   * @memberof Institution
-   */
   color?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Institution
-   */
   updated_at?: string;
-  /**
-   *
-   * @type {Array<LoginAction>}
-   * @memberof Institution
-   */
   login_actions?: Array<LoginAction>;
 }
 
@@ -4358,54 +1565,14 @@ export const InstitutionStatusEnum = {
 
 export type InstitutionStatusEnum = (typeof InstitutionStatusEnum)[keyof typeof InstitutionStatusEnum];
 
-/**
- *
- * @export
- * @interface InstitutionShort
- */
 export interface InstitutionShort {
-  /**
-   *
-   * @type {string}
-   * @memberof InstitutionShort
-   */
   institution_id: string;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof InstitutionShort
-   */
   countries?: Array<string>;
-  /**
-   *
-   * @type {string}
-   * @memberof InstitutionShort
-   */
   institution_name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof InstitutionShort
-   */
   portal_name?: string;
 }
-/**
- *
- * @export
- * @interface IntegrationMetadataPaymentUserRequest
- */
 export interface IntegrationMetadataPaymentUserRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof IntegrationMetadataPaymentUserRequest
-   */
   integration_id: IntegrationMetadataPaymentUserRequestIntegrationIdEnum;
-  /**
-   *
-   * @type {RapidstorPaymentUserMetadataRequest}
-   * @memberof IntegrationMetadataPaymentUserRequest
-   */
   rapidstor_metadata?: RapidstorPaymentUserMetadataRequest;
 }
 
@@ -4416,23 +1583,8 @@ export const IntegrationMetadataPaymentUserRequestIntegrationIdEnum = {
 export type IntegrationMetadataPaymentUserRequestIntegrationIdEnum =
   (typeof IntegrationMetadataPaymentUserRequestIntegrationIdEnum)[keyof typeof IntegrationMetadataPaymentUserRequestIntegrationIdEnum];
 
-/**
- *
- * @export
- * @interface IntegrationMetadataRequest
- */
 export interface IntegrationMetadataRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof IntegrationMetadataRequest
-   */
   integration_id: IntegrationMetadataRequestIntegrationIdEnum;
-  /**
-   *
-   * @type {RapidstorMetadataRequest}
-   * @memberof IntegrationMetadataRequest
-   */
   rapidstor_metadata?: RapidstorMetadataRequest;
 }
 
@@ -4443,23 +1595,8 @@ export const IntegrationMetadataRequestIntegrationIdEnum = {
 export type IntegrationMetadataRequestIntegrationIdEnum =
   (typeof IntegrationMetadataRequestIntegrationIdEnum)[keyof typeof IntegrationMetadataRequestIntegrationIdEnum];
 
-/**
- *
- * @export
- * @interface IntegrationMetadataResponse
- */
 export interface IntegrationMetadataResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof IntegrationMetadataResponse
-   */
   integration_id?: IntegrationMetadataResponseIntegrationIdEnum;
-  /**
-   *
-   * @type {RapidstorMetadataResponse}
-   * @memberof IntegrationMetadataResponse
-   */
   rapidstor_metadata?: RapidstorMetadataResponse;
 }
 
@@ -4470,65 +1607,42 @@ export const IntegrationMetadataResponseIntegrationIdEnum = {
 export type IntegrationMetadataResponseIntegrationIdEnum =
   (typeof IntegrationMetadataResponseIntegrationIdEnum)[keyof typeof IntegrationMetadataResponseIntegrationIdEnum];
 
-/**
- *
- * @export
- * @interface JWKSKey
- */
 export interface JWKSKey {
   /**
    * The \"kty\" (key type) parameter identifies the cryptographic algorithm family used with the key, such as \"RSA\" or \"EC\".
-   * @type {string}
-   * @memberof JWKSKey
    */
   kty?: string;
   /**
    * The \"kid\" (key ID) parameter is used to match a specific key
-   * @type {string}
-   * @memberof JWKSKey
    */
   kid?: string;
   /**
    * The \"use\" (public key use) parameter identifies the intended use of the public key
-   * @type {string}
-   * @memberof JWKSKey
    */
   use?: string;
   /**
    * RSA key value \"e\"
-   * @type {string}
-   * @memberof JWKSKey
    */
   e?: string;
   /**
    * RSA key value \"n\"
-   * @type {string}
-   * @memberof JWKSKey
    */
   n?: string;
   /**
    * The \"x5c\" (X.509 certificate chain) parameter contains a chain of one or more PKIX certificates
-   * @type {Array<string>}
-   * @memberof JWKSKey
    */
   x5c?: Array<string>;
 }
 /**
  * KCP virtual account metadata
- * @export
- * @interface KcpVaMetadata
  */
 export interface KcpVaMetadata {
   /**
    * Cash receipt type; \"0\" = income tax deduction (for individuals), \"1\" = proof of expenditure (for businesses)
-   * @type {string}
-   * @memberof KcpVaMetadata
    */
   va_receipt_gubn: KcpVaMetadataVaReceiptGubnEnum;
   /**
    * ID number for cash receipt issuance
-   * @type {string}
-   * @memberof KcpVaMetadata
    */
   va_taxno: string;
 }
@@ -4541,29 +1655,12 @@ export const KcpVaMetadataVaReceiptGubnEnum = {
 export type KcpVaMetadataVaReceiptGubnEnum =
   (typeof KcpVaMetadataVaReceiptGubnEnum)[keyof typeof KcpVaMetadataVaReceiptGubnEnum];
 
-/**
- *
- * @export
- * @interface LineItem
- */
 export interface LineItem {
-  /**
-   *
-   * @type {string}
-   * @memberof LineItem
-   */
   currency?: string;
   /**
    * The amount in decimal
-   * @type {string}
-   * @memberof LineItem
    */
   amount?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LineItem
-   */
   item_type?: LineItemItemTypeEnum;
 }
 
@@ -4575,303 +1672,124 @@ export const LineItemItemTypeEnum = {
 
 export type LineItemItemTypeEnum = (typeof LineItemItemTypeEnum)[keyof typeof LineItemItemTypeEnum];
 
-/**
- *
- * @export
- * @interface LinkRequest
- */
 export interface LinkRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof LinkRequest
-   */
   institution_id: string;
-  /**
-   *
-   * @type {boolean}
-   * @memberof LinkRequest
-   */
   store_credential: boolean;
   /**
    * this is a mandatory field
-   * @type {boolean}
-   * @memberof LinkRequest
    */
   consent?: boolean | null;
   /**
    * products that is requested
-   * @type {Array<string>}
-   * @memberof LinkRequest
    */
   products_requested?: Array<string>;
   /**
    * The identifier returned after creating payment instruction
-   * @type {string}
-   * @memberof LinkRequest
    */
   payment_instruction_id?: string;
 }
-/**
- *
- * @export
- * @interface LinkResponse
- */
 export interface LinkResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof LinkResponse
-   */
   auth_url?: string;
 }
-/**
- *
- * @export
- * @interface LinkStatusActionModel
- */
 export interface LinkStatusActionModel {
   /**
    * Unique identifier
-   * @type {string}
-   * @memberof LinkStatusActionModel
    */
   action_id: string;
   /**
    * The type of user screen the UI is to render
-   * @type {string}
-   * @memberof LinkStatusActionModel
    */
   type: string;
   /**
    * The name of the user screen the UI is to render
-   * @type {string}
-   * @memberof LinkStatusActionModel
    */
   name: string;
-  /**
-   *
-   * @type {Array<UserMessage>}
-   * @memberof LinkStatusActionModel
-   */
   messages: Array<UserMessage>;
-  /**
-   *
-   * @type {Array<UserField>}
-   * @memberof LinkStatusActionModel
-   */
   fields: Array<UserField>;
-  /**
-   *
-   * @type {Array<UserButton>}
-   * @memberof LinkStatusActionModel
-   */
   buttons?: Array<UserButton>;
 }
-/**
- *
- * @export
- * @interface LinkStatusPendingModel
- */
 export interface LinkStatusPendingModel {
-  /**
-   *
-   * @type {string}
-   * @memberof LinkStatusPendingModel
-   */
   code?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LinkStatusPendingModel
-   */
   message?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LinkStatusPendingModel
-   */
   details?: string;
 }
-/**
- *
- * @export
- * @interface LinkStatusResponse
- */
 export interface LinkStatusResponse {
-  /**
-   *
-   * @type {AccessTokenResponse}
-   * @memberof LinkStatusResponse
-   */
   success?: AccessTokenResponse;
-  /**
-   *
-   * @type {LinkStatusPendingModel}
-   * @memberof LinkStatusResponse
-   */
   pending?: LinkStatusPendingModel;
-  /**
-   *
-   * @type {LinkStatusActionModel}
-   * @memberof LinkStatusResponse
-   */
   action?: LinkStatusActionModel;
 }
-/**
- *
- * @export
- * @interface LinkTokenRequest
- */
 export interface LinkTokenRequest {
   /**
    * support only client_credentials
-   * @type {string}
-   * @memberof LinkTokenRequest
    */
   grant_type: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LinkTokenRequest
-   */
   response_type: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LinkTokenRequest
-   */
   response_mode: string;
   /**
    * required when creating new Link, ignored when updating existing Link
-   * @type {string}
-   * @memberof LinkTokenRequest
    */
   user_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LinkTokenRequest
-   */
   client_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LinkTokenRequest
-   */
   redirect_uri: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LinkTokenRequest
-   */
   state?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LinkTokenRequest
-   */
   scope?: string;
   /**
    * Space separated list of the tags of the institutions to view.
-   * @type {string}
-   * @memberof LinkTokenRequest
    */
   link_mode?: string;
   /**
    * The UI mode link is intended to be used in - \"iframe\", \"auto_redirect\", \"redirect\" or \"standalone\"
-   * @type {string}
-   * @memberof LinkTokenRequest
    */
   ui_mode?: LinkTokenRequestUiModeEnum;
   /**
    * ISO639-1 language code. Language to display when user open the link, default to English (en) if not specified
-   * @type {string}
-   * @memberof LinkTokenRequest
    */
   language?: LinkTokenRequestLanguageEnum;
-  /**
-   *
-   * @type {string}
-   * @memberof LinkTokenRequest
-   */
   code_challenge?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LinkTokenRequest
-   */
   code_challenge_method?: string;
   /**
    * use this to update a specific login identity
-   * @type {string}
-   * @memberof LinkTokenRequest
    */
   login_identity_id?: string;
   /**
    * The customization id if the customer wishes to embed it into link token for spawning link with their choice of stuffs
-   * @type {string}
-   * @memberof LinkTokenRequest
    */
   customization_id?: string;
   /**
    * Institution to preselect
-   * @type {string}
-   * @memberof LinkTokenRequest
    */
   institution_id?: string;
   /**
    * institution\'s country filter
-   * @type {Array<string>}
-   * @memberof LinkTokenRequest
    */
   countries?: Array<string>;
   /**
    * institution\'s supported user_type filter
-   * @type {Array<string>}
-   * @memberof LinkTokenRequest
    */
   user_type?: Array<string>;
   /**
    * institution\'s supported product filter
-   * @type {Array<string>}
-   * @memberof LinkTokenRequest
    */
   products_supported?: Array<string>;
   /**
    * products that is requested
-   * @type {Array<string>}
-   * @memberof LinkTokenRequest
    */
   products_requested?: Array<string>;
   /**
    * The identifier returned after creating payment instruction
-   * @type {string}
-   * @memberof LinkTokenRequest
    */
   payment_instruction_id?: string;
   /**
    * Controls the behavior of the automatic data refresh checkbox
-   * @type {string}
-   * @memberof LinkTokenRequest
    */
   automatic_data_refresh?: LinkTokenRequestAutomaticDataRefreshEnum;
   /**
    * institution\'s status filter
-   * @type {string}
-   * @memberof LinkTokenRequest
    */
   institution_status?: string;
-  /**
-   *
-   * @type {LinkTokenUserConfigs}
-   * @memberof LinkTokenRequest
-   */
   user_configs?: LinkTokenUserConfigs;
   /**
    * Limit historical data retrieval to this date. ISO format (YYYY-MM-DD)
-   * @type {string}
-   * @memberof LinkTokenRequest
    */
   history_date_limit?: string;
 }
@@ -4902,538 +1820,135 @@ export const LinkTokenRequestAutomaticDataRefreshEnum = {
 export type LinkTokenRequestAutomaticDataRefreshEnum =
   (typeof LinkTokenRequestAutomaticDataRefreshEnum)[keyof typeof LinkTokenRequestAutomaticDataRefreshEnum];
 
-/**
- *
- * @export
- * @interface LinkTokenResponse
- */
 export interface LinkTokenResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof LinkTokenResponse
-   */
   access_token: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LinkTokenResponse
-   */
   token_type: string;
   /**
    * seconds
-   * @type {number}
-   * @memberof LinkTokenResponse
    */
   expires_in: number;
-  /**
-   *
-   * @type {string}
-   * @memberof LinkTokenResponse
-   */
   issued_at: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LinkTokenResponse
-   */
   link_url: string;
 }
-/**
- *
- * @export
- * @interface LinkTokenUserConfigs
- */
 export interface LinkTokenUserConfigs {
   /**
    * Account Number to use for ADA setup
-   * @type {string}
-   * @memberof LinkTokenUserConfigs
    */
   ada_account_number?: string;
 }
-/**
- *
- * @export
- * @interface ListAccountsResponse
- */
 export interface ListAccountsResponse {
-  /**
-   *
-   * @type {Array<Account>}
-   * @memberof ListAccountsResponse
-   */
   accounts?: Array<Account>;
-  /**
-   *
-   * @type {LoginIdentityShort}
-   * @memberof ListAccountsResponse
-   */
   login_identity?: LoginIdentityShort;
-  /**
-   *
-   * @type {InstitutionShort}
-   * @memberof ListAccountsResponse
-   */
   institution?: InstitutionShort;
 }
-/**
- *
- * @export
- * @interface ListBillsResponse
- */
 export interface ListBillsResponse {
-  /**
-   *
-   * @type {Array<FVBill>}
-   * @memberof ListBillsResponse
-   */
   bills: Array<FVBill>;
   /**
    * Whether additional bills exist beyond this page for the same query.
-   * @type {boolean}
-   * @memberof ListBillsResponse
    */
   has_more: boolean;
 }
-/**
- *
- * @export
- * @interface ListCardsDetailsResponse
- */
 export interface ListCardsDetailsResponse {
-  /**
-   *
-   * @type {LoginIdentityShort}
-   * @memberof ListCardsDetailsResponse
-   */
   login_identity?: LoginIdentityShort;
-  /**
-   *
-   * @type {InstitutionShort}
-   * @memberof ListCardsDetailsResponse
-   */
   institution?: InstitutionShort;
-  /**
-   *
-   * @type {CardDetails}
-   * @memberof ListCardsDetailsResponse
-   */
   card_details?: CardDetails;
 }
-/**
- *
- * @export
- * @interface ListDisputesResponse
- */
 export interface ListDisputesResponse {
-  /**
-   *
-   * @type {Array<DisputeResponse>}
-   * @memberof ListDisputesResponse
-   */
   disputes: Array<DisputeResponse>;
-  /**
-   *
-   * @type {number}
-   * @memberof ListDisputesResponse
-   */
   total_disputes: number;
 }
-/**
- *
- * @export
- * @interface ListMandatesResponse
- */
 export interface ListMandatesResponse {
-  /**
-   *
-   * @type {Array<GetMandateResponse>}
-   * @memberof ListMandatesResponse
-   */
   mandates?: Array<GetMandateResponse>;
-  /**
-   *
-   * @type {number}
-   * @memberof ListMandatesResponse
-   */
   total_mandates: number;
 }
-/**
- *
- * @export
- * @interface ListPaymentAccountsResponse
- */
 export interface ListPaymentAccountsResponse {
-  /**
-   *
-   * @type {Array<PaymentAccountDetails>}
-   * @memberof ListPaymentAccountsResponse
-   */
   payment_accounts?: Array<PaymentAccountDetails>;
 }
-/**
- *
- * @export
- * @interface ListPaymentAccountsWithEnrichedDataResponse
- */
 export interface ListPaymentAccountsWithEnrichedDataResponse {
-  /**
-   *
-   * @type {Array<PaymentAccountDetailsWithEnrichedData>}
-   * @memberof ListPaymentAccountsWithEnrichedDataResponse
-   */
   payment_accounts?: Array<PaymentAccountDetailsWithEnrichedData>;
   /**
    * Total number of matching payment accounts
-   * @type {number}
-   * @memberof ListPaymentAccountsWithEnrichedDataResponse
    */
   total?: number;
 }
-/**
- *
- * @export
- * @interface ListPaymentMethodsResponse
- */
 export interface ListPaymentMethodsResponse {
-  /**
-   *
-   * @type {Array<PaymentMethodResponse>}
-   * @memberof ListPaymentMethodsResponse
-   */
   payment_methods?: Array<PaymentMethodResponse>;
-  /**
-   *
-   * @type {PaymentUserWithoutEmail}
-   * @memberof ListPaymentMethodsResponse
-   */
   sender?: PaymentUserWithoutEmail;
 }
-/**
- *
- * @export
- * @interface ListPaymentsResponse
- */
 export interface ListPaymentsResponse {
-  /**
-   *
-   * @type {Array<PaymentResponse>}
-   * @memberof ListPaymentsResponse
-   */
   payments: Array<PaymentResponse>;
-  /**
-   *
-   * @type {number}
-   * @memberof ListPaymentsResponse
-   */
   total_payments: number;
 }
-/**
- *
- * @export
- * @interface ListPayoutsResponse
- */
 export interface ListPayoutsResponse {
-  /**
-   *
-   * @type {Array<PayoutSnapshotResponse>}
-   * @memberof ListPayoutsResponse
-   */
   payouts: Array<PayoutSnapshotResponse>;
-  /**
-   *
-   * @type {number}
-   * @memberof ListPayoutsResponse
-   */
   total_payouts: number;
 }
-/**
- *
- * @export
- * @interface ListTransactionsResponse
- */
 export interface ListTransactionsResponse {
-  /**
-   *
-   * @type {Array<Account>}
-   * @memberof ListTransactionsResponse
-   */
   accounts?: Array<Account>;
-  /**
-   *
-   * @type {Array<Transaction>}
-   * @memberof ListTransactionsResponse
-   */
   transactions?: Array<Transaction>;
-  /**
-   *
-   * @type {LoginIdentityShort}
-   * @memberof ListTransactionsResponse
-   */
   login_identity?: LoginIdentityShort;
-  /**
-   *
-   * @type {InstitutionShort}
-   * @memberof ListTransactionsResponse
-   */
   institution?: InstitutionShort;
-  /**
-   *
-   * @type {number}
-   * @memberof ListTransactionsResponse
-   */
   total_transactions: number;
 }
-/**
- *
- * @export
- * @interface LoginAction
- */
 export interface LoginAction {
-  /**
-   *
-   * @type {string}
-   * @memberof LoginAction
-   */
   type?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LoginAction
-   */
   name?: string;
-  /**
-   *
-   * @type {Array<UserMessage>}
-   * @memberof LoginAction
-   */
   messages?: Array<UserMessage>;
-  /**
-   *
-   * @type {Array<UserField>}
-   * @memberof LoginAction
-   */
   fields?: Array<UserField>;
-  /**
-   *
-   * @type {Array<UserButton>}
-   * @memberof LoginAction
-   */
   buttons?: Array<UserButton>;
 }
-/**
- *
- * @export
- * @interface LoginDetails
- */
 export interface LoginDetails {
-  /**
-   *
-   * @type {string}
-   * @memberof LoginDetails
-   */
   info_message?: string;
-  /**
-   *
-   * @type {boolean}
-   * @memberof LoginDetails
-   */
   secret_required?: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof LoginDetails
-   */
   refresh_supported?: boolean;
 }
-/**
- *
- * @export
- * @interface LoginField
- */
 export interface LoginField {
-  /**
-   *
-   * @type {string}
-   * @memberof LoginField
-   */
   key?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LoginField
-   */
   name?: string;
   /**
    * could be password, text, number
-   * @type {string}
-   * @memberof LoginField
    */
   type?: string;
 }
-/**
- *
- * @export
- * @interface LoginIdentity
- */
 export interface LoginIdentity {
-  /**
-   *
-   * @type {string}
-   * @memberof LoginIdentity
-   */
   login_identity_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LoginIdentity
-   */
   customer_app_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LoginIdentity
-   */
   user_id: string;
-  /**
-   *
-   * @type {LoginIdentityLoginMethodsAvailable}
-   * @memberof LoginIdentity
-   */
   login_methods_available?: LoginIdentityLoginMethodsAvailable;
-  /**
-   *
-   * @type {string}
-   * @memberof LoginIdentity
-   */
   permissions_grant_date?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LoginIdentity
-   */
   permissions_expiry_date?: string;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof LoginIdentity
-   */
   permissions?: Array<string>;
-  /**
-   *
-   * @type {LoginIdentityBillingDetails}
-   * @memberof LoginIdentity
-   */
   billing_details?: LoginIdentityBillingDetails;
-  /**
-   *
-   * @type {LoginIdentityStatus}
-   * @memberof LoginIdentity
-   */
   status: LoginIdentityStatus;
-  /**
-   *
-   * @type {LoginIdentityStatusDetails}
-   * @memberof LoginIdentity
-   */
   status_details?: LoginIdentityStatusDetails;
-  /**
-   *
-   * @type {AllProductStatus}
-   * @memberof LoginIdentity
-   */
   product_status?: AllProductStatus;
-  /**
-   *
-   * @type {AuthenticationStatus}
-   * @memberof LoginIdentity
-   */
   authentication_status?: AuthenticationStatus;
-  /**
-   *
-   * @type {LoginIdentityError}
-   * @memberof LoginIdentity
-   */
   error?: LoginIdentityError;
-  /**
-   *
-   * @type {string}
-   * @memberof LoginIdentity
-   */
   last_success?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LoginIdentity
-   */
   first_success?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LoginIdentity
-   */
   webhook?: string;
-  /**
-   *
-   * @type {LoginIdentitySessionStatus}
-   * @memberof LoginIdentity
-   */
   session_status?: LoginIdentitySessionStatus;
-  /**
-   *
-   * @type {string}
-   * @memberof LoginIdentity
-   */
   institution_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LoginIdentity
-   */
   created_at?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LoginIdentity
-   */
   updated_at?: string;
   /**
    * a login attempt id which is unique per login_identity
-   * @type {string}
-   * @memberof LoginIdentity
    */
   linking_attempt_id?: string;
   /**
    * a successful login attempt id which is unique per login_identity
-   * @type {string}
-   * @memberof LoginIdentity
    */
   authentication_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LoginIdentity
-   */
   last_session_id?: string;
   /**
    * stable id for the hashed bank username, used to track unique end-user online-banking accounts
-   * @type {string}
-   * @memberof LoginIdentity
    */
   username_hash_id?: string;
-  /**
-   *
-   * @type {RefreshData}
-   * @memberof LoginIdentity
-   */
   refresh?: RefreshData;
 }
 
 /**
  * Login identity authentication status
- * @export
- * @enum {string}
  */
 
 export const LoginIdentityAuthStatus = {
@@ -5448,73 +1963,21 @@ export const LoginIdentityAuthStatus = {
 
 export type LoginIdentityAuthStatus = (typeof LoginIdentityAuthStatus)[keyof typeof LoginIdentityAuthStatus];
 
-/**
- *
- * @export
- * @interface LoginIdentityBillingDetails
- */
 export interface LoginIdentityBillingDetails {
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof LoginIdentityBillingDetails
-   */
   billed_products?: Array<string>;
 }
-/**
- *
- * @export
- * @interface LoginIdentityError
- */
 export interface LoginIdentityError {
-  /**
-   *
-   * @type {number}
-   * @memberof LoginIdentityError
-   */
   code?: number;
-  /**
-   *
-   * @type {string}
-   * @memberof LoginIdentityError
-   */
   type?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LoginIdentityError
-   */
   message?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LoginIdentityError
-   */
   details?: string;
 }
-/**
- *
- * @export
- * @interface LoginIdentityLoginMethodsAvailable
- */
 export interface LoginIdentityLoginMethodsAvailable {
-  /**
-   *
-   * @type {boolean}
-   * @memberof LoginIdentityLoginMethodsAvailable
-   */
   havePassword?: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof LoginIdentityLoginMethodsAvailable
-   */
   haveSecret?: boolean;
 }
 /**
  * Login identity session status
- * @export
- * @enum {string}
  */
 
 export const LoginIdentitySessionStatus = {
@@ -5526,36 +1989,14 @@ export const LoginIdentitySessionStatus = {
 
 export type LoginIdentitySessionStatus = (typeof LoginIdentitySessionStatus)[keyof typeof LoginIdentitySessionStatus];
 
-/**
- *
- * @export
- * @interface LoginIdentityShort
- */
 export interface LoginIdentityShort {
-  /**
-   *
-   * @type {string}
-   * @memberof LoginIdentityShort
-   */
   login_identity_id: string;
-  /**
-   *
-   * @type {LoginIdentityStatus}
-   * @memberof LoginIdentityShort
-   */
   status: LoginIdentityStatus;
-  /**
-   *
-   * @type {string}
-   * @memberof LoginIdentityShort
-   */
   last_session_id?: string;
 }
 
 /**
  * Login identity status
- * @export
- * @enum {string}
  */
 
 export const LoginIdentityStatus = {
@@ -5577,60 +2018,15 @@ export const LoginIdentityStatus = {
 
 export type LoginIdentityStatus = (typeof LoginIdentityStatus)[keyof typeof LoginIdentityStatus];
 
-/**
- *
- * @export
- * @interface LoginIdentityStatusDetails
- */
 export interface LoginIdentityStatusDetails {
-  /**
-   *
-   * @type {string}
-   * @memberof LoginIdentityStatusDetails
-   */
   event_date?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LoginIdentityStatusDetails
-   */
   event_name?: string;
 }
-/**
- *
- * @export
- * @interface LoginMethod
- */
 export interface LoginMethod {
-  /**
-   *
-   * @type {string}
-   * @memberof LoginMethod
-   */
   id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof LoginMethod
-   */
   name?: string;
-  /**
-   *
-   * @type {boolean}
-   * @memberof LoginMethod
-   */
   is_default_method?: boolean | null;
-  /**
-   *
-   * @type {string}
-   * @memberof LoginMethod
-   */
   status?: LoginMethodStatusEnum;
-  /**
-   *
-   * @type {Array<LoginField>}
-   * @memberof LoginMethod
-   */
   login_fields?: Array<LoginField>;
 }
 
@@ -5642,83 +2038,45 @@ export const LoginMethodStatusEnum = {
 
 export type LoginMethodStatusEnum = (typeof LoginMethodStatusEnum)[keyof typeof LoginMethodStatusEnum];
 
-/**
- *
- * @export
- * @interface MandateAuthEncryptionInfo
- */
 export interface MandateAuthEncryptionInfo {
-  /**
-   *
-   * @type {string}
-   * @memberof MandateAuthEncryptionInfo
-   */
   jwks_url: string;
-  /**
-   *
-   * @type {string}
-   * @memberof MandateAuthEncryptionInfo
-   */
   key_id: string;
 }
-/**
- *
- * @export
- * @interface MandateAuthLinkCustomizations
- */
 export interface MandateAuthLinkCustomizations {
   /**
    * institution\'s country filter
-   * @type {Array<string>}
-   * @memberof MandateAuthLinkCustomizations
    */
   countries?: Array<string>;
   /**
    * Institution to preselect
-   * @type {string}
-   * @memberof MandateAuthLinkCustomizations
    */
   institution_id?: string;
   /**
    * institution\'s status filter
-   * @type {string}
-   * @memberof MandateAuthLinkCustomizations
    */
   institution_status?: string;
   /**
    * ISO639-1 language code. Language to display when user open the link, default to English (en) if not specified
-   * @type {string}
-   * @memberof MandateAuthLinkCustomizations
    */
   language?: MandateAuthLinkCustomizationsLanguageEnum;
   /**
    * Space separated list of the tags of the institutions to view.
-   * @type {string}
-   * @memberof MandateAuthLinkCustomizations
    */
   link_mode?: string;
   /**
    * institution\'s supported product filter. For mandate authorization, this field should contain [\"MANDATE\"]
-   * @type {Array<string>}
-   * @memberof MandateAuthLinkCustomizations
    */
   products_supported?: Array<string>;
   /**
    * The UI mode link is intended to be used in - \"iframe\", \"auto_redirect\", \"redirect\" or \"standalone\"
-   * @type {string}
-   * @memberof MandateAuthLinkCustomizations
    */
   ui_mode?: MandateAuthLinkCustomizationsUiModeEnum;
   /**
    * The URI to redirect to. Required if ui_mode is \"redirect\" or \"auto_redirect\"
-   * @type {string}
-   * @memberof MandateAuthLinkCustomizations
    */
   redirect_uri?: string;
   /**
    * institution\'s supported user_type filter
-   * @type {Array<string>}
-   * @memberof MandateAuthLinkCustomizations
    */
   user_type?: Array<string>;
 }
@@ -5742,427 +2100,222 @@ export const MandateAuthLinkCustomizationsUiModeEnum = {
 export type MandateAuthLinkCustomizationsUiModeEnum =
   (typeof MandateAuthLinkCustomizationsUiModeEnum)[keyof typeof MandateAuthLinkCustomizationsUiModeEnum];
 
-/**
- *
- * @export
- * @interface MandateDetailsForPaymentLink
- */
-export interface MandateDetailsForPaymentLink {
+export interface MandateBase {
   /**
-   * YYYY-MM-DD, must be later than or the same as the date of creation. If unspecified, default to the date of creation.
-   * @type {string}
-   * @memberof MandateDetailsForPaymentLink
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    */
-  start_date?: string | null;
+  created_at?: string;
   /**
-   * YYYY-MM-DD, must be later than the date of creation.
-   * @type {string}
-   * @memberof MandateDetailsForPaymentLink
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
    */
-  end_date?: string | null;
+  updated_at: string;
   /**
-   *
-   * @type {TransactionLimitsResponse}
-   * @memberof MandateDetailsForPaymentLink
+   * Finverse Mandate ID (ULID)
    */
-  transaction_limits?: TransactionLimitsResponse;
+  mandate_id: string;
   /**
-   * End-user facing description of the mandate (used in notifications, and in payments if no description is provided)
-   * @type {string}
-   * @memberof MandateDetailsForPaymentLink
+   * Finverse Payment Method ID (ULID)
    */
-  description?: string;
-}
-/**
- *
- * @export
- * @interface MandateDetailsForPaymentLinkRequest
- */
-export interface MandateDetailsForPaymentLinkRequest {
-  /**
-   * YYYY-MM-DD, must be later than or the same as the date of creation. If unspecified, default to the date of creation.
-   * @type {string}
-   * @memberof MandateDetailsForPaymentLinkRequest
-   */
-  start_date?: string | null;
-  /**
-   * YYYY-MM-DD, must be later than the date of creation.
-   * @type {string}
-   * @memberof MandateDetailsForPaymentLinkRequest
-   */
-  end_date?: string | null;
-  /**
-   *
-   * @type {TransactionLimitsRequest}
-   * @memberof MandateDetailsForPaymentLinkRequest
-   */
-  transaction_limits?: TransactionLimitsRequest;
-  /**
-   * End-user facing description of the mandate (used in notifications, and in payments if no description is provided)
-   * @type {string}
-   * @memberof MandateDetailsForPaymentLinkRequest
-   */
-  description?: string;
-}
-/**
- *
- * @export
- * @interface MandateDetailsRequest
- */
-export interface MandateDetailsRequest {
-  /**
-   * ISO currency code
-   * @type {string}
-   * @memberof MandateDetailsRequest
-   */
-  currency: string;
-  /**
-   * YYYY-MM-DD, must be later than or the same as the date of creation. If unspecified, default to the date of creation.
-   * @type {string}
-   * @memberof MandateDetailsRequest
-   */
-  start_date?: string | null;
-  /**
-   * YYYY-MM-DD, must be later than the date of creation.
-   * @type {string}
-   * @memberof MandateDetailsRequest
-   */
-  end_date?: string | null;
-  /**
-   *
-   * @type {PaymentSchedule}
-   * @memberof MandateDetailsRequest
-   */
-  payment_schedule?: PaymentSchedule;
-  /**
-   *
-   * @type {TransactionLimitsRequest}
-   * @memberof MandateDetailsRequest
-   */
-  transaction_limits?: TransactionLimitsRequest;
-  /**
-   * End-user facing description of the mandate (used in notifications, and in payments if no description is provided)
-   * @type {string}
-   * @memberof MandateDetailsRequest
-   */
-  description?: string;
-}
-/**
- *
- * @export
- * @interface MandateDetailsRequestWithDdaReference
- */
-export interface MandateDetailsRequestWithDdaReference {
-  /**
-   * The direct debit authorization reference
-   * @type {string}
-   * @memberof MandateDetailsRequestWithDdaReference
-   */
-  dda_reference?: string;
-  /**
-   * ISO currency code
-   * @type {string}
-   * @memberof MandateDetailsRequestWithDdaReference
-   */
-  currency: string;
-  /**
-   * YYYY-MM-DD, must be later than or the same as the date of creation. If unspecified, default to the date of creation.
-   * @type {string}
-   * @memberof MandateDetailsRequestWithDdaReference
-   */
-  start_date?: string | null;
-  /**
-   * YYYY-MM-DD, must be later than the date of creation.
-   * @type {string}
-   * @memberof MandateDetailsRequestWithDdaReference
-   */
-  end_date?: string | null;
-  /**
-   *
-   * @type {TransactionLimitsRequest}
-   * @memberof MandateDetailsRequestWithDdaReference
-   */
-  transaction_limits?: TransactionLimitsRequest;
-  /**
-   * End-user facing description of the mandate (used in notifications, and in payments if no description is provided)
-   * @type {string}
-   * @memberof MandateDetailsRequestWithDdaReference
-   */
-  description: string;
-}
-/**
- *
- * @export
- * @interface MandateDetailsResponse
- */
-export interface MandateDetailsResponse {
-  /**
-   * The direct debit authorization reference, if empty this will be omitted from response
-   * @type {string}
-   * @memberof MandateDetailsResponse
-   */
-  dda_reference?: string;
-  /**
-   * ISO currency code
-   * @type {string}
-   * @memberof MandateDetailsResponse
-   */
-  currency: string;
-  /**
-   * YYYY-MM-DD, must be later than or the same as the date of creation. If unspecified, default to the date of creation.
-   * @type {string}
-   * @memberof MandateDetailsResponse
-   */
-  start_date?: string | null;
-  /**
-   * YYYY-MM-DD, must be later than the date of creation.
-   * @type {string}
-   * @memberof MandateDetailsResponse
-   */
-  end_date?: string | null;
-  /**
-   *
-   * @type {PaymentSchedule}
-   * @memberof MandateDetailsResponse
-   */
-  payment_schedule?: PaymentSchedule;
-  /**
-   *
-   * @type {TransactionLimitsResponse}
-   * @memberof MandateDetailsResponse
-   */
-  transaction_limits?: TransactionLimitsResponse;
-  /**
-   * End-user facing description of the mandate (used in notifications, and in payments if no description is provided)
-   * @type {string}
-   * @memberof MandateDetailsResponse
-   */
-  description?: string;
-  /**
-   * A bank specific reference, what the end user may see
-   * @type {string}
-   * @memberof MandateDetailsResponse
-   */
-  mandate_bank_reference?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof MandateDetailsResponse
-   */
-  processor_entity_name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof MandateDetailsResponse
-   */
-  collection_entity_name?: string;
-}
-/**
- *
- * @export
- * @interface MandateFvLinkDetails
- */
-export interface MandateFvLinkDetails {
-  /**
-   *
-   * @type {string}
-   * @memberof MandateFvLinkDetails
-   */
-  collection_entity_name?: string;
-}
-/**
- *
- * @export
- * @interface MandateFvLinkResponse
- */
-export interface MandateFvLinkResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof MandateFvLinkResponse
-   */
-  mandate_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof MandateFvLinkResponse
-   */
-  institution_id?: string;
-  /**
-   *
-   * @type {MandateStatus}
-   * @memberof MandateFvLinkResponse
-   */
-  mandate_status: MandateStatus;
-  /**
-   *
-   * @type {MandateRecipient}
-   * @memberof MandateFvLinkResponse
-   */
-  recipient?: MandateRecipient;
-  /**
-   *
-   * @type {SenderAccountFvLinkResponse}
-   * @memberof MandateFvLinkResponse
-   */
-  sender_account?: SenderAccountFvLinkResponse;
-  /**
-   *
-   * @type {FvEmbeddedErrorModel}
-   * @memberof MandateFvLinkResponse
-   */
+  payment_method_id?: string;
+  status: MandateStatus;
+  recipient: MandateRecipient;
+  sender: GetMandateSender;
+  sender_account?: MandateSenderAccount;
+  mandate_details: MandateDetailsResponse;
+  fees?: Array<Fee>;
   error?: FvEmbeddedErrorModel;
   /**
-   *
-   * @type {MandateFvLinkDetails}
-   * @memberof MandateFvLinkResponse
-   */
-  mandate_details?: MandateFvLinkDetails;
-}
-
-/**
- *
- * @export
- * @interface MandateRecipient
- */
-export interface MandateRecipient {
-  /**
-   * Merchant account name
-   * @type {string}
-   * @memberof MandateRecipient
-   */
-  name: string;
-}
-/**
- *
- * @export
- * @interface MandateRecipientAccount
- */
-export interface MandateRecipientAccount {
-  /**
-   * Merchant account ID assigned by Finverse
-   * @type {string}
-   * @memberof MandateRecipientAccount
-   */
-  account_id: string;
-  /**
-   *
-   * @type {PaymentAccountType}
-   * @memberof MandateRecipientAccount
-   */
-  account_type: PaymentAccountType;
-  /**
-   * Optional reference identifier for the settlement account. Only applicable to settlement accounts.
-   * @type {string}
-   * @memberof MandateRecipientAccount
-   */
-  settlement_account_reference?: string;
-}
-
-/**
- *
- * @export
- * @interface MandateRecipientRequest
- */
-export interface MandateRecipientRequest {
-  /**
-   * Merchant account ID assigned by Finverse
-   * @type {string}
-   * @memberof MandateRecipientRequest
-   */
-  account_id: string;
-}
-/**
- *
- * @export
- * @interface MandateSenderAccount
- */
-export interface MandateSenderAccount {
-  /**
-   * A unique identifier generated after creating sender account
-   * @type {string}
-   * @memberof MandateSenderAccount
-   */
-  account_id?: string;
-  /**
-   * Tokenized accountholder name of the sender\'s account
-   * @type {string}
-   * @memberof MandateSenderAccount
-   */
-  accountholder_name?: string;
-  /**
-   * Accountholder name of the sender\'s account in plain text
-   * @type {string}
-   * @memberof MandateSenderAccount
-   */
-  accountholder_name_plaintext?: string | null;
-  /**
-   *
-   * @type {RecipientAccountNumber}
-   * @memberof MandateSenderAccount
-   */
-  account_number?: RecipientAccountNumber;
-  /**
-   * Masked Account number of the sender’s account
-   * @type {string}
-   * @memberof MandateSenderAccount
-   */
-  account_number_masked?: string;
-  /**
-   *
-   * @type {PaymentAccountType}
-   * @memberof MandateSenderAccount
-   */
-  account_type?: PaymentAccountType;
-  /**
-   * Finverse Institution ID for the sender’s institution.
-   * @type {string}
-   * @memberof MandateSenderAccount
-   */
-  institution_id?: string;
-  /**
-   * Institution Name for the sender’s institution.
-   * @type {string}
-   * @memberof MandateSenderAccount
-   */
-  institution_name?: string;
-  /**
-   * A unique identifier generated after creating sender (Finverse Payment User ID)
-   * @type {string}
-   * @memberof MandateSenderAccount
-   */
-  user_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof MandateSenderAccount
-   */
-  bank_code?: string;
-  /**
-   * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 20 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
-   * @type {{ [key: string]: string; }}
-   * @memberof MandateSenderAccount
+   * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 20 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
    */
   metadata?: { [key: string]: string };
 }
 
-/**
- *
- * @export
- * @interface MandateSenderAccountRequest
- */
+export interface MandateDetailsForPaymentLink {
+  /**
+   * YYYY-MM-DD, must be later than or the same as the date of creation. If unspecified, default to the date of creation.
+   */
+  start_date?: string | null;
+  /**
+   * YYYY-MM-DD, must be later than the date of creation.
+   */
+  end_date?: string | null;
+  transaction_limits?: TransactionLimitsResponse;
+  /**
+   * End-user facing description of the mandate (used in notifications, and in payments if no description is provided)
+   */
+  description?: string;
+}
+export interface MandateDetailsForPaymentLinkRequest {
+  /**
+   * YYYY-MM-DD, must be later than or the same as the date of creation. If unspecified, default to the date of creation.
+   */
+  start_date?: string | null;
+  /**
+   * YYYY-MM-DD, must be later than the date of creation.
+   */
+  end_date?: string | null;
+  transaction_limits?: TransactionLimitsRequest;
+  /**
+   * End-user facing description of the mandate (used in notifications, and in payments if no description is provided)
+   */
+  description?: string;
+}
+export interface MandateDetailsRequest {
+  /**
+   * ISO currency code
+   */
+  currency: string;
+  /**
+   * YYYY-MM-DD, must be later than or the same as the date of creation. If unspecified, default to the date of creation.
+   */
+  start_date?: string | null;
+  /**
+   * YYYY-MM-DD, must be later than the date of creation.
+   */
+  end_date?: string | null;
+  payment_schedule?: PaymentSchedule;
+  transaction_limits?: TransactionLimitsRequest;
+  /**
+   * End-user facing description of the mandate (used in notifications, and in payments if no description is provided)
+   */
+  description?: string;
+}
+export interface MandateDetailsRequestWithDdaReference {
+  /**
+   * The direct debit authorization reference
+   */
+  dda_reference?: string;
+  /**
+   * ISO currency code
+   */
+  currency: string;
+  /**
+   * YYYY-MM-DD, must be later than or the same as the date of creation. If unspecified, default to the date of creation.
+   */
+  start_date?: string | null;
+  /**
+   * YYYY-MM-DD, must be later than the date of creation.
+   */
+  end_date?: string | null;
+  transaction_limits?: TransactionLimitsRequest;
+  /**
+   * End-user facing description of the mandate (used in notifications, and in payments if no description is provided)
+   */
+  description: string;
+}
+export interface MandateDetailsResponse {
+  /**
+   * The direct debit authorization reference, if empty this will be omitted from response
+   */
+  dda_reference?: string;
+  /**
+   * ISO currency code
+   */
+  currency: string;
+  /**
+   * YYYY-MM-DD, must be later than or the same as the date of creation. If unspecified, default to the date of creation.
+   */
+  start_date?: string | null;
+  /**
+   * YYYY-MM-DD, must be later than the date of creation.
+   */
+  end_date?: string | null;
+  payment_schedule?: PaymentSchedule;
+  transaction_limits?: TransactionLimitsResponse;
+  /**
+   * End-user facing description of the mandate (used in notifications, and in payments if no description is provided)
+   */
+  description?: string;
+  /**
+   * A bank specific reference, what the end user may see
+   */
+  mandate_bank_reference?: string;
+  processor_entity_name?: string;
+  collection_entity_name?: string;
+}
+export interface MandateFvLinkDetails {
+  collection_entity_name?: string;
+}
+export interface MandateFvLinkResponse {
+  mandate_id?: string;
+  institution_id?: string;
+  mandate_status: MandateStatus;
+  recipient?: MandateRecipient;
+  sender_account?: SenderAccountFvLinkResponse;
+  error?: FvEmbeddedErrorModel;
+  mandate_details?: MandateFvLinkDetails;
+}
+
+export interface MandateRecipient {
+  /**
+   * Merchant account name
+   */
+  name: string;
+}
+export interface MandateRecipientAccount {
+  /**
+   * Merchant account ID assigned by Finverse
+   */
+  account_id: string;
+  account_type: PaymentAccountType;
+  /**
+   * Optional reference identifier for the settlement account. Only applicable to settlement accounts.
+   */
+  settlement_account_reference?: string;
+}
+
+export interface MandateRecipientRequest {
+  /**
+   * Merchant account ID assigned by Finverse
+   */
+  account_id: string;
+}
+export interface MandateSenderAccount {
+  /**
+   * A unique identifier generated after creating sender account
+   */
+  account_id?: string;
+  /**
+   * Tokenized accountholder name of the sender\'s account
+   */
+  accountholder_name?: string;
+  /**
+   * Accountholder name of the sender\'s account in plain text
+   */
+  accountholder_name_plaintext?: string | null;
+  account_number?: RecipientAccountNumber;
+  /**
+   * Masked Account number of the sender’s account
+   */
+  account_number_masked?: string;
+  account_type?: PaymentAccountType;
+  /**
+   * Finverse Institution ID for the sender’s institution.
+   */
+  institution_id?: string;
+  /**
+   * Institution Name for the sender’s institution.
+   */
+  institution_name?: string;
+  /**
+   * A unique identifier generated after creating sender (Finverse Payment User ID)
+   */
+  user_id?: string;
+  bank_code?: string;
+  /**
+   * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 20 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
+   */
+  metadata?: { [key: string]: string };
+}
+
 export interface MandateSenderAccountRequest {
   /**
    * account ID assigned by Finverse
-   * @type {string}
-   * @memberof MandateSenderAccountRequest
    */
   account_id: string;
 }
 /**
  * Mandate status
- * @export
- * @enum {string}
  */
 
 export const MandateStatus = {
@@ -6180,394 +2333,193 @@ export const MandateStatus = {
 
 export type MandateStatus = (typeof MandateStatus)[keyof typeof MandateStatus];
 
-/**
- *
- * @export
- * @interface ManualPaymentConfirmationRequest
- */
 export interface ManualPaymentConfirmationRequest {
   /**
    * Required if manual payment provider is HK_FPS. Not required for SG_PAYNOW
-   * @type {string}
-   * @memberof ManualPaymentConfirmationRequest
    */
   accountholder_name?: string;
 }
-/**
- *
- * @export
- * @interface ManualPaymentConfirmationResponse
- */
 export interface ManualPaymentConfirmationResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof ManualPaymentConfirmationResponse
-   */
   payment_id?: string;
-  /**
-   *
-   * @type {PaymentStatus}
-   * @memberof ManualPaymentConfirmationResponse
-   */
   status?: PaymentStatus;
 }
 
-/**
- *
- * @export
- * @interface MonthlyIncomeEstimate
- */
 export interface MonthlyIncomeEstimate {
-  /**
-   *
-   * @type {IncomeEstimate}
-   * @memberof MonthlyIncomeEstimate
-   */
   estimated_income: IncomeEstimate;
   /**
    * The numeric month
-   * @type {number}
-   * @memberof MonthlyIncomeEstimate
    */
   month: number;
   /**
    * The year
-   * @type {number}
-   * @memberof MonthlyIncomeEstimate
    */
   year: number;
 }
-/**
- *
- * @export
- * @interface NonSensitiveLinkStatusResponse
- */
 export interface NonSensitiveLinkStatusResponse {
-  /**
-   *
-   * @type {LinkStatusActionModel}
-   * @memberof NonSensitiveLinkStatusResponse
-   */
   action?: LinkStatusActionModel;
-  /**
-   *
-   * @type {string}
-   * @memberof NonSensitiveLinkStatusResponse
-   */
   redirect_uri?: string;
-  /**
-   *
-   * @type {NonSensitiveLinkStatusSuccessModel}
-   * @memberof NonSensitiveLinkStatusResponse
-   */
   success?: NonSensitiveLinkStatusSuccessModel;
-  /**
-   *
-   * @type {FvErrorModelV2}
-   * @memberof NonSensitiveLinkStatusResponse
-   */
   error?: FvErrorModelV2;
 }
-/**
- *
- * @export
- * @interface NonSensitiveLinkStatusSuccessModel
- */
 export interface NonSensitiveLinkStatusSuccessModel {
-  /**
-   *
-   * @type {string}
-   * @memberof NonSensitiveLinkStatusSuccessModel
-   */
   code?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof NonSensitiveLinkStatusSuccessModel
-   */
   state?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof NonSensitiveLinkStatusSuccessModel
-   */
   login_identity_id?: string;
 }
-/**
- *
- * @export
- * @interface OtherInfo
- */
 export interface OtherInfo {
-  /**
-   *
-   * @type {string}
-   * @memberof OtherInfo
-   */
   bank_code?: string;
 }
-/**
- *
- * @export
- * @interface PaymentAccount
- */
 export interface PaymentAccount {
   /**
    * The raw value for the account the user selected when making payment request
-   * @type {string}
-   * @memberof PaymentAccount
    */
   raw?: string;
   /**
    * Finverse Institution ID. Only returned if institution_id was included in the request.
-   * @type {string}
-   * @memberof PaymentAccount
    */
   institution_id?: string;
 }
-/**
- *
- * @export
- * @interface PaymentAccountDetails
- */
 export interface PaymentAccountDetails {
   /**
    * Payment account id
-   * @type {string}
-   * @memberof PaymentAccountDetails
    */
   account_id: string;
-  /**
-   *
-   * @type {RecipientAccountNumber}
-   * @memberof PaymentAccountDetails
-   */
   account_number?: RecipientAccountNumber;
   /**
    * Masked Account number of the payment account
-   * @type {string}
-   * @memberof PaymentAccountDetails
    */
   account_number_masked?: string;
-  /**
-   *
-   * @type {PaymentAccountType}
-   * @memberof PaymentAccountDetails
-   */
   account_type: PaymentAccountType;
   /**
    * Accountholder name of the payment account
-   * @type {string}
-   * @memberof PaymentAccountDetails
    */
   accountholder_name?: string;
   /**
    * The customer app ID
-   * @type {string}
-   * @memberof PaymentAccountDetails
    */
   customer_app_id?: string;
   /**
    * Finverse Institution ID for the payment institution.
-   * @type {string}
-   * @memberof PaymentAccountDetails
    */
   institution_id?: string;
   /**
    * Institution Name for the sender’s institution.
-   * @type {string}
-   * @memberof PaymentAccountDetails
    */
   institution_name?: string;
   /**
    * A unique identifier generated after creating user (Finverse Payment User ID)
-   * @type {string}
-   * @memberof PaymentAccountDetails
    */
   user_id?: string;
   /**
    * 3-digit code associated with bank
-   * @type {string}
-   * @memberof PaymentAccountDetails
    */
   bank_code?: string;
   /**
    * 3-digit code used to identify specific bank branch
-   * @type {string}
-   * @memberof PaymentAccountDetails
    */
   branch_code?: string;
   /**
    * List of currencies supported by the payment account
-   * @type {Array<string>}
-   * @memberof PaymentAccountDetails
    */
   currencies?: Array<string>;
   /**
    * The business units the payment account belongs to
-   * @type {Array<string>}
-   * @memberof PaymentAccountDetails
    */
   business_units?: Array<string>;
   /**
    * This field is only applicable to settlement account
-   * @type {string}
-   * @memberof PaymentAccountDetails
    */
   legal_entity_name?: string;
   /**
    * Optional reference identifier for the settlement account. Only applicable to settlement accounts.
-   * @type {string}
-   * @memberof PaymentAccountDetails
    */
   settlement_account_reference?: string;
   /**
    * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 20 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
-   * @type {{ [key: string]: string; }}
-   * @memberof PaymentAccountDetails
    */
   metadata?: { [key: string]: string };
   /**
    * Timestamp of when the payment link was created in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof PaymentAccountDetails
    */
   created_at?: string;
   /**
    * Timestamp of when the payment link was last updated in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof PaymentAccountDetails
    */
   updated_at?: string;
 }
 
-/**
- *
- * @export
- * @interface PaymentAccountDetailsWithEnrichedData
- */
 export interface PaymentAccountDetailsWithEnrichedData {
   /**
    * Payment account id
-   * @type {string}
-   * @memberof PaymentAccountDetailsWithEnrichedData
    */
   account_id: string;
-  /**
-   *
-   * @type {RecipientAccountNumber}
-   * @memberof PaymentAccountDetailsWithEnrichedData
-   */
   account_number?: RecipientAccountNumber;
   /**
    * Masked Account number of the payment account
-   * @type {string}
-   * @memberof PaymentAccountDetailsWithEnrichedData
    */
   account_number_masked?: string;
-  /**
-   *
-   * @type {PaymentAccountType}
-   * @memberof PaymentAccountDetailsWithEnrichedData
-   */
   account_type: PaymentAccountType;
   /**
    * Accountholder name of the payment account
-   * @type {string}
-   * @memberof PaymentAccountDetailsWithEnrichedData
    */
   accountholder_name?: string;
   /**
    * The customer app ID
-   * @type {string}
-   * @memberof PaymentAccountDetailsWithEnrichedData
    */
   customer_app_id?: string;
   /**
    * Finverse Institution ID for the payment institution.
-   * @type {string}
-   * @memberof PaymentAccountDetailsWithEnrichedData
    */
   institution_id?: string;
   /**
    * Institution Name for the sender’s institution.
-   * @type {string}
-   * @memberof PaymentAccountDetailsWithEnrichedData
    */
   institution_name?: string;
   /**
    * A unique identifier generated after creating user (Finverse Payment User ID)
-   * @type {string}
-   * @memberof PaymentAccountDetailsWithEnrichedData
    */
   user_id?: string;
   /**
    * 3-digit code associated with bank
-   * @type {string}
-   * @memberof PaymentAccountDetailsWithEnrichedData
    */
   bank_code?: string;
   /**
    * 3-digit code used to identify specific bank branch
-   * @type {string}
-   * @memberof PaymentAccountDetailsWithEnrichedData
    */
   branch_code?: string;
   /**
    * List of currencies supported by the payment account
-   * @type {Array<string>}
-   * @memberof PaymentAccountDetailsWithEnrichedData
    */
   currencies?: Array<string>;
   /**
    * The business units the payment account belongs to
-   * @type {Array<string>}
-   * @memberof PaymentAccountDetailsWithEnrichedData
    */
   business_units?: Array<string>;
   /**
    * This field is only applicable to settlement account
-   * @type {string}
-   * @memberof PaymentAccountDetailsWithEnrichedData
    */
   legal_entity_name?: string;
   /**
    * Optional reference identifier for the settlement account. Only applicable to settlement accounts.
-   * @type {string}
-   * @memberof PaymentAccountDetailsWithEnrichedData
    */
   settlement_account_reference?: string;
   /**
    * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 20 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
-   * @type {{ [key: string]: string; }}
-   * @memberof PaymentAccountDetailsWithEnrichedData
    */
   metadata?: { [key: string]: string };
   /**
    * Timestamp of when the payment link was created in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof PaymentAccountDetailsWithEnrichedData
    */
   created_at?: string;
   /**
    * Timestamp of when the payment link was last updated in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof PaymentAccountDetailsWithEnrichedData
    */
   updated_at?: string;
-  /**
-   *
-   * @type {PaymentMethodOverview}
-   * @memberof PaymentAccountDetailsWithEnrichedData
-   */
   payment_method_overview?: PaymentMethodOverview;
 }
 
 /**
  * Type of payment account
- * @export
- * @enum {string}
  */
 
 export const PaymentAccountType = {
@@ -6577,258 +2529,86 @@ export const PaymentAccountType = {
 
 export type PaymentAccountType = (typeof PaymentAccountType)[keyof typeof PaymentAccountType];
 
-/**
- *
- * @export
- * @interface PaymentDetails
- */
 export interface PaymentDetails {
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentDetails
-   */
   format?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentDetails
-   */
   bic?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentDetails
-   */
   bank_fullname?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentDetails
-   */
   bank_shortname?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentDetails
-   */
   bank_address?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentDetails
-   */
   bank_country?: string;
-  /**
-   *
-   * @type {OtherInfo}
-   * @memberof PaymentDetails
-   */
   other_info?: OtherInfo;
 }
-/**
- *
- * @export
- * @interface PaymentDetailsReferences
- */
 export interface PaymentDetailsReferences {
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentDetailsReferences
-   */
   finverse_transaction_reference?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentDetailsReferences
-   */
   dda_reference?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentDetailsReferences
-   */
   bank_transaction_reference?: string;
 }
-/**
- *
- * @export
- * @interface PaymentDetailsRequest
- */
 export interface PaymentDetailsRequest {
   /**
    * The transaction description provided to banks, which banks will show to their customers.
-   * @type {string}
-   * @memberof PaymentDetailsRequest
    */
   description?: string;
   /**
    * ID of the mandate this payment is referring to.
-   * @type {string}
-   * @memberof PaymentDetailsRequest
    */
   mandate_id?: string;
   /**
    * Deprecated: Customer\'s ID for this transaction
-   * @type {string}
-   * @memberof PaymentDetailsRequest
    */
   transaction_reference_id?: string;
   /**
    * Customer reference for this transaction
-   * @type {string}
-   * @memberof PaymentDetailsRequest
    */
   external_transaction_reference?: string;
   /**
    * The recurring payment mode
-   * @type {string}
-   * @memberof PaymentDetailsRequest
    */
   recurring_payment_mode?: string;
 }
-/**
- *
- * @export
- * @interface PaymentDetailsResponse
- */
 export interface PaymentDetailsResponse {
   /**
    * The transaction description provided to banks, which banks will show to their customers.
-   * @type {string}
-   * @memberof PaymentDetailsResponse
    */
   description?: string;
   /**
    * ID of the mandate this payment is referring to.
-   * @type {string}
-   * @memberof PaymentDetailsResponse
    */
   mandate_id?: string;
   /**
    * Deprecated: Customer\'s ID for this transaction
-   * @type {string}
-   * @memberof PaymentDetailsResponse
    */
   transaction_reference_id?: string;
   /**
    * Customer reference for this transaction
-   * @type {string}
-   * @memberof PaymentDetailsResponse
    */
   external_transaction_reference?: string;
-  /**
-   *
-   * @type {PaymentDetailsReferences}
-   * @memberof PaymentDetailsResponse
-   */
   references?: PaymentDetailsReferences;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentDetailsResponse
-   */
   processor_entity_name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentDetailsResponse
-   */
   collection_entity_name?: string;
-  /**
-   *
-   * @type {PaymentProcessorDetails}
-   * @memberof PaymentDetailsResponse
-   */
   processor_details?: PaymentProcessorDetails;
   /**
    * The recurring payment mode
-   * @type {string}
-   * @memberof PaymentDetailsResponse
    */
   recurring_payment_mode?: string;
 }
-/**
- *
- * @export
- * @interface PaymentFvLinkDetails
- */
 export interface PaymentFvLinkDetails {
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentFvLinkDetails
-   */
   collection_entity_name?: string;
 }
-/**
- *
- * @export
- * @interface PaymentFvLinkResponse
- */
 export interface PaymentFvLinkResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentFvLinkResponse
-   */
   payment_id?: string;
-  /**
-   *
-   * @type {PaymentStatus}
-   * @memberof PaymentFvLinkResponse
-   */
   status: PaymentStatus;
-  /**
-   *
-   * @type {PaymentType}
-   * @memberof PaymentFvLinkResponse
-   */
   type: PaymentType;
-  /**
-   *
-   * @type {PaymentFvLinkDetails}
-   * @memberof PaymentFvLinkResponse
-   */
   payment_details?: PaymentFvLinkDetails;
-  /**
-   *
-   * @type {FvEmbeddedErrorModel}
-   * @memberof PaymentFvLinkResponse
-   */
   error?: FvEmbeddedErrorModel;
   /**
    * Set to true if payment uses GoCardless rail, indicating frontend should skip polling
-   * @type {boolean}
-   * @memberof PaymentFvLinkResponse
    */
   skip_polling: boolean;
 }
 
-/**
- *
- * @export
- * @interface PaymentInfo
- */
 export interface PaymentInfo {
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof PaymentInfo
-   */
   currencies_supported?: Array<string>;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof PaymentInfo
-   */
   payments_supported: Array<PaymentInfoPaymentsSupportedEnum>;
-  /**
-   *
-   * @type {OtherInfo}
-   * @memberof PaymentInfo
-   */
   other_info?: OtherInfo;
 }
 
@@ -6840,28 +2620,17 @@ export const PaymentInfoPaymentsSupportedEnum = {
 export type PaymentInfoPaymentsSupportedEnum =
   (typeof PaymentInfoPaymentsSupportedEnum)[keyof typeof PaymentInfoPaymentsSupportedEnum];
 
-/**
- *
- * @export
- * @interface PaymentLinkCustomizations
- */
 export interface PaymentLinkCustomizations {
   /**
    * ISO639-1 language code. Language to display when user open the link, default to English (en) if not specified
-   * @type {string}
-   * @memberof PaymentLinkCustomizations
    */
   language?: PaymentLinkCustomizationsLanguageEnum;
   /**
    * The UI mode link is intended to be used in - \"iframe\", \"auto_redirect\", \"redirect\" or \"standalone\"
-   * @type {string}
-   * @memberof PaymentLinkCustomizations
    */
   ui_mode?: PaymentLinkCustomizationsUiModeEnum;
   /**
    * URI to redirect to. Only needed if ui_mode = redirect
-   * @type {string}
-   * @memberof PaymentLinkCustomizations
    */
   redirect_uri?: string;
 }
@@ -6885,29 +2654,15 @@ export const PaymentLinkCustomizationsUiModeEnum = {
 export type PaymentLinkCustomizationsUiModeEnum =
   (typeof PaymentLinkCustomizationsUiModeEnum)[keyof typeof PaymentLinkCustomizationsUiModeEnum];
 
-/**
- *
- * @export
- * @interface PaymentLinkDetails
- */
 export interface PaymentLinkDetails {
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentLinkDetails
-   */
   description: string;
   /**
    * For external invoice/transaction reference
-   * @type {string}
-   * @memberof PaymentLinkDetails
    */
   external_transaction_reference: string;
 }
 /**
  * The payment link mode
- * @export
- * @enum {string}
  */
 
 export const PaymentLinkMode = {
@@ -6917,188 +2672,80 @@ export const PaymentLinkMode = {
 
 export type PaymentLinkMode = (typeof PaymentLinkMode)[keyof typeof PaymentLinkMode];
 
-/**
- *
- * @export
- * @interface PaymentLinkResponse
- */
 export interface PaymentLinkResponse {
   /**
    * Finverse Payment Link ID
-   * @type {string}
-   * @memberof PaymentLinkResponse
    */
   payment_link_id: string;
   /**
    * The amount of the payment. Expressed in currency\'s smallest unit or “minor unit”, as defined in ISO 4217.
-   * @type {number}
-   * @memberof PaymentLinkResponse
    */
   amount: number;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentLinkResponse
-   */
   currency: string;
-  /**
-   *
-   * @type {PaymentLinkCustomizations}
-   * @memberof PaymentLinkResponse
-   */
   link_customizations?: PaymentLinkCustomizations;
-  /**
-   *
-   * @type {PaymentLinkMode}
-   * @memberof PaymentLinkResponse
-   */
   mode: PaymentLinkMode;
-  /**
-   *
-   * @type {PaymentLinkDetails}
-   * @memberof PaymentLinkResponse
-   */
   payment_details?: PaymentLinkDetails;
   /**
    * Unique reference id to identifying the payment to be collected.
-   * @type {string}
-   * @memberof PaymentLinkResponse
    */
   unique_reference_id?: string;
-  /**
-   *
-   * @type {PaymentSetupOptions}
-   * @memberof PaymentLinkResponse
-   */
   payment_setup_options?: PaymentSetupOptions;
   /**
    * Additional attributes of the payment link in key:value format (e.g. payment_id: 1234). It supports up to 20 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
-   * @type {{ [key: string]: string; }}
-   * @memberof PaymentLinkResponse
    */
   metadata?: { [key: string]: string };
   /**
    * Key-Value metadata to store on payments created on this Payment Link
-   * @type {{ [key: string]: string; }}
-   * @memberof PaymentLinkResponse
    */
   payment_metadata?: { [key: string]: string };
   /**
    * The URL for payment link
-   * @type {string}
-   * @memberof PaymentLinkResponse
    */
   url?: string;
-  /**
-   *
-   * @type {PaymentLinkStatus}
-   * @memberof PaymentLinkResponse
-   */
   status: PaymentLinkStatus;
-  /**
-   *
-   * @type {PaymentLinkSessionStatus}
-   * @memberof PaymentLinkResponse
-   */
   session_status: PaymentLinkSessionStatus;
   /**
    * Timestamp of when the payment link was created in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof PaymentLinkResponse
    */
   created_at?: string;
   /**
    * Timestamp of when the payment link was last updated in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof PaymentLinkResponse
    */
   updated_at?: string;
-  /**
-   *
-   * @type {PaymentResponse}
-   * @memberof PaymentLinkResponse
-   */
   payment?: PaymentResponse;
-  /**
-   *
-   * @type {PaymentLinkSenderResponse}
-   * @memberof PaymentLinkResponse
-   */
   sender?: PaymentLinkSenderResponse;
-  /**
-   *
-   * @type {PaymentMethodResponse}
-   * @memberof PaymentLinkResponse
-   */
   payment_method?: PaymentMethodResponse;
-  /**
-   *
-   * @type {IntegrationMetadataResponse}
-   * @memberof PaymentLinkResponse
-   */
   integration_metadata?: IntegrationMetadataResponse;
 }
 
-/**
- *
- * @export
- * @interface PaymentLinkSender
- */
 export interface PaymentLinkSender {
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentLinkSender
-   */
   email?: string;
   /**
    * Customer App\'s user ID, representing the end-user making the payment.
-   * @type {string}
-   * @memberof PaymentLinkSender
    */
   external_user_id: string;
   /**
    * Accountholder name of the sender\'s account
-   * @type {string}
-   * @memberof PaymentLinkSender
    */
   name: string;
 }
-/**
- *
- * @export
- * @interface PaymentLinkSenderResponse
- */
 export interface PaymentLinkSenderResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentLinkSenderResponse
-   */
   email?: string;
   /**
    * Customer App\'s user ID, representing the end-user making the payment.
-   * @type {string}
-   * @memberof PaymentLinkSenderResponse
    */
   external_user_id?: string;
   /**
    * Accountholder name of the sender\'s account
-   * @type {string}
-   * @memberof PaymentLinkSenderResponse
    */
   name?: string;
   /**
    * A unique identifier generated after creating sender
-   * @type {string}
-   * @memberof PaymentLinkSenderResponse
    */
   user_id?: string;
 }
 /**
  * The session status of payment link
- * @export
- * @enum {string}
  */
 
 export const PaymentLinkSessionStatus = {
@@ -7112,8 +2759,6 @@ export type PaymentLinkSessionStatus = (typeof PaymentLinkSessionStatus)[keyof t
 
 /**
  * The status of payment link
- * @export
- * @enum {string}
  */
 
 export const PaymentLinkStatus = {
@@ -7124,35 +2769,19 @@ export const PaymentLinkStatus = {
 
 export type PaymentLinkStatus = (typeof PaymentLinkStatus)[keyof typeof PaymentLinkStatus];
 
-/**
- *
- * @export
- * @interface PaymentLinkTokenResponse
- */
 export interface PaymentLinkTokenResponse {
   /**
    * Short-lived access-token to interact with Finverse Link
-   * @type {string}
-   * @memberof PaymentLinkTokenResponse
    */
   access_token: string;
   /**
    * Access token validity duration (in seconds)
-   * @type {number}
-   * @memberof PaymentLinkTokenResponse
    */
   expires_in: number;
   /**
    * URL to launch Finverse Link to authorize the mandate
-   * @type {string}
-   * @memberof PaymentLinkTokenResponse
    */
   link_url: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentLinkTokenResponse
-   */
   token_type: PaymentLinkTokenResponseTokenTypeEnum;
 }
 
@@ -7163,79 +2792,19 @@ export const PaymentLinkTokenResponseTokenTypeEnum = {
 export type PaymentLinkTokenResponseTokenTypeEnum =
   (typeof PaymentLinkTokenResponseTokenTypeEnum)[keyof typeof PaymentLinkTokenResponseTokenTypeEnum];
 
-/**
- *
- * @export
- * @interface PaymentMethodFvLinkResponse
- */
 export interface PaymentMethodFvLinkResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodFvLinkResponse
-   */
   payment_method_id: string;
-  /**
-   *
-   * @type {PaymentMethodType}
-   * @memberof PaymentMethodFvLinkResponse
-   */
   payment_method_type: PaymentMethodType;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodFvLinkResponse
-   */
   recipient_entity_name?: string;
-  /**
-   *
-   * @type {MandateFvLinkResponse}
-   * @memberof PaymentMethodFvLinkResponse
-   */
   mandate?: MandateFvLinkResponse;
-  /**
-   *
-   * @type {CardFvLinkResponse}
-   * @memberof PaymentMethodFvLinkResponse
-   */
   card?: CardFvLinkResponse;
 }
 
-/**
- *
- * @export
- * @interface PaymentMethodIntegrationMetadata
- */
 export interface PaymentMethodIntegrationMetadata {
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadata
-   */
   integration_id: PaymentMethodIntegrationMetadataIntegrationIdEnum;
-  /**
-   *
-   * @type {PaymentMethodIntegrationMetadataStripeMetadata}
-   * @memberof PaymentMethodIntegrationMetadata
-   */
   stripe_metadata?: PaymentMethodIntegrationMetadataStripeMetadata;
-  /**
-   *
-   * @type {PaymentMethodIntegrationMetadataCybersourceMetadata}
-   * @memberof PaymentMethodIntegrationMetadata
-   */
   cybersource_metadata?: PaymentMethodIntegrationMetadataCybersourceMetadata;
-  /**
-   *
-   * @type {PaymentMethodIntegrationMetadataAdyenMetadata}
-   * @memberof PaymentMethodIntegrationMetadata
-   */
   adyen_metadata?: PaymentMethodIntegrationMetadataAdyenMetadata;
-  /**
-   *
-   * @type {PaymentMethodIntegrationMetadataGocardlessMetadata}
-   * @memberof PaymentMethodIntegrationMetadata
-   */
   gocardless_metadata?: PaymentMethodIntegrationMetadataGocardlessMetadata;
 }
 
@@ -7249,41 +2818,11 @@ export const PaymentMethodIntegrationMetadataIntegrationIdEnum = {
 export type PaymentMethodIntegrationMetadataIntegrationIdEnum =
   (typeof PaymentMethodIntegrationMetadataIntegrationIdEnum)[keyof typeof PaymentMethodIntegrationMetadataIntegrationIdEnum];
 
-/**
- *
- * @export
- * @interface PaymentMethodIntegrationMetadataAdyenMetadata
- */
 export interface PaymentMethodIntegrationMetadataAdyenMetadata {
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataAdyenMetadata
-   */
   payment_method_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataAdyenMetadata
-   */
   auth_code?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataAdyenMetadata
-   */
   psp_reference?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataAdyenMetadata
-   */
   recurring_processing_model?: PaymentMethodIntegrationMetadataAdyenMetadataRecurringProcessingModelEnum;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataAdyenMetadata
-   */
   network_transaction_reference?: string;
 }
 
@@ -7296,71 +2835,40 @@ export const PaymentMethodIntegrationMetadataAdyenMetadataRecurringProcessingMod
 export type PaymentMethodIntegrationMetadataAdyenMetadataRecurringProcessingModelEnum =
   (typeof PaymentMethodIntegrationMetadataAdyenMetadataRecurringProcessingModelEnum)[keyof typeof PaymentMethodIntegrationMetadataAdyenMetadataRecurringProcessingModelEnum];
 
-/**
- *
- * @export
- * @interface PaymentMethodIntegrationMetadataCybersourceMetadata
- */
 export interface PaymentMethodIntegrationMetadataCybersourceMetadata {
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataCybersourceMetadata
-   */
   payment_token: string;
 }
-/**
- *
- * @export
- * @interface PaymentMethodIntegrationMetadataGocardlessMetadata
- */
 export interface PaymentMethodIntegrationMetadataGocardlessMetadata {
   /**
    * The GoCardless mandate ID
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataGocardlessMetadata
    */
   mandate_id: string;
   /**
    * The GoCardless reference
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataGocardlessMetadata
    */
   reference?: string;
   /**
    * The GoCardless mandate status
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataGocardlessMetadata
    */
   status?: PaymentMethodIntegrationMetadataGocardlessMetadataStatusEnum;
   /**
    * The bank payment scheme
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataGocardlessMetadata
    */
   scheme?: string;
   /**
    * The next possible charge date, in ISO format (YYYY-MM-DD)
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataGocardlessMetadata
    */
   next_possible_charge_date?: string | null;
   /**
    * Whether payments require approval
-   * @type {boolean}
-   * @memberof PaymentMethodIntegrationMetadataGocardlessMetadata
    */
   payments_require_approval?: boolean;
   /**
    * How GoCardless handles funds settlement
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataGocardlessMetadata
    */
   funds_settlement?: PaymentMethodIntegrationMetadataGocardlessMetadataFundsSettlementEnum;
   /**
    * The timestamp when the mandate was verified, in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataGocardlessMetadata
    */
   verified_at?: string | null;
 }
@@ -7379,322 +2887,168 @@ export const PaymentMethodIntegrationMetadataGocardlessMetadataFundsSettlementEn
 export type PaymentMethodIntegrationMetadataGocardlessMetadataFundsSettlementEnum =
   (typeof PaymentMethodIntegrationMetadataGocardlessMetadataFundsSettlementEnum)[keyof typeof PaymentMethodIntegrationMetadataGocardlessMetadataFundsSettlementEnum];
 
-/**
- *
- * @export
- * @interface PaymentMethodIntegrationMetadataResponse
- */
 export interface PaymentMethodIntegrationMetadataResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataResponse
-   */
   integration_id?: string;
-  /**
-   *
-   * @type {PaymentMethodIntegrationMetadataResponseStripeMetadata}
-   * @memberof PaymentMethodIntegrationMetadataResponse
-   */
   stripe_metadata?: PaymentMethodIntegrationMetadataResponseStripeMetadata | null;
-  /**
-   *
-   * @type {PaymentMethodIntegrationMetadataResponseCybersourceMetadata}
-   * @memberof PaymentMethodIntegrationMetadataResponse
-   */
   cybersource_metadata?: PaymentMethodIntegrationMetadataResponseCybersourceMetadata | null;
-  /**
-   *
-   * @type {PaymentMethodIntegrationMetadataResponseAdyenMetadata}
-   * @memberof PaymentMethodIntegrationMetadataResponse
-   */
   adyen_metadata?: PaymentMethodIntegrationMetadataResponseAdyenMetadata | null;
-  /**
-   *
-   * @type {PaymentMethodIntegrationMetadataResponseGocardlessMetadata}
-   * @memberof PaymentMethodIntegrationMetadataResponse
-   */
   gocardless_metadata?: PaymentMethodIntegrationMetadataResponseGocardlessMetadata | null;
 }
-/**
- *
- * @export
- * @interface PaymentMethodIntegrationMetadataResponseAdyenMetadata
- */
 export interface PaymentMethodIntegrationMetadataResponseAdyenMetadata {
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataResponseAdyenMetadata
-   */
   payment_method_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataResponseAdyenMetadata
-   */
   auth_code?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataResponseAdyenMetadata
-   */
   psp_reference?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataResponseAdyenMetadata
-   */
   recurring_processing_model?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataResponseAdyenMetadata
-   */
   network_transaction_reference?: string;
 }
-/**
- *
- * @export
- * @interface PaymentMethodIntegrationMetadataResponseCybersourceMetadata
- */
 export interface PaymentMethodIntegrationMetadataResponseCybersourceMetadata {
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataResponseCybersourceMetadata
-   */
   payment_token?: string;
 }
-/**
- *
- * @export
- * @interface PaymentMethodIntegrationMetadataResponseGocardlessMetadata
- */
 export interface PaymentMethodIntegrationMetadataResponseGocardlessMetadata {
   /**
    * The GoCardless mandate ID
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
    */
   mandate_id?: string;
   /**
    * The GoCardless reference
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
    */
   reference?: string;
   /**
    * The GoCardless mandate status
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
    */
   status?: string;
   /**
    * The last action taken on the mandate
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
    */
   last_action?: string;
   /**
    * The bank payment scheme
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
    */
   scheme?: string;
   /**
    * The next possible charge date, in ISO format (YYYY-MM-DD)
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
    */
   next_possible_charge_date?: string | null;
   /**
    * Whether payments require approval
-   * @type {boolean}
-   * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
    */
   payments_require_approval?: boolean | null;
   /**
    * How GoCardless handles funds settlement
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
    */
   funds_settlement?: string;
   /**
    * The source of the mandate authorization
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
    */
   authorization_source?: string;
   /**
    * The timestamp when the mandate was verified, in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataResponseGocardlessMetadata
    */
   verified_at?: string | null;
 }
-/**
- *
- * @export
- * @interface PaymentMethodIntegrationMetadataResponseStripeMetadata
- */
 export interface PaymentMethodIntegrationMetadataResponseStripeMetadata {
-  /**
-   *
-   * @type {PaymentMethodIntegrationMetadataResponseStripeMetadataCustomer}
-   * @memberof PaymentMethodIntegrationMetadataResponseStripeMetadata
-   */
   customer?: PaymentMethodIntegrationMetadataResponseStripeMetadataCustomer;
-  /**
-   *
-   * @type {PaymentMethodIntegrationMetadataResponseStripeMetadataCustomer}
-   * @memberof PaymentMethodIntegrationMetadataResponseStripeMetadata
-   */
   payment_method?: PaymentMethodIntegrationMetadataResponseStripeMetadataCustomer;
 }
-/**
- *
- * @export
- * @interface PaymentMethodIntegrationMetadataResponseStripeMetadataCustomer
- */
 export interface PaymentMethodIntegrationMetadataResponseStripeMetadataCustomer {
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataResponseStripeMetadataCustomer
-   */
   id?: string;
 }
-/**
- *
- * @export
- * @interface PaymentMethodIntegrationMetadataStripeMetadata
- */
 export interface PaymentMethodIntegrationMetadataStripeMetadata {
-  /**
-   *
-   * @type {PaymentMethodIntegrationMetadataStripeMetadataCustomer}
-   * @memberof PaymentMethodIntegrationMetadataStripeMetadata
-   */
   customer: PaymentMethodIntegrationMetadataStripeMetadataCustomer;
-  /**
-   *
-   * @type {PaymentMethodIntegrationMetadataStripeMetadataCustomer}
-   * @memberof PaymentMethodIntegrationMetadataStripeMetadata
-   */
   payment_method: PaymentMethodIntegrationMetadataStripeMetadataCustomer;
 }
-/**
- *
- * @export
- * @interface PaymentMethodIntegrationMetadataStripeMetadataCustomer
- */
 export interface PaymentMethodIntegrationMetadataStripeMetadataCustomer {
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodIntegrationMetadataStripeMetadataCustomer
-   */
   id: string;
 }
-/**
- *
- * @export
- * @interface PaymentMethodOverview
- */
+export interface PaymentMethodMandate {
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   */
+  created_at?: string;
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   */
+  updated_at: string;
+  /**
+   * Finverse Mandate ID (ULID)
+   */
+  mandate_id: string;
+  /**
+   * Finverse Payment Method ID (ULID)
+   */
+  payment_method_id?: string;
+  status: MandateStatus;
+  recipient: MandateRecipient;
+  sender: GetMandateSender;
+  sender_account?: MandateSenderAccount;
+  mandate_details: MandateDetailsResponse;
+  fees?: Array<Fee>;
+  error?: FvEmbeddedErrorModel;
+  /**
+   * Additional attributes of the mandate in key:value format (e.g. mandate_internal_id: 1234). It supports up to 20 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
+   */
+  metadata?: { [key: string]: string };
+  recipient_account?: PaymentMethodRecipientAccount;
+}
+
 export interface PaymentMethodOverview {
   /**
    * STRIPE, CYBERSOURCE, UOB, DBS (only shown when payment flows funds via a 3rd party gateway direct to the customer)
-   * @type {string}
-   * @memberof PaymentMethodOverview
    */
   external_gateway?: string;
   /**
    * It can be either REALTIME or DELAYED
-   * @type {string}
-   * @memberof PaymentMethodOverview
    */
   payment_confirmation_speed?: string;
-  /**
-   *
-   * @type {PaymentType}
-   * @memberof PaymentMethodOverview
-   */
   payment_method_type?: PaymentType;
   /**
    * The payment method subtype, e.g., EDDA_HK, CARD_GENERIC etc
-   * @type {string}
-   * @memberof PaymentMethodOverview
    */
   payment_method_subtype?: string;
   /**
    * Only shown if funds flow via Finverse, possible values FINVERSE
-   * @type {string}
-   * @memberof PaymentMethodOverview
    */
   payment_processor?: string;
   /**
    * Whether the payment method can move real money or not
-   * @type {boolean}
-   * @memberof PaymentMethodOverview
    */
   live_mode: boolean;
   /**
    * Shows which currencies are supported
-   * @type {Array<string>}
-   * @memberof PaymentMethodOverview
    */
   supported_currencies?: Array<string>;
 }
 
-/**
- *
- * @export
- * @interface PaymentMethodResponse
- */
+export interface PaymentMethodRecipientAccount {
+  /**
+   * Merchant account ID assigned by Finverse
+   */
+  account_id: string;
+  account_type: PaymentAccountType;
+  /**
+   * Optional reference identifier for the settlement account. Only applicable to settlement accounts.
+   */
+  settlement_account_reference?: string;
+  /**
+   * The business units the payment account belongs to
+   */
+  business_units?: Array<string>;
+}
+
 export interface PaymentMethodResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentMethodResponse
-   */
   payment_method_id: string;
-  /**
-   *
-   * @type {PaymentMethodType}
-   * @memberof PaymentMethodResponse
-   */
   payment_method_type: PaymentMethodType;
   /**
    * Whether the payment method is live (true) or a test payment method (false), based on its payment rail. Absent if the payment rail is unknown.
-   * @type {boolean}
-   * @memberof PaymentMethodResponse
    */
   live?: boolean | null;
-  /**
-   *
-   * @type {GetMandateResponse}
-   * @memberof PaymentMethodResponse
-   */
-  mandate?: GetMandateResponse;
-  /**
-   *
-   * @type {FVCard}
-   * @memberof PaymentMethodResponse
-   */
+  mandate?: PaymentMethodMandate;
   card?: FVCard;
-  /**
-   *
-   * @type {PaymentMethodIntegrationMetadataResponse}
-   * @memberof PaymentMethodResponse
-   */
   integration_metadata?: PaymentMethodIntegrationMetadataResponse;
 }
 
 /**
  * The payment method type
- * @export
- * @enum {string}
  */
 
 export const PaymentMethodType = {
@@ -7704,242 +3058,111 @@ export const PaymentMethodType = {
 
 export type PaymentMethodType = (typeof PaymentMethodType)[keyof typeof PaymentMethodType];
 
-/**
- *
- * @export
- * @interface PaymentProcessorDetails
- */
 export interface PaymentProcessorDetails {
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentProcessorDetails
-   */
   auth_code?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentProcessorDetails
-   */
   processor_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentProcessorDetails
-   */
   processor_reference?: string;
   /**
    * Scheme like becs, bacs, ach, etc. (applicable to Gocardless for now)
-   * @type {string}
-   * @memberof PaymentProcessorDetails
    */
   scheme?: string;
   /**
    * Virtual account number issued by the processor (applicable to KCP manual virtual account payments).
-   * @type {string}
-   * @memberof PaymentProcessorDetails
    */
   virtual_account_number?: string;
   /**
    * Bank code for the virtual account without a \"BK\"/\"B\" prefix (applicable to KCP manual virtual account payments).
-   * @type {string}
-   * @memberof PaymentProcessorDetails
    */
   virtual_account_bank_code?: string;
   /**
    * Bank code of the payer\'s bank without a \"BK\"/\"B\" prefix (applicable to KCP bank transfer payments).
-   * @type {string}
-   * @memberof PaymentProcessorDetails
    */
   bank_code?: string;
-  /**
-   *
-   * @type {PaymentProcessorResult}
-   * @memberof PaymentProcessorDetails
-   */
   result?: PaymentProcessorResult;
 }
-/**
- *
- * @export
- * @interface PaymentProcessorResult
- */
 export interface PaymentProcessorResult {
   /**
    * Payment processor\'s decline code (e.g. \"2\")
-   * @type {string}
-   * @memberof PaymentProcessorResult
    */
   decline_code?: string;
   /**
    * Payment processor\'s decline explanation (e.g. \"Blocked card\")
-   * @type {string}
-   * @memberof PaymentProcessorResult
    */
   decline_reason?: string;
   /**
    * Payment processor\'s result code (e.g. \"Authorized\", \"Refused\").
-   * @type {string}
-   * @memberof PaymentProcessorResult
    */
   result_code?: string;
   /**
    * Last action taken by the payment processor (e.g. \"created\", \"captured\", \"failed\", etc.)
-   * @type {string}
-   * @memberof PaymentProcessorResult
    */
   last_action?: string;
   /**
    * Status of the payment reported by processor (e.g. \"authorized\", \"captured\", \"failed\", etc.)
-   * @type {string}
-   * @memberof PaymentProcessorResult
    */
   status?: string;
 }
-/**
- *
- * @export
- * @interface PaymentResponse
- */
 export interface PaymentResponse {
   /**
    * Finverse Payment ID
-   * @type {string}
-   * @memberof PaymentResponse
    */
   payment_id: string;
   /**
    * Whether the payment is live (true) or a test payment (false), based on its payment rail. Absent if the payment rail is unknown.
-   * @type {boolean}
-   * @memberof PaymentResponse
    */
   live?: boolean | null;
+  subtype?: PaymentSubtype;
   /**
    * Amount to be paid, in currency\'s smallest unit or “minor unit”, as defined in ISO 4217. For example, HKD 100.01 is represented as amount = 10001 (minor unit = cents). For currencies without minor units (e.g. VND, JPY), the amount is represented as is, without modification. For example, VND 15101 is represented as amount = 15101.
-   * @type {number}
-   * @memberof PaymentResponse
    */
   amount: number;
   /**
    * Surcharge amount in minor
-   * @type {number}
-   * @memberof PaymentResponse
    */
   surcharge_amount: number;
   /**
    * Amount with all fees and surcharges applied in minor
-   * @type {number}
-   * @memberof PaymentResponse
    */
   amount_total_with_surcharge: number;
   /**
    * The currency code as defined in ISO 4217.
-   * @type {string}
-   * @memberof PaymentResponse
    */
   currency: string;
-  /**
-   *
-   * @type {PaymentType}
-   * @memberof PaymentResponse
-   */
   type: PaymentType;
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof PaymentResponse
    */
   updated_at?: string;
-  /**
-   *
-   * @type {PaymentStatus}
-   * @memberof PaymentResponse
-   */
   status: PaymentStatus;
   /**
    * ID of the payment method this pament is referring to.
-   * @type {string}
-   * @memberof PaymentResponse
    */
   payment_method_id?: string;
-  /**
-   *
-   * @type {PaymentDetailsResponse}
-   * @memberof PaymentResponse
-   */
   payment_details?: PaymentDetailsResponse;
-  /**
-   *
-   * @type {MandateRecipient}
-   * @memberof PaymentResponse
-   */
   recipient?: MandateRecipient;
-  /**
-   *
-   * @type {MandateRecipientAccount}
-   * @memberof PaymentResponse
-   */
   recipient_account?: MandateRecipientAccount;
-  /**
-   *
-   * @type {GetMandateSender}
-   * @memberof PaymentResponse
-   */
   sender?: GetMandateSender;
-  /**
-   *
-   * @type {MandateSenderAccount}
-   * @memberof PaymentResponse
-   */
   sender_account?: MandateSenderAccount;
-  /**
-   *
-   * @type {Array<Fee>}
-   * @memberof PaymentResponse
-   */
   fees?: Array<Fee>;
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof PaymentResponse
    */
   created_at?: string;
   /**
    * Additional attributes of the payment in key:value format (e.g. payment_internal_id: 1234). It supports up to 20 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
-   * @type {{ [key: string]: string; }}
-   * @memberof PaymentResponse
    */
   metadata?: { [key: string]: string };
-  /**
-   *
-   * @type {FvEmbeddedErrorModel}
-   * @memberof PaymentResponse
-   */
   error?: FvEmbeddedErrorModel;
-  /**
-   *
-   * @type {PaymentSnapshotPaymentMethod}
-   * @memberof PaymentResponse
-   */
   payment_method?: PaymentSnapshotPaymentMethod;
 }
 
-/**
- *
- * @export
- * @interface PaymentSchedule
- */
 export interface PaymentSchedule {
   /**
    * Amount to be paid, in currency’s smallest unit or “minor unit”, as defined in ISO 4217. For example, HKD 100.01 is represented as amount = 10001 (minor unit = cents). For currencies without minor units (e.g. VND, JPY), the amount is represented as is, without modification. For example, VND 15101 is represented as amount = 15101.
-   * @type {number}
-   * @memberof PaymentSchedule
    */
   amount: number;
   /**
    * Frequency of the payment. Possible values (DAILY, WEEKLY, MONTHLY, QUARTERLY, YEARLY)
-   * @type {string}
-   * @memberof PaymentSchedule
    */
   frequency: PaymentScheduleFrequencyEnum;
 }
@@ -7955,174 +3178,48 @@ export const PaymentScheduleFrequencyEnum = {
 export type PaymentScheduleFrequencyEnum =
   (typeof PaymentScheduleFrequencyEnum)[keyof typeof PaymentScheduleFrequencyEnum];
 
-/**
- *
- * @export
- * @interface PaymentSetupOptions
- */
 export interface PaymentSetupOptions {
-  /**
-   *
-   * @type {FuturePaymentsMode}
-   * @memberof PaymentSetupOptions
-   */
   future_payments?: FuturePaymentsMode;
-  /**
-   *
-   * @type {MandateDetailsForPaymentLink}
-   * @memberof PaymentSetupOptions
-   */
   mandate_details?: MandateDetailsForPaymentLink;
-  /**
-   *
-   * @type {Array<PaymentType>}
-   * @memberof PaymentSetupOptions
-   */
   payment_method_types?: Array<PaymentType>;
-  /**
-   *
-   * @type {RecipientAccountFilters}
-   * @memberof PaymentSetupOptions
-   */
   recipient_account_filters?: RecipientAccountFilters;
-  /**
-   *
-   * @type {AutopayEnrollmentConfiguration}
-   * @memberof PaymentSetupOptions
-   */
   autopay_enrollment_configuration?: AutopayEnrollmentConfiguration;
   /**
    * The recurring payment mode
-   * @type {string}
-   * @memberof PaymentSetupOptions
    */
   recurring_payment_mode?: string;
 }
 
-/**
- *
- * @export
- * @interface PaymentSetupOptionsRequest
- */
 export interface PaymentSetupOptionsRequest {
-  /**
-   *
-   * @type {FuturePaymentsMode}
-   * @memberof PaymentSetupOptionsRequest
-   */
   future_payments?: FuturePaymentsMode;
-  /**
-   *
-   * @type {MandateDetailsForPaymentLinkRequest}
-   * @memberof PaymentSetupOptionsRequest
-   */
   mandate_details?: MandateDetailsForPaymentLinkRequest;
-  /**
-   *
-   * @type {Array<PaymentType>}
-   * @memberof PaymentSetupOptionsRequest
-   */
   payment_method_types?: Array<PaymentType>;
-  /**
-   *
-   * @type {RecipientAccountFilters}
-   * @memberof PaymentSetupOptionsRequest
-   */
   recipient_account_filters?: RecipientAccountFilters;
-  /**
-   *
-   * @type {AutopayEnrollmentConfiguration}
-   * @memberof PaymentSetupOptionsRequest
-   */
   autopay_enrollment_configuration?: AutopayEnrollmentConfiguration;
   /**
    * The recurring payment mode
-   * @type {string}
-   * @memberof PaymentSetupOptionsRequest
    */
   recurring_payment_mode?: string;
 }
 
-/**
- *
- * @export
- * @interface PaymentSnapshotPaymentMethod
- */
 export interface PaymentSnapshotPaymentMethod {
-  /**
-   *
-   * @type {PaymentSnapshotPaymentMethodCard}
-   * @memberof PaymentSnapshotPaymentMethod
-   */
   card?: PaymentSnapshotPaymentMethodCard;
-  /**
-   *
-   * @type {PaymentSnapshotPaymentMethodWallet}
-   * @memberof PaymentSnapshotPaymentMethod
-   */
   wallet?: PaymentSnapshotPaymentMethodWallet;
-  /**
-   *
-   * @type {PaymentSnapshotPaymentMethodBankTransfer}
-   * @memberof PaymentSnapshotPaymentMethod
-   */
   bank_transfer?: PaymentSnapshotPaymentMethodBankTransfer;
 }
-/**
- *
- * @export
- * @interface PaymentSnapshotPaymentMethodBankTransfer
- */
 export interface PaymentSnapshotPaymentMethodBankTransfer {
-  /**
-   *
-   * @type {BankTransferDetails}
-   * @memberof PaymentSnapshotPaymentMethodBankTransfer
-   */
   bank_transfer_details?: BankTransferDetails;
-  /**
-   *
-   * @type {RiskData}
-   * @memberof PaymentSnapshotPaymentMethodBankTransfer
-   */
   risk_data?: RiskData;
 }
-/**
- *
- * @export
- * @interface PaymentSnapshotPaymentMethodCard
- */
 export interface PaymentSnapshotPaymentMethodCard {
-  /**
-   *
-   * @type {FVCardDetails}
-   * @memberof PaymentSnapshotPaymentMethodCard
-   */
   card_details?: FVCardDetails;
 }
-/**
- *
- * @export
- * @interface PaymentSnapshotPaymentMethodWallet
- */
 export interface PaymentSnapshotPaymentMethodWallet {
-  /**
-   *
-   * @type {FVWalletDetails}
-   * @memberof PaymentSnapshotPaymentMethodWallet
-   */
   wallet_details?: FVWalletDetails;
-  /**
-   *
-   * @type {RiskData}
-   * @memberof PaymentSnapshotPaymentMethodWallet
-   */
   risk_data?: RiskData;
 }
 /**
  * Payment status
- * @export
- * @enum {string}
  */
 
 export const PaymentStatus = {
@@ -8140,9 +3237,27 @@ export const PaymentStatus = {
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus];
 
 /**
+ * The payment subtype, derived from the payment\'s rail. Absent if the payment rail is unknown.
+ */
+
+export const PaymentSubtype = {
+  FpsHk: 'FPS_HK',
+  PaynowSg: 'PAYNOW_SG',
+  EgiroSg: 'EGIRO_SG',
+  EddaHk: 'EDDA_HK',
+  CardKr: 'CARD_KR',
+  CardGeneric: 'CARD_GENERIC',
+  WalletGeneric: 'WALLET_GENERIC',
+  GocardlessGeneric: 'GOCARDLESS_GENERIC',
+  ManualGeneric: 'MANUAL_GENERIC',
+  ManualKr: 'MANUAL_KR',
+  BankpayKr: 'BANKPAY_KR',
+} as const;
+
+export type PaymentSubtype = (typeof PaymentSubtype)[keyof typeof PaymentSubtype];
+
+/**
  * Indicates whether this is a mandate-based payment or one-off direct payment to an account
- * @export
- * @enum {string}
  */
 
 export const PaymentType = {
@@ -8155,90 +3270,26 @@ export const PaymentType = {
 
 export type PaymentType = (typeof PaymentType)[keyof typeof PaymentType];
 
-/**
- *
- * @export
- * @interface PaymentUser
- */
 export interface PaymentUser {
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentUser
-   */
   created_at?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentUser
-   */
   email?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentUser
-   */
   external_user_id?: string;
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof PaymentUser
-   */
   metadata?: { [key: string]: string };
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentUser
-   */
   name?: string;
-  /**
-   *
-   * @type {Array<SenderDetail>}
-   * @memberof PaymentUser
-   */
   user_details?: Array<SenderDetail>;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentUser
-   */
   updated_at?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentUser
-   */
   next_bill_update?: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentUser
-   */
   user_id: string;
-  /**
-   *
-   * @type {PaymentUserType}
-   * @memberof PaymentUser
-   */
   user_type?: PaymentUserType;
   /**
    * Whether the user has given consent for autopay
-   * @type {boolean}
-   * @memberof PaymentUser
    */
   autopay_consent: boolean;
-  /**
-   *
-   * @type {IntegrationMetadataResponse}
-   * @memberof PaymentUser
-   */
   integration_metadata?: IntegrationMetadataResponse;
 }
 
 /**
  * Type of account held by the Sender at the Institution. Possible values are INDIVIDUAL, BUSINESS
- * @export
- * @enum {string}
  */
 
 export const PaymentUserType = {
@@ -8248,343 +3299,89 @@ export const PaymentUserType = {
 
 export type PaymentUserType = (typeof PaymentUserType)[keyof typeof PaymentUserType];
 
-/**
- *
- * @export
- * @interface PaymentUserWithoutEmail
- */
 export interface PaymentUserWithoutEmail {
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentUserWithoutEmail
-   */
   created_at?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentUserWithoutEmail
-   */
   email?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentUserWithoutEmail
-   */
   external_user_id?: string;
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof PaymentUserWithoutEmail
-   */
   metadata?: { [key: string]: string };
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentUserWithoutEmail
-   */
   name?: string;
-  /**
-   *
-   * @type {Array<SenderDetail>}
-   * @memberof PaymentUserWithoutEmail
-   */
   user_details?: Array<SenderDetail>;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentUserWithoutEmail
-   */
   updated_at?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentUserWithoutEmail
-   */
   next_bill_update?: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof PaymentUserWithoutEmail
-   */
   user_id: string;
-  /**
-   *
-   * @type {PaymentUserType}
-   * @memberof PaymentUserWithoutEmail
-   */
   user_type?: PaymentUserType;
   /**
    * Whether the user has given consent for autopay
-   * @type {boolean}
-   * @memberof PaymentUserWithoutEmail
    */
   autopay_consent: boolean;
-  /**
-   *
-   * @type {IntegrationMetadataResponse}
-   * @memberof PaymentUserWithoutEmail
-   */
   integration_metadata?: IntegrationMetadataResponse;
 }
 
-/**
- *
- * @export
- * @interface PayoutAccountRef
- */
 export interface PayoutAccountRef {
   /**
    * The payment account id
-   * @type {string}
-   * @memberof PayoutAccountRef
    */
   account_id: string;
 }
-/**
- *
- * @export
- * @interface PayoutDetails
- */
 export interface PayoutDetails {
   /**
    * The mandate used to execute payments for this payout instruction. Currency for the mandate must be supported by the recipient account
-   * @type {string}
-   * @memberof PayoutDetails
    */
   mandate_id: string;
   /**
    * A description for the payment (that will appear as the transaction description on bank statements)
-   * @type {string}
-   * @memberof PayoutDetails
    */
   description?: string;
   /**
    * YYYY-MM-DD, date (in UTC) to execute the payment, must be 1 day later than current date
-   * @type {string}
-   * @memberof PayoutDetails
    */
   scheduled_date: string;
 }
-/**
- *
- * @export
- * @interface PayoutProcessorDetails
- */
 export interface PayoutProcessorDetails {
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutProcessorDetails
-   */
   processor_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutProcessorDetails
-   */
   processor_reference?: string;
 }
-/**
- *
- * @export
- * @interface PayoutReferences
- */
 export interface PayoutReferences {
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutReferences
-   */
   recipient_reference?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutReferences
-   */
   finverse_transaction_reference?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutReferences
-   */
   bank_transaction_reference?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutReferences
-   */
   bank_additional_reference?: string;
 }
-/**
- *
- * @export
- * @interface PayoutSnapshotDetails
- */
 export interface PayoutSnapshotDetails {
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutSnapshotDetails
-   */
   description?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutSnapshotDetails
-   */
   external_transaction_reference?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutSnapshotDetails
-   */
   mandate_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutSnapshotDetails
-   */
   scheduled_date?: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutSnapshotDetails
-   */
   estimated_arrival_time?: string | null;
-  /**
-   *
-   * @type {PayoutProcessorDetails}
-   * @memberof PayoutSnapshotDetails
-   */
   processor_details?: PayoutProcessorDetails;
-  /**
-   *
-   * @type {PayoutReferences}
-   * @memberof PayoutSnapshotDetails
-   */
   references?: PayoutReferences;
 }
-/**
- *
- * @export
- * @interface PayoutSnapshotResponse
- */
 export interface PayoutSnapshotResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutSnapshotResponse
-   */
   payout_id: string;
-  /**
-   *
-   * @type {PayoutStatus}
-   * @memberof PayoutSnapshotResponse
-   */
   status: PayoutStatus;
-  /**
-   *
-   * @type {PayoutType}
-   * @memberof PayoutSnapshotResponse
-   */
   type: PayoutType;
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutSnapshotResponse
-   */
   created_at?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutSnapshotResponse
-   */
   updated_at?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutSnapshotResponse
-   */
   transaction_date?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutSnapshotResponse
-   */
   transaction_time?: string | null;
-  /**
-   *
-   * @type {PayoutSnapshotDetails}
-   * @memberof PayoutSnapshotResponse
-   */
   payment_details?: PayoutSnapshotDetails;
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof PayoutSnapshotResponse
-   */
   metadata?: { [key: string]: string };
-  /**
-   *
-   * @type {number}
-   * @memberof PayoutSnapshotResponse
-   */
   amount: number;
-  /**
-   *
-   * @type {string}
-   * @memberof PayoutSnapshotResponse
-   */
   currency: string;
-  /**
-   *
-   * @type {MandateRecipient}
-   * @memberof PayoutSnapshotResponse
-   */
   sender?: MandateRecipient;
-  /**
-   *
-   * @type {MandateRecipientAccount}
-   * @memberof PayoutSnapshotResponse
-   */
   sender_account?: MandateRecipientAccount;
-  /**
-   *
-   * @type {GetMandateSender}
-   * @memberof PayoutSnapshotResponse
-   */
   recipient?: GetMandateSender;
-  /**
-   *
-   * @type {MandateSenderAccount}
-   * @memberof PayoutSnapshotResponse
-   */
   recipient_account?: MandateSenderAccount;
-  /**
-   *
-   * @type {Array<Fee>}
-   * @memberof PayoutSnapshotResponse
-   */
   fees?: Array<Fee>;
   /**
    * Whether this payout is live or not
-   * @type {boolean}
-   * @memberof PayoutSnapshotResponse
    */
   live: boolean;
-  /**
-   *
-   * @type {FvEmbeddedErrorModel}
-   * @memberof PayoutSnapshotResponse
-   */
   error?: FvEmbeddedErrorModel;
 }
 
 /**
  * Payout status
- * @export
- * @enum {string}
  */
 
 export const PayoutStatus = {
@@ -8602,8 +3399,6 @@ export type PayoutStatus = (typeof PayoutStatus)[keyof typeof PayoutStatus];
 
 /**
  * Payout type
- * @export
- * @enum {string}
  */
 
 export const PayoutType = {
@@ -8615,210 +3410,64 @@ export const PayoutType = {
 
 export type PayoutType = (typeof PayoutType)[keyof typeof PayoutType];
 
-/**
- *
- * @export
- * @interface Principal
- */
 export interface Principal {
-  /**
-   *
-   * @type {string}
-   * @memberof Principal
-   */
   subject: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Principal
-   */
   token?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Principal
-   */
   client_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Principal
-   */
   customer_app_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Principal
-   */
   login_identity_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Principal
-   */
   customization_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Principal
-   */
   mandate_id?: string;
-  /**
-   *
-   * @type {number}
-   * @memberof Principal
-   */
   expires_in?: number;
-  /**
-   *
-   * @type {string}
-   * @memberof Principal
-   */
   payment_attempt_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Principal
-   */
   payment_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Principal
-   */
   payment_account_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Principal
-   */
   product_flow?: string;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof Principal
-   */
   scopes?: Array<string>;
-  /**
-   *
-   * @type {LinkTokenRequest}
-   * @memberof Principal
-   */
   link_token_request?: LinkTokenRequest;
-  /**
-   *
-   * @type {GetMandateAuthLinkRequest}
-   * @memberof Principal
-   */
   get_mandate_auth_link_request?: GetMandateAuthLinkRequest;
-  /**
-   *
-   * @type {string}
-   * @memberof Principal
-   */
   currency?: string;
   /**
    * Limit historical data retrieval to this date (YYYY-MM-DD)
-   * @type {string}
-   * @memberof Principal
    */
   history_date_limit?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Principal
-   */
   redirect_uri?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Principal
-   */
   payment_link_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Principal
-   */
   unique_reference_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Principal
-   */
   payment_method_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Principal
-   */
   tpp_name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Principal
-   */
   retry_url?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Principal
-   */
   onboarding_flow?: string;
   /**
    * The qrCode text to be used to generate the image
-   * @type {string}
-   * @memberof Principal
    */
   qr_code_text?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Principal
-   */
   manual_payment_provider?: string;
 }
-/**
- *
- * @export
- * @interface ProcessorRiskData
- */
 export interface ProcessorRiskData {
   /**
    * The browser type
-   * @type {string}
-   * @memberof ProcessorRiskData
    */
   browser_type?: string;
   /**
    * The device type
-   * @type {string}
-   * @memberof ProcessorRiskData
    */
   device_type?: string;
   /**
    * The shopper country
-   * @type {string}
-   * @memberof ProcessorRiskData
    */
   shopper_country?: string;
   /**
    * The shopper IP address
-   * @type {string}
-   * @memberof ProcessorRiskData
    */
   shopper_ip?: string;
   /**
    * The shopper locale
-   * @type {string}
-   * @memberof ProcessorRiskData
    */
   shopper_locale?: string;
 }
 /**
  * Health status of a login identity product
- * @export
- * @enum {string}
  */
 
 export const ProductHealthStatus = {
@@ -8834,346 +3483,110 @@ export const ProductHealthStatus = {
 
 export type ProductHealthStatus = (typeof ProductHealthStatus)[keyof typeof ProductHealthStatus];
 
-/**
- *
- * @export
- * @interface ProductStatus
- */
 export interface ProductStatus {
-  /**
-   *
-   * @type {ProductHealthStatus}
-   * @memberof ProductStatus
-   */
   status: ProductHealthStatus;
   /**
    * The detailed event name
-   * @type {string}
-   * @memberof ProductStatus
    */
   status_details?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof ProductStatus
-   */
   last_update?: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof ProductStatus
-   */
   last_successful_update?: string | null;
 }
 
-/**
- *
- * @export
- * @interface RapidstorMetadataRequest
- */
 export interface RapidstorMetadataRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof RapidstorMetadataRequest
-   */
   corp_code: string;
-  /**
-   *
-   * @type {string}
-   * @memberof RapidstorMetadataRequest
-   */
   s_location_code: string;
-  /**
-   *
-   * @type {string}
-   * @memberof RapidstorMetadataRequest
-   */
   tenant_id: string;
-  /**
-   *
-   * @type {number}
-   * @memberof RapidstorMetadataRequest
-   */
   i_anniv_days?: number;
-  /**
-   *
-   * @type {string}
-   * @memberof RapidstorMetadataRequest
-   */
   account_token: string;
-  /**
-   *
-   * @type {string}
-   * @memberof RapidstorMetadataRequest
-   */
   unit_type_id?: string;
 }
-/**
- *
- * @export
- * @interface RapidstorMetadataResponse
- */
 export interface RapidstorMetadataResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof RapidstorMetadataResponse
-   */
   corp_code?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof RapidstorMetadataResponse
-   */
   s_location_code?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof RapidstorMetadataResponse
-   */
   tenant_id?: string;
-  /**
-   *
-   * @type {number}
-   * @memberof RapidstorMetadataResponse
-   */
   i_anniv_days?: number;
-  /**
-   *
-   * @type {string}
-   * @memberof RapidstorMetadataResponse
-   */
   tenant_default_currency?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof RapidstorMetadataResponse
-   */
   account_token?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof RapidstorMetadataResponse
-   */
   unit_type_id?: string;
 }
-/**
- *
- * @export
- * @interface RapidstorPaymentUserMetadataRequest
- */
 export interface RapidstorPaymentUserMetadataRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof RapidstorPaymentUserMetadataRequest
-   */
   corp_code: string;
-  /**
-   *
-   * @type {string}
-   * @memberof RapidstorPaymentUserMetadataRequest
-   */
   s_location_code: string;
-  /**
-   *
-   * @type {string}
-   * @memberof RapidstorPaymentUserMetadataRequest
-   */
   tenant_id: string;
-  /**
-   *
-   * @type {number}
-   * @memberof RapidstorPaymentUserMetadataRequest
-   */
   i_anniv_days?: number;
-  /**
-   *
-   * @type {string}
-   * @memberof RapidstorPaymentUserMetadataRequest
-   */
   account_token: string;
-  /**
-   *
-   * @type {string}
-   * @memberof RapidstorPaymentUserMetadataRequest
-   */
   unit_type_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof RapidstorPaymentUserMetadataRequest
-   */
   tenant_default_currency: string;
 }
-/**
- *
- * @export
- * @interface RecipientAccountFilters
- */
 export interface RecipientAccountFilters {
-  /**
-   *
-   * @type {string}
-   * @memberof RecipientAccountFilters
-   */
   business_unit: string;
 }
-/**
- *
- * @export
- * @interface RecipientAccountNumber
- */
 export interface RecipientAccountNumber {
-  /**
-   *
-   * @type {AccountNumberType}
-   * @memberof RecipientAccountNumber
-   */
   type: AccountNumberType;
   /**
    * Account number value
-   * @type {string}
-   * @memberof RecipientAccountNumber
    */
   number: string;
   /**
    * Account number value
-   * @type {string}
-   * @memberof RecipientAccountNumber
    */
   number_plaintext?: string | null;
 }
 
-/**
- *
- * @export
- * @interface RecipientAccountResponse
- */
 export interface RecipientAccountResponse {
   /**
    * A unique identifier generated after creating recipient
-   * @type {string}
-   * @memberof RecipientAccountResponse
    */
   recipient_account_id?: string;
   /**
    * Accountholder name of the recipient\'s account
-   * @type {string}
-   * @memberof RecipientAccountResponse
    */
   accountholder_name?: string;
-  /**
-   *
-   * @type {RecipientAccountNumber}
-   * @memberof RecipientAccountResponse
-   */
   account_number?: RecipientAccountNumber;
-  /**
-   *
-   * @type {PaymentAccountType}
-   * @memberof RecipientAccountResponse
-   */
   account_type?: PaymentAccountType;
   /**
    * List of currencies supported by the recipient account
-   * @type {Array<string>}
-   * @memberof RecipientAccountResponse
    */
   currencies?: Array<string>;
   /**
    * Finverse Institution ID for the recipient’s institution.
-   * @type {string}
-   * @memberof RecipientAccountResponse
    */
   institution_id?: string;
   /**
    * Institution Name for the sender’s institution.
-   * @type {string}
-   * @memberof RecipientAccountResponse
    */
   institution_name?: string;
   /**
    * 3-digit code associated with bank
-   * @type {string}
-   * @memberof RecipientAccountResponse
    */
   bank_code?: string;
   /**
    * 3-digit code used to identify specific bank branch
-   * @type {string}
-   * @memberof RecipientAccountResponse
    */
   branch_code?: string;
 }
 
-/**
- *
- * @export
- * @interface RedirectUriResponse
- */
 export interface RedirectUriResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof RedirectUriResponse
-   */
   redirect_uri?: string;
 }
-/**
- *
- * @export
- * @interface RefreshData
- */
 export interface RefreshData {
-  /**
-   *
-   * @type {boolean}
-   * @memberof RefreshData
-   */
   credentials_stored: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof RefreshData
-   */
   refresh_allowed: boolean;
 }
-/**
- *
- * @export
- * @interface RefreshLoginIdentityLinkCustomizations
- */
 export interface RefreshLoginIdentityLinkCustomizations {
   /**
    * ISO639-1 language code. Language to display when user open the link, default to English (en) if not specified
-   * @type {string}
-   * @memberof RefreshLoginIdentityLinkCustomizations
    */
   language?: RefreshLoginIdentityLinkCustomizationsLanguageEnum;
-  /**
-   *
-   * @type {string}
-   * @memberof RefreshLoginIdentityLinkCustomizations
-   */
   ui_mode?: RefreshLoginIdentityLinkCustomizationsUiModeEnum;
   /**
-   * Required if ui_mode is redirect or auto_redirect
-   * @type {string}
-   * @memberof RefreshLoginIdentityLinkCustomizations
+   * Required if user_present is true, or if ui_mode is redirect or auto_redirect
    */
   redirect_uri?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof RefreshLoginIdentityLinkCustomizations
-   */
   state?: string;
   /**
    * Limit historical data retrieval to this date. ISO format (YYYY-MM-DD)
-   * @type {string}
-   * @memberof RefreshLoginIdentityLinkCustomizations
    */
   history_date_limit?: string;
 }
@@ -9197,248 +3610,89 @@ export const RefreshLoginIdentityLinkCustomizationsUiModeEnum = {
 export type RefreshLoginIdentityLinkCustomizationsUiModeEnum =
   (typeof RefreshLoginIdentityLinkCustomizationsUiModeEnum)[keyof typeof RefreshLoginIdentityLinkCustomizationsUiModeEnum];
 
-/**
- *
- * @export
- * @interface RefreshLoginIdentityRequest
- */
 export interface RefreshLoginIdentityRequest {
   /**
-   * Indicate whether the user is present in this flow. If the user is not present, only institutions that do not require 2fa can be refreshed
-   * @type {boolean}
-   * @memberof RefreshLoginIdentityRequest
+   * Indicate whether the user is present in this flow. If the user is not present, only institutions that do not require 2fa can be refreshed. If true, link_customizations.redirect_uri is required
    */
   user_present?: boolean;
-  /**
-   *
-   * @type {RefreshLoginIdentityLinkCustomizations}
-   * @memberof RefreshLoginIdentityRequest
-   */
   link_customizations?: RefreshLoginIdentityLinkCustomizations;
 }
-/**
- *
- * @export
- * @interface RefreshPaymentAttemptResponse
- */
 export interface RefreshPaymentAttemptResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof RefreshPaymentAttemptResponse
-   */
   redirect_url?: string;
 }
-/**
- *
- * @export
- * @interface RefreshRequest
- */
 export interface RefreshRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof RefreshRequest
-   */
   refresh_token: string;
 }
-/**
- *
- * @export
- * @interface RefreshTokenResponse
- */
 export interface RefreshTokenResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof RefreshTokenResponse
-   */
   access_token: string;
-  /**
-   *
-   * @type {string}
-   * @memberof RefreshTokenResponse
-   */
   token_type: string;
   /**
    * seconds
-   * @type {number}
-   * @memberof RefreshTokenResponse
    */
   expires_in: number;
-  /**
-   *
-   * @type {string}
-   * @memberof RefreshTokenResponse
-   */
   issued_at: string;
-  /**
-   *
-   * @type {string}
-   * @memberof RefreshTokenResponse
-   */
   link_url: string;
-  /**
-   *
-   * @type {string}
-   * @memberof RefreshTokenResponse
-   */
   login_identity_id: string;
 }
-/**
- *
- * @export
- * @interface RelinkRequest
- */
 export interface RelinkRequest {
-  /**
-   *
-   * @type {boolean}
-   * @memberof RelinkRequest
-   */
   store_credential: boolean;
   /**
    * this is a mandatory field
-   * @type {boolean}
-   * @memberof RelinkRequest
    */
   consent?: boolean | null;
 }
-/**
- *
- * @export
- * @interface RiskData
- */
 export interface RiskData {
-  /**
-   *
-   * @type {ProcessorRiskData}
-   * @memberof RiskData
-   */
   processor_risk_data?: ProcessorRiskData;
 }
-/**
- *
- * @export
- * @interface SelectPaymentMethodRequest
- */
 export interface SelectPaymentMethodRequest {
   /**
    * The payment account ID of the selected payment method
-   * @type {string}
-   * @memberof SelectPaymentMethodRequest
    */
   payment_account_id: string;
-  /**
-   *
-   * @type {PaymentType}
-   * @memberof SelectPaymentMethodRequest
-   */
   payment_method_type: PaymentType;
-  /**
-   *
-   * @type {PaymentUserType}
-   * @memberof SelectPaymentMethodRequest
-   */
   sender_type?: PaymentUserType;
   /**
    * Whether the user is on mobile device (only makes a difference if payment_method_provider is KCP)
-   * @type {boolean}
-   * @memberof SelectPaymentMethodRequest
    */
   is_mobile?: boolean;
   /**
    * Optional Finverse institution ID (passed through when selecting KCP manual payment flow)
-   * @type {string}
-   * @memberof SelectPaymentMethodRequest
    */
   institution_id?: string;
-  /**
-   *
-   * @type {KcpVaMetadata}
-   * @memberof SelectPaymentMethodRequest
-   */
   kcp_va_metadata?: KcpVaMetadata;
   /**
    * Locale for the payment processor\'s hosted checkout UI (e.g. en-US, zh-TW, ko-KR), mapped from the Finverse Link language. Optional; the processor falls back to its default if omitted.
-   * @type {string}
-   * @memberof SelectPaymentMethodRequest
    */
   locale?: string;
 }
 
-/**
- *
- * @export
- * @interface SelectPaymentMethodResponse
- */
 export interface SelectPaymentMethodResponse {
-  /**
-   *
-   * @type {PaymentLinkTokenResponse}
-   * @memberof SelectPaymentMethodResponse
-   */
   token?: PaymentLinkTokenResponse;
   /**
    * URL to redirect to for making the card payment
-   * @type {string}
-   * @memberof SelectPaymentMethodResponse
    */
   card_processor_redirect_uri?: string;
   /**
    * URL to redirect to for making the mandate payment (right now only for Gocardless)
-   * @type {string}
-   * @memberof SelectPaymentMethodResponse
    */
   mandate_processor_redirect_uri?: string;
   /**
    * URL to redirect to for making the payment
-   * @type {string}
-   * @memberof SelectPaymentMethodResponse
    */
   processor_redirect_uri?: string;
 }
-/**
- *
- * @export
- * @interface SenderAccountFvLinkResponse
- */
 export interface SenderAccountFvLinkResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof SenderAccountFvLinkResponse
-   */
   account_number_masked?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof SenderAccountFvLinkResponse
-   */
   institution_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof SenderAccountFvLinkResponse
-   */
   institution_name?: string;
 }
-/**
- *
- * @export
- * @interface SenderDetail
- */
 export interface SenderDetail {
   /**
    * The type of the details. For e.g. HK_ID, PASSPORT etc
-   * @type {string}
-   * @memberof SenderDetail
    */
   details_type?: SenderDetailDetailsTypeEnum;
   /**
    * The possible values of the detail. For e.g. A123456 for HK_ID
-   * @type {Array<string>}
-   * @memberof SenderDetail
    */
   values?: Array<string>;
 }
@@ -9453,443 +3707,176 @@ export const SenderDetailDetailsTypeEnum = {
 export type SenderDetailDetailsTypeEnum =
   (typeof SenderDetailDetailsTypeEnum)[keyof typeof SenderDetailDetailsTypeEnum];
 
-/**
- *
- * @export
- * @interface SetAutopayConsentRequest
- */
 export interface SetAutopayConsentRequest {
-  /**
-   *
-   * @type {boolean}
-   * @memberof SetAutopayConsentRequest
-   */
   autopay_consent: boolean;
 }
-/**
- *
- * @export
- * @interface SetMandateInstitutionRequest
- */
 export interface SetMandateInstitutionRequest {
   /**
    * Finverse Institution ID
-   * @type {string}
-   * @memberof SetMandateInstitutionRequest
    */
   institution_id: string;
 }
-/**
- *
- * @export
- * @interface SetMandateInstitutionResponse
- */
 export interface SetMandateInstitutionResponse {
   /**
    * Finverse Mandate ID
-   * @type {string}
-   * @memberof SetMandateInstitutionResponse
    */
   mandate_id: string;
 }
-/**
- *
- * @export
- * @interface SingleSourceIncome
- */
 export interface SingleSourceIncome {
-  /**
-   *
-   * @type {Array<IncomeStream>}
-   * @memberof SingleSourceIncome
-   */
   income_streams: Array<IncomeStream>;
-  /**
-   *
-   * @type {IncomeTotal}
-   * @memberof SingleSourceIncome
-   */
   income_total: IncomeTotal;
   /**
    * Where the income estimate was sourced from
-   * @type {string}
-   * @memberof SingleSourceIncome
    */
   source: string;
   /**
    * Unknown
-   * @type {string}
-   * @memberof SingleSourceIncome
    */
   source_id: string;
 }
-/**
- *
- * @export
- * @interface Statement
- */
 export interface Statement {
-  /**
-   *
-   * @type {string}
-   * @memberof Statement
-   */
   id: string;
   /**
    * YYYY-MM-DD
-   * @type {string}
-   * @memberof Statement
    */
   date?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Statement
-   */
   name?: string;
   /**
-   *
-   * @type {string}
-   * @memberof Statement
+   * name of the statement file
    */
+  file_name?: string;
   created_at?: string;
 }
-/**
- *
- * @export
- * @interface StatementLink
- */
 export interface StatementLink {
   /**
    * signedURL to download statement
-   * @type {string}
-   * @memberof StatementLink
    */
   url: string;
   /**
    * expiry of the signedURL
-   * @type {string}
-   * @memberof StatementLink
    */
   expiry?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof StatementLink
-   */
   statement_id: string;
 }
-/**
- *
- * @export
- * @interface SubmitAuthChecklistRequest
- */
 export interface SubmitAuthChecklistRequest {
   /**
    * The key_id that was used to encrypt the envelope key
-   * @type {string}
-   * @memberof SubmitAuthChecklistRequest
    */
   key_id: string;
   /**
    * The encrypted envelope key
-   * @type {string}
-   * @memberof SubmitAuthChecklistRequest
    */
   envelope_encryption_key: string;
   /**
    * The initialization vector used for enncrypting the payload
-   * @type {string}
-   * @memberof SubmitAuthChecklistRequest
    */
   initialization_vector: string;
   /**
    * The authentication code is used to authenticate the origin of the message
-   * @type {string}
-   * @memberof SubmitAuthChecklistRequest
    */
   message_authentication_code: string;
   /**
    * The encrypted payload that contains auth checklist items
-   * @type {string}
-   * @memberof SubmitAuthChecklistRequest
    */
   ciphertext: string;
 }
-/**
- *
- * @export
- * @interface SubmitAuthChecklistResponse
- */
 export interface SubmitAuthChecklistResponse {
   /**
    * Finverse Mandate ID
-   * @type {string}
-   * @memberof SubmitAuthChecklistResponse
    */
   mandate_id: string;
   /**
    * Checklist of the authorization factors needed to complete Mandate authorization
-   * @type {Array<AuthChecklistFactor>}
-   * @memberof SubmitAuthChecklistResponse
    */
   auth_checklist: Array<AuthChecklistFactor>;
-  /**
-   *
-   * @type {MandateStatus}
-   * @memberof SubmitAuthChecklistResponse
-   */
   mandate_status: MandateStatus;
   /**
    * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   * @type {string}
-   * @memberof SubmitAuthChecklistResponse
    */
   last_update: string;
 }
 
-/**
- *
- * @export
- * @interface SwaggerErrBodyModel
- */
 export interface SwaggerErrBodyModel {
-  /**
-   *
-   * @type {number}
-   * @memberof SwaggerErrBodyModel
-   */
   code?: number;
-  /**
-   *
-   * @type {string}
-   * @memberof SwaggerErrBodyModel
-   */
   message?: string;
-  /**
-   *
-   * @type {FvErrorModel}
-   * @memberof SwaggerErrBodyModel
-   */
   error?: FvErrorModel;
 }
-/**
- *
- * @export
- * @interface TokenRequest
- */
 export interface TokenRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof TokenRequest
-   */
   client_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof TokenRequest
-   */
   client_secret: string;
   /**
    * support only client_credentials
-   * @type {string}
-   * @memberof TokenRequest
    */
   grant_type: string;
 }
-/**
- *
- * @export
- * @interface TokenResponse
- */
 export interface TokenResponse {
-  /**
-   *
-   * @type {string}
-   * @memberof TokenResponse
-   */
   access_token: string;
-  /**
-   *
-   * @type {string}
-   * @memberof TokenResponse
-   */
   token_type: string;
   /**
    * seconds
-   * @type {number}
-   * @memberof TokenResponse
    */
   expires_in: number;
-  /**
-   *
-   * @type {string}
-   * @memberof TokenResponse
-   */
   issued_at: string;
 }
-/**
- *
- * @export
- * @interface Transaction
- */
 export interface Transaction {
-  /**
-   *
-   * @type {string}
-   * @memberof Transaction
-   */
   transaction_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Transaction
-   */
   account_id: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Transaction
-   */
   transaction_state?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Transaction
-   */
   transaction_type?: string;
   /**
    * (Deprecated)
-   * @type {string}
-   * @memberof Transaction
    */
   category?: string;
   /**
    * (Deprecated)
-   * @type {string}
-   * @memberof Transaction
    */
   category_id?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Transaction
-   */
   merchant_name?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Transaction
-   */
   description?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Transaction
-   */
   location?: string;
-  /**
-   *
-   * @type {boolean}
-   * @memberof Transaction
-   */
   is_pending: boolean;
-  /**
-   *
-   * @type {string}
-   * @memberof Transaction
-   */
   status?: string;
   /**
    * YYYY-MM-DD
-   * @type {string}
-   * @memberof Transaction
    */
   posted_date?: string;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof Transaction
-   */
   amount?: CurrencyAmount;
-  /**
-   *
-   * @type {CurrencyAmount}
-   * @memberof Transaction
-   */
   running_balance?: CurrencyAmount;
   /**
    * Transaction Details
-   * @type {object}
-   * @memberof Transaction
    */
   transaction_details?: object;
-  /**
-   *
-   * @type {string}
-   * @memberof Transaction
-   */
   created_at?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof Transaction
-   */
   updated_at?: string;
   /**
    * Array of category labels
-   * @type {Array<string>}
-   * @memberof Transaction
    */
   categories?: Array<string>;
   /**
    * Optional field indicating when the transaction happened
-   * @type {string}
-   * @memberof Transaction
    */
   transaction_time?: string | null;
   /**
    * Transaction reference provided by the bank
-   * @type {string}
-   * @memberof Transaction
    */
   transaction_reference?: string;
-  /**
-   *
-   * @type {Array<CategoryPredictions>}
-   * @memberof Transaction
-   */
   category_predictions?: Array<CategoryPredictions>;
 }
-/**
- *
- * @export
- * @interface TransactionLimitsRequest
- */
 export interface TransactionLimitsRequest {
   /**
    * Maximum amount of money that can be paid during the reference period (across any number of transactions). Expressed in currency\'s smallest unit or “minor unit”, as defined in ISO 4217.
-   * @type {number}
-   * @memberof TransactionLimitsRequest
    */
   max_period_amount?: number;
   /**
    * Maximum number of transactions (of any amount) that can be executed during the reference period.
-   * @type {number}
-   * @memberof TransactionLimitsRequest
    */
   max_period_count?: number;
   /**
    * The maximum amount of money that can be transferred in a single transaction under this mandate. Expressed in currency\'s smallest unit or “minor unit”, as defined in ISO 4217.
-   * @type {number}
-   * @memberof TransactionLimitsRequest
    */
   max_transaction_amount: number;
   /**
    * Reference calendar periods for the payment limits. Possible values (DAILY, WEEKLY, MONTHLY, QUARTERLY, YEARLY)
-   * @type {string}
-   * @memberof TransactionLimitsRequest
    */
   period?: TransactionLimitsRequestPeriodEnum | null;
 }
@@ -9905,40 +3892,25 @@ export const TransactionLimitsRequestPeriodEnum = {
 export type TransactionLimitsRequestPeriodEnum =
   (typeof TransactionLimitsRequestPeriodEnum)[keyof typeof TransactionLimitsRequestPeriodEnum];
 
-/**
- *
- * @export
- * @interface TransactionLimitsResponse
- */
 export interface TransactionLimitsResponse {
   /**
    * Maximum amount of money that can be paid during the reference period (across any number of transactions). Expressed in currency\'s smallest unit or “minor unit”, as defined in ISO 4217.
-   * @type {number}
-   * @memberof TransactionLimitsResponse
    */
   max_period_amount?: number;
   /**
    * Maximum number of transactions (of any amount) that can be executed during the reference period.
-   * @type {number}
-   * @memberof TransactionLimitsResponse
    */
   max_period_count?: number;
   /**
    * The maximum amount of money that can be transferred in a single transaction under this mandate. Expressed in currency\'s smallest unit or “minor unit”, as defined in ISO 4217.
-   * @type {number}
-   * @memberof TransactionLimitsResponse
    */
   max_transaction_amount?: number;
   /**
    * The maximum amount of money that can be transferred in a single transaction under this mandate set by the payer. Expressed in currency\'s smallest unit or “minor unit”, as defined in ISO 4217.
-   * @type {number}
-   * @memberof TransactionLimitsResponse
    */
   max_transaction_amount_set_by_payer_initial?: number | null;
   /**
    * Reference calendar periods for the payment limits. Possible values (DAILY, WEEKLY, MONTHLY, QUARTERLY, YEARLY)
-   * @type {string}
-   * @memberof TransactionLimitsResponse
    */
   period?: TransactionLimitsResponsePeriodEnum | null;
 }
@@ -9954,77 +3926,25 @@ export const TransactionLimitsResponsePeriodEnum = {
 export type TransactionLimitsResponsePeriodEnum =
   (typeof TransactionLimitsResponsePeriodEnum)[keyof typeof TransactionLimitsResponsePeriodEnum];
 
-/**
- *
- * @export
- * @interface UpdatePaymentRequest
- */
 export interface UpdatePaymentRequest {
   [key: string]: any;
 
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof UpdatePaymentRequest
-   */
   metadata?: { [key: string]: string };
 }
-/**
- *
- * @export
- * @interface UpdatePaymentUserRequest
- */
 export interface UpdatePaymentUserRequest {
   [key: string]: any;
 
-  /**
-   *
-   * @type {boolean}
-   * @memberof UpdatePaymentUserRequest
-   */
   autopay_consent?: boolean | null;
-  /**
-   *
-   * @type {string}
-   * @memberof UpdatePaymentUserRequest
-   */
   email?: string | null;
-  /**
-   *
-   * @type {{ [key: string]: string; }}
-   * @memberof UpdatePaymentUserRequest
-   */
   metadata?: { [key: string]: string } | null;
-  /**
-   *
-   * @type {string}
-   * @memberof UpdatePaymentUserRequest
-   */
   name?: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof UpdatePaymentUserRequest
-   */
   next_bill_update?: string | null;
-  /**
-   *
-   * @type {PaymentUserType}
-   * @memberof UpdatePaymentUserRequest
-   */
   user_type?: PaymentUserType;
 }
 
-/**
- *
- * @export
- * @interface UpdateTestPaymentStatusRequest
- */
 export interface UpdateTestPaymentStatusRequest {
   /**
    * The payment status
-   * @type {string}
-   * @memberof UpdateTestPaymentStatusRequest
    */
   status?: UpdateTestPaymentStatusRequestStatusEnum;
 }
@@ -10036,116 +3956,69 @@ export const UpdateTestPaymentStatusRequestStatusEnum = {
 export type UpdateTestPaymentStatusRequestStatusEnum =
   (typeof UpdateTestPaymentStatusRequestStatusEnum)[keyof typeof UpdateTestPaymentStatusRequestStatusEnum];
 
-/**
- *
- * @export
- * @interface UserButton
- */
 export interface UserButton {
   /**
    * The name of the button.
-   * @type {string}
-   * @memberof UserButton
    */
   name: string;
   /**
    * The text that will be displayed for this button
-   * @type {string}
-   * @memberof UserButton
    */
   value: string;
   /**
    * The type of button. Currently it can only be SUBMIT
-   * @type {string}
-   * @memberof UserButton
    */
   type: string;
 }
-/**
- *
- * @export
- * @interface UserField
- */
 export interface UserField {
   /**
    * The name of the field. This will be used as the key when submitting response.
-   * @type {string}
-   * @memberof UserField
    */
   name: string;
   /**
    * The label for this field.
-   * @type {string}
-   * @memberof UserField
    */
   label?: string;
   /**
    * The placeholder for this field.
-   * @type {string}
-   * @memberof UserField
    */
   placeholder?: string;
   /**
    * The type of field. Currently it can only be SELECT, INPUT or PASSWORD
-   * @type {string}
-   * @memberof UserField
    */
   type: string;
   /**
    * This is only applicable when the field type is SELECT
-   * @type {Array<UserFieldOption>}
-   * @memberof UserField
    */
   options?: Array<UserFieldOption>;
 }
-/**
- *
- * @export
- * @interface UserFieldOption
- */
 export interface UserFieldOption {
   /**
    * The value displayed in the select element.
-   * @type {string}
-   * @memberof UserFieldOption
    */
   label: string;
   /**
    * The value that will be submitted if this option was selected.
-   * @type {string}
-   * @memberof UserFieldOption
    */
   value: string;
 }
-/**
- *
- * @export
- * @interface UserMessage
- */
 export interface UserMessage {
   /**
    * The name of the message
-   * @type {string}
-   * @memberof UserMessage
    */
   name: string;
   /**
    * The type of the message. This will help how the UI renders this text.
-   * @type {string}
-   * @memberof UserMessage
    */
   type: string;
   /**
    * The actual text value.
-   * @type {string}
-   * @memberof UserMessage
    */
   value: string;
 }
 
 /**
  * CustomerApi - axios parameter creator
- * @export
  */
 export const CustomerApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
@@ -10159,7 +4032,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       // verify required parameter 'institutionId' is not null or undefined
       assertParamExists('getInstitution', 'institutionId', institutionId);
       const localVarPath = `/institutions/{institutionId}`.replace(
-        `{${'institutionId'}}`,
+        '{institutionId}',
         encodeURIComponent(String(institutionId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -10176,6 +4049,8 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', ['institution'], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -10207,6 +4082,8 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -10265,6 +4142,8 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
         localVarQueryParameter['institution_type'] = institutionType;
       }
 
+      localVarHeaderParameter['Accept'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -10300,6 +4179,7 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -10316,7 +4196,6 @@ export const CustomerApiAxiosParamCreator = function (configuration?: Configurat
 
 /**
  * CustomerApi - functional programming interface
- * @export
  */
 export const CustomerApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = CustomerApiAxiosParamCreator(configuration);
@@ -10424,7 +4303,6 @@ export const CustomerApiFp = function (configuration?: Configuration) {
 
 /**
  * CustomerApi - factory interface
- * @export
  */
 export const CustomerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
   const localVarFp = CustomerApiFp(configuration);
@@ -10480,8 +4358,6 @@ export const CustomerApiFactory = function (configuration?: Configuration, baseP
 
 /**
  * CustomerApi - interface
- * @export
- * @interface CustomerApi
  */
 export interface CustomerApiInterface {
   /**
@@ -10489,7 +4365,6 @@ export interface CustomerApiInterface {
    * @param {string} institutionId The institution id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof CustomerApiInterface
    */
   getInstitution(institutionId: string, options?: RawAxiosRequestConfig): AxiosPromise<Institution>;
 
@@ -10497,7 +4372,6 @@ export interface CustomerApiInterface {
    * Get a customer-specific list of institutions for Finverse Link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof CustomerApiInterface
    */
   getInstitutionsForCustomer(options?: RawAxiosRequestConfig): AxiosPromise<Array<Institution>>;
 
@@ -10509,7 +4383,6 @@ export interface CustomerApiInterface {
    * @param {ListInstitutionsInstitutionTypeEnum} [institutionType] The type of institution
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof CustomerApiInterface
    */
   listInstitutions(
     country?: string,
@@ -10524,16 +4397,12 @@ export interface CustomerApiInterface {
    * @param {RefreshRequest} refreshRequest The refresh token
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof CustomerApiInterface
    */
   refreshToken(refreshRequest: RefreshRequest, options?: RawAxiosRequestConfig): AxiosPromise<AccessTokenResponse>;
 }
 
 /**
  * CustomerApi - object-oriented interface
- * @export
- * @class CustomerApi
- * @extends {BaseAPI}
  */
 export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   /**
@@ -10541,7 +4410,6 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @param {string} institutionId The institution id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof CustomerApi
    */
   public getInstitution(institutionId: string, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
@@ -10553,7 +4421,6 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * Get a customer-specific list of institutions for Finverse Link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof CustomerApi
    */
   public getInstitutionsForCustomer(options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
@@ -10569,7 +4436,6 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @param {ListInstitutionsInstitutionTypeEnum} [institutionType] The type of institution
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof CustomerApi
    */
   public listInstitutions(
     country?: string,
@@ -10588,7 +4454,6 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
    * @param {RefreshRequest} refreshRequest The refresh token
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof CustomerApi
    */
   public refreshToken(refreshRequest: RefreshRequest, options?: RawAxiosRequestConfig) {
     return CustomerApiFp(this.configuration)
@@ -10597,9 +4462,6 @@ export class CustomerApi extends BaseAPI implements CustomerApiInterface {
   }
 }
 
-/**
- * @export
- */
 export const ListInstitutionsInstitutionTypeEnum = {
   Bank: 'BANK',
   Wallet: 'WALLET',
@@ -10610,7 +4472,6 @@ export type ListInstitutionsInstitutionTypeEnum =
 
 /**
  * LinkApi - axios parameter creator
- * @export
  */
 export const LinkApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
@@ -10640,6 +4501,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -10680,6 +4542,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -10708,7 +4571,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
       // verify required parameter 'actionRequest' is not null or undefined
       assertParamExists('linkAction', 'actionRequest', actionRequest);
       const localVarPath = `/link/action/{loginIdentityId}`.replace(
-        `{${'loginIdentityId'}}`,
+        '{loginIdentityId}',
         encodeURIComponent(String(loginIdentityId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -10727,6 +4590,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -10748,7 +4612,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
       // verify required parameter 'loginIdentityId' is not null or undefined
       assertParamExists('linkStatus', 'loginIdentityId', loginIdentityId);
       const localVarPath = `/link/status/{loginIdentityId}`.replace(
-        `{${'loginIdentityId'}}`,
+        '{loginIdentityId}',
         encodeURIComponent(String(loginIdentityId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -10765,6 +4629,8 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -10792,7 +4658,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
       // verify required parameter 'apiRelinkRequest' is not null or undefined
       assertParamExists('relinkV2', 'apiRelinkRequest', apiRelinkRequest);
       const localVarPath = `/link/relink/{loginIdentityId}`.replace(
-        `{${'loginIdentityId'}}`,
+        '{loginIdentityId}',
         encodeURIComponent(String(loginIdentityId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -10811,6 +4677,7 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -10878,8 +4745,8 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
       if (redirectUri !== undefined) {
         localVarFormParams.set('redirect_uri', redirectUri as any);
       }
-
       localVarHeaderParameter['Content-Type'] = 'application/x-www-form-urlencoded';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -10896,7 +4763,6 @@ export const LinkApiAxiosParamCreator = function (configuration?: Configuration)
 
 /**
  * LinkApi - functional programming interface
- * @export
  */
 export const LinkApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = LinkApiAxiosParamCreator(configuration);
@@ -11047,7 +4913,6 @@ export const LinkApiFp = function (configuration?: Configuration) {
 
 /**
  * LinkApi - factory interface
- * @export
  */
 export const LinkApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
   const localVarFp = LinkApiFp(configuration);
@@ -11140,8 +5005,6 @@ export const LinkApiFactory = function (configuration?: Configuration, basePath?
 
 /**
  * LinkApi - interface
- * @export
- * @interface LinkApi
  */
 export interface LinkApiInterface {
   /**
@@ -11149,7 +5012,6 @@ export interface LinkApiInterface {
    * @param {ApiLinkRequest} apiLinkRequest Request body for creating a new link and submitting credentials
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LinkApiInterface
    */
   createLink(
     apiLinkRequest: ApiLinkRequest,
@@ -11161,7 +5023,6 @@ export interface LinkApiInterface {
    * @param {LinkTokenRequest} linkTokenRequest token request
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LinkApiInterface
    */
   generateLinkToken(
     linkTokenRequest: LinkTokenRequest,
@@ -11174,7 +5035,6 @@ export interface LinkApiInterface {
    * @param {ActionRequest} actionRequest Request body for post link action
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LinkApiInterface
    */
   linkAction(
     loginIdentityId: string,
@@ -11187,7 +5047,6 @@ export interface LinkApiInterface {
    * @param {string} loginIdentityId The login identity id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LinkApiInterface
    */
   linkStatus(loginIdentityId: string, options?: RawAxiosRequestConfig): AxiosPromise<LinkStatusResponse>;
 
@@ -11197,7 +5056,6 @@ export interface LinkApiInterface {
    * @param {ApiRelinkRequest} apiRelinkRequest Request body for relinking and submitting credentials
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LinkApiInterface
    */
   relinkV2(
     loginIdentityId: string,
@@ -11213,7 +5071,6 @@ export interface LinkApiInterface {
    * @param {string} redirectUri
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LinkApiInterface
    */
   token(
     grantType: TokenGrantTypeEnum,
@@ -11226,9 +5083,6 @@ export interface LinkApiInterface {
 
 /**
  * LinkApi - object-oriented interface
- * @export
- * @class LinkApi
- * @extends {BaseAPI}
  */
 export class LinkApi extends BaseAPI implements LinkApiInterface {
   /**
@@ -11236,7 +5090,6 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
    * @param {ApiLinkRequest} apiLinkRequest Request body for creating a new link and submitting credentials
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LinkApi
    */
   public createLink(apiLinkRequest: ApiLinkRequest, options?: RawAxiosRequestConfig) {
     return LinkApiFp(this.configuration)
@@ -11249,7 +5102,6 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
    * @param {LinkTokenRequest} linkTokenRequest token request
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LinkApi
    */
   public generateLinkToken(linkTokenRequest: LinkTokenRequest, options?: RawAxiosRequestConfig) {
     return LinkApiFp(this.configuration)
@@ -11263,7 +5115,6 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
    * @param {ActionRequest} actionRequest Request body for post link action
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LinkApi
    */
   public linkAction(loginIdentityId: string, actionRequest: ActionRequest, options?: RawAxiosRequestConfig) {
     return LinkApiFp(this.configuration)
@@ -11276,7 +5127,6 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
    * @param {string} loginIdentityId The login identity id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LinkApi
    */
   public linkStatus(loginIdentityId: string, options?: RawAxiosRequestConfig) {
     return LinkApiFp(this.configuration)
@@ -11290,7 +5140,6 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
    * @param {ApiRelinkRequest} apiRelinkRequest Request body for relinking and submitting credentials
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LinkApi
    */
   public relinkV2(loginIdentityId: string, apiRelinkRequest: ApiRelinkRequest, options?: RawAxiosRequestConfig) {
     return LinkApiFp(this.configuration)
@@ -11306,7 +5155,6 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
    * @param {string} redirectUri
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LinkApi
    */
   public token(
     grantType: TokenGrantTypeEnum,
@@ -11321,9 +5169,6 @@ export class LinkApi extends BaseAPI implements LinkApiInterface {
   }
 }
 
-/**
- * @export
- */
 export const TokenGrantTypeEnum = {
   AuthorizationCode: 'authorization_code',
 } as const;
@@ -11331,7 +5176,6 @@ export type TokenGrantTypeEnum = (typeof TokenGrantTypeEnum)[keyof typeof TokenG
 
 /**
  * LoginIdentityApi - axios parameter creator
- * @export
  */
 export const LoginIdentityApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
@@ -11357,6 +5201,8 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
+      localVarHeaderParameter['Accept'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -11375,7 +5221,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
     getAccount: async (accountId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'accountId' is not null or undefined
       assertParamExists('getAccount', 'accountId', accountId);
-      const localVarPath = `/accounts/{accountId}`.replace(`{${'accountId'}}`, encodeURIComponent(String(accountId)));
+      const localVarPath = `/accounts/{accountId}`.replace('{accountId}', encodeURIComponent(String(accountId)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -11390,6 +5236,8 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', ['account'], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -11409,10 +5257,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
     getAccountNumber: async (accountId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'accountId' is not null or undefined
       assertParamExists('getAccountNumber', 'accountId', accountId);
-      const localVarPath = `/account_numbers/{accountId}`.replace(
-        `{${'accountId'}}`,
-        encodeURIComponent(String(accountId)),
-      );
+      const localVarPath = `/account_numbers/{accountId}`.replace('{accountId}', encodeURIComponent(String(accountId)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -11427,6 +5272,8 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -11451,10 +5298,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
     ): Promise<RequestArgs> => {
       // verify required parameter 'accountId' is not null or undefined
       assertParamExists('getBalanceHistory', 'accountId', accountId);
-      const localVarPath = `/balance_history/{accountId}`.replace(
-        `{${'accountId'}}`,
-        encodeURIComponent(String(accountId)),
-      );
+      const localVarPath = `/balance_history/{accountId}`.replace('{accountId}', encodeURIComponent(String(accountId)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -11473,6 +5317,8 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       if (source !== undefined) {
         localVarQueryParameter['source'] = source;
       }
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -11510,6 +5356,8 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
         localVarQueryParameter['redirect'] = redirect;
       }
 
+      localVarHeaderParameter['Accept'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -11540,6 +5388,8 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -11572,6 +5422,8 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
+      localVarHeaderParameter['Accept'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -11603,6 +5455,8 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
+      localVarHeaderParameter['Accept'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -11625,7 +5479,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       // verify required parameter 'loginIdentityId' is not null or undefined
       assertParamExists('getLoginIdentityById', 'loginIdentityId', loginIdentityId);
       const localVarPath = `/login_identity/{loginIdentityId}`.replace(
-        `{${'loginIdentityId'}}`,
+        '{loginIdentityId}',
         encodeURIComponent(String(loginIdentityId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -11642,6 +5496,8 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -11665,7 +5521,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       // verify required parameter 'loginIdentityId' is not null or undefined
       assertParamExists('getLoginIdentityHistory', 'loginIdentityId', loginIdentityId);
       const localVarPath = `/login_identity/{loginIdentityId}/history`.replace(
-        `{${'loginIdentityId'}}`,
+        '{loginIdentityId}',
         encodeURIComponent(String(loginIdentityId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -11682,6 +5538,8 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -11707,7 +5565,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       // verify required parameter 'statementId' is not null or undefined
       assertParamExists('getStatement', 'statementId', statementId);
       const localVarPath = `/statements/{statementId}`.replace(
-        `{${'statementId'}}`,
+        '{statementId}',
         encodeURIComponent(String(statementId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -11728,6 +5586,8 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       if (redirect !== undefined) {
         localVarQueryParameter['redirect'] = redirect;
       }
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -11760,6 +5620,8 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
+      localVarHeaderParameter['Accept'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -11790,6 +5652,8 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', ['account'], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -11822,6 +5686,8 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
+      localVarHeaderParameter['Accept'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -11849,10 +5715,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
     ): Promise<RequestArgs> => {
       // verify required parameter 'accountId' is not null or undefined
       assertParamExists('listTransactionsByAccountId', 'accountId', accountId);
-      const localVarPath = `/transactions/{accountId}`.replace(
-        `{${'accountId'}}`,
-        encodeURIComponent(String(accountId)),
-      );
+      const localVarPath = `/transactions/{accountId}`.replace('{accountId}', encodeURIComponent(String(accountId)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -11879,6 +5742,8 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       if (enrichments !== undefined) {
         localVarQueryParameter['enrichments'] = enrichments;
       }
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -11931,6 +5796,8 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
         localVarQueryParameter['enrichments'] = enrichments;
       }
 
+      localVarHeaderParameter['Accept'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -11967,6 +5834,7 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -11987,7 +5855,6 @@ export const LoginIdentityApiAxiosParamCreator = function (configuration?: Confi
 
 /**
  * LoginIdentityApi - functional programming interface
- * @export
  */
 export const LoginIdentityApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = LoginIdentityApiAxiosParamCreator(configuration);
@@ -12382,7 +6249,6 @@ export const LoginIdentityApiFp = function (configuration?: Configuration) {
 
 /**
  * LoginIdentityApi - factory interface
- * @export
  */
 export const LoginIdentityApiFactory = function (
   configuration?: Configuration,
@@ -12583,15 +6449,12 @@ export const LoginIdentityApiFactory = function (
 
 /**
  * LoginIdentityApi - interface
- * @export
- * @interface LoginIdentityApi
  */
 export interface LoginIdentityApiInterface {
   /**
    * Delete a specific loginIdentity
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
    */
   deleteLoginIdentity(options?: RawAxiosRequestConfig): AxiosPromise<DeleteLoginIdentityResponse>;
 
@@ -12600,7 +6463,6 @@ export interface LoginIdentityApiInterface {
    * @param {string} accountId The account id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
    */
   getAccount(accountId: string, options?: RawAxiosRequestConfig): AxiosPromise<GetAccountResponse>;
 
@@ -12609,7 +6471,6 @@ export interface LoginIdentityApiInterface {
    * @param {string} accountId The account id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
    */
   getAccountNumber(accountId: string, options?: RawAxiosRequestConfig): AxiosPromise<GetAccountNumberResponse>;
 
@@ -12619,7 +6480,6 @@ export interface LoginIdentityApiInterface {
    * @param {GetBalanceHistorySourceEnum} [source] The source will determine what type of balance history will be returned
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
    */
   getBalanceHistory(
     accountId: string,
@@ -12632,7 +6492,6 @@ export interface LoginIdentityApiInterface {
    * @param {boolean} [redirect] when true, response will be http redirect; otherwise it will be json response with the download link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
    */
   getCompositeStatement(redirect?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<CompositeStatementLink>;
 
@@ -12640,7 +6499,6 @@ export interface LoginIdentityApiInterface {
    * \\[BETA] Get a list of identity data for a given login identity
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
    */
   getIdentity(options?: RawAxiosRequestConfig): AxiosPromise<GetIdentityResponse>;
 
@@ -12648,7 +6506,6 @@ export interface LoginIdentityApiInterface {
    * Get income figures for a login identity
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
    */
   getIncomeEstimateByLoginIdentityId(options?: RawAxiosRequestConfig): AxiosPromise<IncomeResponse>;
 
@@ -12656,7 +6513,6 @@ export interface LoginIdentityApiInterface {
    * Get a specific loginIdentity
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
    */
   getLoginIdentity(options?: RawAxiosRequestConfig): AxiosPromise<GetLoginIdentityByIdResponse>;
 
@@ -12665,7 +6521,6 @@ export interface LoginIdentityApiInterface {
    * @param {string} loginIdentityId The login identity id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
    */
   getLoginIdentityById(
     loginIdentityId: string,
@@ -12677,7 +6532,6 @@ export interface LoginIdentityApiInterface {
    * @param {string} loginIdentityId The login identity id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
    */
   getLoginIdentityHistory(
     loginIdentityId: string,
@@ -12690,7 +6544,6 @@ export interface LoginIdentityApiInterface {
    * @param {boolean} [redirect] when true, response will be http redirect; otherwise it will be json response with the download link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
    */
   getStatement(
     statementId: string,
@@ -12702,7 +6555,6 @@ export interface LoginIdentityApiInterface {
    * Get list of available statements
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
    */
   getStatements(options?: RawAxiosRequestConfig): AxiosPromise<GetStatementsResponse>;
 
@@ -12710,7 +6562,6 @@ export interface LoginIdentityApiInterface {
    * Get a list of accounts for a login identity
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
    */
   listAccounts(options?: RawAxiosRequestConfig): AxiosPromise<ListAccountsResponse>;
 
@@ -12718,7 +6569,6 @@ export interface LoginIdentityApiInterface {
    * Get a list of card details for a login identity
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
    */
   listCardDetails(options?: RawAxiosRequestConfig): AxiosPromise<ListCardsDetailsResponse>;
 
@@ -12730,7 +6580,6 @@ export interface LoginIdentityApiInterface {
    * @param {boolean} [enrichments] when true, response will be enriched transactions; otherwise it will be raw transactions
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
    */
   listTransactionsByAccountId(
     accountId: string,
@@ -12747,7 +6596,6 @@ export interface LoginIdentityApiInterface {
    * @param {boolean} [enrichments] when true, response will be enriched transactions; otherwise it will be raw transactions
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
    */
   listTransactionsByLoginIdentityId(
     offset?: number,
@@ -12761,7 +6609,6 @@ export interface LoginIdentityApiInterface {
    * @param {RefreshLoginIdentityRequest} [refreshLoginIdentityReq]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApiInterface
    */
   refreshLoginIdentity(
     refreshLoginIdentityReq?: RefreshLoginIdentityRequest,
@@ -12771,16 +6618,12 @@ export interface LoginIdentityApiInterface {
 
 /**
  * LoginIdentityApi - object-oriented interface
- * @export
- * @class LoginIdentityApi
- * @extends {BaseAPI}
  */
 export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterface {
   /**
    * Delete a specific loginIdentity
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApi
    */
   public deleteLoginIdentity(options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
@@ -12793,7 +6636,6 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @param {string} accountId The account id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApi
    */
   public getAccount(accountId: string, options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
@@ -12806,7 +6648,6 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @param {string} accountId The account id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApi
    */
   public getAccountNumber(accountId: string, options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
@@ -12820,7 +6661,6 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @param {GetBalanceHistorySourceEnum} [source] The source will determine what type of balance history will be returned
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApi
    */
   public getBalanceHistory(accountId: string, source?: GetBalanceHistorySourceEnum, options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
@@ -12833,7 +6673,6 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @param {boolean} [redirect] when true, response will be http redirect; otherwise it will be json response with the download link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApi
    */
   public getCompositeStatement(redirect?: boolean, options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
@@ -12845,7 +6684,6 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * \\[BETA] Get a list of identity data for a given login identity
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApi
    */
   public getIdentity(options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
@@ -12857,7 +6695,6 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * Get income figures for a login identity
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApi
    */
   public getIncomeEstimateByLoginIdentityId(options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
@@ -12869,7 +6706,6 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * Get a specific loginIdentity
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApi
    */
   public getLoginIdentity(options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
@@ -12882,7 +6718,6 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @param {string} loginIdentityId The login identity id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApi
    */
   public getLoginIdentityById(loginIdentityId: string, options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
@@ -12895,7 +6730,6 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @param {string} loginIdentityId The login identity id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApi
    */
   public getLoginIdentityHistory(loginIdentityId: string, options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
@@ -12909,7 +6743,6 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @param {boolean} [redirect] when true, response will be http redirect; otherwise it will be json response with the download link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApi
    */
   public getStatement(statementId: string, redirect?: boolean, options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
@@ -12921,7 +6754,6 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * Get list of available statements
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApi
    */
   public getStatements(options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
@@ -12933,7 +6765,6 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * Get a list of accounts for a login identity
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApi
    */
   public listAccounts(options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
@@ -12945,7 +6776,6 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * Get a list of card details for a login identity
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApi
    */
   public listCardDetails(options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
@@ -12961,7 +6791,6 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @param {boolean} [enrichments] when true, response will be enriched transactions; otherwise it will be raw transactions
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApi
    */
   public listTransactionsByAccountId(
     accountId: string,
@@ -12982,7 +6811,6 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @param {boolean} [enrichments] when true, response will be enriched transactions; otherwise it will be raw transactions
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApi
    */
   public listTransactionsByLoginIdentityId(
     offset?: number,
@@ -13000,7 +6828,6 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
    * @param {RefreshLoginIdentityRequest} [refreshLoginIdentityReq]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof LoginIdentityApi
    */
   public refreshLoginIdentity(refreshLoginIdentityReq?: RefreshLoginIdentityRequest, options?: RawAxiosRequestConfig) {
     return LoginIdentityApiFp(this.configuration)
@@ -13009,9 +6836,6 @@ export class LoginIdentityApi extends BaseAPI implements LoginIdentityApiInterfa
   }
 }
 
-/**
- * @export
- */
 export const GetBalanceHistorySourceEnum = {
   Institution: 'INSTITUTION',
   Computed: 'COMPUTED',
@@ -13021,7 +6845,6 @@ export type GetBalanceHistorySourceEnum =
 
 /**
  * PaymentApi - axios parameter creator
- * @export
  */
 export const PaymentApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
@@ -13042,7 +6865,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // verify required parameter 'authorizeMandateRequest' is not null or undefined
       assertParamExists('authorizeMandate', 'authorizeMandateRequest', authorizeMandateRequest);
       const localVarPath = `/mandates/{mandateId}/authorize`.replace(
-        `{${'mandateId'}}`,
+        '{mandateId}',
         encodeURIComponent(String(mandateId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -13061,6 +6884,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -13086,7 +6910,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // verify required parameter 'paymentLinkId' is not null or undefined
       assertParamExists('cancelPaymentLink', 'paymentLinkId', paymentLinkId);
       const localVarPath = `/payment_links/{paymentLinkId}/cancel`.replace(
-        `{${'paymentLinkId'}}`,
+        '{paymentLinkId}',
         encodeURIComponent(String(paymentLinkId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -13103,6 +6927,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -13123,7 +6949,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // verify required parameter 'paymentMethodId' is not null or undefined
       assertParamExists('cancelPaymentMethod', 'paymentMethodId', paymentMethodId);
       const localVarPath = `/payment_methods/{paymentMethodId}/cancel`.replace(
-        `{${'paymentMethodId'}}`,
+        '{paymentMethodId}',
         encodeURIComponent(String(paymentMethodId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -13140,6 +6966,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -13159,10 +6987,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
     cancelPayout: async (payoutId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'payoutId' is not null or undefined
       assertParamExists('cancelPayout', 'payoutId', payoutId);
-      const localVarPath = `/payouts/{payoutId}/cancel`.replace(
-        `{${'payoutId'}}`,
-        encodeURIComponent(String(payoutId)),
-      );
+      const localVarPath = `/payouts/{payoutId}/cancel`.replace('{payoutId}', encodeURIComponent(String(payoutId)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -13177,6 +7002,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -13216,6 +7043,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -13240,10 +7068,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
     confirmPayout: async (payoutId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'payoutId' is not null or undefined
       assertParamExists('confirmPayout', 'payoutId', payoutId);
-      const localVarPath = `/payouts/{payoutId}/confirm`.replace(
-        `{${'payoutId'}}`,
-        encodeURIComponent(String(payoutId)),
-      );
+      const localVarPath = `/payouts/{payoutId}/confirm`.replace('{payoutId}', encodeURIComponent(String(payoutId)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -13258,6 +7083,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -13299,6 +7126,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       if (idempotencyKey != null) {
         localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
@@ -13346,6 +7174,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       if (idempotencyKey != null) {
         localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
@@ -13391,6 +7220,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       if (idempotencyKey != null) {
         localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
@@ -13434,6 +7264,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -13478,6 +7309,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -13510,7 +7342,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // verify required parameter 'createPaymentMethodRequest' is not null or undefined
       assertParamExists('createPaymentMethod', 'createPaymentMethodRequest', createPaymentMethodRequest);
       const localVarPath = `/payment_users/{paymentUserId}/payment_methods`.replace(
-        `{${'paymentUserId'}}`,
+        '{paymentUserId}',
         encodeURIComponent(String(paymentUserId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -13529,6 +7361,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -13573,6 +7406,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -13621,6 +7455,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       if (idempotencyKey != null) {
         localVarHeaderParameter['Idempotency-Key'] = String(idempotencyKey);
@@ -13648,7 +7483,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // verify required parameter 'paymentAccountId' is not null or undefined
       assertParamExists('deletePaymentAccount', 'paymentAccountId', paymentAccountId);
       const localVarPath = `/payment_accounts/{paymentAccountId}`.replace(
-        `{${'paymentAccountId'}}`,
+        '{paymentAccountId}',
         encodeURIComponent(String(paymentAccountId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -13665,6 +7500,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -13719,6 +7556,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
         localVarQueryParameter['currencies'] = currencies.join(COLLECTION_FORMATS.csv);
       }
 
+      localVarHeaderParameter['Accept'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -13750,6 +7589,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
+      localVarHeaderParameter['Accept'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -13768,7 +7609,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
     getBill: async (billId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'billId' is not null or undefined
       assertParamExists('getBill', 'billId', billId);
-      const localVarPath = `/bills/{billId}`.replace(`{${'billId'}}`, encodeURIComponent(String(billId)));
+      const localVarPath = `/bills/{billId}`.replace('{billId}', encodeURIComponent(String(billId)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -13783,6 +7624,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -13802,7 +7645,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
     getMandate: async (mandateId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'mandateId' is not null or undefined
       assertParamExists('getMandate', 'mandateId', mandateId);
-      const localVarPath = `/mandates/{mandateId}`.replace(`{${'mandateId'}}`, encodeURIComponent(String(mandateId)));
+      const localVarPath = `/mandates/{mandateId}`.replace('{mandateId}', encodeURIComponent(String(mandateId)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -13817,6 +7660,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -13848,6 +7693,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -13887,6 +7734,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -13911,7 +7759,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
     getPayment: async (paymentId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'paymentId' is not null or undefined
       assertParamExists('getPayment', 'paymentId', paymentId);
-      const localVarPath = `/payments/{paymentId}`.replace(`{${'paymentId'}}`, encodeURIComponent(String(paymentId)));
+      const localVarPath = `/payments/{paymentId}`.replace('{paymentId}', encodeURIComponent(String(paymentId)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -13926,6 +7774,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -13946,7 +7796,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // verify required parameter 'paymentLinkId' is not null or undefined
       assertParamExists('getPaymentLink', 'paymentLinkId', paymentLinkId);
       const localVarPath = `/payment_links/{paymentLinkId}`.replace(
-        `{${'paymentLinkId'}}`,
+        '{paymentLinkId}',
         encodeURIComponent(String(paymentLinkId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -13963,6 +7813,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -13983,7 +7835,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // verify required parameter 'paymentMethodId' is not null or undefined
       assertParamExists('getPaymentMethod', 'paymentMethodId', paymentMethodId);
       const localVarPath = `/payment_methods/{paymentMethodId}`.replace(
-        `{${'paymentMethodId'}}`,
+        '{paymentMethodId}',
         encodeURIComponent(String(paymentMethodId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -14000,6 +7852,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -14020,7 +7874,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // verify required parameter 'paymentUserId' is not null or undefined
       assertParamExists('getPaymentUser', 'paymentUserId', paymentUserId);
       const localVarPath = `/payment_users/{paymentUserId}`.replace(
-        `{${'paymentUserId'}}`,
+        '{paymentUserId}',
         encodeURIComponent(String(paymentUserId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -14037,6 +7891,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -14056,7 +7912,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
     getPayoutById: async (payoutId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'payoutId' is not null or undefined
       assertParamExists('getPayoutById', 'payoutId', payoutId);
-      const localVarPath = `/payouts/{payoutId}`.replace(`{${'payoutId'}}`, encodeURIComponent(String(payoutId)));
+      const localVarPath = `/payouts/{payoutId}`.replace('{payoutId}', encodeURIComponent(String(payoutId)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -14071,6 +7927,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -14155,6 +8013,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
         localVarQueryParameter['limit'] = limit;
       }
 
+      localVarHeaderParameter['Accept'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -14238,6 +8098,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
         localVarQueryParameter['limit'] = limit;
       }
 
+      localVarHeaderParameter['Accept'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -14302,6 +8164,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       if (limit !== undefined) {
         localVarQueryParameter['limit'] = limit;
       }
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -14386,6 +8250,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
         localVarQueryParameter['limit'] = limit;
       }
 
+      localVarHeaderParameter['Accept'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -14405,7 +8271,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // verify required parameter 'paymentUserId' is not null or undefined
       assertParamExists('listPaymentAccounts', 'paymentUserId', paymentUserId);
       const localVarPath = `/payment_users/{paymentUserId}/payment_accounts`.replace(
-        `{${'paymentUserId'}}`,
+        '{paymentUserId}',
         encodeURIComponent(String(paymentUserId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -14422,6 +8288,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -14480,6 +8348,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
         localVarQueryParameter['limit'] = limit;
       }
 
+      localVarHeaderParameter['Accept'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -14499,7 +8369,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // verify required parameter 'paymentUserId' is not null or undefined
       assertParamExists('listPaymentMethods', 'paymentUserId', paymentUserId);
       const localVarPath = `/payment_users/{paymentUserId}/payment_methods`.replace(
-        `{${'paymentUserId'}}`,
+        '{paymentUserId}',
         encodeURIComponent(String(paymentUserId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -14516,6 +8386,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -14630,6 +8502,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
         localVarQueryParameter['limit'] = limit;
       }
 
+      localVarHeaderParameter['Accept'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -14737,6 +8611,8 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
         localVarQueryParameter['limit'] = limit;
       }
 
+      localVarHeaderParameter['Accept'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -14775,6 +8651,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -14819,6 +8696,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -14867,6 +8745,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -14911,6 +8790,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -14942,7 +8822,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       assertParamExists('updatePayment', 'paymentId', paymentId);
       // verify required parameter 'updatePaymentRequest' is not null or undefined
       assertParamExists('updatePayment', 'updatePaymentRequest', updatePaymentRequest);
-      const localVarPath = `/payments/{paymentId}`.replace(`{${'paymentId'}}`, encodeURIComponent(String(paymentId)));
+      const localVarPath = `/payments/{paymentId}`.replace('{paymentId}', encodeURIComponent(String(paymentId)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
       let baseOptions;
@@ -14959,6 +8839,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -14987,7 +8868,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // verify required parameter 'updatePaymentUserRequest' is not null or undefined
       assertParamExists('updatePaymentUser', 'updatePaymentUserRequest', updatePaymentUserRequest);
       const localVarPath = `/payment_users/{paymentUserId}`.replace(
-        `{${'paymentUserId'}}`,
+        '{paymentUserId}',
         encodeURIComponent(String(paymentUserId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -15006,6 +8887,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -15039,7 +8921,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // verify required parameter 'paymentStatus' is not null or undefined
       assertParamExists('updateTestPaymentStatus', 'paymentStatus', paymentStatus);
       const localVarPath = `/testing/payments/{paymentId}/status`.replace(
-        `{${'paymentId'}}`,
+        '{paymentId}',
         encodeURIComponent(String(paymentId)),
       );
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -15058,6 +8940,7 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -15074,7 +8957,6 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
 
 /**
  * PaymentApi - functional programming interface
- * @export
  */
 export const PaymentApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = PaymentApiAxiosParamCreator(configuration);
@@ -16252,7 +10134,6 @@ export const PaymentApiFp = function (configuration?: Configuration) {
 
 /**
  * PaymentApi - factory interface
- * @export
  */
 export const PaymentApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
   const localVarFp = PaymentApiFp(configuration);
@@ -16926,8 +10807,6 @@ export const PaymentApiFactory = function (configuration?: Configuration, basePa
 
 /**
  * PaymentApi - interface
- * @export
- * @interface PaymentApi
  */
 export interface PaymentApiInterface {
   /**
@@ -16936,7 +10815,6 @@ export interface PaymentApiInterface {
    * @param {AuthorizeMandateRequest} authorizeMandateRequest request body for authorizing a mandate
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   authorizeMandate(
     mandateId: string,
@@ -16949,7 +10827,6 @@ export interface PaymentApiInterface {
    * @param {string} paymentLinkId The payment link id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   cancelPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentLinkResponse>;
 
@@ -16958,7 +10835,6 @@ export interface PaymentApiInterface {
    * @param {string} paymentMethodId The payment method id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   cancelPaymentMethod(paymentMethodId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentMethodResponse>;
 
@@ -16967,7 +10843,6 @@ export interface PaymentApiInterface {
    * @param {string} payoutId payout id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   cancelPayout(payoutId: string, options?: RawAxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse>;
 
@@ -16976,7 +10851,6 @@ export interface PaymentApiInterface {
    * @param {CompleteKcpPaymentRequest} completeKcpPaymentRequest Parameters from the KCP SDK callback to complete the payment
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   completeKcpPayment(
     completeKcpPaymentRequest: CompleteKcpPaymentRequest,
@@ -16988,7 +10862,6 @@ export interface PaymentApiInterface {
    * @param {string} payoutId payout id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   confirmPayout(payoutId: string, options?: RawAxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse>;
 
@@ -16998,7 +10871,6 @@ export interface PaymentApiInterface {
    * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   createMandate(
     createMandateRequest: CreateMandateRequest,
@@ -17012,7 +10884,6 @@ export interface PaymentApiInterface {
    * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   createMandateForExistingSender(
     idempotencyKey: string,
@@ -17026,7 +10897,6 @@ export interface PaymentApiInterface {
    * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   createPayment(
     createPaymentRequest: CreatePaymentRequest,
@@ -17039,7 +10909,6 @@ export interface PaymentApiInterface {
    * @param {CreatePaymentAccountRequest} createPaymentAccountRequest request body for creating payment account
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   createPaymentAccount(
     createPaymentAccountRequest: CreatePaymentAccountRequest,
@@ -17051,7 +10920,6 @@ export interface PaymentApiInterface {
    * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   createPaymentLink(
     createPaymentLinkRequest: CreatePaymentLinkRequest,
@@ -17064,7 +10932,6 @@ export interface PaymentApiInterface {
    * @param {CreatePaymentMethodRequest} createPaymentMethodRequest
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   createPaymentMethod(
     paymentUserId: string,
@@ -17077,7 +10944,6 @@ export interface PaymentApiInterface {
    * @param {CreatePaymentUserRequest} createPaymentUserRequest request body for creating payment user
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   createPaymentUser(
     createPaymentUserRequest: CreatePaymentUserRequest,
@@ -17090,7 +10956,6 @@ export interface PaymentApiInterface {
    * @param {CreatePayoutRequest} createPayoutRequest Request body containing information to create a payout
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   createPayout(
     idempotencyKey: string,
@@ -17103,7 +10968,6 @@ export interface PaymentApiInterface {
    * @param {string} paymentAccountId The payment account id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   deletePaymentAccount(paymentAccountId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
@@ -17114,7 +10978,6 @@ export interface PaymentApiInterface {
    * @param {Array<string>} [currencies] The currencies to filter for
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   downloadBalanceStatement(
     dateFrom?: string,
@@ -17127,7 +10990,6 @@ export interface PaymentApiInterface {
    * Get available Adyen payment methods for Advanced card setup (proxy to Adyen /paymentMethods)
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   getAdyenCardSetupPaymentMethods(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: any }>;
 
@@ -17136,7 +10998,6 @@ export interface PaymentApiInterface {
    * @param {string} billId
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   getBill(billId: string, options?: RawAxiosRequestConfig): AxiosPromise<GetBillResponse>;
 
@@ -17145,7 +11006,6 @@ export interface PaymentApiInterface {
    * @param {string} mandateId mandate id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   getMandate(mandateId: string, options?: RawAxiosRequestConfig): AxiosPromise<GetMandateResponse>;
 
@@ -17153,7 +11013,6 @@ export interface PaymentApiInterface {
    * Get Mandate Authorization by mandate id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   getMandateAuth(options?: RawAxiosRequestConfig): AxiosPromise<GetMandateAuthResponse>;
 
@@ -17162,7 +11021,6 @@ export interface PaymentApiInterface {
    * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   getMandateAuthLink(
     getMandateAuthLinkRequest: GetMandateAuthLinkRequest,
@@ -17174,7 +11032,6 @@ export interface PaymentApiInterface {
    * @param {string} paymentId payment id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   getPayment(paymentId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentResponse>;
 
@@ -17183,7 +11040,6 @@ export interface PaymentApiInterface {
    * @param {string} paymentLinkId The payment link id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   getPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentLinkResponse>;
 
@@ -17192,7 +11048,6 @@ export interface PaymentApiInterface {
    * @param {string} paymentMethodId
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   getPaymentMethod(paymentMethodId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentMethodResponse>;
 
@@ -17201,7 +11056,6 @@ export interface PaymentApiInterface {
    * @param {string} paymentUserId
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   getPaymentUser(paymentUserId: string, options?: RawAxiosRequestConfig): AxiosPromise<PaymentUser>;
 
@@ -17210,7 +11064,6 @@ export interface PaymentApiInterface {
    * @param {string} payoutId payout id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   getPayoutById(payoutId: string, options?: RawAxiosRequestConfig): AxiosPromise<PayoutSnapshotResponse>;
 
@@ -17226,7 +11079,6 @@ export interface PaymentApiInterface {
    * @param {number} [limit] default is 500, max is 1000
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   listBills(
     dateFrom?: string,
@@ -17252,7 +11104,6 @@ export interface PaymentApiInterface {
    * @param {number} [limit] default is 500, max is 1000
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   listDetokenizedMandates(
     dateFrom?: string,
@@ -17275,7 +11126,6 @@ export interface PaymentApiInterface {
    * @param {number} [limit] default is 500, max is 1000
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   listDisputes(
     dateFrom?: string,
@@ -17298,7 +11148,6 @@ export interface PaymentApiInterface {
    * @param {number} [limit] default is 500, max is 1000
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   listMandates(
     dateFrom?: string,
@@ -17317,7 +11166,6 @@ export interface PaymentApiInterface {
    * @param {string} paymentUserId The payment user id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   listPaymentAccounts(
     paymentUserId: string,
@@ -17332,7 +11180,6 @@ export interface PaymentApiInterface {
    * @param {number} [limit] default is 500, max is 1000
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   listPaymentAccountsWithEnrichedData(
     accountType?: ListPaymentAccountsWithEnrichedDataAccountTypeEnum,
@@ -17347,7 +11194,6 @@ export interface PaymentApiInterface {
    * @param {string} paymentUserId Payment User Id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   listPaymentMethods(paymentUserId: string, options?: RawAxiosRequestConfig): AxiosPromise<ListPaymentMethodsResponse>;
 
@@ -17368,7 +11214,6 @@ export interface PaymentApiInterface {
    * @param {number} [limit] default is 500, max is 1000
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   listPayments(
     dateFrom?: string,
@@ -17403,7 +11248,6 @@ export interface PaymentApiInterface {
    * @param {number} [limit] default is 500, max is 1000
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   listPayouts(
     dateFrom?: string,
@@ -17426,7 +11270,6 @@ export interface PaymentApiInterface {
    * @param {SetMandateInstitutionRequest} updateRequest request body for updating mandate institutionId and senderType
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   setMandateInstitution(
     updateRequest: SetMandateInstitutionRequest,
@@ -17438,7 +11281,6 @@ export interface PaymentApiInterface {
    * @param {{ [key: string]: any; }} submitAdyenCardSetupPaymentRequest Full Drop-in state.data from onSubmit
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   submitAdyenCardSetupPayment(
     submitAdyenCardSetupPaymentRequest: { [key: string]: any },
@@ -17450,7 +11292,6 @@ export interface PaymentApiInterface {
    * @param {{ [key: string]: any; }} submitAdyenCardSetupPaymentDetailsRequest Full Drop-in state.data from onAdditionalDetails (includes details + paymentData)
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   submitAdyenCardSetupPaymentDetails(
     submitAdyenCardSetupPaymentDetailsRequest: { [key: string]: any },
@@ -17462,7 +11303,6 @@ export interface PaymentApiInterface {
    * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   submitAuthChecklist(
     submitAuthChecklistRequest: SubmitAuthChecklistRequest,
@@ -17475,7 +11315,6 @@ export interface PaymentApiInterface {
    * @param {UpdatePaymentRequest} updatePaymentRequest request body for updating payment
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   updatePayment(
     paymentId: string,
@@ -17489,7 +11328,6 @@ export interface PaymentApiInterface {
    * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   updatePaymentUser(
     paymentUserId: string,
@@ -17504,7 +11342,6 @@ export interface PaymentApiInterface {
    * @param {*} [options] Override http request option.
    * @deprecated
    * @throws {RequiredError}
-   * @memberof PaymentApiInterface
    */
   updateTestPaymentStatus(
     paymentId: string,
@@ -17515,9 +11352,6 @@ export interface PaymentApiInterface {
 
 /**
  * PaymentApi - object-oriented interface
- * @export
- * @class PaymentApi
- * @extends {BaseAPI}
  */
 export class PaymentApi extends BaseAPI implements PaymentApiInterface {
   /**
@@ -17526,7 +11360,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {AuthorizeMandateRequest} authorizeMandateRequest request body for authorizing a mandate
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public authorizeMandate(
     mandateId: string,
@@ -17543,7 +11376,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {string} paymentLinkId The payment link id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public cancelPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -17556,7 +11388,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {string} paymentMethodId The payment method id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public cancelPaymentMethod(paymentMethodId: string, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -17569,7 +11400,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {string} payoutId payout id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public cancelPayout(payoutId: string, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -17582,7 +11412,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {CompleteKcpPaymentRequest} completeKcpPaymentRequest Parameters from the KCP SDK callback to complete the payment
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public completeKcpPayment(completeKcpPaymentRequest: CompleteKcpPaymentRequest, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -17595,7 +11424,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {string} payoutId payout id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public confirmPayout(payoutId: string, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -17609,7 +11437,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public createMandate(
     createMandateRequest: CreateMandateRequest,
@@ -17627,7 +11454,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {CreateMandateWithSenderAccountRequest} createMandateRequest request body for creating mandate
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public createMandateForExistingSender(
     idempotencyKey: string,
@@ -17645,7 +11471,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {string} [idempotencyKey] A random key provided by the customer, per unique payment. The purpose for the Idempotency key is to allow safe retrying without the operation being performed multiple times.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public createPayment(
     createPaymentRequest: CreatePaymentRequest,
@@ -17662,7 +11487,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {CreatePaymentAccountRequest} createPaymentAccountRequest request body for creating payment account
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public createPaymentAccount(
     createPaymentAccountRequest: CreatePaymentAccountRequest,
@@ -17678,7 +11502,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {CreatePaymentLinkRequest} createPaymentLinkRequest Parameters required to create a payment link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public createPaymentLink(createPaymentLinkRequest: CreatePaymentLinkRequest, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -17692,7 +11515,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {CreatePaymentMethodRequest} createPaymentMethodRequest
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public createPaymentMethod(
     paymentUserId: string,
@@ -17709,7 +11531,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {CreatePaymentUserRequest} createPaymentUserRequest request body for creating payment user
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public createPaymentUser(createPaymentUserRequest: CreatePaymentUserRequest, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -17723,7 +11544,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {CreatePayoutRequest} createPayoutRequest Request body containing information to create a payout
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public createPayout(
     idempotencyKey: string,
@@ -17740,7 +11560,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {string} paymentAccountId The payment account id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public deletePaymentAccount(paymentAccountId: string, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -17755,7 +11574,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {Array<string>} [currencies] The currencies to filter for
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public downloadBalanceStatement(
     dateFrom?: string,
@@ -17772,7 +11590,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * Get available Adyen payment methods for Advanced card setup (proxy to Adyen /paymentMethods)
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public getAdyenCardSetupPaymentMethods(options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -17785,7 +11602,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {string} billId
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public getBill(billId: string, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -17798,7 +11614,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {string} mandateId mandate id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public getMandate(mandateId: string, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -17810,7 +11625,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * Get Mandate Authorization by mandate id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public getMandateAuth(options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -17823,7 +11637,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {GetMandateAuthLinkRequest} getMandateAuthLinkRequest request body for mandate authorization link
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public getMandateAuthLink(getMandateAuthLinkRequest: GetMandateAuthLinkRequest, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -17836,7 +11649,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {string} paymentId payment id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public getPayment(paymentId: string, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -17849,7 +11661,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {string} paymentLinkId The payment link id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public getPaymentLink(paymentLinkId: string, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -17862,7 +11673,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {string} paymentMethodId
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public getPaymentMethod(paymentMethodId: string, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -17875,7 +11685,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {string} paymentUserId
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public getPaymentUser(paymentUserId: string, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -17888,7 +11697,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {string} payoutId payout id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public getPayoutById(payoutId: string, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -17908,7 +11716,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {number} [limit] default is 500, max is 1000
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public listBills(
     dateFrom?: string,
@@ -17938,7 +11745,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {number} [limit] default is 500, max is 1000
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public listDetokenizedMandates(
     dateFrom?: string,
@@ -17965,7 +11771,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {number} [limit] default is 500, max is 1000
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public listDisputes(
     dateFrom?: string,
@@ -17992,7 +11797,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {number} [limit] default is 500, max is 1000
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public listMandates(
     dateFrom?: string,
@@ -18015,7 +11819,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {string} paymentUserId The payment user id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public listPaymentAccounts(paymentUserId: string, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -18031,7 +11834,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {number} [limit] default is 500, max is 1000
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public listPaymentAccountsWithEnrichedData(
     accountType?: ListPaymentAccountsWithEnrichedDataAccountTypeEnum,
@@ -18050,7 +11852,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {string} paymentUserId Payment User Id
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public listPaymentMethods(paymentUserId: string, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -18075,7 +11876,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {number} [limit] default is 500, max is 1000
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public listPayments(
     dateFrom?: string,
@@ -18129,7 +11929,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {number} [limit] default is 500, max is 1000
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public listPayouts(
     dateFrom?: string,
@@ -18170,7 +11969,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {SetMandateInstitutionRequest} updateRequest request body for updating mandate institutionId and senderType
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public setMandateInstitution(updateRequest: SetMandateInstitutionRequest, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -18183,7 +11981,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {{ [key: string]: any; }} submitAdyenCardSetupPaymentRequest Full Drop-in state.data from onSubmit
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public submitAdyenCardSetupPayment(
     submitAdyenCardSetupPaymentRequest: { [key: string]: any },
@@ -18199,7 +11996,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {{ [key: string]: any; }} submitAdyenCardSetupPaymentDetailsRequest Full Drop-in state.data from onAdditionalDetails (includes details + paymentData)
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public submitAdyenCardSetupPaymentDetails(
     submitAdyenCardSetupPaymentDetailsRequest: { [key: string]: any },
@@ -18215,7 +12011,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {SubmitAuthChecklistRequest} submitAuthChecklistRequest request body for submitting auth checklist
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public submitAuthChecklist(submitAuthChecklistRequest: SubmitAuthChecklistRequest, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -18229,7 +12024,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {UpdatePaymentRequest} updatePaymentRequest request body for updating payment
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public updatePayment(paymentId: string, updatePaymentRequest: UpdatePaymentRequest, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
@@ -18243,7 +12037,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {UpdatePaymentUserRequest} updatePaymentUserRequest request body for updating payment user
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public updatePaymentUser(
     paymentUserId: string,
@@ -18262,7 +12055,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
    * @param {*} [options] Override http request option.
    * @deprecated
    * @throws {RequiredError}
-   * @memberof PaymentApi
    */
   public updateTestPaymentStatus(
     paymentId: string,
@@ -18275,9 +12067,6 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
   }
 }
 
-/**
- * @export
- */
 export const ListBillsStatusesEnum = {
   Unknown: 'UNKNOWN',
   Unpaid: 'UNPAID',
@@ -18286,9 +12075,6 @@ export const ListBillsStatusesEnum = {
   Failed: 'FAILED',
 } as const;
 export type ListBillsStatusesEnum = (typeof ListBillsStatusesEnum)[keyof typeof ListBillsStatusesEnum];
-/**
- * @export
- */
 export const ListDetokenizedMandatesStatusesEnum = {
   AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
   Authorizing: 'AUTHORIZING',
@@ -18303,18 +12089,12 @@ export const ListDetokenizedMandatesStatusesEnum = {
 } as const;
 export type ListDetokenizedMandatesStatusesEnum =
   (typeof ListDetokenizedMandatesStatusesEnum)[keyof typeof ListDetokenizedMandatesStatusesEnum];
-/**
- * @export
- */
 export const ListDetokenizedMandatesSenderTypeEnum = {
   Individual: 'INDIVIDUAL',
   Business: 'BUSINESS',
 } as const;
 export type ListDetokenizedMandatesSenderTypeEnum =
   (typeof ListDetokenizedMandatesSenderTypeEnum)[keyof typeof ListDetokenizedMandatesSenderTypeEnum];
-/**
- * @export
- */
 export const ListDisputesStatusesEnum = {
   Unknown: 'UNKNOWN',
   Undefended: 'UNDEFENDED',
@@ -18325,9 +12105,6 @@ export const ListDisputesStatusesEnum = {
   Won: 'WON',
 } as const;
 export type ListDisputesStatusesEnum = (typeof ListDisputesStatusesEnum)[keyof typeof ListDisputesStatusesEnum];
-/**
- * @export
- */
 export const ListMandatesStatusesEnum = {
   AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
   Authorizing: 'AUTHORIZING',
@@ -18341,26 +12118,17 @@ export const ListMandatesStatusesEnum = {
   Cancelled: 'CANCELLED',
 } as const;
 export type ListMandatesStatusesEnum = (typeof ListMandatesStatusesEnum)[keyof typeof ListMandatesStatusesEnum];
-/**
- * @export
- */
 export const ListMandatesSenderTypeEnum = {
   Individual: 'INDIVIDUAL',
   Business: 'BUSINESS',
 } as const;
 export type ListMandatesSenderTypeEnum = (typeof ListMandatesSenderTypeEnum)[keyof typeof ListMandatesSenderTypeEnum];
-/**
- * @export
- */
 export const ListPaymentAccountsWithEnrichedDataAccountTypeEnum = {
   ExternalAccount: 'EXTERNAL_ACCOUNT',
   SettlementAccount: 'SETTLEMENT_ACCOUNT',
 } as const;
 export type ListPaymentAccountsWithEnrichedDataAccountTypeEnum =
   (typeof ListPaymentAccountsWithEnrichedDataAccountTypeEnum)[keyof typeof ListPaymentAccountsWithEnrichedDataAccountTypeEnum];
-/**
- * @export
- */
 export const ListPaymentsStatusesEnum = {
   AuthorizationRequired: 'AUTHORIZATION_REQUIRED',
   Authorizing: 'AUTHORIZING',
@@ -18373,17 +12141,11 @@ export const ListPaymentsStatusesEnum = {
   Created: 'CREATED',
 } as const;
 export type ListPaymentsStatusesEnum = (typeof ListPaymentsStatusesEnum)[keyof typeof ListPaymentsStatusesEnum];
-/**
- * @export
- */
 export const ListPaymentsSenderTypeEnum = {
   Individual: 'INDIVIDUAL',
   Business: 'BUSINESS',
 } as const;
 export type ListPaymentsSenderTypeEnum = (typeof ListPaymentsSenderTypeEnum)[keyof typeof ListPaymentsSenderTypeEnum];
-/**
- * @export
- */
 export const ListPaymentsPaymentTypeEnum = {
   Mandate: 'MANDATE',
   Single: 'SINGLE',
@@ -18393,9 +12155,6 @@ export const ListPaymentsPaymentTypeEnum = {
 } as const;
 export type ListPaymentsPaymentTypeEnum =
   (typeof ListPaymentsPaymentTypeEnum)[keyof typeof ListPaymentsPaymentTypeEnum];
-/**
- * @export
- */
 export const ListPaymentsPaymentTypesEnum = {
   Mandate: 'MANDATE',
   Single: 'SINGLE',
@@ -18405,9 +12164,6 @@ export const ListPaymentsPaymentTypesEnum = {
 } as const;
 export type ListPaymentsPaymentTypesEnum =
   (typeof ListPaymentsPaymentTypesEnum)[keyof typeof ListPaymentsPaymentTypesEnum];
-/**
- * @export
- */
 export const ListPayoutsStatusesEnum = {
   Executed: 'EXECUTED',
   Created: 'CREATED',
@@ -18419,9 +12175,6 @@ export const ListPayoutsStatusesEnum = {
   Submitted: 'SUBMITTED',
 } as const;
 export type ListPayoutsStatusesEnum = (typeof ListPayoutsStatusesEnum)[keyof typeof ListPayoutsStatusesEnum];
-/**
- * @export
- */
 export const ListPayoutsPayoutTypesEnum = {
   Manual: 'MANUAL',
   Scheduled: 'SCHEDULED',
@@ -18432,7 +12185,6 @@ export type ListPayoutsPayoutTypesEnum = (typeof ListPayoutsPayoutTypesEnum)[key
 
 /**
  * PublicApi - axios parameter creator
- * @export
  */
 export const PublicApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
@@ -18459,6 +12211,7 @@ export const PublicApiAxiosParamCreator = function (configuration?: Configuratio
       const localVarQueryParameter = {} as any;
 
       localVarHeaderParameter['Content-Type'] = 'application/json';
+      localVarHeaderParameter['Accept'] = 'application/json';
 
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -18488,6 +12241,8 @@ export const PublicApiAxiosParamCreator = function (configuration?: Configuratio
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      localVarHeaderParameter['Accept'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -18515,6 +12270,8 @@ export const PublicApiAxiosParamCreator = function (configuration?: Configuratio
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      localVarHeaderParameter['Accept'] = 'application/json';
+
       setSearchParams(localVarUrlObj, localVarQueryParameter);
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
@@ -18529,7 +12286,6 @@ export const PublicApiAxiosParamCreator = function (configuration?: Configuratio
 
 /**
  * PublicApi - functional programming interface
- * @export
  */
 export const PublicApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = PublicApiAxiosParamCreator(configuration);
@@ -18601,7 +12357,6 @@ export const PublicApiFp = function (configuration?: Configuration) {
 
 /**
  * PublicApi - factory interface
- * @export
  */
 export const PublicApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
   const localVarFp = PublicApiFp(configuration);
@@ -18639,8 +12394,6 @@ export const PublicApiFactory = function (configuration?: Configuration, basePat
 
 /**
  * PublicApi - interface
- * @export
- * @interface PublicApi
  */
 export interface PublicApiInterface {
   /**
@@ -18648,7 +12401,6 @@ export interface PublicApiInterface {
    * @param {TokenRequest} [tokenRequest] token request
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PublicApiInterface
    */
   generateCustomerAccessToken(
     tokenRequest?: TokenRequest,
@@ -18659,7 +12411,6 @@ export interface PublicApiInterface {
    * get jwks
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PublicApiInterface
    */
   getCredSubmitJwks(options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
@@ -18667,16 +12418,12 @@ export interface PublicApiInterface {
    * get payment jwks
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PublicApiInterface
    */
   getPaymentsJwks(options?: RawAxiosRequestConfig): AxiosPromise<GetJWKSResponse>;
 }
 
 /**
  * PublicApi - object-oriented interface
- * @export
- * @class PublicApi
- * @extends {BaseAPI}
  */
 export class PublicApi extends BaseAPI implements PublicApiInterface {
   /**
@@ -18684,7 +12431,6 @@ export class PublicApi extends BaseAPI implements PublicApiInterface {
    * @param {TokenRequest} [tokenRequest] token request
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PublicApi
    */
   public generateCustomerAccessToken(tokenRequest?: TokenRequest, options?: RawAxiosRequestConfig) {
     return PublicApiFp(this.configuration)
@@ -18696,7 +12442,6 @@ export class PublicApi extends BaseAPI implements PublicApiInterface {
    * get jwks
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PublicApi
    */
   public getCredSubmitJwks(options?: RawAxiosRequestConfig) {
     return PublicApiFp(this.configuration)
@@ -18708,7 +12453,6 @@ export class PublicApi extends BaseAPI implements PublicApiInterface {
    * get payment jwks
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
-   * @memberof PublicApi
    */
   public getPaymentsJwks(options?: RawAxiosRequestConfig) {
     return PublicApiFp(this.configuration)
