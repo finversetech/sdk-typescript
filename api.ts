@@ -1024,22 +1024,6 @@ export interface FVBill {
   is_finverse_autopay_eligible: boolean;
 }
 
-export interface FVCard {
-  /**
-   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   */
-  created_at?: string;
-  /**
-   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
-   */
-  updated_at?: string;
-  status: CardStatus;
-  error?: FvEmbeddedErrorModel;
-  card_details?: FVCardDetails;
-  recipient_account?: MandateRecipientAccount;
-  risk_data?: RiskData;
-}
-
 export interface FVCardDetails {
   /**
    * The credit card brand
@@ -2792,6 +2776,22 @@ export const PaymentLinkTokenResponseTokenTypeEnum = {
 export type PaymentLinkTokenResponseTokenTypeEnum =
   (typeof PaymentLinkTokenResponseTokenTypeEnum)[keyof typeof PaymentLinkTokenResponseTokenTypeEnum];
 
+export interface PaymentMethodFVCard {
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   */
+  created_at?: string;
+  /**
+   * Timestamp in ISO format (YYYY-MM-DDTHH:MM:SS.SSSZ)
+   */
+  updated_at?: string;
+  status: CardStatus;
+  error?: FvEmbeddedErrorModel;
+  card_details?: FVCardDetails;
+  recipient_account?: PaymentMethodRecipientAccount;
+  risk_data?: RiskData;
+}
+
 export interface PaymentMethodFvLinkResponse {
   payment_method_id: string;
   payment_method_type: PaymentMethodType;
@@ -3043,7 +3043,7 @@ export interface PaymentMethodResponse {
    */
   live?: boolean | null;
   mandate?: PaymentMethodMandate;
-  card?: FVCard;
+  card?: PaymentMethodFVCard;
   integration_metadata?: PaymentMethodIntegrationMetadataResponse;
 }
 
@@ -8362,10 +8362,15 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
     /**
      * List Payment Methods for a User
      * @param {string} paymentUserId Payment User Id
+     * @param {Array<string>} [statuses] Payment method statuses to filter for (matches underlying mandate or card status), comma separated
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    listPaymentMethods: async (paymentUserId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+    listPaymentMethods: async (
+      paymentUserId: string,
+      statuses?: Array<string>,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
       // verify required parameter 'paymentUserId' is not null or undefined
       assertParamExists('listPaymentMethods', 'paymentUserId', paymentUserId);
       const localVarPath = `/payment_users/{paymentUserId}/payment_methods`.replace(
@@ -8386,6 +8391,10 @@ export const PaymentApiAxiosParamCreator = function (configuration?: Configurati
       // authentication Oauth2 required
       // oauth required
       await setOAuthToObject(localVarHeaderParameter, 'Oauth2', [], configuration);
+
+      if (statuses) {
+        localVarQueryParameter['statuses'] = statuses.join(COLLECTION_FORMATS.csv);
+      }
 
       localVarHeaderParameter['Accept'] = 'application/json';
 
@@ -9813,14 +9822,16 @@ export const PaymentApiFp = function (configuration?: Configuration) {
     /**
      * List Payment Methods for a User
      * @param {string} paymentUserId Payment User Id
+     * @param {Array<string>} [statuses] Payment method statuses to filter for (matches underlying mandate or card status), comma separated
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async listPaymentMethods(
       paymentUserId: string,
+      statuses?: Array<string>,
       options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ListPaymentMethodsResponse>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.listPaymentMethods(paymentUserId, options);
+      const localVarAxiosArgs = await localVarAxiosParamCreator.listPaymentMethods(paymentUserId, statuses, options);
       const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
       const localVarOperationServerBasePath =
         operationServerMap['PaymentApi.listPaymentMethods']?.[localVarOperationServerIndex]?.url;
@@ -10587,14 +10598,18 @@ export const PaymentApiFactory = function (configuration?: Configuration, basePa
     /**
      * List Payment Methods for a User
      * @param {string} paymentUserId Payment User Id
+     * @param {Array<string>} [statuses] Payment method statuses to filter for (matches underlying mandate or card status), comma separated
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     listPaymentMethods(
       paymentUserId: string,
+      statuses?: Array<string>,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<ListPaymentMethodsResponse> {
-      return localVarFp.listPaymentMethods(paymentUserId, options).then((request) => request(axios, basePath));
+      return localVarFp
+        .listPaymentMethods(paymentUserId, statuses, options)
+        .then((request) => request(axios, basePath));
     },
     /**
      * List Payments
@@ -11192,10 +11207,15 @@ export interface PaymentApiInterface {
   /**
    * List Payment Methods for a User
    * @param {string} paymentUserId Payment User Id
+   * @param {Array<string>} [statuses] Payment method statuses to filter for (matches underlying mandate or card status), comma separated
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    */
-  listPaymentMethods(paymentUserId: string, options?: RawAxiosRequestConfig): AxiosPromise<ListPaymentMethodsResponse>;
+  listPaymentMethods(
+    paymentUserId: string,
+    statuses?: Array<string>,
+    options?: RawAxiosRequestConfig,
+  ): AxiosPromise<ListPaymentMethodsResponse>;
 
   /**
    * List Payments
@@ -11850,12 +11870,13 @@ export class PaymentApi extends BaseAPI implements PaymentApiInterface {
   /**
    * List Payment Methods for a User
    * @param {string} paymentUserId Payment User Id
+   * @param {Array<string>} [statuses] Payment method statuses to filter for (matches underlying mandate or card status), comma separated
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    */
-  public listPaymentMethods(paymentUserId: string, options?: RawAxiosRequestConfig) {
+  public listPaymentMethods(paymentUserId: string, statuses?: Array<string>, options?: RawAxiosRequestConfig) {
     return PaymentApiFp(this.configuration)
-      .listPaymentMethods(paymentUserId, options)
+      .listPaymentMethods(paymentUserId, statuses, options)
       .then((request) => request(this.axios, this.basePath));
   }
 
