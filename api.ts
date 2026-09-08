@@ -2287,6 +2287,10 @@ export interface MandateSenderAccount {
   user_id?: string;
   bank_code?: string;
   /**
+   * BIC (SWIFT code) of the sender’s institution. Only returned when account_type is EXTERNAL_ACCOUNT and the institution has a registered BIC.
+   */
+  bic?: string;
+  /**
    * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 20 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
    */
   metadata?: { [key: string]: string };
