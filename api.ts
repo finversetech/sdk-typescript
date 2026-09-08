@@ -864,6 +864,52 @@ export interface CurrencyAmount {
 export interface DeleteLoginIdentityResponse {
   success: boolean;
 }
+export interface DisplayConfigs {
+  display_status?: DisplayConfigsDisplayStatusEnum;
+  /**
+   * Ordered list of payment method brands
+   */
+  payment_methods_list?: Array<DisplayConfigsPaymentMethodsListEnum>;
+}
+
+export const DisplayConfigsDisplayStatusEnum = {
+  Active: 'ACTIVE',
+  Inactive: 'INACTIVE',
+} as const;
+
+export type DisplayConfigsDisplayStatusEnum =
+  (typeof DisplayConfigsDisplayStatusEnum)[keyof typeof DisplayConfigsDisplayStatusEnum];
+export const DisplayConfigsPaymentMethodsListEnum = {
+  Alipay: 'ALIPAY',
+  AlipayHk: 'ALIPAY_HK',
+  Amex: 'AMEX',
+  Applepay: 'APPLEPAY',
+  Diners: 'DINERS',
+  Discover: 'DISCOVER',
+  Eftpos: 'EFTPOS',
+  EgiroSg: 'EGIRO_SG',
+  FpsHk: 'FPS_HK',
+  Googlepay: 'GOOGLEPAY',
+  Grabpay: 'GRABPAY',
+  Jcb: 'JCB',
+  Maestro: 'MAESTRO',
+  Mastercard: 'MASTERCARD',
+  Payme: 'PAYME',
+  PaynowSg: 'PAYNOW_SG',
+  Paypal: 'PAYPAL',
+  PaytoAu: 'PAYTO_AU',
+  Unionpay: 'UNIONPAY',
+  Visa: 'VISA',
+  WechatPay: 'WECHAT_PAY',
+  EddaHk: 'EDDA_HK',
+  BankpayKr: 'BANKPAY_KR',
+  CardGeneric: 'CARD_GENERIC',
+  BankGeneric: 'BANK_GENERIC',
+} as const;
+
+export type DisplayConfigsPaymentMethodsListEnum =
+  (typeof DisplayConfigsPaymentMethodsListEnum)[keyof typeof DisplayConfigsPaymentMethodsListEnum];
+
 export interface DisputeResponse {
   /**
    * The dispute id
@@ -2422,6 +2468,7 @@ export interface PaymentAccountDetails {
    * Optional reference identifier for the settlement account. Only applicable to settlement accounts.
    */
   settlement_account_reference?: string;
+  payment_link_configs?: PaymentLinkConfigs;
   /**
    * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 20 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
    */
@@ -2491,6 +2538,7 @@ export interface PaymentAccountDetailsWithEnrichedData {
    * Optional reference identifier for the settlement account. Only applicable to settlement accounts.
    */
   settlement_account_reference?: string;
+  payment_link_configs?: PaymentLinkConfigs;
   /**
    * Additional attributes of the sender account in key:value format (e.g. sender_id: 1234). It supports up to 20 key:value pairs, whereas the key and value supports up to 50 and 1000 characters respectively.
    */
@@ -2608,6 +2656,9 @@ export const PaymentInfoPaymentsSupportedEnum = {
 export type PaymentInfoPaymentsSupportedEnum =
   (typeof PaymentInfoPaymentsSupportedEnum)[keyof typeof PaymentInfoPaymentsSupportedEnum];
 
+export interface PaymentLinkConfigs {
+  display_configs?: DisplayConfigs;
+}
 export interface PaymentLinkCustomizations {
   /**
    * ISO639-1 language code. Language to display when user open the link, default to English (en) if not specified
