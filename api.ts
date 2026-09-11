@@ -3302,6 +3302,7 @@ export const PaymentSubtype = {
   EddaHk: 'EDDA_HK',
   CardKr: 'CARD_KR',
   CardGeneric: 'CARD_GENERIC',
+  CardStored: 'CARD_STORED',
   WalletGeneric: 'WALLET_GENERIC',
   GocardlessGeneric: 'GOCARDLESS_GENERIC',
   ManualGeneric: 'MANUAL_GENERIC',
