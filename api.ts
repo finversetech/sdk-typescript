@@ -2449,6 +2449,10 @@ export interface PaymentAccountDetails {
    */
   bank_code?: string;
   /**
+   * BIC (SWIFT code) of the account’s institution. Only returned when account_type is EXTERNAL_ACCOUNT and the institution has a registered BIC.
+   */
+  bic?: string;
+  /**
    * 3-digit code used to identify specific bank branch
    */
   branch_code?: string;
@@ -2518,6 +2522,10 @@ export interface PaymentAccountDetailsWithEnrichedData {
    * 3-digit code associated with bank
    */
   bank_code?: string;
+  /**
+   * BIC (SWIFT code) of the account’s institution. Only returned when account_type is EXTERNAL_ACCOUNT and the institution has a registered BIC.
+   */
+  bic?: string;
   /**
    * 3-digit code used to identify specific bank branch
    */
