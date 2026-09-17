@@ -2873,6 +2873,7 @@ export interface PaymentMethodIntegrationMetadata {
   cybersource_metadata?: PaymentMethodIntegrationMetadataCybersourceMetadata;
   adyen_metadata?: PaymentMethodIntegrationMetadataAdyenMetadata;
   gocardless_metadata?: PaymentMethodIntegrationMetadataGocardlessMetadata;
+  cashfree_metadata?: PaymentMethodIntegrationMetadataCashfreeMetadata;
 }
 
 export const PaymentMethodIntegrationMetadataIntegrationIdEnum = {
@@ -2880,6 +2881,7 @@ export const PaymentMethodIntegrationMetadataIntegrationIdEnum = {
   Cybersource: 'CYBERSOURCE',
   Adyen: 'ADYEN',
   Gocardless: 'GOCARDLESS',
+  Cashfree: 'CASHFREE',
 } as const;
 
 export type PaymentMethodIntegrationMetadataIntegrationIdEnum =
@@ -2902,6 +2904,16 @@ export const PaymentMethodIntegrationMetadataAdyenMetadataRecurringProcessingMod
 export type PaymentMethodIntegrationMetadataAdyenMetadataRecurringProcessingModelEnum =
   (typeof PaymentMethodIntegrationMetadataAdyenMetadataRecurringProcessingModelEnum)[keyof typeof PaymentMethodIntegrationMetadataAdyenMetadataRecurringProcessingModelEnum];
 
+export interface PaymentMethodIntegrationMetadataCashfreeMetadata {
+  /**
+   * Cashfree subscription reference
+   */
+  cf_subscription_id?: string;
+  /**
+   * UPI ID used for the mandate
+   */
+  upi_id?: string;
+}
 export interface PaymentMethodIntegrationMetadataCybersourceMetadata {
   payment_token: string;
 }
@@ -2960,6 +2972,7 @@ export interface PaymentMethodIntegrationMetadataResponse {
   cybersource_metadata?: PaymentMethodIntegrationMetadataResponseCybersourceMetadata | null;
   adyen_metadata?: PaymentMethodIntegrationMetadataResponseAdyenMetadata | null;
   gocardless_metadata?: PaymentMethodIntegrationMetadataResponseGocardlessMetadata | null;
+  cashfree_metadata?: PaymentMethodIntegrationMetadataResponseCashfreeMetadata | null;
 }
 export interface PaymentMethodIntegrationMetadataResponseAdyenMetadata {
   payment_method_id?: string;
@@ -2967,6 +2980,16 @@ export interface PaymentMethodIntegrationMetadataResponseAdyenMetadata {
   psp_reference?: string;
   recurring_processing_model?: string;
   network_transaction_reference?: string;
+}
+export interface PaymentMethodIntegrationMetadataResponseCashfreeMetadata {
+  /**
+   * Cashfree subscription reference
+   */
+  cf_subscription_id?: string;
+  /**
+   * UPI ID used for the mandate
+   */
+  upi_id?: string;
 }
 export interface PaymentMethodIntegrationMetadataResponseCybersourceMetadata {
   payment_token?: string;
