@@ -2260,6 +2260,10 @@ export interface MandateDetailsResponse {
    * A bank specific reference, what the end user may see
    */
   mandate_bank_reference?: string;
+  /**
+   * Finverse-generated authorization reference for mandate setup with external processors.
+   */
+  finverse_authorization_reference?: string;
   processor_entity_name?: string;
   collection_entity_name?: string;
 }
