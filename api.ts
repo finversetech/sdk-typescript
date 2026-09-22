@@ -3343,6 +3343,7 @@ export const PaymentSubtype = {
   ManualGeneric: 'MANUAL_GENERIC',
   ManualKr: 'MANUAL_KR',
   BankpayKr: 'BANKPAY_KR',
+  UpiIn: 'UPI_IN',
 } as const;
 
 export type PaymentSubtype = (typeof PaymentSubtype)[keyof typeof PaymentSubtype];
