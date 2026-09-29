@@ -498,6 +498,9 @@ export interface CardTotal {
   rewards_balances?: Array<GenericAmount>;
   updated_at?: string;
 }
+export interface CashfreeMetadataFvLinkResponse {
+  upi_id?: string;
+}
 export interface CategoryPredictions {
   categories?: Array<string>;
   source?: string;
@@ -2865,6 +2868,7 @@ export interface PaymentMethodFvLinkResponse {
   recipient_entity_name?: string;
   mandate?: MandateFvLinkResponse;
   card?: CardFvLinkResponse;
+  integration_metadata?: PaymentMethodIntegrationMetadataFvLinkResponse;
 }
 
 export interface PaymentMethodIntegrationMetadata {
@@ -2916,6 +2920,9 @@ export interface PaymentMethodIntegrationMetadataCashfreeMetadata {
 }
 export interface PaymentMethodIntegrationMetadataCybersourceMetadata {
   payment_token: string;
+}
+export interface PaymentMethodIntegrationMetadataFvLinkResponse {
+  cashfree_metadata?: CashfreeMetadataFvLinkResponse;
 }
 export interface PaymentMethodIntegrationMetadataGocardlessMetadata {
   /**
