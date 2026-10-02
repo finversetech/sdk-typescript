@@ -2269,6 +2269,10 @@ export interface MandateDetailsResponse {
   finverse_authorization_reference?: string;
   processor_entity_name?: string;
   collection_entity_name?: string;
+  /**
+   * UPI ID (VPA) used for the mandate
+   */
+  upi_id?: string;
 }
 export interface MandateFvLinkDetails {
   collection_entity_name?: string;
@@ -2913,10 +2917,6 @@ export interface PaymentMethodIntegrationMetadataCashfreeMetadata {
    * Cashfree subscription reference
    */
   cf_subscription_id?: string;
-  /**
-   * UPI ID used for the mandate
-   */
-  upi_id?: string;
 }
 export interface PaymentMethodIntegrationMetadataCybersourceMetadata {
   payment_token: string;
@@ -2993,10 +2993,6 @@ export interface PaymentMethodIntegrationMetadataResponseCashfreeMetadata {
    * Cashfree subscription reference
    */
   cf_subscription_id?: string;
-  /**
-   * UPI ID used for the mandate
-   */
-  upi_id?: string;
 }
 export interface PaymentMethodIntegrationMetadataResponseCybersourceMetadata {
   payment_token?: string;
