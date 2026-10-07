@@ -1551,6 +1551,7 @@ export interface Institution {
   login_methods?: Array<LoginMethod>;
   payment_info?: PaymentInfo;
   color?: string;
+  logos?: InstitutionLogos;
   updated_at?: string;
   login_actions?: Array<LoginAction>;
 }
@@ -1595,6 +1596,16 @@ export const InstitutionStatusEnum = {
 
 export type InstitutionStatusEnum = (typeof InstitutionStatusEnum)[keyof typeof InstitutionStatusEnum];
 
+export interface InstitutionLogos {
+  /**
+   * URL of the full-size (rectangular) institution logo
+   */
+  full?: string;
+  /**
+   * URL of the square institution icon
+   */
+  square?: string;
+}
 export interface InstitutionShort {
   institution_id: string;
   countries?: Array<string>;
