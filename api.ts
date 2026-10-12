@@ -905,6 +905,7 @@ export const DisplayConfigsPaymentMethodsListEnum = {
   BankpayKr: 'BANKPAY_KR',
   CardGeneric: 'CARD_GENERIC',
   BankGeneric: 'BANK_GENERIC',
+  Rupay: 'RUPAY',
 } as const;
 
 export type DisplayConfigsPaymentMethodsListEnum =
