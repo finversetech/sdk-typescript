@@ -119,6 +119,12 @@ export const AccountTypeSubtypeEnum = {
   Mortgage: 'MORTGAGE',
   PersonalLoan: 'PERSONAL_LOAN',
   RevolvingLoan: 'REVOLVING_LOAN',
+  Retirement: 'RETIREMENT',
+  TradeFinance: 'TRADE_FINANCE',
+  WorkingCapitalLoan: 'WORKING_CAPITAL_LOAN',
+  PropertyLoan: 'PROPERTY_LOAN',
+  TermLoan: 'TERM_LOAN',
+  BridgeLoan: 'BRIDGE_LOAN',
   Unknown: 'UNKNOWN',
 } as const;
 
