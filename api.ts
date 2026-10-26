@@ -701,7 +701,7 @@ export interface CreateMandateSenderResponse {
    * Customer App\'s user ID, representing the end-user making the payment.
    */
   external_user_id: string;
-  user_type: PaymentUserType;
+  user_type?: PaymentUserType;
   /**
    * Sender details which will be used for fraud checking.
    */
@@ -1421,7 +1421,7 @@ export interface GetMandateSender {
    * Customer App\'s user ID, representing the end-user making the payment.
    */
   external_user_id: string;
-  user_type: PaymentUserType;
+  user_type?: PaymentUserType;
   /**
    * Sender details which will be used for fraud checking.
    */
