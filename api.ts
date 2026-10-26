@@ -12321,14 +12321,16 @@ export const PublicApiAxiosParamCreator = function (configuration?: Configuratio
   return {
     /**
      * generate an access_token
-     * @param {TokenRequest} [tokenRequest] token request
+     * @param {TokenRequest} tokenRequest token request
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     generateCustomerAccessToken: async (
-      tokenRequest?: TokenRequest,
+      tokenRequest: TokenRequest,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
+      // verify required parameter 'tokenRequest' is not null or undefined
+      assertParamExists('generateCustomerAccessToken', 'tokenRequest', tokenRequest);
       const localVarPath = `/auth/customer/token`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -12423,12 +12425,12 @@ export const PublicApiFp = function (configuration?: Configuration) {
   return {
     /**
      * generate an access_token
-     * @param {TokenRequest} [tokenRequest] token request
+     * @param {TokenRequest} tokenRequest token request
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async generateCustomerAccessToken(
-      tokenRequest?: TokenRequest,
+      tokenRequest: TokenRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokenResponse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.generateCustomerAccessToken(tokenRequest, options);
@@ -12494,12 +12496,12 @@ export const PublicApiFactory = function (configuration?: Configuration, basePat
   return {
     /**
      * generate an access_token
-     * @param {TokenRequest} [tokenRequest] token request
+     * @param {TokenRequest} tokenRequest token request
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     generateCustomerAccessToken(
-      tokenRequest?: TokenRequest,
+      tokenRequest: TokenRequest,
       options?: RawAxiosRequestConfig,
     ): AxiosPromise<TokenResponse> {
       return localVarFp.generateCustomerAccessToken(tokenRequest, options).then((request) => request(axios, basePath));
@@ -12529,14 +12531,11 @@ export const PublicApiFactory = function (configuration?: Configuration, basePat
 export interface PublicApiInterface {
   /**
    * generate an access_token
-   * @param {TokenRequest} [tokenRequest] token request
+   * @param {TokenRequest} tokenRequest token request
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    */
-  generateCustomerAccessToken(
-    tokenRequest?: TokenRequest,
-    options?: RawAxiosRequestConfig,
-  ): AxiosPromise<TokenResponse>;
+  generateCustomerAccessToken(tokenRequest: TokenRequest, options?: RawAxiosRequestConfig): AxiosPromise<TokenResponse>;
 
   /**
    * get jwks
@@ -12559,11 +12558,11 @@ export interface PublicApiInterface {
 export class PublicApi extends BaseAPI implements PublicApiInterface {
   /**
    * generate an access_token
-   * @param {TokenRequest} [tokenRequest] token request
+   * @param {TokenRequest} tokenRequest token request
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    */
-  public generateCustomerAccessToken(tokenRequest?: TokenRequest, options?: RawAxiosRequestConfig) {
+  public generateCustomerAccessToken(tokenRequest: TokenRequest, options?: RawAxiosRequestConfig) {
     return PublicApiFp(this.configuration)
       .generateCustomerAccessToken(tokenRequest, options)
       .then((request) => request(this.axios, this.basePath));
