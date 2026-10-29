@@ -1121,6 +1121,10 @@ export interface FVCardDetails {
    */
   card_number_alias?: string;
   /**
+   * The cardholder name returned by the card processor
+   */
+  accountholder_name?: string;
+  /**
    * Whether the card is a commercial card
    */
   is_commercial?: boolean | null;
